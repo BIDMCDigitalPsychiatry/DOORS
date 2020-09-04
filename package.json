@@ -1,0 +1,84 @@
+{
+  "name": "doors",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": "https://doors.digitalpsych.org",
+  "adminUsers": "chris@greenlinkservices.com",
+  "identityPoolId": "",
+  "region": "us-east-1",
+  "dependencies": {
+    "@material-ui/core": "4.11.0",
+    "@material-ui/icons": "4.9.1",
+    "@material-ui/lab": "4.0.0-alpha.56",
+    "@reactions/component": "2.0.2",
+    "@rehooks/component-size": "1.0.3",
+    "@types/classnames": "2.2.10",
+    "@types/history": "4.7.5",
+    "@types/node": "12.12.14",
+    "@types/react-redux": "7.1.9",
+    "@types/react-router": "5.1.8",
+    "@types/react-router-dom": "5.1.5",
+    "@types/webpack": "4.41.22",
+    "@types/webpack-env": "1.15.2",
+    "aws-amplify": "3.1.1",
+    "aws-sdk": "2.747.0",
+    "axios": "0.20.0",
+    "classnames": "2.2.6",
+    "connected-react-router": "6.8.0",
+    "deepmerge": "4.2.2",    
+    "history": "4.10.1",    
+    "localforage": "1.7.4",    
+    "mui-virtualized-table": "3.0.0-6",
+    "react": "16.13.1",
+    "react-container-dimensions": "1.4.1",
+    "react-dom": "16.13.1",
+    "react-draggable": "4.4.3",
+    "react-number-format": "4.4.1",    
+    "react-redux": "7.2.1",
+    "react-router": "5.2.0",
+    "react-scripts": "3.4.3",
+    "react-swipeable-views": "0.13.9",
+    "react-virtualized": "9.22.2",
+    "redux": "4.0.5",
+    "redux-persist": "6.0.0",
+    "redux-thunk": "2.3.0",
+    "typescript": "3.9.5"
+  },
+  "devDependencies": {
+    "fs-extra": "9.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && node copy404",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "prettier": {
+    "printWidth": 160,
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "tabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
