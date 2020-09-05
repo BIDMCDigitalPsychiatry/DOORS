@@ -6,15 +6,16 @@ import BrandLogoImage from '../../images/logo.png';
 import { isEmpty, validateEmail } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
-import { useLogin } from './hooks';
+import { useLogin, useHeight } from './hooks';
 
 const useStyles = makeStyles(({ palette, mixins }: any) =>
   createStyles({
-    root: {
+    root: ({ height }: any) => ({
       background: palette.common.white,
       color: palette.primary.main,
-      height: '100vh',
-    },
+      height,
+      overflowY: 'auto'
+    }),
     paper: {
       marginTop: 32,
       width: 300,
@@ -24,8 +25,7 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
       maxWidth: 650,
     },
     panelarea: {
-      background: '#F5F5F5',
-      //padding: 16,
+      background: '#F5F5F5',      
     },
     message: {
       color: 'green'
@@ -50,6 +50,9 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
       marginTop: -8,
       marginLeft: -12,
     },
+    container: {
+      overflowY: 'auto'
+    }
   })
 );
 
@@ -70,7 +73,8 @@ const validate = ({ email, password }) => {
 
 export default function Login() {
   const BannerMsg = "";
-  const classes = useStyles();
+  const height = useHeight();
+  const classes = useStyles({ height });
   const noAutoComplete = true;
   var buttonRef = React.useRef(null);
 
@@ -126,7 +130,6 @@ export default function Login() {
         }
       }}
     >
-      <div className={classes.toolbar} />
       <form autoComplete='off'>
         <Grid container direction='column' justify='center' alignItems='center'>
           <Grid item>
