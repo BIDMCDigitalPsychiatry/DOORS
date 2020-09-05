@@ -27,7 +27,7 @@ import { isEnabled, useValues, isError, useStepFields } from './helpers';
 import Fields from './Fields';
 import OnActivate from './OnActivate';
 import ErrorGate from './ErrorGate';
-import { useAppBarHeight, useHeight } from '../../layout/store';
+import { useAppBarHeight, useHeight } from '../../layout/hooks';
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({

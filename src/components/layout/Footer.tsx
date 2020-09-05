@@ -68,7 +68,7 @@ export default function Footer() {
             <Grid container justify='center' spacing={2}>
               <Grid item xs={4}>
                 <Typography noWrap variant='body2'>
-                  BETA Version
+                  Under Construction
                 </Typography>
               </Grid>
               <Grid item xs={8}>

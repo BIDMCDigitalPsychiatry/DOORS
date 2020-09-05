@@ -3,7 +3,7 @@ import { makeStyles, createStyles, useTheme } from '@material-ui/core';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useAppBarHeight, useHeight } from './store';
+import { useAppBarHeight, useHeight } from './hooks';
 import { useLocation } from 'react-router';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>

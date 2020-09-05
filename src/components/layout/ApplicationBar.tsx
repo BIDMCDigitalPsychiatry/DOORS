@@ -10,7 +10,7 @@ import { useSignedIn, useFullScreen } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
-import { useSetUser } from './store';
+import { useSetUser } from './hooks';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({

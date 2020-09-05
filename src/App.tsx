@@ -9,8 +9,8 @@ import { persistStore } from 'redux-persist';
 import ViewPort from './components/layout/ViewPort';
 import AppRouter from './components/layout/AppRouter';
 import { theme, adminTheme } from './constants';
-import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
+import { useAdminMode } from './components/layout/hooks';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.

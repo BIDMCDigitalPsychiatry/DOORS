@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 import Layout from './Layout';
+import AuthGate from './AuthGate';
 
 export interface AppRouterProps {
   history?: any;
@@ -13,9 +14,11 @@ function AppRouter(props: AppRouterProps) {
   const { history } = props;
   return (
     <ConnectedRouter history={history}>
-      <Layout>
-        <Routes />
-      </Layout>
+      <AuthGate>
+        <Layout>
+          <Routes />
+        </Layout>
+      </AuthGate>
     </ConnectedRouter>
   );
 }
