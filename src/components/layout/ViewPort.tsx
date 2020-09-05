@@ -1,60 +1,58 @@
-import * as React from 'react';
-import * as LayoutStore from './store';
-import ContainerDimensions from 'react-container-dimensions';
-import { makeStyles, createStyles, useTheme } from '@material-ui/core';
+import * as React from 'react'
+import useComponentSize from '@rehooks/component-size'
+import { makeStyles, createStyles } from '@material-ui/core'
+import { useResizeViewPort } from './store';
 
-interface ViewPortDimensionsProps {
-  containerHeight?: number | undefined;
-  containerWidth?: number | undefined;
-  resizeViewPort?: (height: number | undefined, width: number | undefined) => void;
+const staticProps = {
+    flexGrow: 1,
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'fixed',
+    display: 'static',
+    width: '100%',
+    height: '100%',
 }
 
-const ViewPortDimensions = (props: ViewPortDimensionsProps) => {
-  const { containerHeight, containerWidth, resizeViewPort } = props;
-  React.useEffect(() => {
-    resizeViewPort(containerHeight, containerWidth);
-  }, [containerHeight, containerWidth, resizeViewPort]);
-
-  return <></>;
-};
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    dimensions: {
-      overflow: 'hidden' as 'hidden',
-      position: 'fixed' as 'fixed',
-      width: 'calc(100vw)',
-      height: 'calc(100vh)'
-    },
-    static: {
-      flexGrow: 1,
-      zIndex: 1,
-      overflow: 'hidden' as 'hidden',
-      position: 'fixed' as 'fixed',
-      display: 'static' as 'static',
-      width: '100%'
-    }
-  })
+const useStyles = makeStyles(({ layout }: any) =>
+    createStyles({
+        root: {},
+        dimensions: {
+            overflow: 'hidden',
+            position: 'fixed',
+            width: 'calc(100vw)',
+            height: 'calc(100vh)',
+        },
+        backdrop: {
+            ...staticProps,
+            background: layout.backdropColor,
+        } as any,
+        viewport: (props: any) => ({
+            ...staticProps,
+            height: props.height,
+            width: props.width,
+            background: layout.backgroundColor,
+        }) as any,
+    })
 );
 
-const ViewPort = ({ children }) => {
-  const classes = useStyles({});
-  const [height, width] = LayoutStore.useDimensions();
-  const resizeViewPort = LayoutStore.useResizeViewPort();
-  const { layout } = useTheme();
-  return (
-    <>
-      <div className={classes.dimensions}>
-        <ContainerDimensions>
-          {({ height, width }: any) => <ViewPortDimensions containerHeight={height} containerWidth={width} resizeViewPort={resizeViewPort} />}
-        </ContainerDimensions>
-      </div>
+export default function ViewPort({ children }) {
+    const ref = React.useRef(null)
+    const { height, width } = useComponentSize(ref)
+    const classes = useStyles({ height, width });
+    const resizeViewPort = useResizeViewPort();
 
-      <div id='viewport' className={classes.static} style={{ height, width, backgroundColor: layout.backgroundColor }}>
-        {children}
-      </div>
-    </>
-  );
-};
+    React.useEffect(() => {
+        resizeViewPort({ height, width })
+    }, [resizeViewPort, height, width])
 
-export default ViewPort;
+    return (
+        <>
+            <div ref={ref} className={classes.dimensions} />
+            <div id='backdrop' className={classes.backdrop}>
+                <div id='viewport' className={classes.viewport}>
+                    {children}
+                </div>
+            </div>
+        </>
+    )
+}

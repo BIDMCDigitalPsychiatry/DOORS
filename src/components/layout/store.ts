@@ -8,19 +8,18 @@ import { useIsAdmin } from '../../hooks';
 export interface State {
   height?: number;
   width?: number;
-  appBarHeight?: number;  
+  appBarHeight?: number;
   adminMode?: boolean;
 }
 
 const defaultState = {
   width: 0,
   height: 0,
-  appBarHeight: (theme as any).layout.toolbarheight,  
+  appBarHeight: (theme as any).layout.toolbarheight,
   adminMode: false
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
-const resizeViewPort = (height: number | undefined, width: number | undefined) => ({ type: 'RESIZE_VIEWPORT', height: height, width: width });
 const resizeAppBar = (height: number | undefined) => ({ type: 'RESIZE_APPBAR', height });
 const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', adminMode });
 
@@ -41,7 +40,7 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
         ...state,
         height: action.height,
         width: action.width
-      };    
+      };
     case 'CHANGE_ADMIN_MODE':
       return {
         ...state,
@@ -68,7 +67,7 @@ export const useAppBarHeight = (): number => {
 
 export const useResizeViewPort = () => {
   const dispatch = useDispatch();
-  return React.useCallback((height, width) => dispatch(resizeViewPort(height, width)), [dispatch]);
+  return React.useCallback((props) => dispatch({ type: 'RESIZE_VIEWPORT', ...props }), [dispatch]);
 };
 
 export const useHeight = (): number => {
