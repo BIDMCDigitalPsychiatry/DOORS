@@ -3,7 +3,7 @@ import { makeStyles, Grid, IconButton, Menu, MenuItem } from '@material-ui/core'
 import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import logo from '../../images/logo.png';
+import logo from '../../images/logo_white.png';
 import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 import { useSignedIn, useFullScreen } from '../../hooks';
@@ -16,8 +16,8 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     appBar: {
       paddingTop: beta ? layout.footerheight : 0,
-      background: palette.common.white,
-      //color: palette.common.white,
+      background: palette.primary.main,
+      color: palette.common.white,
       paddingLeft: layout.contentpadding,
       paddingRight: layout.contentpadding
     },
