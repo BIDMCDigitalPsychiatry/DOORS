@@ -63,7 +63,7 @@ export default function Footer() {
         </Toolbar>
       </AppBar>
       {beta && (
-        <AppBar position='fixed' color='secondary' className={classes.bottomAppBarBeta}>
+        <AppBar elevation={1} position='fixed' color='secondary' className={classes.bottomAppBarBeta}>
           <Toolbar className={classes.bottomToolBar}>
             <Grid container justify='center' spacing={2}>
               <Grid item xs={4}>

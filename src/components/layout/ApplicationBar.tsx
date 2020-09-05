@@ -16,14 +16,14 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     appBar: {
       paddingTop: beta ? layout.footerheight : 0,
-      background: palette.primary.main,
+      background: palette.primary.dark,
       color: palette.common.white,
       paddingLeft: layout.contentpadding,
       paddingRight: layout.contentpadding
     },
     appBarFullScreen: {
       paddingTop: beta ? layout.footerheight : 0,
-      background: palette.primary.main,
+      background: palette.primary.dark,
       color: palette.common.white
     },
     logo: {

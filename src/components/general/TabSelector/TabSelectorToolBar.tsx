@@ -19,7 +19,7 @@ export interface ComponentProps {
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     root: ({ rounded }) => ({
-      //background: palette.primary.main,
+      background: palette.primary.dark,
       borderRadius: rounded ? undefined : 0,
       padding: 0
     }),
@@ -28,7 +28,7 @@ const useStyles = makeStyles(({ palette }: any) =>
       borderRadius: 'inherit'
     }),
     indicator: {
-      background: palette.primary.light,
+      background: palette.primary.main,
       '&:hover': {
         color: palette.common.white,
       },
