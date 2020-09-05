@@ -19,7 +19,8 @@ export interface ComponentProps {
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     root: ({ rounded }) => ({
-      background: palette.primary.dark,
+      background: palette.common.white,
+      color: palette.text.primary,
       borderRadius: rounded ? undefined : 0,
       padding: 0
     }),
@@ -29,22 +30,28 @@ const useStyles = makeStyles(({ palette }: any) =>
     }),
     indicator: {
       background: palette.primary.main,
+      color: palette.common.white,
       '&:hover': {
         color: palette.common.white,
       },
-      height: '100%',
+      height: 6,
+      marginBottom: 4,
       zIndex: 0,
-      borderRadius: 'inherit'
+      borderRadius: 25,
     },
     labelIcon: ({ minHeight }: any) => ({
       zIndex: 1,
-      minHeight
+      minHeight,
+      color: palette.primary.dark,
+    }),
+    selected: ({ minHeight }: any) => ({
+      color: palette.primary.main
     }),
     tabroot: ({ minHeight }: any) => ({
       padding: 0,
       zIndex: 1,
       minWidth: 0,
-      minHeight
+      minHeight,
     }),
     wrapper: {
       display: 'inline-flex',
@@ -110,7 +117,8 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
                   root: classes.tabroot,
                   labelIcon: classes.labelIcon,
                   wrapper: classes.wrapper,
-                  wrapped: classes.labelIcon
+                  wrapped: classes.labelIcon,
+                  selected: classes.selected
                 }}
                 icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}
                 value={t.id}

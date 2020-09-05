@@ -7,6 +7,10 @@ import { useIsAdmin } from '../../hooks';
 
 export const useLayoutKey = key => useSelector((state: AppState) => state.layout[key], shallowEqual);
 export const useAuth = () => useLayoutKey('auth') || {};
+export const useLogout = () => {
+    const dispatch = useDispatch();
+    return React.useCallback(() => dispatch({ type: 'LOGOUT' }), [dispatch]);
+};
 
 export default function useRequest({ url, setState = undefined, onSuccess = undefined, onError = undefined, method = 'post' as any }) {
     const [error, setError] = React.useState();

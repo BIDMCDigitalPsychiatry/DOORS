@@ -24,6 +24,13 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
         ...state,
         auth: action.auth,
       };
+    case 'LOGOUT':
+      return {
+        ...defaultState,
+        auth: undefined,
+        height: state.height, //keep keight and width, otherwise the page will render incorrectly
+        width: state.width,
+      };
     case 'SET_USER':
       return {
         ...state,

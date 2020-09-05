@@ -3,8 +3,8 @@ import { makeStyles, Grid, IconButton, Menu, MenuItem } from '@material-ui/core'
 import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import logo from '../../images/logo_white.png';
-import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute } from './hooks';
+import logo from '../../images/logo.png';
+import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute, useLogout } from './hooks';
 import { publicUrl } from '../../helpers';
 import { useSignedIn, useFullScreen } from '../../hooks';
 import { beta } from '../../constants';
@@ -16,15 +16,15 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     appBar: {
       paddingTop: beta ? layout.footerheight : 0,
-      background: palette.primary.dark,
-      color: palette.common.white,
+      color: palette.primary.main,
+      background: palette.common.white,
       paddingLeft: layout.contentpadding,
       paddingRight: layout.contentpadding
     },
     appBarFullScreen: {
       paddingTop: beta ? layout.footerheight : 0,
-      background: palette.primary.dark,
-      color: palette.common.white
+      background: palette.common.white,
+      color: palette.primary.dark,
     },
     logo: {
       paddingLeft: 8,
@@ -41,11 +41,6 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     toolbar: {
       background: palette.white
     },
-    accountMenuItem: {
-      pointerEvents: 'none',
-      background: palette.primary.light,
-      color: palette.common.white
-    }
   })
 );
 
@@ -66,11 +61,13 @@ export default function ApplicationBar() {
   const open = Boolean(anchorEl);
 
   const setUser = useSetUser();
+  const onLogout = useLogout();
 
   const handleLogout = React.useCallback(() => {
     setUser(undefined); // Reset user information
+    onLogout();
     setAnchorEl(null);
-  }, [setUser, setAnchorEl]);
+  }, [setUser, setAnchorEl, onLogout]);
 
   const changeRoute = useChangeRoute();
 
@@ -93,13 +90,13 @@ export default function ApplicationBar() {
   const fullScreen = useFullScreen('xs');
 
   return (
-    <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={4} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
+    <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={1} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
       <Toolbar className={classes.toolbar} disableGutters={true}>
         <Grid container alignItems='center' spacing={0}>
           <Grid item>
             <img className={classes.logo} src={logo} alt='logo' onClick={handleChangeRoute(publicUrl('/'))} />
           </Grid>
-          <Grid item xs style={{ minWidth: 0 }}>
+          <Grid item xs style={{ marginLeft: 4, marginRight: 4, minWidth: 0 }}>
             <AppBarTabSelector onChange={handleTabChange} />
           </Grid>
           <Grid item>
