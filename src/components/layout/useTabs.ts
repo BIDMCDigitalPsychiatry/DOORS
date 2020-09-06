@@ -6,7 +6,7 @@ const allTabs = [
   { id: 'Instructors', icon: Icons.SupervisorAccount, route: '/Instructors' },
   { id: 'My Calendar', icon: Icons.Event, route: '/Calendar' },
   { id: 'My Profile', icon: Icons.AccountBox, route: '/Profile' },
-  { id: 'Help', icon: Icons.Help, route: '/Help' }
+  { id: 'Help', icon: Icons.Help }
 ];
 
 const adminTabs = allTabs.filter(x => x.id !== 'Help');

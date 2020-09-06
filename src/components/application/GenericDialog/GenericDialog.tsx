@@ -172,7 +172,7 @@ const GenericDialog = ({
   }, [onDelete, values_s]);
 
   const handleClose = React.useCallback(() => {
-    setState(prev => ({ ...prev, open: false }));
+    setState(prev => ({ ...prev, open: false, showErrors: false }));
     onClose && onClose();
   }, [setState, onClose]);
 

@@ -5,7 +5,6 @@ import PlayGround from './PlayGround';
 import Instructors from '../pages/Instructors';
 import Profile from '../pages/Profile';
 import Calendar from '../pages/Calendar';
-import Help from '../pages/Help';
 import Sessions from '../pages/Session/Sessions';
 
 const Routes = () => (
@@ -13,7 +12,6 @@ const Routes = () => (
     <Route exact path={publicUrl('/Instructors')} component={Instructors} />
     <Route exact path={publicUrl('/Profile')} component={Profile} />
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />
-    <Route exact path={publicUrl('/Help')} component={Help} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
     <Route exact path={publicUrl('/Sessions')} component={Sessions} />
     <Route path={'/'} component={Sessions} />

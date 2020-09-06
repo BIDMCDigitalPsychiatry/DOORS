@@ -13,6 +13,9 @@ import * as Icons from '@material-ui/icons';
 import { useSetUser } from './hooks';
 import useTabSelector from '../application/Selector/useTabSelector';
 import useTabs from './useTabs';
+import * as HelpDialog from '../application/GenericDialog/Help';
+import { useDialogState } from '../application/GenericDialog/useDialogState';
+import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -58,8 +61,8 @@ export default function ApplicationBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const [{ prevId }, setState] = useDialogState(HelpDialog.title);
   const { tabs, tabs_s } = useTabs();
-
   const [, setTabSelector] = useTabSelector(tabSelectorId);
 
   const setUser = useSetUser();
@@ -75,10 +78,15 @@ export default function ApplicationBar() {
 
   const handleTabChange = React.useCallback(
     value => {
-      const { route } = JSON.parse(tabs_s).find(t => t.id === value);
-      changeRoute(publicUrl(route));
+      const { id, route } = JSON.parse(tabs_s).find(t => t.id === value);
+      if (id === 'Help') {
+        setState(prev => ({ ...prev, open: true })); // Open the dialog, track previous tab
+      } else {
+        changeRoute(publicUrl(route));
+        setState(prev => ({ prevId: id })); // Open the dialog, track previous tab
+      }
     },
-    [changeRoute, tabs_s]
+    [changeRoute, setState, tabs_s]
   );
 
   const defaultTabId = tabs[0].id;
@@ -93,14 +101,19 @@ export default function ApplicationBar() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setAnchorEl(null);
-  };
+  }, [setAnchorEl]);
+
+  const handleHelpClose = React.useCallback(() => {
+    setTabSelector({ value: prevId });
+  }, [setTabSelector, prevId]);
 
   const fullScreen = useFullScreen('xs');
 
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={1} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
+      {renderDialogModule({ ...HelpDialog, onClose: handleHelpClose })}
       <Toolbar className={classes.toolbar} disableGutters={true}>
         <Grid container alignItems='center' spacing={0}>
           <Grid item>
