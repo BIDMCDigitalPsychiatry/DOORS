@@ -8,6 +8,12 @@ export const useFullScreen = (size = 'sm' as any) => {
   return useMediaQuery(theme.breakpoints.down(size));
 };
 
+export const useContentPadding = () => {
+  const fullScreen = useFullScreen();
+  const { layout } = useTheme();
+  return fullScreen ? layout.contentpadding_xs : layout.contentpadding;
+};
+
 export const useSignedIn = () => {
   const isEmpty = useSelector((s: any) => s.layout.user === undefined);
   const isLoaded = useSelector((s: any) => s.layout.user !== undefined);
@@ -23,4 +29,10 @@ export const useIsAdmin = () => {
 
 export const useIsInstructor = () => {
   return useSelector((s: any) => isEmpty(s.layout?.user?.isInstructor ?? false));
+};
+
+export const useUserType = () => {
+  const isAdmin = useIsAdmin();
+  const isInstructor = useIsInstructor();
+  return isAdmin ? 'Administrator' : isInstructor ? 'Instructor' : 'Student';
 };

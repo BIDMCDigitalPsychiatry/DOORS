@@ -9,6 +9,7 @@ import { useHeight, useAppBarHeight } from '../../layout/hooks';
 import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
 import { useLocation } from 'react-router';
 import { noPadPaths } from '../../layout/Layout';
+import { useContentPadding } from '../../../hooks';
 
 const GenericTable = React.lazy(() => import('./GenericTable'));
 
@@ -113,12 +114,14 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
   const { pathname } = useLocation();
   const excludePadding = noPadPaths.findIndex(p => p === pathname) > -1 ? true : false;
 
+  const contentPadding = useContentPadding();
+
   const componentsOnPage = [
     appBarHeight,
-    excludePadding ? 0 : layout.contentpadding, // Top content padding
+    excludePadding ? 0 : contentPadding, // Top content padding
     stacked ? layout.tablefilterbarheight + layout.contentrowspacing : 0,
     !toolbar ? 0 : (buttonPosition === 'top' ? layout.tabletoolbarheight : layout.tabletoolbarheight / 2) + layout.contentrowspacing,
-    excludePadding ? 0 : layout.contentpadding, // Bottom content padding
+    excludePadding ? 0 : contentPadding, // Bottom content padding
     layout.footerheight
   ];
 

@@ -28,6 +28,7 @@ import Fields from './Fields';
 import OnActivate from './OnActivate';
 import ErrorGate from './ErrorGate';
 import { useAppBarHeight, useHeight } from '../../layout/hooks';
+import { useContentPadding } from '../../../hooks';
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
@@ -218,9 +219,10 @@ const GenericStepperCard = ({
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
 
+  const contentPadding = useContentPadding();
   const componentsOnPage = [
     appBarHeight,
-    layout.contentpadding * 2, // Top and bottom inner content padding
+    contentPadding * 2, // Top and bottom inner content padding
     54, // Header height
     1, // Header divider
     1, // Title divider
@@ -235,7 +237,7 @@ const GenericStepperCard = ({
   var calculatedheight = height - componentsOnPage.reduce((t, c) => t + c, 0);
 
   if (title === null) {
-    calculatedheight = calculatedheight + 54 ; // Adjustment if title/header is hidden
+    calculatedheight = calculatedheight + 54; // Adjustment if title/header is hidden
   }
 
   return (

@@ -22,9 +22,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     appBar: {
       paddingTop: beta ? layout.footerheight : 0,
       color: palette.primary.main,
-      background: palette.common.white,
-      paddingLeft: layout.contentpadding,
-      paddingRight: layout.contentpadding
+      background: palette.common.white
     },
     appBarFullScreen: {
       paddingTop: beta ? layout.footerheight : 0,

@@ -7,7 +7,7 @@ import { Fab, makeStyles, createStyles, useTheme } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { evalFunc } from '../../../helpers';
 import { GenericTableContainerProps } from './GenericTableContainer';
-import { useFullScreen } from '../../../hooks';
+import { useFullScreen, useContentPadding } from '../../../hooks';
 
 export interface TableToolbarProps {
   name?: string;
@@ -191,8 +191,10 @@ function TableToolbar(props: TableToolbarProps) {
 
   const buttonspacing = 0; //Grid spacing of each button
   const buttonwidth = 42; //Width of each button
+  const contentPadding = useContentPadding();
+
   const widths = {
-    contentpadding: layout.contentpadding * 2, //Exterior padding
+    contentpadding: contentPadding * 2, //Exterior padding
     headerpadding: 16, //Padding within the header
     iconwidth: 32, //Width of the title icon
     titlepadding: 8, //Padding between the icon and the title

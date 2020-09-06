@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Grid, Container, createStyles, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import Session from './Session';
 import calendar from '../../../images/calendar.png';
 import wifi from '../../../images/wifi.png';
@@ -9,18 +9,7 @@ import musicplayer from '../../../images/musicplayer.png';
 import newspaper from '../../../images/newspaper.png';
 import checkbox from '../../../images/checkbox.png';
 import video from '../../../images/video.png';
-
-const useStyles = makeStyles(({ palette }: any) =>
-  createStyles({
-    container: {
-      marginTop: 8,
-      marginBottom: 8
-    },
-    header: {
-      color: palette.primary.dark
-    }
-  } as any)
-);
+import Page from '../Page';
 
 const sessions = [
   { title: 'Session 1', subtitle: 'Establishing Core Smartphone Skills', topics: ['Connecting to Wifi', 'Checking the weather'], image: wifi },
@@ -39,17 +28,9 @@ const sessions = [
 ];
 
 export default function Sessions() {
-  const classes = useStyles();
   return (
-    <Container className={classes.container} maxWidth={false}>
-      <Grid container alignItems='center'>
-        <Grid item>
-          <Typography className={classes.header} variant='h4'>
-            Available Sessions
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3} className={classes.container}>
+    <Page title='Available Sessions'>
+      <Grid container spacing={3} >
         {[
           sessions.map(s => (
             <Grid item lg={3} sm={6} xs={12}>
@@ -58,6 +39,6 @@ export default function Sessions() {
           ))
         ]}
       </Grid>
-    </Container>
+    </Page>
   );
 }

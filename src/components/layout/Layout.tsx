@@ -5,6 +5,7 @@ import Footer from './Footer';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useAppBarHeight, useHeight } from './hooks';
 import { useLocation } from 'react-router';
+import { useContentPadding } from '../../hooks';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -19,10 +20,10 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         flexShrink: 0
       }
     },
-    innerContent: ({ overflow = 'auto', contentHeight, padInnerContent = true }) => ({
-      height: contentHeight - (!padInnerContent ? 0 : layout.contentpadding * 2 + 1),
+    innerContent: ({ overflow = 'auto', contentHeight, contentPadding, padInnerContent = true }) => ({
+      height: contentHeight - (!padInnerContent ? 0 : contentPadding * 2 + 1),
       overflow,
-      padding: padInnerContent ? layout.contentpadding : 0
+      padding: padInnerContent ? contentPadding : 0
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
@@ -43,7 +44,9 @@ export default function Layout({ children }) {
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
 
   const { pathname } = useLocation();
+  const contentPadding = useContentPadding();
   const classes = useStyles({
+    contentPadding,
     padInnerContent: noPadPaths.findIndex(p => p === pathname) > -1 ? false : true,
     overflow: noScrollPaths.findIndex(p => p === pathname) > -1 ? 'hidden' : 'auto',
     contentHeight,
