@@ -4,13 +4,15 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.png';
-import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute, useLogout } from './hooks';
+import { useAppBarHeightRef, useChangeRoute, useLogout } from './hooks';
 import { publicUrl } from '../../helpers';
 import { useSignedIn, useFullScreen } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
 import { useSetUser } from './hooks';
+import useTabSelector from '../application/Selector/useTabSelector';
+import useTabs from './useTabs';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -24,7 +26,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     appBarFullScreen: {
       paddingTop: beta ? layout.footerheight : 0,
       background: palette.common.white,
-      color: palette.primary.dark,
+      color: palette.primary.dark
     },
     logo: {
       paddingLeft: 8,
@@ -40,25 +42,25 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     },
     toolbar: {
       background: palette.white
-    },
+    }
   })
 );
 
-const tabs = [
-  { id: 'My Classes', icon: Icons.Apps, route: '/Classes' },
-  { id: 'My Calendar', icon: Icons.Event, route: '/Calendar' },
-  { id: 'My Profile', icon: Icons.AccountBox, route: '/Profile' },
-  { id: 'Help', icon: Icons.Help, route: '/Help' },
-];
-
-const AppBarTabSelector = props => <TabSelectorToolBar id='AppBar' tabs={tabs} {...props} />;
+const tabSelectorId = 'AppBar';
+const AppBarTabSelector = props => {
+  const { tabs } = useTabs();
+  return <TabSelectorToolBar id={tabSelectorId} tabs={tabs} {...props} />;
+};
 
 export default function ApplicationBar() {
   const classes = useStyles();
-  const handleChangeRoute = useHandleChangeRoute();
   const signedIn = useSignedIn();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const { tabs, tabs_s } = useTabs();
+
+  const [, setTabSelector] = useTabSelector(tabSelectorId);
 
   const setUser = useSetUser();
   const onLogout = useLogout();
@@ -73,11 +75,19 @@ export default function ApplicationBar() {
 
   const handleTabChange = React.useCallback(
     value => {
-      const { route } = tabs.find(t => t.id === value);
+      const { route } = JSON.parse(tabs_s).find(t => t.id === value);
       changeRoute(publicUrl(route));
     },
-    [changeRoute]
+    [changeRoute, tabs_s]
   );
+
+  const defaultTabId = tabs[0].id;
+  const defaultTabRoute = tabs[0].route;
+
+  const handleLogoClick = React.useCallback(() => {
+    setTabSelector(defaultTabId);
+    changeRoute(publicUrl(defaultTabRoute));
+  }, [setTabSelector, changeRoute, defaultTabId, defaultTabRoute]);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -94,7 +104,7 @@ export default function ApplicationBar() {
       <Toolbar className={classes.toolbar} disableGutters={true}>
         <Grid container alignItems='center' spacing={0}>
           <Grid item>
-            <img className={classes.logo} src={logo} alt='logo' onClick={handleChangeRoute(publicUrl('/'))} />
+            <img className={classes.logo} src={logo} alt='logo' onClick={handleLogoClick} />
           </Grid>
           <Grid item xs style={{ marginLeft: 4, marginRight: 4, minWidth: 0 }}>
             <AppBarTabSelector onChange={handleTabChange} />
@@ -121,13 +131,11 @@ export default function ApplicationBar() {
                   onClose={handleClose}
                   MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
                 >
-                  {
-                    [
-                      <MenuItem key='signout' onClick={handleLogout}>
-                        Sign Out
-                      </MenuItem>
-                    ]
-                  }
+                  {[
+                    <MenuItem key='signout' onClick={handleLogout}>
+                      Sign Out
+                    </MenuItem>
+                  ]}
                 </Menu>
               </Grid>
             </Grid>

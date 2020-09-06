@@ -1,6 +1,7 @@
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { adminUsers } from '../package.json';
+import { isEmpty } from './helpers';
 
 export const useFullScreen = (size = 'sm' as any) => {
   const theme = useTheme();
@@ -15,7 +16,11 @@ export const useSignedIn = () => {
 
 export const useIsAdmin = () => {
   const signedIn = useSignedIn();
-  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
+  const email = useSelector((s: any) => s.layout.user?.email ?? '');
   const adminEmails = adminUsers.split(',');
   return signedIn && adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
+};
+
+export const useIsInstructor = () => {
+  return useSelector((s: any) => isEmpty(s.layout?.user?.isInstructor ?? false));
 };
