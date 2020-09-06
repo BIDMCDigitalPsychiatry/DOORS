@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles, Grid, Paper, Typography, Divider, TextField, CircularProgress } from '@material-ui/core';
 import { createStyles, Link } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import BrandLogoImage from '../../images/logo.png';
+import BrandLogoImage from '../../images/logo.svg';
 import { isEmpty, validateEmail } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';

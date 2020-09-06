@@ -31,8 +31,8 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
-const noScrollPaths = ['/'];
-export const noPadPaths = ['/Home', '/'];
+const noScrollPaths = []; // Routes that don't have a scrollable container
+export const noPadPaths = []; // Routes that don't have content padding
 
 export default function Layout({ children }) {
   const height = useHeight();
