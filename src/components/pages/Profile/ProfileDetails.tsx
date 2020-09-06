@@ -2,8 +2,8 @@ import React from 'react';
 import type { FC } from 'react';
 import clsx from 'clsx';
 import { Avatar, Box, Card, CardContent, Typography, makeStyles } from '@material-ui/core';
-import { useUserType } from '../../hooks';
-import DialogButton from '../application/GenericDialog/DialogButton';
+import { useUserType } from '../../../hooks';
+import DialogButton from '../../application/GenericDialog/DialogButton';
 
 interface ProfileDetailsProps {
   className?: string;
@@ -30,7 +30,7 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ className, user, ...rest }) =
       <CardContent>
         <Box display='flex' alignItems='center' flexDirection='column' textAlign='center'>
           <Avatar className={classes.avatar} src={user.avatar} />
-          <DialogButton variant='link' underline='always'>
+          <DialogButton variant='link' underline='always' onClick={() => alert('To be implemented')}>
             UPLOAD PICTURE
           </DialogButton>
 

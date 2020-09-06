@@ -1,8 +1,9 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { Grid, Box, Button, Card, CardContent, makeStyles, Divider, TextField } from '@material-ui/core';
+import { Grid, Box, Button, Card, CardContent, makeStyles, Divider } from '@material-ui/core';
+import Text from '../../application/DialogField/Text';
 
-const useStyles = makeStyles(({ palette, spacing }) => ({
+const useStyles = makeStyles(({ palette }) => ({
   root: {},
   header: {
     background: palette.primary.main,
@@ -23,21 +24,31 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 
 export default function ProfileSettings({ className = undefined, user, ...rest }) {
   const classes = useStyles();
+  const [{ name, email, city, state }, setState] = React.useState(user);
+  const handleChange = React.useCallback(
+    name => event => {
+      setState(prev => ({
+        ...prev,
+        [name]: event?.target?.value
+      }));
+    },
+    [setState]
+  );
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           <Grid item md={6} xs={12}>
-            {<TextField fullWidth label='Name' name='name' value={user.name} variant='outlined' />}
+            {<Text onChange={handleChange('name')} margin='normal' label='Name' name='name' value={name} />}
           </Grid>
           <Grid item md={6} xs={12}>
-            {<TextField fullWidth label='Email' name='email' value={user.email} variant='outlined' />}
+            {<Text onChange={handleChange('email')} margin='normal' label='Email' name='email' value={email} />}
           </Grid>
           <Grid item md={6} xs={12}>
-            {<TextField fullWidth label='City' name='city' value={user.city} variant='outlined' />}
+            {<Text onChange={handleChange('city')} margin='normal' label='City' name='city' value={city} />}
           </Grid>
           <Grid item md={6} xs={12}>
-            {<TextField fullWidth label='State/Region' name='state' value={user.state} variant='outlined' />}
+            {<Text onChange={handleChange('state')} margin='normal' label='State/Region' name='state' value={state} />}
           </Grid>
         </Grid>
       </CardContent>

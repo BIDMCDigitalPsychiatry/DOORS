@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid } from '@material-ui/core';
 import ProfileSettings from './ProfileSettings';
 import ProfileDetails from './ProfileDetails';
-import Page from './Page';
+import Page from '../Page';
 
 export default function Profile() {
   const user = { email: 'test@test.com', name: 'Test User', city: 'Test City', state: 'Test State' };

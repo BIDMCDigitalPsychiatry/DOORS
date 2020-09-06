@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
 import Instructors from '../pages/Instructors';
-import Profile from '../pages/Profile';
+import Profile from '../pages/Profile/Profile';
 import Calendar from '../pages/Calendar';
 import Sessions from '../pages/Session/Sessions';
 
