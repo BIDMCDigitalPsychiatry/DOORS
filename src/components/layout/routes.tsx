@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router';
 import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
-import Sessions from '../pages/Sessions';
 import Instructors from '../pages/Instructors';
 import Profile from '../pages/Profile';
 import Calendar from '../pages/Calendar';
 import Help from '../pages/Help';
+import Sessions from '../pages/Session/Sessions';
 
 const Routes = () => (
   <Switch>
