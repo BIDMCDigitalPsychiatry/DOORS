@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/doors/static/css/main.34de6062.chunk.css",
-    "main.js": "/doors/static/js/main.bb5fad1c.chunk.js",
-    "main.js.map": "/doors/static/js/main.bb5fad1c.chunk.js.map",
+    "main.js": "/doors/static/js/main.a68f8f19.chunk.js",
+    "main.js.map": "/doors/static/js/main.a68f8f19.chunk.js.map",
     "runtime-main.js": "/doors/static/js/runtime-main.ae110295.js",
     "runtime-main.js.map": "/doors/static/js/runtime-main.ae110295.js.map",
     "static/js/2.e4a1c841.chunk.js": "/doors/static/js/2.e4a1c841.chunk.js",
     "static/js/2.e4a1c841.chunk.js.map": "/doors/static/js/2.e4a1c841.chunk.js.map",
     "index.html": "/doors/index.html",
-    "precache-manifest.1c184d99a52bc9555bfd6fe450b5b7ac.js": "/doors/precache-manifest.1c184d99a52bc9555bfd6fe450b5b7ac.js",
+    "precache-manifest.b5fb293b8f002eb4e45af718aa111d41.js": "/doors/precache-manifest.b5fb293b8f002eb4e45af718aa111d41.js",
     "service-worker.js": "/doors/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/doors/static/css/main.34de6062.chunk.css.map",
     "static/js/2.e4a1c841.chunk.js.LICENSE.txt": "/doors/static/js/2.e4a1c841.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.ae110295.js",
     "static/js/2.e4a1c841.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.bb5fad1c.chunk.js"
+    "static/js/main.a68f8f19.chunk.js"
   ]
 }
