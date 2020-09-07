@@ -4,14 +4,6 @@ import { Box, Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import calendar from '../../../images/calendar.png';
 import ActionButton from '../../general/ActionButton';
 
-interface SessionProps {
-  title?: string;
-  subtitle?: string;
-  image?: any;
-  topics?: string[];
-  className?: string;
-}
-
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
   header: {
@@ -33,22 +25,23 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 }));
 
 export default function Session({
-  subtitle = 'Session Number Placeholder',
+  subtitle = 'Session Placeholder',
   title = 'Title Place Holder',
   image = calendar,
-  topics = ['Topic 1 Placeholder', 'Topic 2 Placeholder'],
-  className,
+  skills = ['Topic 1 Placeholder', 'Topic 2 Placeholder'],
+  className = undefined,
+  onClick = undefined,
   ...rest
-}: SessionProps) {
+}) {
   const classes = useStyles();
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <div className={classes.header}>
         <Typography noWrap gutterBottom variant='subtitle1' color='textSecondary'>
-          {subtitle}
+          {title}
         </Typography>
         <Typography noWrap gutterBottom variant='h6' color='textPrimary'>
-          {title}
+          {subtitle}
         </Typography>
       </div>
       <div className={classes.imageContainer}>
@@ -56,15 +49,15 @@ export default function Session({
       </div>
       <Grid container className={classes.summary} alignItems='center'>
         <Grid item>
-          {topics.map(t => (
+          {skills.map(t => (
             <Typography key={t} component='h6' gutterBottom variant='subtitle1'>
               {t}
             </Typography>
           ))}
         </Grid>
       </Grid>
-      <Box m={2}textAlign='center'>
-        <ActionButton onClick={() => alert('To be implemented.')}>View</ActionButton>
+      <Box m={2} textAlign='center'>
+        <ActionButton onClick={onClick}>View</ActionButton>
       </Box>
     </Card>
   );

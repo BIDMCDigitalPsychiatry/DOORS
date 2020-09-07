@@ -5,7 +5,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.svg';
 import { useAppBarHeightRef, useChangeRoute, useLogout } from './hooks';
-import { publicUrl } from '../../helpers';
 import { useSignedIn, useFullScreen, useContentPadding } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
@@ -83,7 +82,7 @@ export default function ApplicationBar() {
       if (id === 'Help') {
         setState(prev => ({ ...prev, open: true })); // Open the dialog, track previous tab
       } else {
-        changeRoute(publicUrl(route));
+        changeRoute(route);
         setState(prev => ({ prevId: id })); // Open the dialog, track previous tab
       }
     },
@@ -95,7 +94,7 @@ export default function ApplicationBar() {
 
   const handleLogoClick = React.useCallback(() => {
     setTabSelector(defaultTabId);
-    changeRoute(publicUrl(defaultTabRoute));
+    changeRoute(defaultTabRoute);
   }, [setTabSelector, changeRoute, defaultTabId, defaultTabRoute]);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

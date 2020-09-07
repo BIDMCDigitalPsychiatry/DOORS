@@ -6,6 +6,11 @@ import Instructors from '../pages/Instructors';
 import Profile from '../pages/Profile/Profile';
 import Calendar from '../pages/Calendar';
 import Sessions from '../pages/Session/Sessions';
+import Session from '../pages/Session/Session';
+import SessionDashboard from '../pages/Session/SessionDashboard';
+import SessionClass from '../pages/Session/SessionClass';
+import SessionMaterials from '../pages/Session/SessionMaterials';
+import SessionMembers from '../pages/Session/SessionMembers';
 
 const Routes = () => (
   <Switch>
@@ -14,6 +19,11 @@ const Routes = () => (
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
     <Route exact path={publicUrl('/Sessions')} component={Sessions} />
+    <Route exact path={publicUrl('/Session')} component={Session} />
+    <Route exact path={publicUrl('/SessionDashboard')} component={SessionDashboard} />
+    <Route exact path={publicUrl('/SessionClass')} component={SessionClass} />
+    <Route exact path={publicUrl('/SessionMaterials')} component={SessionMaterials} />
+    <Route exact path={publicUrl('/SessionMembers')} component={SessionMembers} />
     <Route path={'/'} component={Sessions} />
   </Switch>
 );

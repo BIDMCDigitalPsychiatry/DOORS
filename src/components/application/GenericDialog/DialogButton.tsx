@@ -143,7 +143,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     color = 'primary',
     variant = 'fab',
     underline = 'hover',
-    linkvariant = 'caption',
+    linkVariant = 'caption',
     size = 'small',
     label = '',
     disabled = undefined,
@@ -271,7 +271,7 @@ const DialogButton = React.forwardRef(function DialogButton(
                 {children}
               </Typography>
             ) : (
-              <Link color={color} variant={linkvariant} underline={underline} style={{ cursor: 'pointer' }} {...shared}>
+              <Link color={color} variant={linkVariant} underline={underline} style={{ cursor: 'pointer' }} {...shared}>
                 {children}
               </Link>
             )

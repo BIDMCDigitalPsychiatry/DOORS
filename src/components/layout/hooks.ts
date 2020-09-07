@@ -4,6 +4,7 @@ import { useHistory, useLocation } from 'react-router';
 import { AppState } from '../../store';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useIsAdmin } from '../../hooks';
+import { publicUrl } from '../../helpers';
 
 export const useLayoutKey = key => useSelector((state: AppState) => state.layout[key], shallowEqual);
 export const useAuth = () => useLayoutKey('auth') || {};
@@ -100,22 +101,29 @@ export const useAdminMode = () => {
 };
 
 export const useAppBarHeightRef = () => {
-    let ref = React.useRef(null);
-    const { height } = useComponentSize(ref);
-    const resizeAppBar = useResizeAppBar();
-    React.useEffect(() => {
-        resizeAppBar(height);
-    }, [resizeAppBar, height]);
-    return ref;
+  let ref = React.useRef(null);
+  const { height } = useComponentSize(ref);
+  const resizeAppBar = useResizeAppBar();
+  React.useEffect(() => {
+    resizeAppBar(height);
+  }, [resizeAppBar, height]);
+  return ref;
 };
 
 export const useHandleChangeRoute = () => {
     const changeRoute = useChangeRoute();
-    return React.useCallback(route => event => changeRoute(route), [changeRoute]);
+    return React.useCallback((route, state = undefined, search = undefined) => event => changeRoute(route, state, search), [changeRoute]);
 };
 
 export const useChangeRoute = () => {
-    const { pathname } = useLocation();
-    const history = useHistory();
-    return React.useCallback((route: string) => pathname !== route && history && history.push(route), [history, pathname]);
+  const { pathname } = useLocation();
+  const history = useHistory();
+  return React.useCallback(
+    (route: string, state: any = undefined, search: any = undefined) => {
+      if (pathname !== route && history) {
+        history.push({ pathname: publicUrl(route), search, state });
+      }
+    },
+    [history, pathname]
+  );
 };
