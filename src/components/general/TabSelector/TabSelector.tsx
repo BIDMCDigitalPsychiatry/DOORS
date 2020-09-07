@@ -62,11 +62,11 @@ export interface TabSelectorItem {
 
 const TabSelector = ({ id, tabs = [], orientation, wrapped, minHeight = 52, rounded = true }: ComponentProps) => {
   const classes = useStyles({ minHeight, rounded });
-
+  
   const [tabSelector, setTabSelector] = useTabSelector(id);
   const selected = tabSelector.value;
 
-  const tabId = tabs[0] && tabs[0].id;
+  const tabId = tabs[0] && tabs[0].id;  
   React.useEffect(() => {
     isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
     triggerResize();

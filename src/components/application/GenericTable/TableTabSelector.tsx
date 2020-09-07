@@ -1,27 +1,15 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '../../../store';
-import TabSelector, { TabSelectorItem } from '../../general/TabSelector/TabSelector';
+import TabSelector from '../../general/TabSelector/TabSelector';
+import { useHeight, useWidth } from '../../layout/hooks';
 
-export interface ComponentProps {
-  name?: string; //Unique name
-  tab?: string; //Selected tab
-  tabs?: TabSelectorItem[];
-  orientation?: string;
-  onChange?: (tab: string) => void;
-  classes?: any;
+export default function TableTabSelector({ id, tabs, tab: Tab = undefined, ...other }) {
+  const storeTable = useSelector((s: AppState) => s.table[id]);
+  const height = useHeight();
+  const width = useWidth();
+  const orientation = height > width ? 'potrait' : 'landscape';
+  const tab = Tab ? Tab : storeTable?.tab;
+
+  return <TabSelector id={id} tab={tab} tabs={tabs} orientation={orientation} {...other} />;
 }
-
-const TableTabSelector = ({ tabs, tab, orientation }: ComponentProps) => <TabSelector tab={tab} tabs={tabs} orientation={orientation} />;
-
-const mapStateToProps = (state: AppState, ownProp: ComponentProps): ComponentProps => {
-  const storeTable = state.table[ownProp.name];
-  return {
-    ...ownProp,
-    name: ownProp.name,
-    tab: ownProp.tab || (storeTable && storeTable.tab), //Use provide value, then store value or default to 'All' if neither are provided
-    orientation: state.layout.height > state.layout.width ? 'potrait' : 'landscape'
-  };
-};
-
-export default connect(mapStateToProps)(TableTabSelector);

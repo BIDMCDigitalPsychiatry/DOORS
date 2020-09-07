@@ -3,11 +3,12 @@ import { Grid, Paper, Input, Tooltip } from '@material-ui/core';
 import { FormControl, InputAdornment, IconButton, Typography } from '@material-ui/core';
 import { useTable, useTableUpdate } from './store';
 import { useWidth } from '../../layout/hooks';
-import { Fab, makeStyles, createStyles, useTheme } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { evalFunc } from '../../../helpers';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import { useFullScreen, useContentPadding } from '../../../hooks';
+import ActionButton from '../../general/ActionButton';
 
 export interface TableToolbarProps {
   name?: string;
@@ -34,15 +35,10 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
     formControl: {
       marginBottom: 4,
       paddingRight: spacing(1),
-      width: 308
+      width: 200
     },
     searchIcon: {
-      color: palette.primary.main
-    },
-    underline: {
-      //color: palette.common.white,
-      color: palette.primary.main,
-      borderBottom: `2px solid ${palette.primary.main}`
+      color: palette.common.white
     },
     title: {
       ...typography.h4,
@@ -65,6 +61,14 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
     },
     hidden: {
       display: 'none' as 'none'
+    },
+    underline: {
+      color: palette.common.white,
+      borderBottom: `2px solid ${palette.common.white}`,
+      '&:hover': {
+        color: palette.common.white,
+        borderBottom: `2px solid ${palette.common.white}`
+      }
     }
   })
 );
@@ -72,7 +76,6 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
 function TableToolbar(props: TableToolbarProps) {
   const classes = useStyles({});
   const [searchOpen, setSearchOpen] = React.useState(false);
-  const { layout } = useTheme();
   const { name, buttons = [], square, title, inputplaceholder, Icon, search, showicon = true, buttonPosition = 'top' } = props;
 
   const { searchtext = '' } = useTable(name);
@@ -147,7 +150,9 @@ function TableToolbar(props: TableToolbarProps) {
     <FormControl className={classes.formControl}>
       <Input
         disableUnderline={false}
-        classes={{ underline: classes.underline }}
+        classes={{        
+          underline: classes.underline
+        }}
         value={searchtext ? searchtext : ''}
         onChange={handleChange}
         placeholder={inputplaceholder}
@@ -170,21 +175,10 @@ function TableToolbar(props: TableToolbarProps) {
 
   const searchbutton =
     search !== false && search ? (
-      <>
-        <Tooltip
-          placement='bottom'
-          title={
-            <Typography variant='h6' color='inherit'>
-              Search
-            </Typography>
-          }
-        >
-          <Fab variant='extended' size='small' color='primary' onClick={handleOpenSearch}>
-            <Icons.Search />
-            {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>Search</div>}
-          </Fab>
-        </Tooltip>
-      </>
+      <ActionButton width={fullScreen ? 64 : 120} variant='contained' size='small' onClick={handleOpenSearch}>
+        <Icons.Search />
+        {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>Search</div>}
+      </ActionButton>
     ) : null;
 
   var Buttons = [searchbutton, ...evalFunc(buttons, props)].filter(b => b);

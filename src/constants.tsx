@@ -12,9 +12,9 @@ const shared = {
       dark: '#005077'
     },
     secondary: {
-      main: '#388e3c',
-      light: '#6abf69',
-      dark: '#00600f'
+      main: '#616161',
+      light: '#8E8E8E',
+      dark: '#373737'
     }
   },
   layout: {
@@ -84,7 +84,7 @@ const shared = {
 } as Theme & any;
 
 export const adminTheme = createMuiTheme({
-  ...shared,
+  ...shared
   /*palette: {
     ...shared.palette,
     primary: {

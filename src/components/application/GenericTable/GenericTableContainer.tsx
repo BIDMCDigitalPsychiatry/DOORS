@@ -57,7 +57,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     onChangeTab,
     Icon,
     FilterContainer,
-    buttonPosition = 'top',
+    buttonPosition = 'bottom',
     ...tableProps
   } = props;
 
@@ -97,7 +97,8 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
       buttonPosition={buttonPosition}
     />
   );
-  var filterbar = tabs && <TableTabSelector name={name} tabs={tabs} onChange={handleTabChange} />;
+
+  var filterbar = tabs && <TableTabSelector id={name} tabs={tabs} onChange={handleTabChange} />;
 
   const rows = [
     { id: 'fc', component: FilterContainer, height: layout.tabletoolbarheight },

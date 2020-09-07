@@ -32,7 +32,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
-const noScrollPaths = []; // Routes that don't have a scrollable container
+const noScrollPaths = ['/doors/Instructors', '/Instructors']; // Routes that don't have a scrollable container
 export const noPadPaths = []; // Routes that don't have content padding
 
 export default function Layout({ children }) {

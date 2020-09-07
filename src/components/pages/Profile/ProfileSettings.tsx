@@ -1,24 +1,14 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { Grid, Box, Button, Card, CardContent, makeStyles, Divider } from '@material-ui/core';
+import { Grid, Box, Card, CardContent, makeStyles, Divider } from '@material-ui/core';
 import Text from '../../application/DialogField/Text';
+import ActionButton from '../../general/ActionButton';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {},
   header: {
     background: palette.primary.main,
     color: palette.common.white
-  },
-  button: {
-    width: 120,
-    color: '#192A3E',
-    background: '#F1C30A',
-    borderRadius: 20,
-    '&:hover': {
-      opacity: '85%',
-      color: '#192A3E',
-      background: '#F1C30A'
-    }
   }
 }));
 
@@ -54,9 +44,7 @@ export default function ProfileSettings({ className = undefined, user, ...rest }
       </CardContent>
       <Divider />
       <Box p={2} display='flex' justifyContent='flex-end'>
-        <Button className={classes.button} variant='contained' onClick={() => alert('To be completed')}>
-          Save
-        </Button>
+        <ActionButton onClick={() => alert('To be completed')}>Save</ActionButton>
       </Box>
     </Card>
   );

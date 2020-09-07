@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Page from './Page';
+import InstructorsTable from '../application/GenericTable/Instructors/table';
 
 export default function Instructors() {
-  return <Page title='Instructors Placeholder'></Page>;
+  return <InstructorsTable />;
 }

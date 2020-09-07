@@ -1,7 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Card, Typography, makeStyles, Button, Grid } from '@material-ui/core';
+import { Box, Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import calendar from '../../../images/calendar.png';
+import ActionButton from '../../general/ActionButton';
 
 interface SessionProps {
   title?: string;
@@ -28,22 +29,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
     color: palette.common.white,
     background: palette.primary.light,
     padding: spacing(1, 2, 1, 2)
-  },
-  button: {
-    width: 120,
-    color: '#192A3E',
-    background: '#F1C30A',
-    margin: spacing(2),
-    borderRadius: 20,
-    '&:hover': {
-      opacity: '85%',
-      color: '#192A3E',
-      background: '#F1C30A'
-    }
-  },
-  footer: {
-    textAlign: 'center'
-  }
+  }  
 }));
 
 export default function Session({
@@ -77,11 +63,9 @@ export default function Session({
           ))}
         </Grid>
       </Grid>
-      <div className={classes.footer}>
-        <Button variant='outlined' size='large' className={classes.button} onClick={() => alert('To be implemented.')}>
-          View
-        </Button>
-      </div>
+      <Box m={2}textAlign='center'>
+        <ActionButton onClick={() => alert('To be implemented.')}>View</ActionButton>
+      </Box>
     </Card>
   );
 }

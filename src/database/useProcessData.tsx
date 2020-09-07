@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { dynamo, TableName } from './dbConfig';
+import { dynamo } from './dbConfig';
 import { updateSnackBar } from '../components/application/SnackBar/store';
 import { useUpdateDatabase } from './useUpdateDatabase';
 
 export interface ProcessDataInfo {
-  Model: TableName;
+  Model?: any;
   Data: any;
   Action?: 'c' | 'r' | 'u' | 'd';
   Snackbar?: boolean;
