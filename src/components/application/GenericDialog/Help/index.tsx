@@ -1,11 +1,9 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import Label from '../../DialogField/Label';
-import { Divider } from '@material-ui/core';
+import MarginDivider from '../../DialogField/MarginDivider';
 
 export const title = 'Get In Touch';
-
-export const MarginDivider = () => <Divider style={{ marginTop: 8, marginBottom: 8 }} />;
 
 export default function HelpDialog({ id = title, ...other }) {
   const handleSubmit = React.useCallback(({ name, email, message }, setValues) => {
@@ -23,7 +21,7 @@ export default function HelpDialog({ id = title, ...other }) {
           label: 'If you have any questions or comments about the program, send a message to the program administrators.',
           Field: Label
         },
-        {
+        {          
           Field: MarginDivider
         },
         {

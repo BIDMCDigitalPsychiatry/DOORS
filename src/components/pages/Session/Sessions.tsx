@@ -30,10 +30,10 @@ const sessions = [
 export default function Sessions() {
   return (
     <Page title='Available Sessions'>
-      <Grid container spacing={3} >
+      <Grid container spacing={3}>
         {[
           sessions.map(s => (
-            <Grid item lg={3} sm={6} xs={12}>
+            <Grid key={[s.title, s.subtitle].join('-')} item lg={3} sm={6} xs={12}>
               <Session {...s} />
             </Grid>
           ))

@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   } as any)
 );
 
-export default function Page({ title = '', children = undefined }) {
+export default function Page({ title = '', children = <></> }) {
   const classes = useStyles();
   return (
     <>

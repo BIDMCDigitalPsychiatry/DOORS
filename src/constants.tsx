@@ -20,7 +20,7 @@ const shared = {
   layout: {
     toolbarheight: 64, //The height of the top toolbar
     contentpadding: 24, //The padding around the inner layout content
-    contentpadding_xs: 8, //The padding around the inner layout content when xs screensize
+    contentpadding_xs: 12, //The padding around the inner layout content when xs screensize
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)
     tablefooterheight: 20, //The height of the table footer
     tablefilterbarheight: 52, //The height of the table filter selector (category selector)

@@ -69,9 +69,9 @@ export default function Session({
         <img src={image} alt={title} />
       </div>
       <Grid container className={classes.summary} alignItems='center'>
-        <Grid item>        
+        <Grid item>
           {topics.map(t => (
-            <Typography component='h6' gutterBottom variant='subtitle1'>
+            <Typography key={t} component='h6' gutterBottom variant='subtitle1'>
               {t}
             </Typography>
           ))}

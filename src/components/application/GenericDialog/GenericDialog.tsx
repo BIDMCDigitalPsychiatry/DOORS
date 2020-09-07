@@ -136,7 +136,7 @@ const GenericDialog = ({
 }: ComponentProps & any) => {
   const { layout } = useTheme();
   const [state, setState] = useDialogState(id);
-  const { type, open, loading, submitting } = state;
+  const { type, open = false, loading, submitting } = state;
   const title = state.title ? state.title : Title;
 
   const [confirmDelete, setConfirmDelete] = React.useState(false);
