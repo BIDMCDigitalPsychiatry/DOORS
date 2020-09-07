@@ -6,7 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.svg';
 import { useAppBarHeightRef, useChangeRoute, useLogout } from './hooks';
 import { publicUrl } from '../../helpers';
-import { useSignedIn, useFullScreen } from '../../hooks';
+import { useSignedIn, useFullScreen, useContentPadding } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
@@ -19,11 +19,13 @@ import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
-    appBar: {
+    appBar: ({ contentPadding }: any) => ({
       paddingTop: beta ? layout.footerheight : 0,
       color: palette.primary.main,
-      background: palette.common.white
-    },
+      background: palette.common.white,
+      paddingLeft: contentPadding,
+      paddingRight: contentPadding
+    }),
     appBarFullScreen: {
       paddingTop: beta ? layout.footerheight : 0,
       background: palette.common.white,
@@ -54,7 +56,8 @@ const AppBarTabSelector = props => {
 };
 
 export default function ApplicationBar() {
-  const classes = useStyles();
+  const contentPadding = useContentPadding();
+  const classes = useStyles({ contentPadding });
   const signedIn = useSignedIn();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
