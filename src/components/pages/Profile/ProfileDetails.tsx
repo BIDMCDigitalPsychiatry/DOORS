@@ -33,7 +33,6 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ className, user, ...rest }) =
           <DialogButton variant='link' underline='always' onClick={() => alert('To be implemented')}>
             UPLOAD PICTURE
           </DialogButton>
-
           <Box mt={1}>
             <Typography className={classes.name} color='textPrimary' variant='h4'>
               {user.name}

@@ -5,28 +5,43 @@ import ActionButton from './ActionButton';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
-  header: {
-    minHeight: 116,
+  header: ({ minHeight = 116 }: any) => ({
+    minHeight,
     color: palette.common.black,
     padding: spacing(2)
-  }
+  })
 }));
 
-export default function ActionCard({ title, description, actionLabel = 'View', onClick, className = undefined, ...rest }) {
-  const classes = useStyles();
+export default function ActionCard({
+  title = undefined,
+  description = undefined,
+  actionLabel = 'View',
+  onClick = undefined,
+  className = undefined,
+  titleProps = undefined,
+  minHeight = undefined,
+  ...rest
+}) {
+  const classes = useStyles({ minHeight });
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <div className={classes.header}>
-        <Typography noWrap gutterBottom variant='h5' color='primary'>
-          {title}
-        </Typography>
-        <Typography gutterBottom variant='subtitle1' color='textPrimary'>
-          {description}
-        </Typography>
+        {title && (
+          <Typography noWrap gutterBottom variant='h5' color='primary' {...titleProps}>
+            {title}
+          </Typography>
+        )}
+        {description && (
+          <Typography gutterBottom variant='subtitle1' color='textPrimary'>
+            {description}
+          </Typography>
+        )}
       </div>
-      <Box m={2} textAlign='center'>
-        <ActionButton onClick={onClick}>{actionLabel}</ActionButton>
-      </Box>
+      {onClick && (
+        <Box m={2} textAlign='center'>
+          <ActionButton onClick={onClick}>{actionLabel}</ActionButton>
+        </Box>
+      )}
     </Card>
   );
 };
