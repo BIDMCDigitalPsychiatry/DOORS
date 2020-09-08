@@ -4,8 +4,6 @@ import { createStyles, Link } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
 import { isEmpty } from '../../helpers';
-import { push } from 'connected-react-router';
-import { useDispatch } from 'react-redux';
 import { useLogin, useHeight } from './hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as RegisterDialog from '../application/GenericDialog/Register';
@@ -75,13 +73,11 @@ export default function Login() {
   const [state, setState] = React.useState({ loading: false, errors: {} });
   const { loading, errors } = state;
   
-  const dispatch = useDispatch();
   const { handleLogin } = useLogin({ state, setState });
 
   const handleSubmit = React.useCallback(() => {
-    dispatch(push('')); // This clears any query params    
     handleLogin({ email, password });
-  }, [handleLogin, email, password, dispatch]);
+  }, [handleLogin, email, password]);
 
   const handleChange = (name: string) => (event: any) => {
     setValues({ ...values, [name]: event.target.value });
