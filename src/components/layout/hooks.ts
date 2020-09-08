@@ -68,6 +68,7 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
 
   const handleLogin = React.useCallback(
     ({ forgotPassword, enterNewPassword, confirmationCode, newPassword, email, password }) => {
+      setState(prev => ({ ...prev, open: false, loading: true, showErrors: false, errors: {} }));
       if (forgotPassword) {
         if (enterNewPassword) {
           Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)

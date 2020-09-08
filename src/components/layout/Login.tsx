@@ -47,7 +47,7 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
     },
     buttonProgress: {
       position: 'absolute',
-      top: '50%',
+      top: '25%',
       left: '50%',
       marginTop: -8,
       marginLeft: -12
@@ -72,8 +72,8 @@ export default function Login() {
 
   const { email, password } = values;
 
-  const [state, setState] = React.useState({ disabled: false, errors: {} });
-  const { disabled, errors } = state;
+  const [state, setState] = React.useState({ loading: false, errors: {} });
+  const { loading, errors } = state;
   
   const dispatch = useDispatch();
   const { handleLogin } = useLogin({ state, setState });
@@ -124,7 +124,7 @@ export default function Login() {
                     autoComplete={noAutoComplete ? 'new-password' : undefined}
                     id='email'
                     label='Email'
-                    disabled={disabled}
+                    disabled={loading}
                     value={values.email}
                     onChange={handleChange('email')}
                     margin='dense'
@@ -142,7 +142,7 @@ export default function Login() {
                     autoComplete={noAutoComplete ? 'new-password' : undefined}
                     id='password'
                     label='Password'
-                    disabled={disabled}
+                    disabled={loading}
                     type='password'
                     value={values.password}
                     onChange={handleChange('password')}
@@ -158,15 +158,15 @@ export default function Login() {
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <Button ref={buttonRef} fullWidth={true} disabled={disabled} variant='contained' className={classes.button} onClick={handleSubmit}>
+                    <Button ref={buttonRef} fullWidth={true} disabled={loading} variant='contained' className={classes.button} onClick={handleSubmit}>
                       Login
                     </Button>
-                    {disabled && <CircularProgress size={24} className={classes.buttonProgress} />}
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <DialogButton Module={RegisterDialog} size='medium' variant='contained' tooltip='' className={classes.button}>
+                    <DialogButton Module={RegisterDialog} disabled={loading} size='medium' variant='contained' tooltip='' className={classes.button}>
                       Create New Account
                     </DialogButton>
                   </div>
