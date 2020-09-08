@@ -31,12 +31,11 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Cloud Setup/Configuration
 
 **AWS Amplify/Authentication Setup**
+Note you will need to create a user and/or accesskey and secret key in order for the CLI tool to execute.  If you already have an amplify user, you can just add a new access key and use that.  Follow directions here: https://blog.logrocket.com/authentication-react-apps-aws-amplify-cognito/  
 
-  Note: The below commands will ask you to login with a username via the web console.  This username should have admin priveleges so the CLI can perform the necessary actions.
-
-  1. npm install -g @aws-amplify/cli - installs the amplify cli so it can be used via the command line
-  2. amplify configure - creates the amplify admin user and stores credentials in ~/.aws/credentials. I'm not sure if this is for granting permissions to the CLI or if it is required for the amplify project. I would guess it is for the CLI and can be deleted after the project has been setup.
-  3. amplify init - creates up the amplify project
+  1. Install node if not already installed.
+  2. npm install -g @aws-amplify/cli - installs the amplify cli so it can be used via the command line 
+  3. amplify init (select no when prompted if you would like to use an AWS Profile, then enter the accesskey and secret key) - create and setup the amplify project
   4. amplify add auth - adds authentication to amplify project
   5. amplify push - pushes the project to the cloud
 
