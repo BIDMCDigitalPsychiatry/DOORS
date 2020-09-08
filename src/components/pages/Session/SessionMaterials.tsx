@@ -11,8 +11,7 @@ import SessionPresentationFile from './SessionPresentationFile';
 export default function SessionMaterials() {
   const { state }: any = useLocation();
   const { title, subtitle, skills = [], rankingModel = [], classResources = [] } = state;  
-  const handleChangeRoute = useHandleChangeRoute();
-  console.log({ state });
+  const handleChangeRoute = useHandleChangeRoute();  
   return (
     <ChildPage
       backLabel='Back to Session'

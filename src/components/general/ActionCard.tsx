@@ -20,6 +20,7 @@ export default function ActionCard({
   className = undefined,
   titleProps = undefined,
   minHeight = undefined,
+  disabled = undefined,
   ...rest
 }) {
   const classes = useStyles({ minHeight });
@@ -39,7 +40,7 @@ export default function ActionCard({
       </div>
       {onClick && (
         <Box m={2} textAlign='center'>
-          <ActionButton onClick={onClick}>{actionLabel}</ActionButton>
+          <ActionButton disabled={disabled} onClick={onClick}>{actionLabel}</ActionButton>
         </Box>
       )}
     </Card>

@@ -15,10 +15,10 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   })
 }));
 
-export default function ActionButton({ width = 120, variant = 'outlined' as any, size = 'large' as any, children, ...other }) {
+export default function ActionButton({ disabled = undefined, width = 120, variant = 'outlined' as any, size = 'large' as any, children, ...other }) {
   const classes = useStyles({ width });
   return (
-    <Button variant={variant} size={size} className={classes.button} {...other}>
+    <Button disabled={disabled} variant={variant} size={size} className={classes.button} {...other}>
       {children}
     </Button>
   );
