@@ -31,6 +31,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Cloud Setup/Configuration
 
 **AWS Amplify/Authentication Setup**
+
 Note you will need to create a user and/or accesskey and secret key in order for the CLI tool to execute.  If you already have an amplify user, you can just add a new access key and use that.  Follow directions here: https://blog.logrocket.com/authentication-react-apps-aws-amplify-cognito/  
 
   1. Install node if not already installed.
