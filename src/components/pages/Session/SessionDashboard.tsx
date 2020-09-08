@@ -31,7 +31,7 @@ export default function SessionDashboard({ supertitle }) {
         </Typography>
         <Box mt={1} ml={1} mb={3}>
           {skills.map(s => (
-            <Typography variant='subtitle1'>• {s}</Typography>
+            <Typography key={s}variant='subtitle1'>• {s}</Typography>
           ))}
         </Box>
         <Grid container spacing={3}>

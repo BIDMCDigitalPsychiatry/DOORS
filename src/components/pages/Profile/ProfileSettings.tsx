@@ -17,9 +17,10 @@ export default function ProfileSettings({ className = undefined, user, ...rest }
   const [{ name, email, city, state }, setState] = React.useState(user);
   const handleChange = React.useCallback(
     name => event => {
+      const value = event?.target?.value; // Must be const out side of setState because of event pooling
       setState(prev => ({
         ...prev,
-        [name]: event?.target?.value
+        [name]: value
       }));
     },
     [setState]

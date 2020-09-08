@@ -31,6 +31,10 @@ export default function Session({
   skills = ['Topic 1 Placeholder', 'Topic 2 Placeholder'],
   className = undefined,
   onClick = undefined,
+  rankingModel = undefined,
+  surveyQuestions = undefined,
+  classResources = undefined,
+  presentationFile = undefined,
   ...rest
 }) {
   const classes = useStyles();
