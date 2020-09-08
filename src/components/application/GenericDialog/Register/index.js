@@ -4,7 +4,7 @@ import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import { useDialogState } from '../useDialogState';
 import { Auth } from 'aws-amplify';
 import DialogButton from '../DialogButton';
-import { useSetUser } from '../../../layout/hooks';
+import { useLogin } from '../../../layout/hooks';
 const passwordValidator = require('password-validator');
 export const title = 'Create New Account';
 
@@ -72,7 +72,7 @@ export default function RegisterDialog({ id = title }) {
   const { confirm, errors } = dialogState;
   const dialogStateStr = JSON.stringify(dialogState);
 
-  const setUser = useSetUser();
+  const { handleLogin } = useLogin({ dialogState, setState });
 
   const handleAdd = React.useCallback(
     ({ email, password }, setValues) => {
@@ -104,15 +104,7 @@ export default function RegisterDialog({ id = title }) {
         .then(() => {
           console.log('Confirmed account!');
           setState(prev => ({ ...prev, open: false, loading: false, confirm: false }));
-          Auth.signIn(email, password)
-            .then(user => {
-              console.log('Login success!');
-              setUser(user);
-            })
-            .catch(err => {
-              console.error('Error with Login');
-              console.error(err);
-            });
+          handleLogin({ email, password });
         })
         .catch(err => {
           console.error('Invalid code');
@@ -121,7 +113,7 @@ export default function RegisterDialog({ id = title }) {
           setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
         });
     },
-    [setUser, dialogStateStr, setState, errors]
+    [dialogStateStr, setState, errors, handleLogin]
   );
 
   const handleSubmit = React.useCallback(({ confirm, ...other }, setValues) => (confirm ? handleConfirm(other, setValues) : handleAdd(other, setValues)), [

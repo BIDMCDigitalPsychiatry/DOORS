@@ -3,7 +3,7 @@ import { makeStyles, Grid, Paper, Typography, Divider, TextField, CircularProgre
 import { createStyles, Link } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
-import { isEmpty, validateEmail } from '../../helpers';
+import { isEmpty } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 import { useLogin, useHeight } from './hooks';
@@ -20,14 +20,14 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
     }),
     paper: {
       marginTop: 32,
-      width: 300,
+      width: 300
     },
     disclaimer: {
       marginTop: 32,
-      maxWidth: 650,
+      maxWidth: 650
     },
     panelarea: {
-      background: '#F5F5F5',      
+      background: '#F5F5F5'
     },
     message: {
       color: 'green'
@@ -37,9 +37,9 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
       color: palette.common.white,
       '&:hover': {
         background: palette.primary.dark,
-        color: palette.common.white,
+        color: palette.common.white
       },
-      marginTop: 8,
+      marginTop: 8
     },
     toolbar: mixins.toolbar,
     wrapper: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
       top: '50%',
       left: '50%',
       marginTop: -8,
-      marginLeft: -12,
+      marginLeft: -12
     },
     container: {
       overflowY: 'auto'
@@ -58,23 +58,8 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
   })
 );
 
-const validate = ({ email, password }) => {
-  const newErrors = {};
-  if (isEmpty(email)) {
-    newErrors['email'] = 'Required';
-  }
-  if (isEmpty(password)) {
-    newErrors['password'] = 'Required';
-  }
-
-  if (!validateEmail(email)) {
-    newErrors['email'] = 'Invalid email format'
-  }
-  return newErrors;
-}
-
 export default function Login() {
-  const BannerMsg = "";
+  const BannerMsg = '';
   const height = useHeight();
   const classes = useStyles({ height });
   const noAutoComplete = true;
@@ -87,29 +72,21 @@ export default function Login() {
 
   const { email, password } = values;
 
-  const [{ disabled }, setState] = React.useState({ disabled: false });
-
+  const [state, setState] = React.useState({ disabled: false, errors: {} });
+  const { disabled, errors } = state;
+  
   const dispatch = useDispatch();
-  const { handleLogin, error } = useLogin({ setState });
-
-  const [errors, setErrors] = React.useState({});
+  const { handleLogin } = useLogin({ state, setState });
 
   const handleSubmit = React.useCallback(() => {
     dispatch(push('')); // This clears any query params    
-    console.log(validate)
-    /*
-    const newErrors = validate({ email, password });
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length === 0) {
-      handleLogin({ email, password });
-    }*/
     handleLogin({ email, password });
   }, [handleLogin, email, password, dispatch]);
 
   const handleChange = (name: string) => (event: any) => {
     setValues({ ...values, [name]: event.target.value });
-    setErrors({});
-  }
+    setState(prev => ({ ...prev, errors: {} }));
+  };
 
   const handleForgotPassword = React.useCallback(() => {
     alert('To be completed');
@@ -202,10 +179,6 @@ export default function Login() {
                   </div>
                 </Grid>
               </Grid>
-              <Divider />
-              <Typography color='error' align='center' className={classes.panelarea}>
-                {error && error}
-              </Typography>
             </Paper>
           </Grid>
         </Grid>
@@ -213,3 +186,4 @@ export default function Login() {
     </div>
   );
 }
+

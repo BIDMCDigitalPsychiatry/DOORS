@@ -4,7 +4,8 @@ import { useHistory, useLocation } from 'react-router';
 import { AppState } from '../../store';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useIsAdmin } from '../../hooks';
-import { publicUrl } from '../../helpers';
+import { publicUrl, copyToLower, isEmpty } from '../../helpers';
+import { Auth } from 'aws-amplify';
 
 export const useLayoutKey = key => useSelector((state: AppState) => state.layout[key], shallowEqual);
 export const useAuth = () => useLayoutKey('auth') || {};
@@ -46,20 +47,86 @@ export default function useRequest({ url, setState = undefined, onSuccess = unde
     return { handleRequest, error, setError }
 }
 
-export const useLogin = ({ setState = undefined, onSuccess = undefined }) => {
-    const dispatch = useDispatch();
+const handleValidation = ({ message }, dialogState) => {
+    var errors = copyToLower(dialogState.errors); // start with server generated errors, ensure all keys start with lowercase letter
+  
+    if (!isEmpty(message)) {
+      if (message.includes('password') || message.includes('Password')) {
+        errors['password'] = message;
+      } else {
+        errors['email'] = message;
+      }
+    }
+  
+    return errors;
+  };
 
-    const onLogin = React.useCallback(response => {
+export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefined }) => {
+  const dispatch = useDispatch();
+  const stateStr = JSON.stringify(state);
+  const setUser = useSetUser();
 
-        dispatch({ type: 'LOGIN', auth: response.data })
-        console.log('Successfully logged in.');
-        onSuccess && onSuccess();
-    }, [dispatch, onSuccess])
+  const handleLogin = React.useCallback(
+    ({ forgotPassword, enterNewPassword, confirmationCode, newPassword, email, password }) => {
+      if (forgotPassword) {
+        if (enterNewPassword) {
+          Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
+            .then(data => {
+              alert('Successfully updated password.');
+              Auth.signIn(email, newPassword)
+                .then(user => {
+                  console.log('Login success!');
+                  setUser(user);
+                  setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
+                })
+                .catch(err => {
+                  console.error('Error with Login');
+                  console.error(err);
+                  const newErrors = handleValidation({ message: err.message }, JSON.parse(stateStr));
+                  setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+                });
+            })
+            .catch(err => {
+              console.error('Error resetting password');
+              console.error(err);
+              const newErrors = handleValidation({ message: err.message }, JSON.parse(stateStr));
+              setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+            });
+        } else {
+          Auth.forgotPassword(email)
+            .then(data => {
+              alert('An email has been sent with instructions for resetting your password.');
+              setState(prev => ({ ...prev, loading: false, enterNewPassword: true }));
+            })
+            .catch(err => {
+              console.error('Error requesting reset');
+              const newErrors = handleValidation({ message: err.message }, JSON.parse(stateStr));
+              setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+            });
+        }
+      } else {
+        Auth.signIn(email, password)
+          .then(user => {
+            console.log('Login success!');
+            console.log({ user });
+            dispatch({ type: 'LOGIN', auth: user });
+            onSuccess && onSuccess();
+            setUser(user);
+            setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
+          })
+          .catch(err => {
+            console.error('Error with Login');
+            console.error(err);
+            const newErrors = handleValidation({ message: err.message }, JSON.parse(stateStr));
+            setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+          });
+      }
+    },
+    [dispatch, onSuccess, setUser, setState, stateStr]
+  );
 
-    const { handleRequest, error, setError } = useRequest({ url: '/auth/login?debug=true', setState, onSuccess: onLogin });
-
-    return { handleLogin: handleRequest, error, setError };
-}
+  return { handleLogin };
+};
 
 export const useSetUser = () => {
     const dispatch = useDispatch();
