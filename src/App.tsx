@@ -11,12 +11,16 @@ import AppRouter from './components/layout/AppRouter';
 import { theme, adminTheme } from './constants';
 import { useIsAdmin } from './hooks';
 import { useAdminMode } from './components/layout/hooks';
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.
 export const store = configureStore(history, initialState) as any; //Setup the global store object
 export const getState = store.getState;
 export const persistor = persistStore(store); //Setup the global persistor
+
+Amplify.configure(awsconfig);
 
 function ThemedViewPort(props: any) {
   const { children } = props;

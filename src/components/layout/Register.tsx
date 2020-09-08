@@ -7,8 +7,6 @@ import { isEmpty, validateEmail } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 import { useLogin, useHeight } from './hooks';
-import DialogButton from '../application/GenericDialog/DialogButton';
-import * as RegisterDialog from '../application/GenericDialog/Register';
 
 const useStyles = makeStyles(({ palette, mixins }: any) =>
   createStyles({
@@ -112,7 +110,11 @@ export default function Login() {
   }
 
   const handleForgotPassword = React.useCallback(() => {
-    alert('To be completed');
+    alert('To be completed')
+  }, []);
+
+  const handleCreateAccount = React.useCallback(() => {
+    alert('To be completed')
   }, []);
 
   // Per https://stackoverflow.com/questions/50604671/programmatically-disabling-chrome-auto-fill
@@ -142,7 +144,7 @@ export default function Login() {
               </Typography>
               <Divider />
               <Grid container spacing={1} direction='column' justify='center' alignItems='center' style={{ padding: 16 }}>
-                <Grid item>
+                <Grid item >
                   <TextField
                     autoComplete={noAutoComplete ? 'new-password' : undefined}
                     id='email'
@@ -156,11 +158,11 @@ export default function Login() {
                     helperText={errors['email']}
                     autoFocus={true}
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                   />
                 </Grid>
-                <Grid item>
+                <Grid item >
                   <TextField
                     autoComplete={noAutoComplete ? 'new-password' : undefined}
                     id='password'
@@ -175,32 +177,50 @@ export default function Login() {
                     helperText={errors['password']}
                     fullWidth
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                   />
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <Button ref={buttonRef} fullWidth={true} disabled={disabled} variant='contained' className={classes.button} onClick={handleSubmit}>
+                    <Button
+                      ref={buttonRef}
+                      fullWidth={true}
+                      disabled={disabled}
+                      variant='contained'
+                      className={classes.button}
+                      onClick={handleSubmit}
+                    >
                       Login
                     </Button>
                     {disabled && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                 </Grid>
                 <Grid item>
-                  <div className={classes.wrapper}>
-                    <DialogButton Module={RegisterDialog} size='medium' variant='contained' tooltip='' className={classes.button}>
+                  <div style={{ marginTop: 16 }}>
+                    <Link
+                      style={{ marginLeft: 8, cursor: 'pointer' }}
+                      underline='always'
+                      color='inherit'
+                      onClick={handleCreateAccount}
+                    >
                       Create New Account
-                    </DialogButton>
+                      </Link>
                   </div>
                 </Grid>
                 <Grid item>
                   <div style={{ marginTop: 16 }}>
-                    <Link style={{ marginLeft: 8, cursor: 'pointer' }} underline='always' color='inherit' onClick={handleForgotPassword}>
+                    <Link
+                      style={{ marginLeft: 8, cursor: 'pointer' }}
+                      underline='always'
+                      color='inherit'
+                      onClick={handleForgotPassword}
+                    >
                       Forgot Password
-                    </Link>
+                      </Link>
                   </div>
                 </Grid>
+
               </Grid>
               <Divider />
               <Typography color='error' align='center' className={classes.panelarea}>
