@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://cvanem.github.io/doors",
   "homepageNext": "https://doors.digitalpsych.org",
-  "adminUsers": "chris@greenlinkservices.com",
+  "adminUsers": "chris@greenlinkservices.com,ecamach1@bidmc.harvard.edu",
   "identityPoolId": "",
   "region": "us-east-1",
   "bucketName": "doors",
