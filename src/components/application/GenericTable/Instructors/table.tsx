@@ -4,6 +4,8 @@ import { MultiUserToolbar } from './toolbars';
 import { useInstructors } from './hooks';
 import * as Icons from '@material-ui/icons';
 import useTabSelector from '../../Selector/useTabSelector';
+import DialogButton from '../../GenericDialog/DialogButton';
+import * as AddInstructorDialog from '../../GenericDialog/AddInstructor';
 
 const tabs = [
   { id: 'Active', icon: Icons.GroupOutlined },
@@ -26,6 +28,11 @@ export default function Instructors({ name = 'Instructors', ...other }) {
       checkbox={true}
       select={true}
       MultiSelectToolbar={props => <MultiUserToolbar tab={tab} {...props} />}
+      buttons={[
+        <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} size='small' margin='dense' variant='action' tooltip=''>
+          Add New
+        </DialogButton>
+      ]}
       {...other}
     />
   );

@@ -23,6 +23,7 @@ import { checkEmpty, evalFunc } from '../../../helpers';
 import { useTableFilterValues } from '../GenericTable/store';
 import * as Icons from '@material-ui/icons';
 import { useFullScreen } from '../../../hooks';
+import ActionButton from '../../general/ActionButton';
 
 export interface DialogModuleProps {
   default: any;
@@ -229,7 +230,12 @@ const DialogButton = React.forwardRef(function DialogButton(
         }
       >
         <span>
-          {variant === 'menuitem' ? (
+          {variant === 'action' ? (
+            <ActionButton width={fullScreen ? 64 : 120} variant='contained' disabled={disabled} onClick={handleClick} size={size}>
+              {Icon && <Icon />}
+              {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>{children}</div>}
+            </ActionButton>
+          ) : variant === 'menuitem' ? (
             <MenuItem key={label} {...shared}>
               {children}
             </MenuItem>
