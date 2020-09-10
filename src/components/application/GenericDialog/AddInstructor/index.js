@@ -1,22 +1,15 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
-import { useDialogState } from '../useDialogState';
 import Label from '../../DialogField/Label';
 import MarginDivider from '../../DialogField/MarginDivider';
 
 export const title = 'Add Instructor';
 
 export default function AddInstructorDialog({ id = title }) {
-  const [dialogState, setState] = useDialogState(id);
-  const dialogStateStr = JSON.stringify(dialogState);
-
-  const handleSubmit = React.useCallback(
-    ({ email }, setValues) => {
-      // TODO: Add logic to invite user and enter invite code in database
-      alert('To be implemented');
-    },
-    [dialogStateStr, setState]
-  );
+  const handleSubmit = React.useCallback(({ email }, setValues) => {
+    // TODO: Add logic to invite user and enter invite code in database
+    alert('To be implemented');
+  }, []);
 
   return (
     <GenericDialog
