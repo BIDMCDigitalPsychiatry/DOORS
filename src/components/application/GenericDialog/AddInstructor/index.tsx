@@ -45,7 +45,7 @@ export default function AddInstructorDialog({ id = title }) {
       onSubmit={handleSubmit}
       fields={[
         {
-          label: `Enter instructor's email below and we will send them a link to activate their account.`,
+          label: `Enter instructor's email and we will send a link to activate their account:`,
           Field: Label
         },
         {
