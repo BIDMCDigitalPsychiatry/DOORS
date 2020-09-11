@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { Box, Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import calendar from '../../../images/calendar.png';
-import ActionButton from '../../general/ActionButton';
+import StyledButton from '../../general/StyledButton';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -61,7 +61,7 @@ export default function Session({
         </Grid>
       </Grid>
       <Box m={2} textAlign='center'>
-        <ActionButton onClick={onClick}>View</ActionButton>
+        <StyledButton onClick={onClick}>View</StyledButton>
       </Box>
     </Card>
   );

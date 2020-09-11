@@ -29,7 +29,7 @@ export default function Instructors({ name = 'Instructors', ...other }) {
       select={true}
       MultiSelectToolbar={props => <MultiUserToolbar tab={tab} {...props} />}
       buttons={[
-        <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} size='small' margin='dense' variant='action' tooltip=''>
+        <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} size='small' margin='dense' variant='styled' tooltip=''>
           Add New
         </DialogButton>
       ]}

@@ -8,7 +8,7 @@ import * as Icons from '@material-ui/icons';
 import { evalFunc } from '../../../helpers';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import { useFullScreen, useContentPadding } from '../../../hooks';
-import ActionButton from '../../general/ActionButton';
+import StyledButton from '../../general/StyledButton';
 
 export interface TableToolbarProps {
   name?: string;
@@ -150,7 +150,7 @@ function TableToolbar(props: TableToolbarProps) {
     <FormControl className={classes.formControl}>
       <Input
         disableUnderline={false}
-        classes={{        
+        classes={{
           underline: classes.underline
         }}
         value={searchtext ? searchtext : ''}
@@ -175,10 +175,10 @@ function TableToolbar(props: TableToolbarProps) {
 
   const searchbutton =
     search !== false && search ? (
-      <ActionButton width={fullScreen ? 64 : 120} variant='contained' size='small' onClick={handleOpenSearch}>
+      <StyledButton width={fullScreen ? 64 : 120} size='small' onClick={handleOpenSearch}>
         <Icons.Search />
         {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>Search</div>}
-      </ActionButton>
+      </StyledButton>
     ) : null;
 
   var Buttons = [searchbutton, ...evalFunc(buttons, props)].filter(b => b);

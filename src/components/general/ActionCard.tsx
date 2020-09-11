@@ -1,7 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { Box, Card, Typography, makeStyles } from '@material-ui/core';
-import ActionButton from './ActionButton';
+import StyledButton from './StyledButton';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -40,7 +40,7 @@ export default function ActionCard({
       </div>
       {onClick && (
         <Box m={2} textAlign='center'>
-          <ActionButton disabled={disabled} onClick={onClick}>{actionLabel}</ActionButton>
+          <StyledButton disabled={disabled} onClick={onClick}>{actionLabel}</StyledButton>
         </Box>
       )}
     </Card>

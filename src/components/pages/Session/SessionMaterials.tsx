@@ -5,7 +5,7 @@ import { useHandleChangeRoute } from '../../layout/hooks';
 import { useLocation } from 'react-router';
 import ActionCard from '../../general/ActionCard';
 import * as Icons from '@material-ui/icons';
-import ActionButton from '../../general/ActionButton';
+import StyledButton from '../../general/StyledButton';
 import SessionPresentationFile from './SessionPresentationFile';
  
 export default function SessionMaterials() {
@@ -75,7 +75,7 @@ export default function SessionMaterials() {
                   </Grid>
                 ))}
                 <Grid key={'add'} item lg={4} sm={6} xs={12}>
-                  <ActionButton>Add New</ActionButton>
+                  <StyledButton>Add New</StyledButton>
                 </Grid>
               </Grid>
             </Box>
@@ -95,7 +95,7 @@ export default function SessionMaterials() {
                   </Grid>
                 ))}
                 <Grid key={'add'} item lg={4} sm={6} xs={12}>
-                  <ActionButton>Add New</ActionButton>
+                  <StyledButton>Add New</StyledButton>
                 </Grid>
               </Grid>
             </Box>

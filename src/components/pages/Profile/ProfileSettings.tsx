@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { Grid, Box, Card, CardContent, makeStyles, Divider } from '@material-ui/core';
 import Text from '../../application/DialogField/Text';
-import ActionButton from '../../general/ActionButton';
+import StyledButton from '../../general/StyledButton';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {},
@@ -45,7 +45,7 @@ export default function ProfileSettings({ className = undefined, user, ...rest }
       </CardContent>
       <Divider />
       <Box p={2} display='flex' justifyContent='flex-end'>
-        <ActionButton onClick={() => alert('To be completed')}>Save</ActionButton>
+        <StyledButton onClick={() => alert('To be completed')}>Save</StyledButton>
       </Box>
     </Card>
   );

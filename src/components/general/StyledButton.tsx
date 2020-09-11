@@ -88,13 +88,13 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export type ActionButtonVariant = 'primary' | 'secondary' | 'text';
+export type StyledButtonVariant = 'primary' | 'secondary' | 'text';
 
-export default function ActionButton({
+export default function StyledButton({
   disabled = undefined,
   pressed = undefined,
   width = undefined,
-  variant = 'primary' as ActionButtonVariant,
+  variant = 'primary' as StyledButtonVariant,
   size = 'large' as any,
   children,
   ...other
@@ -105,7 +105,7 @@ export default function ActionButton({
 
   const className = pressed ? pressedClass : rootClass;
   return (
-    <Button disabled={disabled} color='default' variant={variant === 'text' ? variant : 'outlined'} size={size} className={className} {...other}>
+    <Button disabled={disabled} color='default' variant={variant === 'text' ? variant : 'contained'} size={size} className={className} {...other}>
       {variant === 'text' ? <u>{children}</u> : children}
     </Button>
   );
