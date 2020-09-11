@@ -5,7 +5,8 @@
   "homepage": "https://cvanem.github.io/doors",
   "homepageNext": "https://doors.digitalpsych.org",
   "adminUsers": "chris@greenlinkservices.com,ecamach1@bidmc.harvard.edu",
-  "identityPoolId": "",
+  "sourceEmailAddress": "doors@psych.digital",
+  "identityPoolId": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
   "region": "us-east-1",
   "bucketName": "doors",
   "dependencies": {
@@ -44,7 +45,8 @@
     "redux": "4.0.5",
     "redux-persist": "6.0.0",
     "redux-thunk": "2.3.0",
-    "typescript": "3.9.5"
+    "typescript": "3.9.5",
+    "uuid": "8.3.0"
   },
   "devDependencies": {
     "fs-extra": "9.0.0"

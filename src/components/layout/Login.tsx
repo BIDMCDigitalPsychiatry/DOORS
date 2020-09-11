@@ -27,9 +27,6 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
     panelarea: {
       background: '#F5F5F5'
     },
-    message: {
-      color: 'green'
-    },
     button: {
       background: palette.primary.main,
       color: palette.common.white,
@@ -39,7 +36,6 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
       },
       marginTop: 8
     },
-    toolbar: mixins.toolbar,
     wrapper: {
       width: 224
     },
@@ -49,9 +45,6 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
       left: '50%',
       marginTop: -8,
       marginLeft: -12
-    },
-    container: {
-      overflowY: 'auto'
     }
   })
 );
@@ -72,7 +65,7 @@ export default function Login() {
 
   const [state, setState] = React.useState({ loading: false, errors: {} });
   const { loading, errors } = state;
-  
+
   const { handleLogin } = useLogin({ state, setState });
 
   const handleSubmit = React.useCallback(() => {
@@ -182,4 +175,3 @@ export default function Login() {
     </div>
   );
 }
-

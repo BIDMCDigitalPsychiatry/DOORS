@@ -2,13 +2,15 @@ import React from 'react';
 import GenericDialog from '../GenericDialog';
 import Label from '../../DialogField/Label';
 import MarginDivider from '../../DialogField/MarginDivider';
+import { sendInstructorInvite } from './helpers';
 
 export const title = 'Add Instructor';
 
 export default function AddInstructorDialog({ id = title }) {
   const handleSubmit = React.useCallback(({ email }, setValues) => {
     // TODO: Add logic to invite user and enter invite code in database
-    alert('To be implemented');
+    console.log(email);
+    sendInstructorInvite({ email });
   }, []);
 
   return (
@@ -19,7 +21,7 @@ export default function AddInstructorDialog({ id = title }) {
       onSubmit={handleSubmit}
       fields={[
         {
-          label: `Enter the new instructor's email below and we will send a link to activate their account.`,
+          label: `Enter instructor's email below and we will send them a link to activate their account.`,
           Field: Label
         },
         {
