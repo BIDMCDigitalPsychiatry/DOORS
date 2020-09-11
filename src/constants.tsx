@@ -18,7 +18,7 @@ const shared = {
     },
     secondary: {
       light: '#FAFAFA', // SOft Gray
-      main: '#FBFDFF', // Cold Gray
+      main: '#AAB4BA', // Cold Gray
       dark: '#384954' // Deep Cold Gray
     }
   },

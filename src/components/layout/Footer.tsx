@@ -72,9 +72,9 @@ export default function Footer() {
           <Toolbar className={classes.bottomToolBar}>
             <Grid container justify='center' spacing={2}>
               <Grid item xs={4}>
-                <Typography noWrap variant='body2'>
+                <Link color='inherit' className={classes.pointer} onClick={handleChangeRoute('/StyleGuide')}>
                   Under Construction
-                </Typography>
+                </Link>
               </Grid>
               <Grid item xs={8}>
                 <Grid container justify='flex-end' spacing={1}>

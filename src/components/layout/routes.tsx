@@ -12,9 +12,11 @@ import SessionClass from '../pages/Session/SessionClass';
 import SessionMaterials from '../pages/Session/SessionMaterials';
 import SessionMembers from '../pages/Session/SessionMembers';
 import TermsAndConditions from '../pages/TermsAndConditions';
+import StyleGuide from '../pages/StyleGuide';
 
 const Routes = () => (
   <Switch>
+    <Route exact path={publicUrl('/StyleGuide')} component={StyleGuide} />
     <Route exact path={publicUrl('/TermsAndConditions')} component={TermsAndConditions} />
     <Route exact path={publicUrl('/Instructors')} component={Instructors} />
     <Route exact path={publicUrl('/Profile')} component={Profile} />
