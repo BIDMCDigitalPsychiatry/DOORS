@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Toolbar, Link, AppBar, Typography, Grid } fro
 import { theme, beta } from '../../constants';
 import { useFullScreen } from '../../hooks';
 import { useSelector } from 'react-redux';
+import { useHandleChangeRoute } from './hooks';
 
 const useStyles = makeStyles(({ palette, zIndex }: any) =>
   createStyles({
@@ -11,7 +12,7 @@ const useStyles = makeStyles(({ palette, zIndex }: any) =>
       bottom: 0,
       zIndex: zIndex.drawer + 1,
       background: palette.primary.dark,
-      color: palette.common.white,
+      color: palette.common.white
     },
     bottomAppBarBeta: {
       top: 0,
@@ -21,6 +22,9 @@ const useStyles = makeStyles(({ palette, zIndex }: any) =>
     },
     bottomToolBar: {
       minHeight: (theme as any).layout.footerheight
+    },
+    pointer: {
+      cursor: 'pointer'
     }
   } as any)
 );
@@ -30,6 +34,7 @@ export default function Footer() {
   const fullScreen = useFullScreen();
 
   const username = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? 'Username');
+  const handleChangeRoute = useHandleChangeRoute();
 
   return (
     <>
@@ -54,8 +59,8 @@ export default function Footer() {
             )}
             <Grid item xs={fullScreen ? 7 : 3} zeroMinWidth>
               <Typography noWrap variant='body2' align='right'>
-                <Link href='https://www.bidmc.org/' target='_blank' variant='body2' color='inherit'>
-                  ©2020 Beth Israel Deaconess Medical Center
+                <Link className={classes.pointer} variant='body2' color='inherit' onClick={handleChangeRoute('/TermsAndConditions')}>
+                  Terms and Conditions
                 </Link>
               </Typography>
             </Grid>

@@ -11,9 +11,11 @@ import SessionDashboard from '../pages/Session/SessionDashboard';
 import SessionClass from '../pages/Session/SessionClass';
 import SessionMaterials from '../pages/Session/SessionMaterials';
 import SessionMembers from '../pages/Session/SessionMembers';
+import TermsAndConditions from '../pages/TermsAndConditions';
 
 const Routes = () => (
   <Switch>
+    <Route exact path={publicUrl('/TermsAndConditions')} component={TermsAndConditions} />
     <Route exact path={publicUrl('/Instructors')} component={Instructors} />
     <Route exact path={publicUrl('/Profile')} component={Profile} />
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />
@@ -24,6 +26,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/SessionClass')} component={SessionClass} />
     <Route exact path={publicUrl('/SessionMaterials')} component={SessionMaterials} />
     <Route exact path={publicUrl('/SessionMembers')} component={SessionMembers} />
+
     <Route path={'/'} component={Sessions} />
   </Switch>
 );
