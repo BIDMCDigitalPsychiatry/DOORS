@@ -1,20 +1,25 @@
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import { montserrat, archivo } from './fonts';
 
 const basetheme = createMuiTheme({});
 export const beta = true;
 
 const shared = {
+  typography: {
+    fontFamily: 'Montserrat, Archivo',
+    //fontSize: 12
+  },
   palette: {
     type: 'light',
     primary: {
-      main: '#00A2EF',
-      light: '#65C6F4',
-      dark: '#005077'
+      light: '#65C6F4', // Soft Blue
+      main: '#00A2EF', // Vivid Blue
+      dark: '#005077' // Color used in bottom toolbar
     },
     secondary: {
-      main: '#616161',
-      light: '#8E8E8E',
-      dark: '#373737'
+      light: '#FAFAFA', // SOft Gray
+      main: '#FBFDFF', // Cold Gray
+      dark: '#384954' // Deep Cold Gray
     }
   },
   layout: {
@@ -31,6 +36,11 @@ const shared = {
     tabheight: 116 // Height of the nav pills tab section
   },
   overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '@font-face': [montserrat, archivo]
+      }
+    },
     MuiTooltip: {
       // Name of the component ⚛️ / style sheet
       tooltip: {
