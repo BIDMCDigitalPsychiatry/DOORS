@@ -12,25 +12,30 @@ export default function AddInstructorDialog({ id = title }) {
   const [, setState] = useDialogState(id);
   const [, setSnackbar] = useSnackBar();
 
-  const handleClose = React.useCallback(() => {
-    setState(prev => ({ ...prev, open: false, loading: false }));
-  }, [setState]);
+  const handleClose = React.useCallback(
+    (props = undefined) => {
+      props && setSnackbar(props);
+      setState(prev => ({ ...prev, open: false, loading: false }));
+    },
+    [setState, setSnackbar]
+  );
 
   const onError = React.useCallback(() => {
-    setSnackbar({ open: true, variant: 'success', message: 'Error sending invite' });
-    handleClose();
+    handleClose({ open: true, variant: 'success', message: 'Error sending invite' });
   }, [handleClose]);
 
   const onSuccess = React.useCallback(() => {
-    setSnackbar({ open: true, variant: 'success', message: 'Invite successfully sent.' });
-    handleClose();
-  }, [handleClose, setSnackbar]);
+    handleClose({ open: true, variant: 'success', message: 'Successfully sent invite' });
+  }, [handleClose]);
 
-  const handleSubmit = React.useCallback(({ email }, setValues) => {
-    // TODO: Add logic to invite user and enter invite code in database
-    console.log(email);
-    sendInstructorInvite({ email, onSuccess, onError });
-  }, []);
+  const handleSubmit = React.useCallback(
+    ({ email }) => {
+      // TODO: Add logic to invite user and enter invite code in database
+      console.log(email);
+      sendInstructorInvite({ email, onSuccess, onError });
+    },
+    [onError, onSuccess]
+  );
 
   return (
     <GenericDialog

@@ -39,7 +39,7 @@ export const sendInstructorInvite = ({ email, role = 'Instructor', onSuccess = u
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: `Doors - ${role} Invite`
+        Data: `Invitation to the Doors web application! ${role}`
       }
     },
     Source: sourceEmailAddress /* required */,
