@@ -6,7 +6,8 @@
   "homepageNext": "https://doors.digitalpsych.org",
   "adminUsers": "chris@greenlinkservices.com,ecamach1@bidmc.harvard.edu",
   "sourceEmailAddress": "doors@psych.digital",
-  "identityPoolId": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
+  "identityPoolIdEmail": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
+  "identityPoolId": "us-east-1:e3a43f57-52bb-4180-9332-95340a48a342",
   "region": "us-east-1",
   "bucketName": "doors",
   "dependencies": {
@@ -33,7 +34,7 @@
     "localforage": "1.7.4",
     "mui-virtualized-table": "3.0.0-6",
     "password-validator": "5.1.0",
-    "react": "16.13.1",    
+    "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-draggable": "4.4.3",
     "react-number-format": "4.4.1",
