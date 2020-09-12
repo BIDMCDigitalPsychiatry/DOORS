@@ -4,7 +4,7 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.svg';
-import { useAppBarHeightRef, useChangeRoute, useLogout } from './hooks';
+import { useAppBarHeightRef, useChangeRoute, useLeftDrawer, useLogout } from './hooks';
 import { useSignedIn, useFullScreen, useContentPadding } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
@@ -16,9 +16,10 @@ import * as HelpDialog from '../application/GenericDialog/Help';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 
-const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
+const useStyles = makeStyles(({ breakpoints, palette, spacing, zIndex, layout }: any) =>
   createStyles({
     appBar: ({ contentPadding }: any) => ({
+      zIndex: zIndex.drawer + 1,
       paddingTop: beta ? layout.footerheight : 0,
       color: palette.primary.main,
       background: palette.common.white,
@@ -44,6 +45,13 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     },
     toolbar: {
       background: palette.white
+    },
+    menuButton: {
+      marginLeft: 0,
+      color: palette.primary.main,
+      [breakpoints.up('md')]: {
+        display: 'none'
+      }
     }
   })
 );
@@ -67,6 +75,9 @@ export default function ApplicationBar() {
 
   const setUser = useSetUser();
   const onLogout = useLogout();
+
+  const [, setLeftDrawerOpen] = useLeftDrawer();
+  const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
 
   const handleLogout = React.useCallback(() => {
     setUser(undefined); // Reset user information
@@ -110,11 +121,17 @@ export default function ApplicationBar() {
   }, [setTabSelector, prevId]);
 
   const fullScreen = useFullScreen('xs');
+  const [, , leftDrawerEnabled] = useLeftDrawer();
 
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={1} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
       {renderDialogModule({ ...HelpDialog, onClose: handleHelpClose })}
       <Toolbar className={classes.toolbar} disableGutters={true}>
+        {leftDrawerEnabled && (
+          <IconButton color='inherit' aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton}>
+            <Icons.Menu />
+          </IconButton>
+        )}
         <Grid container alignItems='center' spacing={0}>
           <Grid item>
             <img className={classes.logo} src={logo} alt='logo' onClick={handleLogoClick} />

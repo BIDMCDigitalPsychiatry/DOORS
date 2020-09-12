@@ -6,6 +6,7 @@ export interface State {
   height?: number;
   width?: number;
   appBarHeight?: number;
+  leftDrawerOpen?: boolean;
   adminMode?: boolean;
 }
 
@@ -14,6 +15,7 @@ const defaultState = {
   width: 0,
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
+  leftDrawerOpen: false,
   adminMode: false
 };
 
@@ -22,14 +24,14 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
     case 'LOGIN':
       return {
         ...state,
-        auth: action.auth,
+        auth: action.auth
       };
     case 'LOGOUT':
       return {
         ...defaultState,
         auth: undefined,
         height: state.height, //keep keight and width, otherwise the page will render incorrectly
-        width: state.width,
+        width: state.width
       };
     case 'SET_USER':
       return {
@@ -40,6 +42,11 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
       return {
         ...state,
         appBarHeight: action.height
+      };
+    case 'UPDATE_LAYOUT':
+      return {
+        ...state,
+        ...action.payload
       };
     case 'RESIZE_VIEWPORT':
       return {

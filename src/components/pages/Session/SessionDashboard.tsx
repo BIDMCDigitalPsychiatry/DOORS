@@ -11,12 +11,12 @@ const actionCards = [
   { title: 'Edit Materials', description: 'Review and edit class materials', route: '/SessionMaterials' },
   { title: 'Class Roster', description: 'View current participants and new members', route: '/SessionMembers' }
 ];
- 
+
 export default function SessionDashboard({ supertitle }) {
   const { state }: any = useLocation();
-  const { title, subtitle, skills = [] } = state;
-  const userType = useUserType();    
-  const handleChangeRoute = useHandleChangeRoute();  
+  const { title, subtitle, skills = [] } = state ?? {};
+  const userType = useUserType();
+  const handleChangeRoute = useHandleChangeRoute();
   return (
     <ChildPage
       backLabel='Back to Sessions'
@@ -31,7 +31,9 @@ export default function SessionDashboard({ supertitle }) {
         </Typography>
         <Box mt={1} ml={1} mb={3}>
           {skills.map(s => (
-            <Typography key={s}variant='subtitle1'>• {s}</Typography>
+            <Typography key={s} variant='subtitle1'>
+              • {s}
+            </Typography>
           ))}
         </Box>
         <Grid container spacing={3}>

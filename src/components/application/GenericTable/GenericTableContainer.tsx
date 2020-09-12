@@ -8,7 +8,6 @@ import { evalFunc } from '../../../helpers';
 import { useHeight, useAppBarHeight } from '../../layout/hooks';
 import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
 import { useLocation } from 'react-router';
-import { noPadPaths } from '../../layout/Layout';
 import { useContentPadding } from '../../../hooks';
 
 const GenericTable = React.lazy(() => import('./GenericTable'));
@@ -61,7 +60,8 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     ...tableProps
   } = props;
 
-  const { layout } = useTheme();
+  const { layout } : any= useTheme();
+  const { noPadPaths } = layout;
   const layoutHeight = useHeight();
   const height = Height ? Height : layoutHeight;
   const columns = evalFunc(Columns, props);

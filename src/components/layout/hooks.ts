@@ -1,3 +1,4 @@
+import { useFullScreen } from './../../hooks';
 import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
 import { useHistory, useLocation } from 'react-router';
@@ -6,6 +7,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useIsAdmin } from '../../hooks';
 import { publicUrl, copyToLower, isEmpty } from '../../helpers';
 import { Auth } from 'aws-amplify';
+import { useTheme } from '@material-ui/core';
 
 export const useLayoutKey = key => useSelector((state: AppState) => state.layout[key], shallowEqual);
 export const useAuth = () => useLayoutKey('auth') || {};
@@ -136,7 +138,7 @@ export const useAcceptInvite = ({ setState = undefined, onSuccess = undefined })
   const handleAcceptInvite = React.useCallback(
     ({ uuid }) => {
       setState(prev => ({ ...prev, open: false, loading: true, showErrors: false, errors: {} }));
-      // Set flag in database to accept invite
+      // TODO Set flag in database to accept invite
       onSuccess && onSuccess();
     },
     [onSuccess, setState]
@@ -210,4 +212,28 @@ export const useChangeRoute = () => {
     },
     [history, pathname]
   );
+};
+
+export const useLayout = (): any[] => {
+  const dispatch = useDispatch();
+  const layout = useSelector((state: AppState) => state.layout, shallowEqual);
+  const setLayout = React.useCallback(
+    payload => {
+      dispatch({ type: 'UPDATE_LAYOUT', payload });
+    },
+    [dispatch]
+  );
+  return [layout, setLayout];
+};
+
+export const useLeftDrawer = (): any[] => {
+  const { pathname } = useLocation();
+  const [{ leftDrawerOpen }, setLayout] = useLayout();
+  const { layout }: any = useTheme();
+  const fullScreen = useFullScreen();
+  const { drawerPaths } = layout;
+  const leftDrawerEnabled = drawerPaths.find(p => p === pathname) ? true : false;
+  console.log({ fullScreen, leftDrawerEnabled, leftDrawerOpen });
+  const setLeftDrawerOpen = React.useCallback((open = !leftDrawerOpen) => setLayout({ leftDrawerOpen: open }), [setLayout, leftDrawerOpen]);
+  return [leftDrawerEnabled && (fullScreen ? leftDrawerOpen : true), setLeftDrawerOpen, leftDrawerEnabled];
 };
