@@ -7,7 +7,7 @@ import { useLocation } from 'react-router';
 import { useUserType } from '../../../hooks';
 
 const actionCards = [
-  { title: 'Class Mode', description: 'View the class materials the way your students will', route: '/SessionClass', disabled: false },
+  { title: 'Class Mode', description: 'View the class materials the way your students will', route: '/Pre-Survey', disabled: false },
   { title: 'Edit Materials', description: 'Review and edit class materials', route: '/SessionMaterials' },
   { title: 'Class Roster', description: 'View current participants and new members', route: '/SessionMembers' }
 ];

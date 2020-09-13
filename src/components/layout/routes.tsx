@@ -13,6 +13,11 @@ import SessionMaterials from '../pages/Session/SessionMaterials';
 import SessionMembers from '../pages/Session/SessionMembers';
 import TermsAndConditions from '../pages/TermsAndConditions';
 import StyleGuide from '../pages/StyleGuide';
+import PostSurvey from '../pages/Class/PostSurvey';
+import PreSurvey from '../pages/Class/PreSurvey';
+import Lesson from '../pages/Class/Lesson';
+import Resources from '../pages/Class/Resources';
+import Congratulations from '../pages/Class/Congratulations';
 
 const Routes = () => (
   <Switch>
@@ -28,6 +33,11 @@ const Routes = () => (
     <Route exact path={publicUrl('/SessionClass')} component={SessionClass} />
     <Route exact path={publicUrl('/SessionMaterials')} component={SessionMaterials} />
     <Route exact path={publicUrl('/SessionMembers')} component={SessionMembers} />
+    <Route exact path={publicUrl('/Lesson')} component={Lesson} />
+    <Route exact path={publicUrl('/Pre-Survey')} component={PreSurvey} />
+    <Route exact path={publicUrl('/Post-Survey')} component={PostSurvey} />
+    <Route exact path={publicUrl('/Resources')} component={Resources} />
+    <Route exact path={publicUrl('/Congratulations')} component={Congratulations} />
 
     <Route path={'/'} component={Sessions} />
   </Switch>

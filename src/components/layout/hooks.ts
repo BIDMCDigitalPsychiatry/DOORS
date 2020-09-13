@@ -8,6 +8,7 @@ import { useIsAdmin } from '../../hooks';
 import { publicUrl, copyToLower, isEmpty } from '../../helpers';
 import { Auth } from 'aws-amplify';
 import { useTheme } from '@material-ui/core';
+import { homepage } from '../../../package.json';
 
 export const useLayoutKey = key => useSelector((state: AppState) => state.layout[key], shallowEqual);
 export const useAuth = () => useLayoutKey('auth') || {};
@@ -232,8 +233,9 @@ export const useLeftDrawer = (): any[] => {
   const { layout }: any = useTheme();
   const fullScreen = useFullScreen();
   const { drawerPaths } = layout;
-  const leftDrawerEnabled = drawerPaths.find(p => p === pathname) ? true : false;
-  console.log({ fullScreen, leftDrawerEnabled, leftDrawerOpen });
+  const parts = (homepage ?? '').split('/');
+  const lastPart = (parts.length > 0 ? parts[parts.length - 1] : '').replace('/', '');
+  const leftDrawerEnabled = drawerPaths.find(p => p === pathname || `/${lastPart}/${p}` === pathname) ? true : false;
   const setLeftDrawerOpen = React.useCallback((open = !leftDrawerOpen) => setLayout({ leftDrawerOpen: open }), [setLayout, leftDrawerOpen]);
   return [leftDrawerEnabled && (fullScreen ? leftDrawerOpen : true), setLeftDrawerOpen, leftDrawerEnabled];
 };

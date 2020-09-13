@@ -1,126 +1,91 @@
 import React from 'react';
-import TreeView from '@material-ui/lab/TreeView';
-import TreeItem, { TreeItemProps } from '@material-ui/lab/TreeItem';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import * as Icons from '@material-ui/icons';
-import { makeStyles, createStyles, Theme, Typography } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Stepper, Step, StepLabel, Box } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { useHandleChangeRoute } from './hooks';
+import { useLocation } from 'react-router';
+import Header from '../layout/Header';
+import DialogButton from '../application/GenericDialog/DialogButton';
 
-type StyledTreeItemProps = TreeItemProps & {
-  bgColor?: string;
-  color?: string;
-  labelIcon: React.ElementType<SvgIconProps>;
-  labelInfo?: string;
-  labelText: string;
-  indent: number;
-};
-
-const useTreeItemStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      color: theme.palette.text.secondary,
-      '&:focus > $content': {
-        backgroundColor: `var(--tree-view-bg-color, ${theme.palette.grey[400]})`,
-        color: 'var(--tree-view-color)'
-      }
+      width: '100%'
     },
-    content: {
-      color: theme.palette.text.secondary,
-      borderTopRightRadius: theme.spacing(2),
-      borderBottomRightRadius: theme.spacing(2),
-      paddingRight: theme.spacing(1),
-      fontWeight: theme.typography.fontWeightMedium,
-      '$expanded > &': {
-        fontWeight: theme.typography.fontWeightRegular
-      }
-    },
-    groupOld: {
-      marginLeft: 0,
-      '& $content': {
-        paddingLeft: theme.spacing(2)
-      }
-    },
-    group: (props: ComponentProps) => ({
-      paddingLeft: (props as any).indent
-    }),
-    expanded: {},
-    label: {
-      fontWeight: 'inherit',
-      color: 'inherit'
-    },
-    labelRoot: {
-      display: 'flex',
-      alignItems: 'center'
-    },
-    labelIcon: {
+    button: {
+      marginTop: theme.spacing(1),
       marginRight: theme.spacing(1)
     },
-    labelText: {
-      fontWeight: 'inherit',
-      flexGrow: 1
+    actionsContainer: {
+      marginBottom: theme.spacing(2)
+    },
+    resetContainer: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2)
+    },
+    container: {
+      marginTop: 8,
+      marginBottom: 8
+    },
+    header: {
+      color: theme.palette.primary.dark
     }
   })
 );
 
-function StyledTreeItem(props: StyledTreeItemProps) {
-  const classes = useTreeItemStyles(props);
-  const { labelText, labelIcon: LabelIcon, labelInfo, color, bgColor, ...other } = props;
+export const steps = [{ label: 'Pre-Survey' }, { label: 'Lesson' }, { label: 'Post-Survey' }, { label: 'Resources' }];
 
-  return (
-    <TreeItem
-      label={
-        <div className={classes.labelRoot}>
-          <LabelIcon color='inherit' className={classes.labelIcon} />
-          <Typography variant='body2' className={classes.labelText}>
-            {labelText}
-          </Typography>
-          <Typography variant='caption' color='inherit'>
-            {labelInfo}
-          </Typography>
-        </div>
-      }
-      style={
-        {
-          '--tree-view-color': color,
-          '--tree-view-bg-color': bgColor
-        } as any
-      }
-      classes={{
-        root: classes.root,
-        content: classes.content,
-        expanded: classes.expanded,
-        group: classes.group,
-        label: classes.label
-      }}
-      {...other}
-    />
-  );
-}
+export default function VerticalLinearStepper() {
+  const classes = useStyles();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const { pathname } = useLocation();
 
-interface ComponentProps {
-  changeRoute?: (route: string) => void;
-  route?: string;
-  children?: any;
-  classes?: any;
-}
+  React.useEffect(() => {
+    var idx = steps.findIndex(s => pathname.endsWith(`/${s.label}`));
+    if (idx !== activeStep && idx >= 0) setActiveStep(idx);
+  }, [activeStep, pathname]);
 
-const useStyles = makeStyles({
-  root: {
-    height: 216,
-    flexGrow: 1,
-    maxWidth: 400
-  }
-});
+  /*const handleNext = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  };
 
-export default function LeftDrawerContent(props: ComponentProps) {
-  const classes = useStyles({});
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };*/
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
   const changeRoute = useHandleChangeRoute();
+
   return (
-    <TreeView className={classes.root} defaultCollapseIcon={<Icons.ExpandMore />} defaultExpandIcon={<Icons.ChevronRight />}>
-      <StyledTreeItem nodeId='presurvey' labelText='Pre-Survey' labelIcon={Icons.CheckCircle} onClick={changeRoute('/SessionClass')} indent={0} />
-      <StyledTreeItem nodeId='lesson' labelText='Lesson' labelIcon={Icons.CheckCircle} onClick={changeRoute('/SessionClass')} indent={0} />
-      <StyledTreeItem nodeId='postsurvey' labelText='Post-Survey' labelIcon={Icons.CheckCircle} onClick={changeRoute('/SessionClass')} indent={0} />
-      <StyledTreeItem nodeId='resources' labelText='Resources' labelIcon={Icons.CheckCircle} onClick={changeRoute('/SessionClass')} indent={0} />
-    </TreeView>
+    <>
+      <Box p={1}>
+        <DialogButton variant='link' linkVariant='subtitle1' onClick={changeRoute('/Sessions')}>
+          {`<  Back to Sessions`}
+        </DialogButton>
+        <Box mt={2}>
+          <Header supertitle={'Session 3'} subtitle={'Managing Responsibilities'} />
+        </Box>
+      </Box>
+      <Stepper activeStep={activeStep} orientation='vertical'>
+        {steps.map(({ label }, index) => (
+          <Step key={label}>
+            <StepLabel onClick={changeRoute(`/${label}`)}>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      {activeStep === steps.length && (
+        <Paper square elevation={0} className={classes.resetContainer}>
+          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Button onClick={handleReset} className={classes.button}>
+            Reset
+          </Button>
+        </Paper>
+      )}
+    </>
   );
 }

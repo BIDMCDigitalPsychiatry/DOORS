@@ -28,12 +28,6 @@ const useStyles = makeStyles(({ breakpoints, mixins, layout }: any) =>
   })
 );
 
-const RegularDrawer = () => (
-  <div style={{ padding: 8 }}>
-    <LeftDrawerContent />
-  </div>
-);
-
 const LeftDrawer = () => {
   const height = useHeight();
   const fullScreen = useFullScreen();
@@ -55,7 +49,7 @@ const LeftDrawer = () => {
           keepMounted: true // Better open performance on mobile.
         }}
       >
-        <RegularDrawer />
+        <LeftDrawerContent />
       </Drawer>
       <Drawer
         classes={{
@@ -64,7 +58,7 @@ const LeftDrawer = () => {
         variant='persistent'
         open={leftDrawer}
       >
-        <RegularDrawer />
+        <LeftDrawerContent />
       </Drawer>
     </nav>
   );
