@@ -26,7 +26,7 @@ const isMatch = (obj, re) => {
     return obj.getSearchValues().match(re);
   } else {
     for (var attrname in obj) {
-      if (['_id', 'id', 'key', 'getValues', 'edit', 'action'].includes(attrname.toLowerCase())) continue;
+      if (['id', 'id', 'key', 'getValues', 'edit', 'action'].includes(attrname.toLowerCase())) continue;
       if (obj[attrname])
         if (isNaN(obj[attrname])) {
           //only search non numeric values

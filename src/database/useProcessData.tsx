@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { dynamo } from './dbConfig';
+import { dynamo } from '../App';
 import { updateSnackBar } from '../components/application/SnackBar/store';
 import { useUpdateDatabase } from './useUpdateDatabase';
 
@@ -38,7 +38,7 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
       } else {
         Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
         onSuccess && onSuccess(data, Data);
-        (Action === 'c' || Action === 'u' || Action === 'd') && updateDatabase({ table: Table, id: Data._id, payload: { ...Data, _rev: Data._rev } }); // write data to local state, make sure to update the revision as well so subsequent writes won't throw a document conflict error
+        (Action === 'c' || Action === 'u' || Action === 'd') && updateDatabase({ table: Table, id: Data.id, payload: { ...Data, _rev: Data._rev } }); // write data to local state, make sure to update the revision as well so subsequent writes won't throw a document conflict error
       }
     });
   } else {
