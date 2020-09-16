@@ -5,6 +5,10 @@ import MarginDivider from '../../DialogField/MarginDivider';
 import { sendInstructorInvite } from './helpers';
 import { useDialogState } from '../useDialogState';
 import { useSnackBar } from '../../SnackBar/useSnackBar';
+import useProcessData from '../../../../database/useProcessData';
+import { tables } from '../../../../database/dbConfig';
+import Instructor from '../../../../database/models/Instructor';
+import { uuid } from '../../../../helpers';
 
 export const title = 'Add Instructor';
 
@@ -20,6 +24,33 @@ export default function AddInstructorDialog({ id = title }) {
     [setState, setSnackbar]
   );
 
+  const processData = useProcessData();
+
+  const submitData = React.useCallback(
+    ({ values, OnSuccess = undefined }) => {
+      const { email } = values;
+      const instructor: Instructor = {
+        id: uuid(),
+        email,
+        parentId: '', // TODO add current user's id as parent
+        created: new Date().getTime()
+      };
+
+      setState(prev => ({ ...prev, loading: true }));
+
+      processData({
+        Model: tables.instructors,
+        Action: 'c',
+        Data: instructor,
+        onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+        onSuccess: () => {
+          OnSuccess && OnSuccess();          
+        }
+      });
+    },
+    [setState, processData]
+  );
+
   const onError = React.useCallback(() => {
     handleClose({ open: true, variant: 'success', message: 'Error sending invite' });
   }, [handleClose]);
@@ -28,14 +59,14 @@ export default function AddInstructorDialog({ id = title }) {
     handleClose({ open: true, variant: 'success', message: 'Successfully sent invite' });
   }, [handleClose]);
 
-  const handleSubmit = React.useCallback(
-    ({ email }) => {
-      // TODO: Add logic to invite user and enter invite code in database
-      console.log(email);
-      sendInstructorInvite({ email, onSuccess, onError });
+  const onSubmitSuccess = React.useCallback(
+    values => () => {
+      sendInstructorInvite({ email: values.email, onSuccess, onError });
     },
     [onError, onSuccess]
   );
+
+  const handleSubmit = React.useCallback(values => submitData({ values, OnSuccess: onSubmitSuccess(values) }), [submitData, onSubmitSuccess]);
 
   return (
     <GenericDialog
