@@ -1,6 +1,7 @@
 import { AppState } from './store';
 import { theme } from './constants';
 import packageJson from '../package.json';
+import { v4 as uuidv4 } from 'uuid';
 
 export function hostAddress(append?) {
   return (
@@ -155,13 +156,7 @@ export function updateState(state, { payload, id }) {
 }
 
 export function uuid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    .replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0,
-        v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    })
-    .replace(/-/g, '');
+  return uuidv4();
 }
 
 // Returns minutes elapsed from time to current time

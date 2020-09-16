@@ -1,4 +1,4 @@
-import { region, identityPoolIdEmail, sourceEmailAddress } from '../../../../../package.json';
+import { region, identityPoolIdUnauth, sourceEmailAddress } from '../../../../../package.json';
 import { hostAddress } from '../../../../helpers';
 import { v4 as uuidv4 } from 'uuid';
 export const AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
@@ -6,7 +6,7 @@ export const AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
 // Initialize the Amazon Cognito credentials provider
 AWS.config.region = region;
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: identityPoolIdEmail
+  IdentityPoolId: identityPoolIdUnauth
 });
 
 export const sendInstructorInvite = ({ email, role = 'Instructor', onSuccess = undefined, onError = undefined }) => {
