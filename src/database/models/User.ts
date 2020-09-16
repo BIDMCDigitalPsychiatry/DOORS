@@ -1,12 +1,12 @@
 export default interface User {
-  _id: string; // unique identifier
+  id: string; // unique identifier
   _rev: string;
   email: string;
-  name: string;  
+  name: string;
 }
 
-export default interface InstructorInvite {
-  _id: string; // unique identifier
+export default interface Instructor {
+  id: string; // unique identifier
   _rev: string;
   parentId: string; // user id of inviting user
   email: string; // email of user that invite corresponds to
@@ -16,8 +16,8 @@ export default interface InstructorInvite {
   deleted: boolean; // If set to true item has been deleted, keep in database
 }
 
-export default interface StudentInvite {
-  _id: string; // unique identifier
+export default interface Student {
+  id: string; // unique identifier
   _rev: string;
   parentId: string; // user id of inviting user
   email: string; // email of user that invite corresponds to
