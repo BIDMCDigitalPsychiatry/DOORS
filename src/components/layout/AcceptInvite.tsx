@@ -71,7 +71,7 @@ export default function AcceptInvite({ id, onBack = undefined }) {
   const handleClose = React.useCallback(() => {
     dispatch(push('')); // This clears any query params
     onBack && onBack(); // Force a refresh in parent component
-  }, [dispatch]);
+  }, [onBack, dispatch]);
 
   const handleSubmit = React.useCallback(() => {
     setInstructor({ accepted: true, userId }, handleClose);
