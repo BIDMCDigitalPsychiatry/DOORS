@@ -8,11 +8,22 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: identityPoolIdUnauth
 });
 
-export const sendInstructorInvite = ({ id, email, role = 'Instructor', onSuccess = undefined, onError = undefined }) => {
+export const sendInstructorInvite = ({
+  id,
+  email,
+  institution = 'Unknown',
+  title = 'Unknown',
+  role = 'Instructor',
+  onSuccess = undefined,
+  onError = undefined
+}) => {
   const body = `You have been invited to the Doors Web Application:
     <p>User Email: ${email}</p>  
     <p>Role: ${role}</p>
-    <a href='${hostAddress(publicUrl(`/?i=${id}`))}'>Click here to accept the invite<a/>    
+    <p>Role: ${title}</p>
+    <p>Institution: ${institution}</p>
+    
+    <h2><a href='${hostAddress(publicUrl(`/?i=${id}`))}'>Click here to accept the invite<a/></h2>
     `;
 
   // Create sendEmail params

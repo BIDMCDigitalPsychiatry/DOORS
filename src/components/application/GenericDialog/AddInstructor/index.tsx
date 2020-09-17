@@ -31,10 +31,12 @@ export default function AddInstructorDialog({ id = title, onClose }) {
 
   const submitData = React.useCallback(
     ({ values, OnSuccess }) => {
-      const { email } = values;
+      const { email, title, institution } = values;
       const instructor: Instructor = {
         id: uuid(),
         email,
+        title,
+        institution,
         parentId
       };
 
@@ -61,7 +63,7 @@ export default function AddInstructorDialog({ id = title, onClose }) {
 
   const onSubmitSuccess = React.useCallback(
     values => ({ id }) => {
-      sendInstructorInvite({ id, email: values.email, onSuccess, onError });
+      sendInstructorInvite({ id, email: values.email, title: values.title, institution: values.institution, onSuccess, onError });
     },
     [onError, onSuccess]
   );
@@ -88,6 +90,16 @@ export default function AddInstructorDialog({ id = title, onClose }) {
           label: 'Email',
           required: true,
           email: true
+        },
+        {
+          id: 'title',
+          label: 'Title',
+          required: true
+        },
+        {
+          id: 'institution',
+          label: 'Institution',
+          required: true
         }
       ]}
     />

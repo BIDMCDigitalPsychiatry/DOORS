@@ -12,15 +12,15 @@ export const useInstructors = (table, tab) => {
     handleRequest();
   }, [handleRequest]);
 
-  React.useEffect(() => {      
+  React.useEffect(() => {
     handleRefresh();
   }, [handleRefresh, table, tab]);
 
   const instructors = Object.keys(data).map(k => ({
     id: data[k].id,
     Name: data[k].email,
-    Title: 'Test Title 1',
-    Institution: 'Test Institution 1',
+    Title: data[k].title ?? 'Unknown',
+    Institution: data[k].institution ?? 'Unknown',
     Invite: data[k].accepted ? 'Accepted' : isExpired(data[k]) ? 'Expired' : 'Pending'
   }));
   return {
