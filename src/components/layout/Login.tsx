@@ -7,7 +7,7 @@ import { isEmpty } from '../../helpers';
 import { useLogin, useHeight } from './hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as RegisterDialog from '../application/GenericDialog/Register';
-import { useUrlParameter } from '../../hooks';
+import { getUrlParamater } from '../../hooks';
 
 const useStyles = makeStyles(({ palette, mixins }: any) =>
   createStyles({
@@ -53,7 +53,7 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
 );
 
 export default function Login() {
-  const id = useUrlParameter('i');
+  const id = getUrlParamater('i');
   const BannerMsg = isEmpty(id) ? '' : 'You must log in prior to accepting an invite.  If you do not have an account yet, please create a new account.';
 
   const height = useHeight();

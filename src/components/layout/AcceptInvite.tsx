@@ -53,7 +53,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function AcceptInvite({ id }) {
+export default function AcceptInvite({ id, onBack = undefined }) {
   const BannerMsg = 'Click below to accept invitation';
   const height = useHeight();
   const classes = useStyles({ height });
@@ -70,7 +70,7 @@ export default function AcceptInvite({ id }) {
 
   const handleClose = React.useCallback(() => {
     dispatch(push('')); // This clears any query params
-    window.location.reload();
+    onBack && onBack(); // Force a refresh in parent component
   }, [dispatch]);
 
   const handleSubmit = React.useCallback(() => {

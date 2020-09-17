@@ -37,7 +37,7 @@ export const useUserType = () => {
   return isAdmin ? 'Administrator' : isInstructor ? 'Instructor' : 'Student';
 };
 
-export const useUrlParameter = paramName => {
+export const getUrlParamater = paramName => {
   var sPageURL = window.location.search.substring(1),
     sURLVariables = sPageURL.split('&'),
     sParameterName,
