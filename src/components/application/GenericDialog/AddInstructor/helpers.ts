@@ -1,6 +1,5 @@
 import { region, identityPoolIdUnauth, sourceEmailAddress } from '../../../../../package.json';
-import { hostAddress } from '../../../../helpers';
-import { v4 as uuidv4 } from 'uuid';
+import { hostAddress, publicUrl } from '../../../../helpers';
 export const AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
 
 // Initialize the Amazon Cognito credentials provider
@@ -9,13 +8,11 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: identityPoolIdUnauth
 });
 
-export const sendInstructorInvite = ({ email, role = 'Instructor', onSuccess = undefined, onError = undefined }) => {
-  const uuid = uuidv4();
-
+export const sendInstructorInvite = ({ id, email, role = 'Instructor', onSuccess = undefined, onError = undefined }) => {
   const body = `You have been invited to the Doors Web Application:
     <p>User Email: ${email}</p>  
     <p>Role: ${role}</p>
-    <a href='${hostAddress(`/?i=${uuid}`)}'>Click here to accept the invite<a/>    
+    <a href='${hostAddress(publicUrl(`/?i=${id}`))}'>Click here to accept the invite<a/>    
     `;
 
   // Create sendEmail params
@@ -39,7 +36,7 @@ export const sendInstructorInvite = ({ email, role = 'Instructor', onSuccess = u
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: `Invitation to Doors Web Application! ${role}`
+        Data: `${role} Invitation to Doors Web Application!`
       }
     },
     Source: sourceEmailAddress /* required */,

@@ -155,7 +155,7 @@ export default function RegisterDialog({ id = title }) {
         },
         {
           id: 'confirmationCode',
-          label: 'Enter Verification Code Sent to above Email Address',
+          label: 'Enter Verification Code Sent to above Email',
           required: confirm ? true : false,
           hidden: ({ confirm }) => !confirm
         },

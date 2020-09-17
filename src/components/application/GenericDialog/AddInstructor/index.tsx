@@ -29,7 +29,7 @@ export default function AddInstructorDialog({ id = title }) {
   const parentId = useUserId();
 
   const submitData = React.useCallback(
-    ({ values, OnSuccess = undefined }) => {
+    ({ values, OnSuccess }) => {
       const { email } = values;
       const instructor: Instructor = {
         id: uuid(),
@@ -44,9 +44,7 @@ export default function AddInstructorDialog({ id = title }) {
         Action: 'c',
         Data: instructor,
         onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
-        onSuccess: () => {
-          OnSuccess && OnSuccess();
-        }
+        onSuccess: OnSuccess(instructor)
       });
     },
     [setState, processData, parentId]
@@ -61,8 +59,8 @@ export default function AddInstructorDialog({ id = title }) {
   }, [handleClose]);
 
   const onSubmitSuccess = React.useCallback(
-    values => () => {
-      sendInstructorInvite({ email: values.email, onSuccess, onError });
+    values => ({ id }) => {
+      sendInstructorInvite({ id, email: values.email, onSuccess, onError });
     },
     [onError, onSuccess]
   );
