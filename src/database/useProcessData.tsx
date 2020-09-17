@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { dynamo } from '../App';
 import { updateSnackBar } from '../components/application/SnackBar/store';
+import { dynamo } from './dbConfig';
 import { useUpdateDatabase } from './useUpdateDatabase';
 
 export interface ProcessDataInfo {
