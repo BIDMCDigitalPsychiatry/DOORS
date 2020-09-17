@@ -123,7 +123,6 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
         Auth.signIn(email, password)
           .then(user => {
             console.log('Login success!');
-            console.log({ user });
             dispatch({ type: 'LOGIN', auth: user });
             onSuccess && onSuccess();
             setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));

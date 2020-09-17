@@ -13,7 +13,7 @@ import { useUserId } from '../../../layout/hooks';
 
 export const title = 'Add Instructor';
 
-export default function AddInstructorDialog({ id = title }) {
+export default function AddInstructorDialog({ id = title, onClose }) {
   const [, setState] = useDialogState(id);
   const [, setSnackbar] = useSnackBar();
 
@@ -21,8 +21,9 @@ export default function AddInstructorDialog({ id = title }) {
     (props = undefined) => {
       props && setSnackbar(props);
       setState(prev => ({ ...prev, open: false, loading: false }));
+      onClose && onClose();
     },
-    [setState, setSnackbar]
+    [onClose, setState, setSnackbar]
   );
 
   const processData = useProcessData();
@@ -73,6 +74,7 @@ export default function AddInstructorDialog({ id = title }) {
       title={id}
       submitLabel='Send Invite'
       onSubmit={handleSubmit}
+      onClose={onClose}
       fields={[
         {
           label: `Enter instructor's email and we will send a link to activate their account:`,

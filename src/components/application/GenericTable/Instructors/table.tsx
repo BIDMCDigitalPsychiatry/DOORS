@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import GenericTableContainer from '../GenericTableContainer';
 import { MultiUserToolbar } from './toolbars';
-import { useInstructors } from './hooks';
+import { useInstructors } from './useInstructors';
 import * as Icons from '@material-ui/icons';
 import useTabSelector from '../../Selector/useTabSelector';
 import DialogButton from '../../GenericDialog/DialogButton';
@@ -14,22 +14,24 @@ const tabs = [
 
 export default function Instructors({ name = 'Instructors', ...other }) {
   const [{ value: tab = 'Active' }] = useTabSelector(name);
+  const { data, loading, handleRefresh } = useInstructors(`${tab} ${name}`, tab);
   return (
     <GenericTableContainer
       name={name}
+      loading={loading}
       title={`${tab} ${name}`}
       tabs={tabs}
-      columns={[{ name: 'Name' }, { name: 'Title' }, { name: 'Institution' }]}
+      columns={[{ name: 'Name' }, { name: 'Title' }, { name: 'Institution' }, { name: 'Invite', header: 'Invite Status' }]}
       toolbar={true}
       footer={true}
       search={true}
       stacked={true}
-      data={useInstructors(`${tab} ${name}`, tab)}
+      data={data}
       checkbox={true}
       select={true}
       MultiSelectToolbar={props => <MultiUserToolbar tab={tab} {...props} />}
       buttons={[
-        <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} size='small' margin='dense' variant='styled' tooltip=''>
+        <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} onClose={handleRefresh} size='small' margin='dense' variant='styled' tooltip=''>
           Add New
         </DialogButton>
       ]}

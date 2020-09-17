@@ -4,6 +4,8 @@ import { isEmpty, minutesFrom } from '../helpers';
 import useProcessData from './useProcessData';
 import { inviteExpiration } from '../../package.json';
 
+export const isExpired = instructor => minutesFrom(instructor?.created) > inviteExpiration;
+
 export const useInstructor = ({ id, state, setState }) => {
   const processData = useProcessData();
   const instructor = state.response?.Item;
@@ -43,7 +45,7 @@ export const useInstructor = ({ id, state, setState }) => {
     [id, setState, processData, instructor_str]
   );
 
-  const expired = minutesFrom(instructor?.created) > inviteExpiration;
+  const expired = isExpired(instructor);
 
   return [instructor, setInstructor, expired];
 };
