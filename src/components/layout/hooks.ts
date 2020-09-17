@@ -12,6 +12,15 @@ import { homepage } from '../../../package.json';
 
 export const useLayoutKey = key => useSelector((state: AppState) => state.layout[key], shallowEqual);
 export const useAuth = () => useLayoutKey('auth') || {};
+export const useUserEmail = () => {
+  const auth = useAuth();
+  return auth.signInUserSession?.idToken?.payload?.email ?? 'Username';
+};
+export const useUserId = () => {
+  const auth = useAuth();
+  return auth.username;
+};
+
 export const useLogout = () => {
   const dispatch = useDispatch();
   return React.useCallback(() => dispatch({ type: 'LOGOUT' }), [dispatch]);
@@ -70,7 +79,6 @@ const handleValidation = ({ message }, dialogState) => {
 export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefined }) => {
   const dispatch = useDispatch();
   const stateStr = JSON.stringify(state);
-  const setUser = useSetUser();
 
   const handleLogin = React.useCallback(
     ({ forgotPassword, enterNewPassword, confirmationCode, newPassword, email, password }) => {
@@ -83,7 +91,7 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
               Auth.signIn(email, newPassword)
                 .then(user => {
                   console.log('Login success!');
-                  setUser(user);
+                  dispatch({ type: 'LOGIN', auth: user });
                   setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
                 })
                 .catch(err => {
@@ -118,7 +126,6 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
             console.log({ user });
             dispatch({ type: 'LOGIN', auth: user });
             onSuccess && onSuccess();
-            setUser(user);
             setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
           })
           .catch(err => {
@@ -129,28 +136,10 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
           });
       }
     },
-    [dispatch, onSuccess, setUser, setState, stateStr]
+    [dispatch, onSuccess, setState, stateStr]
   );
 
   return { handleLogin };
-};
-
-export const useAcceptInvite = ({ setState = undefined, onSuccess = undefined }) => {
-  const handleAcceptInvite = React.useCallback(
-    ({ uuid }) => {
-      setState(prev => ({ ...prev, open: false, loading: true, showErrors: false, errors: {} }));
-      // TODO Set flag in database to accept invite
-      onSuccess && onSuccess();
-    },
-    [onSuccess, setState]
-  );
-
-  return { handleAcceptInvite };
-};
-
-export const useSetUser = () => {
-  const dispatch = useDispatch();
-  return React.useCallback(user => dispatch({ type: 'SET_USER', user }), [dispatch]);
 };
 
 export const useResizeAppBar = () => {

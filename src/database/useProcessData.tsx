@@ -58,7 +58,12 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
 
 const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: any, getState: any) => {
   const { Model: Table, Data: DataProp, Action = 'c', Snackbar = true, onError = undefined } = pdi;
-  const Data = { ...DataProp, delete: Action === 'c' ? false : Action === 'd' ? true : (DataProp as any).delete };
+  const Data = {
+    ...DataProp,
+    created: Action === 'c' ? new Date().getTime() : DataProp.created,
+    updated: Action === 'd' || Action === 'u' ? new Date().getTime() : DataProp.updated,
+    deleted: Action === 'd' ? true : DataProp.deleted
+  };
   try {
     executeTransaction(pdi, Data, updateDatabase, dispatch);
   } catch (error) {

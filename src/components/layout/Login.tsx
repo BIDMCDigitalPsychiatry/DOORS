@@ -7,6 +7,7 @@ import { isEmpty } from '../../helpers';
 import { useLogin, useHeight } from './hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as RegisterDialog from '../application/GenericDialog/Register';
+import { useUrlParameter } from '../../hooks';
 
 const useStyles = makeStyles(({ palette, mixins }: any) =>
   createStyles({
@@ -22,6 +23,8 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
     },
     disclaimer: {
       marginTop: 32,
+      paddingLeft: 16,
+      paddingRight: 16,
       maxWidth: 650
     },
     panelarea: {
@@ -50,7 +53,9 @@ const useStyles = makeStyles(({ palette, mixins }: any) =>
 );
 
 export default function Login() {
-  const BannerMsg = '';
+  const id = useUrlParameter('i');
+  const BannerMsg = isEmpty(id) ? '' : 'You must log in prior to accepting an invite.  If you do not have an account yet, please create a new account.';
+
   const height = useHeight();
   const classes = useStyles({ height });
   const noAutoComplete = true;
@@ -97,7 +102,7 @@ export default function Login() {
       <form autoComplete='off'>
         <Grid container direction='column' justify='center' alignItems='center'>
           <Grid item>
-            <Typography align='center' className={classes.disclaimer}>
+            <Typography color='error' align='center' className={classes.disclaimer}>
               {BannerMsg}
             </Typography>
           </Grid>

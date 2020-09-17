@@ -9,7 +9,6 @@ import { useSignedIn, useFullScreen, useContentPadding } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
-import { useSetUser } from './hooks';
 import useTabSelector from '../application/Selector/useTabSelector';
 import useTabs from './useTabs';
 import * as HelpDialog from '../application/GenericDialog/Help';
@@ -73,17 +72,15 @@ export default function ApplicationBar() {
   const { tabs, tabs_s } = useTabs();
   const [, setTabSelector] = useTabSelector(tabSelectorId);
 
-  const setUser = useSetUser();
   const onLogout = useLogout();
 
   const [, setLeftDrawerOpen] = useLeftDrawer();
   const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
 
   const handleLogout = React.useCallback(() => {
-    setUser(undefined); // Reset user information
     onLogout();
     setAnchorEl(null);
-  }, [setUser, setAnchorEl, onLogout]);
+  }, [setAnchorEl, onLogout]);
 
   const changeRoute = useChangeRoute();
 

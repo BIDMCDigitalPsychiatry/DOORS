@@ -9,6 +9,7 @@ import useProcessData from '../../../../database/useProcessData';
 import { tables } from '../../../../database/dbConfig';
 import Instructor from '../../../../database/models/Instructor';
 import { uuid } from '../../../../helpers';
+import { useUserId } from '../../../layout/hooks';
 
 export const title = 'Add Instructor';
 
@@ -25,6 +26,7 @@ export default function AddInstructorDialog({ id = title }) {
   );
 
   const processData = useProcessData();
+  const parentId = useUserId();
 
   const submitData = React.useCallback(
     ({ values, OnSuccess = undefined }) => {
@@ -32,8 +34,7 @@ export default function AddInstructorDialog({ id = title }) {
       const instructor: Instructor = {
         id: uuid(),
         email,
-        parentId: '', // TODO add current user's id as parent
-        created: new Date().getTime()
+        parentId
       };
 
       setState(prev => ({ ...prev, loading: true }));
@@ -44,11 +45,11 @@ export default function AddInstructorDialog({ id = title }) {
         Data: instructor,
         onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
         onSuccess: () => {
-          OnSuccess && OnSuccess();          
+          OnSuccess && OnSuccess();
         }
       });
     },
-    [setState, processData]
+    [setState, processData, parentId]
   );
 
   const onError = React.useCallback(() => {

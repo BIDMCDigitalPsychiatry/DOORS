@@ -10,6 +10,7 @@
   "identityPoolId": "us-east-1:e3a43f57-52bb-4180-9332-95340a48a342",
   "region": "us-east-1",
   "bucketName": "doors",
+  "inviteExpiration": 1440,
   "dependencies": {
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",

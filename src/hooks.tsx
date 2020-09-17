@@ -15,8 +15,8 @@ export const useContentPadding = () => {
 };
 
 export const useSignedIn = () => {
-  const isEmpty = useSelector((s: any) => s.layout.user === undefined);
-  const isLoaded = useSelector((s: any) => s.layout.user !== undefined);
+  const isEmpty = useSelector((s: any) => s.layout.auth === undefined);
+  const isLoaded = useSelector((s: any) => s.layout.auth !== undefined);
   return isLoaded && !isEmpty ? true : false;
 };
 

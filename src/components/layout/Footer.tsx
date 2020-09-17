@@ -2,8 +2,7 @@ import * as React from 'react';
 import { makeStyles, createStyles, Toolbar, Link, AppBar, Typography, Grid } from '@material-ui/core';
 import { theme, beta } from '../../constants';
 import { useFullScreen } from '../../hooks';
-import { useSelector } from 'react-redux';
-import { useHandleChangeRoute } from './hooks';
+import { useHandleChangeRoute, useUserEmail } from './hooks';
 
 const useStyles = makeStyles(({ palette, zIndex }: any) =>
   createStyles({
@@ -33,7 +32,7 @@ export default function Footer() {
   const classes = useStyles({});
   const fullScreen = useFullScreen();
 
-  const username = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? 'Username');
+  const email = useUserEmail();
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
@@ -82,7 +81,7 @@ export default function Footer() {
                 <Grid container justify='flex-end' spacing={1}>
                   <Grid item>
                     <Typography noWrap variant='body2' align='right'>
-                      {fullScreen ? username : `Welcome, ${username}`}
+                      {fullScreen ? email : `Welcome, ${email}`}
                     </Typography>
                   </Grid>
                 </Grid>

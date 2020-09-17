@@ -3,7 +3,11 @@ import { makeStyles, Grid, Paper, Typography, Divider, CircularProgress } from '
 import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
-import { useHeight, useAcceptInvite } from './hooks';
+import { useHeight, useUserId } from './hooks';
+import { useInstructor } from '../../database/useInstructor';
+import { isEmpty, timeAgo } from '../../helpers';
+import { push } from 'connected-react-router';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -19,6 +23,10 @@ const useStyles = makeStyles(({ palette }: any) =>
     },
     disclaimer: {
       maxWidth: 650
+    },
+    summary: {
+      marginTop: 8,
+      maxWdith: 650
     },
     panelarea: {
       background: '#F5F5F5'
@@ -45,21 +53,31 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function AcceptInvite({ uuid }) {
+export default function AcceptInvite({ id }) {
   const BannerMsg = 'Click below to accept invitation';
   const height = useHeight();
   const classes = useStyles({ height });
   var buttonRef = React.useRef(null);
 
-  const [state, setState] = React.useState({ loading: false, errors: {} });
-  const { loading, errors } = state;
-  console.log({ uuid, errors });
+  const [state, setState] = React.useState({ loading: false, error: undefined, response: undefined, errors: {} });
+  const { loading, error, response, errors } = state;
 
-  const { handleAcceptInvite } = useAcceptInvite({ setState });
+  const [instructor, setInstructor, expired] = useInstructor({ id, state, setState });
+  console.log({ instructor, loading, error, response, id, errors });
+
+  const dispatch = useDispatch();
+  const userId = useUserId();
+
+  const handleClose = React.useCallback(() => {
+    dispatch(push('')); // This clears any query params
+    window.location.reload();
+  }, [dispatch]);
 
   const handleSubmit = React.useCallback(() => {
-    handleAcceptInvite({ uuid });
-  }, [handleAcceptInvite, uuid]);
+    setInstructor({ accepted: true, userId }, handleClose);
+  }, [setInstructor, handleClose, userId]);
+
+  const isError = !isEmpty(instructor?.userId) || expired || instructor?.deleted || !isEmpty(error);
 
   return (
     <div
@@ -87,11 +105,39 @@ export default function AcceptInvite({ uuid }) {
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <Button ref={buttonRef} fullWidth={true} disabled={loading} variant='contained' className={classes.button} onClick={handleSubmit}>
+                    <Button
+                      ref={buttonRef}
+                      fullWidth={true}
+                      disabled={loading || isError}
+                      variant='contained'
+                      className={classes.button}
+                      onClick={handleSubmit}
+                    >
                       Accept Invite
                     </Button>
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
+                </Grid>
+                <Grid item>
+                  <div className={classes.wrapper}>
+                    <Button ref={buttonRef} fullWidth={true} variant='contained' onClick={handleClose}>
+                      Back
+                    </Button>
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography align='center' className={classes.summary}>
+                    Invited {timeAgo(instructor?.created)}
+                  </Typography>
+                  {isError && (
+                    <Typography align='center' color='error' className={classes.summary}>
+                      {!isEmpty(instructor?.userId)
+                        ? 'Invite has already been accepted'
+                        : expired || instructor?.deleted
+                        ? 'Invite has expired or no longer exists. Please request a new invite.'
+                        : error}
+                    </Typography>
+                  )}
                 </Grid>
               </Grid>
             </Paper>
