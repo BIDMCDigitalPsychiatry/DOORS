@@ -8,6 +8,7 @@ import { useLogin, useHeight } from './hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as RegisterDialog from '../application/GenericDialog/Register';
 import { getUrlParamater } from '../../hooks';
+import ForgotPassword from './ForgotPassword';
 
 const useStyles = makeStyles(({ palette, mixins }: any) =>
   createStyles({
@@ -63,13 +64,14 @@ export default function Login() {
 
   const [values, setValues] = React.useState({
     email: '',
-    password: ''
+    password: '',
+    forgotPassword: false
   });
 
   const { email, password } = values;
 
-  const [state, setState] = React.useState({ loading: false, errors: {} });
-  const { loading, errors } = state;
+  const [state, setState] = React.useState({ loading: false, errors: {}, forgotPassword: false });
+  const { loading, errors, forgotPassword } = state;
 
   const { handleLogin } = useLogin({ state, setState });
 
@@ -78,18 +80,25 @@ export default function Login() {
   }, [handleLogin, email, password]);
 
   const handleChange = (name: string) => (event: any) => {
-    setValues({ ...values, [name]: event.target.value });
+    const value = event.target.value;
+    setValues({ ...values, [name]: value });
     setState(prev => ({ ...prev, errors: {} }));
   };
 
   const handleForgotPassword = React.useCallback(() => {
-    alert('To be completed');
+    setState(prev => ({ ...prev, forgotPassword: true }));
+  }, []);
+
+  const handleBack = React.useCallback(() => {
+    setState(prev => ({ ...prev, forgotPassword: false }));
   }, []);
 
   // Per https://stackoverflow.com/questions/50604671/programmatically-disabling-chrome-auto-fill
   // The only way to prevent auto fill is autocomplete=newpassword
   // Note this only prevents the browser from auto populating the fields, it does not prevent chromes new password manager
-  return (
+  return forgotPassword ? (
+    <ForgotPassword email={email} onBack={handleBack} />
+  ) : (
     <div
       className={classes.root}
       onKeyUp={(e: any) => {
