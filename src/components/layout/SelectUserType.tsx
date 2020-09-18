@@ -67,7 +67,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
   var buttonRef = React.useRef(null);
   const [, setLayout] = useLayout();
   const onLogout = useLogout();
-  const handleSelect = React.useCallback(props => () => setLayout(props), [setLayout]);
+  const handleSelect = React.useCallback(props => () => setLayout({ ...props, canChangeUserType: true }), [setLayout]);
   const isError = !isAdmin && instructors.length === 0 && students.length === 0;
   const BannerMsg = isError ? 'No associated user types' : 'You have multiple user types, please select desired user type:';
 

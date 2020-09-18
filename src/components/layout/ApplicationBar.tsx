@@ -4,7 +4,7 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.svg';
-import { useAppBarHeightRef, useChangeRoute, useLeftDrawer, useLogout } from './hooks';
+import { useAppBarHeightRef, useChangeRoute, useLayout, useLeftDrawer, useLogout } from './hooks';
 import { useSignedIn, useFullScreen, useContentPadding } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
@@ -14,8 +14,9 @@ import useTabs from './useTabs';
 import * as HelpDialog from '../application/GenericDialog/Help';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
+import { defaultUserState } from './store';
 
-const useStyles = makeStyles(({ breakpoints, palette, spacing, zIndex, layout }: any) =>
+const useStyles = makeStyles(({ breakpoints, palette, zIndex, layout }: any) =>
   createStyles({
     appBar: ({ contentPadding }: any) => ({
       zIndex: zIndex.drawer + 1,
@@ -120,6 +121,11 @@ export default function ApplicationBar() {
   const fullScreen = useFullScreen('xs');
   const [, , leftDrawerEnabled] = useLeftDrawer();
 
+  const [{ canChangeUserType }, setLayout] = useLayout();
+  const resetUserType = React.useCallback(() => {
+    setLayout(defaultUserState);
+  }, [setLayout]);
+
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={1} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
       {renderDialogModule({ ...HelpDialog, onClose: handleHelpClose })}
@@ -159,10 +165,15 @@ export default function ApplicationBar() {
                   MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
                 >
                   {[
-                    <MenuItem key='signout' onClick={handleLogout}>
-                      Sign Out
-                    </MenuItem>
-                  ]}
+                    { label: 'Change User Type', onClick: resetUserType },
+                    { label: 'Sign Out', onClick: handleLogout }
+                  ]
+                    .filter(({ label }) => label !== 'Change User Type' || (label === 'Change User Type' && canChangeUserType))
+                    .map(({ label, onClick }) => (
+                      <MenuItem key={label} onClick={onClick}>
+                        {label}
+                      </MenuItem>
+                    ))}
                 </Menu>
               </Grid>
             </Grid>

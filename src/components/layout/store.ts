@@ -10,7 +10,15 @@ export interface State {
   admin?: boolean;
   instructor?: any;
   student?: any;
+  canChangeUserType?: boolean;
 }
+
+export const defaultUserState = {
+  admin: false,
+  instructor: undefined,
+  student: undefined,
+  canChangeUserType: false
+};
 
 const defaultState = {
   auth: undefined,
@@ -18,9 +26,7 @@ const defaultState = {
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
   leftDrawerOpen: false,
-  admin: false,
-  instructor: undefined,
-  student: undefined
+  ...defaultUserState
 };
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
