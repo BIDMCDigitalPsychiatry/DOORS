@@ -167,14 +167,6 @@ export const useDimensions = () => {
   return [useHeight(), useWidth()];
 };
 
-export const useAdminMode = () => {
-  const dispatch = useDispatch();
-  const isAdmin = useIsAdmin();
-  const setAdminMode = React.useCallback(adminMode => dispatch({ type: 'CHANGE_ADMIN_MODE', adminMode }), [dispatch]);
-  const adminMode = useSelector((state: AppState) => state.layout.adminMode);
-  return [isAdmin && adminMode, setAdminMode];
-};
-
 export const useAppBarHeightRef = () => {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);

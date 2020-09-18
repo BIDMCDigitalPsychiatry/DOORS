@@ -98,21 +98,4 @@ const shared = {
   }
 } as Theme & any;
 
-export const adminTheme = createMuiTheme({
-  ...shared
-  /*palette: {
-    ...shared.palette,
-    primary: {
-      main: '#00A2EF',
-      light: '#65C6F4',
-      dark: '#005077'
-    },
-    secondary: {
-      main: '#388e3c',
-      light: '#6abf69',
-      dark: '#00600f'
-    }
-  }*/
-});
-
 export const theme = createMuiTheme(shared);

@@ -7,7 +7,7 @@ export interface State {
   width?: number;
   appBarHeight?: number;
   leftDrawerOpen?: boolean;
-  adminMode?: boolean;
+  viewing?: string;
 }
 
 const defaultState = {
@@ -16,7 +16,7 @@ const defaultState = {
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
   leftDrawerOpen: false,
-  adminMode: false
+  viewing: ''
 };
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
@@ -53,12 +53,7 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
         ...state,
         height: action.height,
         width: action.width
-      };
-    case 'CHANGE_ADMIN_MODE':
-      return {
-        ...state,
-        adminMode: action.adminMode
-      };
+      };    
     default:
   }
   return state || { ...defaultState };
