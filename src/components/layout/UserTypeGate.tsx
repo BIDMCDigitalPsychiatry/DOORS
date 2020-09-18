@@ -14,17 +14,13 @@ export const UserTypeGate = ({ children }) => {
     // Auto select user type if user is only associated with one type
     if (instructors) {
       if (isAdmin && instructors.length === 0) {
-        console.log('setting admin');
         setLayout({ viewing: 'Admin' });
       } else if (!isAdmin && instructors.length > 0) {
-        console.log('setting instructor');
         setLayout({ viewing: 'Instructor' });
       }
     }
     // eslint-disable-next-line
   }, [isAdmin, JSON.stringify(instructors)]);
-
-  console.log({ isTrue: admin || instructor || student, instructors, admin, instructor, student });
 
   // If viewing is not empty, then return children
   // Else if completed == false, then show loading

@@ -60,10 +60,9 @@ export default function AcceptInvite({ id, onBack = undefined }) {
   var buttonRef = React.useRef(null);
 
   const [state, setState] = React.useState({ loading: false, error: undefined, response: undefined, errors: {} });
-  const { loading, error, response, errors } = state;
+  const { loading, error } = state;
 
   const [instructor, setInstructor, expired] = useInstructor({ id, state, setState });
-  console.log({ instructor, loading, error, response, id, errors });
 
   const dispatch = useDispatch();
   const userId = useUserId();
