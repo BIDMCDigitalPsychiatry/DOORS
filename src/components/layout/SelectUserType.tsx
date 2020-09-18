@@ -62,15 +62,14 @@ const buttons = [
 ];
 
 export default function SelectUserType({ instructors = [], students = [], isAdmin, onBack = undefined }) {
-  const BannerMsg = 'You have multiple user types, please select desired user type:';
   const height = useHeight();
   const classes = useStyles({ height });
   var buttonRef = React.useRef(null);
   const [, setLayout] = useLayout();
   const onLogout = useLogout();
-
   const handleSelect = React.useCallback(props => () => setLayout(props), [setLayout]);
   const isError = !isAdmin && instructors.length === 0 && students.length === 0;
+  const BannerMsg = isError ? 'No associated user types' : 'You have multiple user types, please select desired user type:';
 
   return (
     <div
@@ -124,7 +123,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                 <Grid item xs={12}>
                   {isError && (
                     <Typography align='center' color='error' className={classes.summary}>
-                      You have not accepted any invites yet. You need to receive and accept an invite before you can use the program.
+                      You have not accepted any invites yet. You need to receive and accept an invite before you can use this application.
                     </Typography>
                   )}
                 </Grid>

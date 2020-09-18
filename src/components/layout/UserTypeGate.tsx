@@ -21,23 +21,15 @@ export const UserTypeGate = ({ children }) => {
         setLayout({ viewing: 'Instructor' });
       }
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [isAdmin, JSON.stringify(instructors)]);
 
-  console.log({ instructors });
+  console.log({ isTrue: admin || instructor || student, instructors, admin, instructor, student });
 
   // If viewing is not empty, then return children
   // Else if completed == false, then show loading
   // Else if completed and only one user type exists, set viewing automatically
   // Else show the select user type
 
-  return admin || instructor || student ? (
-    children
-  ) : !instructors ? (
-    <div>Loading</div>
-  ) : instructors.length > 0 ? (
-    <SelectUserType instructors={instructors} isAdmin={isAdmin} />
-  ) : (
-    children
-  );
+  return admin || instructor || student ? children : !instructors ? <div>Loading</div> : <SelectUserType instructors={instructors} isAdmin={isAdmin} />;
 };
