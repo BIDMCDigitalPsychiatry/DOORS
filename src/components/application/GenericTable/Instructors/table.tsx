@@ -14,14 +14,14 @@ const tabs = [
 
 export default function Instructors({ name = 'Instructors', ...other }) {
   const [{ value: tab = 'Active' }] = useTabSelector(name);
-  const { data, loading, handleRefresh } = useInstructors(`${tab} ${name}`, tab);
+  const { data, loading, handleRefresh } = useInstructors({ table: `${tab} ${name}`, tab });
   return (
     <GenericTableContainer
       name={name}
       loading={loading}
       title={`${tab} ${name}`}
       tabs={tabs}
-      columns={[{ name: 'Name' }, { name: 'Title' }, { name: 'Institution' }, { name: 'Invite', header: 'Invite Status' }]}
+      columns={[{ name: 'email', header: 'Email' }, { name: 'title', header: 'Title' }, { name: 'institution', header: 'Institution' }, { name: 'Invite', header: 'Invite Status' }]}      
       toolbar={true}
       footer={true}
       search={true}

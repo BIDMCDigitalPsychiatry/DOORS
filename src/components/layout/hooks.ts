@@ -4,7 +4,6 @@ import useComponentSize from '@rehooks/component-size';
 import { useHistory, useLocation } from 'react-router';
 import { AppState } from '../../store';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { useIsAdmin } from '../../hooks';
 import { publicUrl, copyToLower, isEmpty } from '../../helpers';
 import { Auth } from 'aws-amplify';
 import { useTheme } from '@material-ui/core';

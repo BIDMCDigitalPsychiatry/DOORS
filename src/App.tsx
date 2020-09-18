@@ -8,9 +8,7 @@ import { AppState } from './store';
 import { persistStore } from 'redux-persist';
 import ViewPort from './components/layout/ViewPort';
 import AppRouter from './components/layout/AppRouter';
-import { theme, adminTheme } from './constants';
-import { useIsAdmin } from './hooks';
-import { useAdminMode } from './components/layout/hooks';
+import { theme } from './constants';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import CssBaselineCustom from './components/layout/CssBaselineCustom';
@@ -25,11 +23,9 @@ Amplify.configure(awsconfig);
 
 function ThemedViewPort(props: any) {
   const { children } = props;
-  const isAdmin = useIsAdmin();
-  const [adminMode] = useAdminMode();
 
   return (
-    <MuiThemeProvider theme={isAdmin && adminMode ? adminTheme : theme}>
+    <MuiThemeProvider theme={theme}>
       <CssBaselineCustom />
       <ViewPort>{children}</ViewPort>
     </MuiThemeProvider>

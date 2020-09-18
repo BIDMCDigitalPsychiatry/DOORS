@@ -1,7 +1,7 @@
 ﻿import { AppState } from '../../../store';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import * as TableStore from './store';
-import { spread } from '../../../helpers';
+import { isEmpty, spread } from '../../../helpers';
 
 ///////////////////////////////////////////
 /////////////// Table Sorters  ////////////
@@ -69,7 +69,10 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
-export const useTableFilter = (data: any, name: string, customFilter = undefined) => {
+export const useTableFilter = (data: any, name: string = undefined, customFilter = undefined) => {
+  if (isEmpty(name)) {
+    return data;
+  }
   //Extract the table information from the redux store
   const table = TableStore.useTable(name);
   const searchtext = table?.searchtext;

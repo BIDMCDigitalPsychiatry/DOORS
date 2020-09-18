@@ -7,7 +7,9 @@ export interface State {
   width?: number;
   appBarHeight?: number;
   leftDrawerOpen?: boolean;
-  viewing?: string;
+  admin?: boolean;
+  instructor?: any;
+  student?: any;
 }
 
 const defaultState = {
@@ -16,7 +18,9 @@ const defaultState = {
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
   leftDrawerOpen: false,
-  viewing: ''
+  admin: false,
+  instructor: undefined,
+  student: undefined
 };
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
@@ -53,7 +57,7 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
         ...state,
         height: action.height,
         width: action.width
-      };    
+      };
     default:
   }
   return state || { ...defaultState };
