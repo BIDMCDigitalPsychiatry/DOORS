@@ -1,8 +1,7 @@
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { adminUsers } from '../package.json';
-import { useUserEmail } from './components/layout/hooks';
-import { isEmpty } from './helpers';
+import { useLayout, useUserEmail } from './components/layout/hooks';
 
 export const useFullScreen = (size = 'sm' as any) => {
   const theme = useTheme();
@@ -28,14 +27,27 @@ export const useIsAdmin = () => {
   return signedIn && adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
 };
 
-export const useIsInstructor = () => {
-  return useSelector((s: any) => isEmpty(s.layout?.user?.isInstructor ?? false));
+export const useIsAdminMode = () => {
+  const isAdmin = useIsAdmin();
+  const [{ admin }] = useLayout();
+  return isAdmin === true && admin === true ? true : false;
+};
+
+export const useIsInstructorMode = () => {
+  const [{ instructor }] = useLayout();
+  return instructor !== undefined;
+};
+
+export const useIsStudentMode = () => {
+  const [{ student }] = useLayout();
+  return student !== undefined;
 };
 
 export const useUserType = () => {
-  const isAdmin = useIsAdmin();
-  const isInstructor = useIsInstructor();
-  return isAdmin ? 'Administrator' : isInstructor ? 'Instructor' : 'Student';
+  const isAdmin = useIsAdminMode();
+  const isInstructor = useIsInstructorMode();
+  const isStudent = useIsStudentMode();
+  return isAdmin ? 'Admin' : isInstructor ? 'Instructor' : isStudent ? 'Student' : 'Unknown';
 };
 
 export const getUrlParamater = paramName => {
