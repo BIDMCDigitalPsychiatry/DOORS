@@ -9,19 +9,37 @@ import * as AddInstructorDialog from '../../GenericDialog/AddInstructor';
 
 const tabs = [
   { id: 'Active', icon: Icons.GroupOutlined },
-  { id: 'Archived', icon: Icons.Archive }
+  {
+    id: 'Archived',
+    icon: Icons.Archive,
+    requestParams: {
+      FilterExpression: '#deleted = :deleted',
+      ExpressionAttributeNames: {
+        '#deleted': 'deleted'
+      },
+      ExpressionAttributeValues: {
+        ':deleted': true
+      }
+    }
+  }
 ];
 
 export default function Instructors({ name = 'Instructors', ...other }) {
   const [{ value: tab = 'Active' }] = useTabSelector(name);
-  const { data, loading, handleRefresh } = useInstructors({ table: `${tab} ${name}`, tab });
+  const requestParams = tabs.find(t => t.id === tab)?.requestParams;
+  const { data, loading, handleRefresh } = useInstructors({ table: name, tab, requestParams });
   return (
     <GenericTableContainer
       name={name}
       loading={loading}
       title={`${tab} ${name}`}
       tabs={tabs}
-      columns={[{ name: 'email', header: 'Email' }, { name: 'title', header: 'Title' }, { name: 'institution', header: 'Institution' }, { name: 'Invite', header: 'Invite Status' }]}      
+      columns={[
+        { name: 'email', header: 'Email' },
+        { name: 'title', header: 'Title' },
+        { name: 'institution', header: 'Institution' },
+        { name: 'Invite', header: 'Invite Status' }
+      ]}
       toolbar={true}
       footer={true}
       search={true}
