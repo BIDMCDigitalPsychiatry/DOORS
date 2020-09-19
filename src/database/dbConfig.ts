@@ -10,11 +10,23 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 
 export const dynamo = new AWS.DynamoDB.DocumentClient();
 
-export type TableName = 'doors-users' | 'doors-instructors' | 'doors-students' | 'doors-settings';
+export type TableName =
+  | 'doors-sessions'
+  | 'doors-classes'
+  | 'doors-users'
+  | 'doors-instructors'
+  | 'doors-students'
+  | 'doors-attendance'
+  | 'doors-groups'
+  | 'doors-profiles';
 
 export const tables = {
   users: 'doors-users' as TableName,
   instructors: 'doors-instructors' as TableName,
   students: 'doors-students' as TableName,
-  settings: 'doors-settings' as TableName
+  attendance: 'doors-attendance' as TableName,
+  groups: 'doors-groups' as TableName,
+  profiles: 'doors-profiles' as TableName,
+  sessions: 'doors-sessions' as TableName,
+  classes: 'doors-classes' as TableName
 };

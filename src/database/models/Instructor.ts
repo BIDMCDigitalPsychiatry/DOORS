@@ -1,6 +1,5 @@
 export default interface Instructor {
   id: string; // unique identifier
-  _rev?: string;
   parentId?: string; // user id of inviting user
   email?: string; // email of user that invite corresponds to
   title?: string;
