@@ -45,8 +45,8 @@ export default function Instructors({ name = 'Instructors', ...other }) {
       search={true}
       stacked={true}
       data={data}
-      checkbox={true}
-      select={true}
+      checkbox={false}
+      select={false}
       MultiSelectToolbar={props => <MultiUserToolbar tab={tab} {...props} />}
       buttons={[
         <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} onClose={handleRefresh} size='small' margin='dense' variant='styled' tooltip=''>

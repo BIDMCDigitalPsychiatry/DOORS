@@ -11,6 +11,8 @@ import checkbox from '../../../images/checkbox.png';
 import video from '../../../images/video.png';
 import Page from '../Page';
 import { useHandleChangeRoute } from '../../layout/hooks';
+import { useIsAdminMode } from '../../../hooks';
+import StyledButton from '../../general/StyledButton';
 
 const rankingModel = [
   'I cannot do it on my own',
@@ -29,11 +31,11 @@ const surveyQuestions = [
 ];
 
 const classResources = [
-  { label: 'Test Resource 1', description: 'Test resource...'},
-  { label: 'Test Resource 2', description: 'Test resource...'},
-  { label: 'Test Resource 3', description: 'Test resource...'},
-  { label: 'Test Resource 4', description: 'Test resource...'},
-]
+  { label: 'Test Resource 1', description: 'Test resource...' },
+  { label: 'Test Resource 2', description: 'Test resource...' },
+  { label: 'Test Resource 3', description: 'Test resource...' },
+  { label: 'Test Resource 4', description: 'Test resource...' }
+];
 
 const presentationFile = { name: 'File_Name.pdf', date: '6/10/20' };
 
@@ -128,10 +130,16 @@ const sessions = [
   }
 ];
 
-export default function Sessions() {  
+const ActionButton = () => {
+  const changeRoute = useHandleChangeRoute();
+  return <StyledButton onClick={changeRoute('/CreateSession')}>Create New Session</StyledButton>;
+};
+
+export default function Sessions() {
   const handleChangeRoute = useHandleChangeRoute();
+  const isAdminMode = useIsAdminMode();
   return (
-    <Page title='Available Sessions'>
+    <Page title='Available Sessions' ActionButton={isAdminMode ? ActionButton : undefined}>
       <Grid container spacing={3}>
         {[
           sessions.map(s => (

@@ -14,11 +14,11 @@ const useStyles = makeStyles(({ palette }: any) =>
   } as any)
 );
 
-export default function Page({ title = '', children = <></> }) {
+export default function Page({ title = '', ActionButton = undefined, children = <></> }) {
   const classes = useStyles();
   return (
     <>
-      <Header title={title} />
+      <Header title={title} ActionButton={ActionButton} />
       <Container disableGutters={true} className={classes.container} maxWidth={false}>
         {children}
       </Container>

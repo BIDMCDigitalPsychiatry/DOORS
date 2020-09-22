@@ -18,6 +18,7 @@ import PreSurvey from '../pages/Class/PreSurvey';
 import Lesson from '../pages/Class/Lesson';
 import Resources from '../pages/Class/Resources';
 import Congratulations from '../pages/Class/Congratulations';
+import CreateSession from '../pages/Session/CreateSession';
 
 const Routes = () => (
   <Switch>
@@ -29,6 +30,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
     <Route exact path={publicUrl('/Sessions')} component={Sessions} />
     <Route exact path={publicUrl('/Session')} component={Session} />
+    <Route exact path={publicUrl('/CreateSession')} component={CreateSession} />
     <Route exact path={publicUrl('/SessionDashboard')} component={SessionDashboard} />
     <Route exact path={publicUrl('/SessionClass')} component={SessionClass} />
     <Route exact path={publicUrl('/SessionMaterials')} component={SessionMaterials} />

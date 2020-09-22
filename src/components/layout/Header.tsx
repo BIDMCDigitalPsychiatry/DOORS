@@ -15,30 +15,40 @@ export default function Header({
   subVariant = 'subtitle1',
   supertitle = undefined,
   title = undefined,
-  subtitle = undefined
+  subtitle = undefined,
+  ActionButton = undefined
 }) {
   const classes = useStyles();
   return (
     <Grid container spacing={1}>
-      {supertitle && (
-        <Grid item xs={12}>
-          <Typography color='textSecondary' variant={superVariant as any}>
-            {supertitle}
-          </Typography>
+      <Grid item xs>
+        <Grid container spacing={1}>
+          {supertitle && (
+            <Grid item xs={12}>
+              <Typography color='textSecondary' variant={superVariant as any}>
+                {supertitle}
+              </Typography>
+            </Grid>
+          )}
+          {title && (
+            <Grid item xs={12}>
+              <Typography className={classes.header} variant={titleVariant as any}>
+                {title}
+              </Typography>
+            </Grid>
+          )}
+          {subtitle && (
+            <Grid item xs={12}>
+              <Typography color='textSecondary' variant={subVariant as any}>
+                {subtitle}
+              </Typography>
+            </Grid>
+          )}
         </Grid>
-      )}
-      {title && (
-        <Grid item xs={12}>
-          <Typography className={classes.header} variant={titleVariant as any}>
-            {title}
-          </Typography>
-        </Grid>
-      )}
-      {subtitle && (
-        <Grid item xs={12}>
-          <Typography color='textSecondary' variant={subVariant as any}>
-            {subtitle}
-          </Typography>
+      </Grid>
+      {ActionButton && (
+        <Grid item>
+          <ActionButton />
         </Grid>
       )}
     </Grid>
