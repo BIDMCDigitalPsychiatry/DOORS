@@ -25,7 +25,13 @@ export const defaultRankingModels: BlockListItem[] = [
 
 export default interface Session {
   id: string; // unique identifier
-  classId: string;
+  adminId?: string; // user id of the admin user which created the session
+  name?: string;
+  keySkills?: BlockListItem[];
+  rankingModel?: BlockListItem[];
+  surveyQuestions?: BlockListItem[]; // TBD survey question objects
+  classPresentation?: any; // TBD file meta data
+  classResources?: any[]; // TBD classResource objects
   created?: number;
   updated?: number;
   deleted?: boolean;
