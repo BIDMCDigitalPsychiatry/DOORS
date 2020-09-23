@@ -7,11 +7,11 @@ import ActionCard from '../../general/ActionCard';
 import * as Icons from '@material-ui/icons';
 import StyledButton from '../../general/StyledButton';
 import SessionPresentationFile from './SessionPresentationFile';
- 
+
 export default function SessionMaterials() {
   const { state }: any = useLocation();
-  const { title, subtitle, skills = [], rankingModel = [], classResources = [] } = state;  
-  const handleChangeRoute = useHandleChangeRoute();  
+  const { title, subtitle, keySkills = [], rankingModel = [], classResources = [] } = state;
+  const handleChangeRoute = useHandleChangeRoute();
   return (
     <ChildPage
       backLabel='Back to Session'
@@ -28,7 +28,7 @@ export default function SessionMaterials() {
             </Typography>
             <Box mt={3}>
               <Grid container spacing={2}>
-                {skills.map(s => (
+                {keySkills.map(s => (
                   <Grid key={s} item lg={4} sm={4} xs={12}>
                     <ActionCard title={s} minHeight={72} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
                   </Grid>
@@ -57,7 +57,7 @@ export default function SessionMaterials() {
             <Grid container justify='space-between' spacing={2}>
               <Grid item xs>
                 <Typography variant='subtitle1' color='textPrimary'>
-                  Questions are related to the class materials and will be rated by studens from 1 to 5 based on the Ranking Model
+                  Questions are related to the class materials and will be rated by students from 1 to 5 based on the Ranking Model
                 </Typography>
               </Grid>
               <Grid item style={{ display: 'inline-flex', width: 175 }}>
@@ -107,7 +107,7 @@ export default function SessionMaterials() {
             <Typography variant='subtitle1' color='textPrimary'>
               Current class presentation file
             </Typography>
-            <SessionPresentationFile {...state?.presentationFile} />
+            <SessionPresentationFile {...state?.classPresentation} />
           </Grid>
         </Grid>
       </Box>

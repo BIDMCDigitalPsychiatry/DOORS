@@ -60,7 +60,6 @@ export const sendInstructorInvite = ({
   // Handle promise's fulfilled/rejected states
   sendPromise
     .then(function (data) {
-      console.log(data.MessageId);
       onSuccess && onSuccess(data);
     })
     .catch(function (err) {

@@ -145,6 +145,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     variant = 'fab',
     underline = 'hover',
     linkVariant = 'caption',
+    styledVariant = undefined,
     size = 'small',
     label = '',
     disabled = undefined,
@@ -152,6 +153,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     initialValues = {},
     noGrid = true,
     mount = true,
+    onSubmit = undefined,
     onClick = undefined,
     onClose = undefined,
     onChange = undefined,
@@ -214,7 +216,7 @@ const DialogButton = React.forwardRef(function DialogButton(
 
   return wrapGrid(
     <>
-      {mount && Module && renderDialogModule({ ...Module, anchorEl, onClose: handleClose, onChange, onReset, values, setValues })}
+      {mount && Module && renderDialogModule({ ...Module, anchorEl, onClose: handleClose, onChange, onReset, values, setValues, onSubmit })}
       <Tooltip
         placement={placement}
         title={
@@ -231,7 +233,7 @@ const DialogButton = React.forwardRef(function DialogButton(
       >
         <span>
           {variant === 'styled' ? (
-            <StyledButton width={fullScreen ? 64 : 120} disabled={disabled} onClick={handleClick} size={size}>
+            <StyledButton variant={styledVariant} width={fullScreen ? 64 : 120} disabled={disabled} onClick={handleClick} size={size}>
               {Icon && <Icon />}
               {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>{children}</div>}
             </StyledButton>

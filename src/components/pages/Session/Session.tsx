@@ -28,13 +28,13 @@ export default function Session({
   subtitle = 'Session Placeholder',
   title = 'Title Place Holder',
   image = calendar,
-  skills = ['Topic 1 Placeholder', 'Topic 2 Placeholder'],
+  keySkills = ['Topic 1 Placeholder', 'Topic 2 Placeholder'],
   className = undefined,
   onClick = undefined,
   rankingModel = undefined,
   surveyQuestions = undefined,
   classResources = undefined,
-  presentationFile = undefined,
+  classPresentation = undefined,
   ...rest
 }) {
   const classes = useStyles();
@@ -53,7 +53,7 @@ export default function Session({
       </div>
       <Grid container className={classes.summary} alignItems='center'>
         <Grid item>
-          {skills.map(t => (
+          {keySkills.map(t => (
             <Typography key={t} component='h6' gutterBottom variant='subtitle1'>
               {t}
             </Typography>

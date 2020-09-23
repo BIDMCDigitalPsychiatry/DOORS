@@ -14,7 +14,7 @@ const actionCards = [
 
 export default function SessionDashboard({ supertitle }) {
   const { state }: any = useLocation();
-  const { title, subtitle, skills = [] } = state ?? {};
+  const { title, subtitle, keySkills = [] } = state ?? {};
   const userType = useUserType();
   const handleChangeRoute = useHandleChangeRoute();
   return (
@@ -30,7 +30,7 @@ export default function SessionDashboard({ supertitle }) {
           Key Skills:
         </Typography>
         <Box mt={1} ml={1} mb={3}>
-          {skills.map(s => (
+          {keySkills.map(s => (
             <Typography key={s} variant='subtitle1'>
               • {s}
             </Typography>

@@ -37,96 +37,96 @@ const classResources = [
   { label: 'Test Resource 4', description: 'Test resource...' }
 ];
 
-const presentationFile = { name: 'File_Name.pdf', date: '6/10/20' };
+const classPresentation = { name: 'File_Name.pdf', date: '6/10/20' };
 
 const sessions = [
   {
     id: 1,
     title: 'Session 1',
     subtitle: 'Establishing Core Smartphone Skills',
-    skills: ['Connecting to Wifi', 'Checking the weather'],
+    keySkills: ['Connecting to Wifi', 'Checking the weather'],
     rankingModel,
     surveyQuestions,
     classResources,
     image: wifi,
-    presentationFile
+    classPresentation
   },
   {
     id: 2,
     title: 'Session 2',
     subtitle: 'Building Wellness Habits',
-    skills: ['Tracking Step Count', 'Using a guided meditation app'],
+    keySkills: ['Tracking Step Count', 'Using a guided meditation app'],
     rankingModel,
     surveyQuestions,
     classResources,
     image: picture,
-    presentationFile
+    classPresentation
   },
   {
     id: 3,
     title: 'Session 3',
     subtitle: 'Managing Responsibilites',
-    skills: ['Adding Calendar Events', 'Getting directions on a map app'],
+    keySkills: ['Adding Calendar Events', 'Getting directions on a map app'],
     rankingModel,
     surveyQuestions,
     classResources,
     image: calendar,
-    presentationFile
+    classPresentation
   },
   {
     id: 4,
     title: 'Session 4',
     subtitle: 'Staying Connected',
-    skills: ['Sending an email', 'Finding a job opportunity on LinkedIn'],
+    keySkills: ['Sending an email', 'Finding a job opportunity on LinkedIn'],
     rankingModel,
     surveyQuestions,
     classResources,
     image: contacts,
-    presentationFile
+    classPresentation
   },
   {
     id: 5,
     title: 'Session 5',
     subtitle: 'Keeping Informed',
-    skills: [`Finding today's headlines`],
+    keySkills: [`Finding today's headlines`],
     rankingModel,
     surveyQuestions,
     classResources,
     image: newspaper,
-    presentationFile
+    classPresentation
   },
   {
     id: 6,
     title: 'Session 6',
     subtitle: 'Expanding Your Knowledge',
-    skills: ['Watching a Youtube video to learn a new skill', 'Translating a sentence from one language to another'],
+    keySkills: ['Watching a Youtube video to learn a new skill', 'Translating a sentence from one language to another'],
     rankingModel,
     surveyQuestions,
     classResources,
     image: video,
-    presentationFile
+    classPresentation
   },
   {
     id: 7,
     title: 'Session 7',
     subtitle: 'Navigating Safely',
-    skills: [`Finding an app's privacy policy`, 'Reading app reviews and ratings'],
+    keySkills: [`Finding an app's privacy policy`, 'Reading app reviews and ratings'],
     rankingModel,
     surveyQuestions,
     classResources,
     image: checkbox,
-    presentationFile
+    classPresentation
   },
   {
     id: 8,
     title: 'Session 8',
     subtitle: 'Enjoying Downtime ',
-    skills: ['Creating an account on music streaming platform', 'Downloading a game'],
+    keySkills: ['Creating an account on music streaming platform', 'Downloading a game'],
     rankingModel,
     surveyQuestions,
     classResources,
     image: musicplayer,
-    presentationFile
+    classPresentation
   }
 ];
 

@@ -96,6 +96,7 @@ export default function StyledButton({
   width = undefined,
   variant = 'primary' as StyledButtonVariant,
   size = 'large' as any,
+  Icon = undefined,
   children,
   ...other
 }) {
@@ -106,6 +107,7 @@ export default function StyledButton({
   const className = pressed ? pressedClass : rootClass;
   return (
     <Button disabled={disabled} color='default' variant={variant === 'text' ? variant : 'contained'} size={size} className={className} {...other}>
+      {Icon && <Icon />}
       {variant === 'text' ? <u>{children}</u> : children}
     </Button>
   );
