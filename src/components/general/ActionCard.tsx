@@ -17,12 +17,24 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'flex-end'
+  },
+  circle: {
+    borderRadius: 50,
+    width: 36,
+    height: 36,
+    border: `2px solid ${palette.primary.main}`
+  },
+  circleText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }));
 
 export default function ActionCard({
   title = undefined,
   item = {} as any,
+  index = undefined,
   description = undefined,
   actionLabel = 'View',
   onClick = undefined,
@@ -49,9 +61,22 @@ export default function ActionCard({
     <Card className={clsx(classes.root, className)} {...rest}>
       <div className={classes.header}>
         {Title && (
-          <Typography noWrap gutterBottom variant='h5' color='primary' {...titleProps}>
-            {Title}
-          </Typography>
+          <Grid container spacing={1}>
+            {index !== undefined && (
+              <Grid item>
+                <div className={classes.circle}>
+                  <Typography variant='h5' align='center' color='primary'>
+                    {index + 1}
+                  </Typography>
+                </div>
+              </Grid>
+            )}
+            <Grid item xs>
+              <Typography noWrap gutterBottom variant='h5' color='primary' {...titleProps}>
+                {Title}
+              </Typography>
+            </Grid>
+          </Grid>
         )}
         {description && (
           <Typography gutterBottom variant='subtitle1' color='textPrimary'>
@@ -59,6 +84,7 @@ export default function ActionCard({
           </Typography>
         )}
       </div>
+
       {onClick && (
         <Box m={2} textAlign='center'>
           <StyledButton disabled={disabled} onClick={onClick}>
@@ -67,14 +93,14 @@ export default function ActionCard({
         </Box>
       )}
       <CardActions className={classes.actions}>
-        {bool(canEdit) && (
+        {onEdit && bool(canEdit) && (
           <StyledButton variant='text' onClick={handleEdit(item)}>
             Edit
           </StyledButton>
         )}
         <div>
           <Grid container justify='flex-end' alignItems='flex-end'>
-            {bool(canDelete) && (
+            {onRemove && bool(canDelete) && (
               <Grid item>
                 <StyledButton variant='text' onClick={handleRemove(item)}>
                   Remove

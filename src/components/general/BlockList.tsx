@@ -10,13 +10,22 @@ export interface BlockListItem {
   id: string;
   name: string;
   canEdit?: boolean;
-  canLocklock?: boolean;
+  canLock?: boolean;
   canDelete?: boolean;
   locked?: boolean;
   deleted?: boolean;
 }
 
-export function BlockList({ title = undefined, subtitle = undefined, value = [], add = undefined, onChange }) {
+export function BlockList({
+  title = undefined,
+  subtitle = undefined,
+  value = [],
+  showIndexBadges = undefined,
+  add = undefined,
+  edit = undefined,
+  remove = undefined,
+  onChange
+}) {
   const value_str = JSON.stringify(value);
 
   // Replace or remove (set item to undefined when removing)
@@ -77,21 +86,21 @@ export function BlockList({ title = undefined, subtitle = undefined, value = [],
             <Grid key={i} item lg={4} sm={6} xs={12}>
               <ActionCard
                 item={item}
+                index={showIndexBadges && i}
                 onLock={onLock}
-                onRemove={onRemove}
-                onEdit={onEdit}
+                onRemove={remove && onRemove}
+                onEdit={edit && onEdit}
                 minHeight={112}
                 titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
               />
             </Grid>
           ))}
-          {add && (
-            <Grid key={'add'} item lg={4} sm={6} xs={12}>
-              <DialogButton Module={{ ...BlockListDialog, id: title, title }} variant='styled' styledVariant='secondary' onSubmit={handleSubmit}>
-                Add New
-              </DialogButton>
-            </Grid>
-          )}
+
+          <Grid style={{ display: add ? 'flex' : 'none' }} key={'add'} item lg={4} sm={6} xs={12}>
+            <DialogButton Module={{ ...BlockListDialog, id: title, title }} variant='styled' styledVariant='secondary' onSubmit={handleSubmit}>
+              Add New
+            </DialogButton>
+          </Grid>
         </Grid>
       </Box>
     </>

@@ -6,13 +6,14 @@ import StyledButton from '../../general/StyledButton';
 import SessionPresentationFile from './SessionPresentationFile';
 import Text from '../../application/DialogField/Text';
 import { BlockList, BlockListItem } from '../../general/BlockList';
+import { defaultRankingModels } from '../../../database/models/Session';
 
 export default function CreateSession() {
   const [{ name, keySkills, rankingModel, surveyQuestions, classResources, classPresentation }, setState] = React.useState({
     name: '',
     keySkills: [] as BlockListItem[],
     surveyQuestions: [] as BlockListItem[],
-    rankingModel: [] as BlockListItem[],
+    rankingModel: defaultRankingModels,
     classResources: [],
     classPresentation: { name: 'Unknown File Name', date: 'Unknown Date' }
   });
@@ -37,7 +38,7 @@ export default function CreateSession() {
             <Typography variant='caption' color='textPrimary'>
               Edit Class Materials
             </Typography>
-            <BlockList title='Key Skills' value={keySkills} add={true} onChange={handleChange('keySkills')} />
+            <BlockList title='Key Skills' value={keySkills} add={true} edit={true} remove={true} onChange={handleChange('keySkills')} />
           </Grid>
           <Grid item xs={12}>
             <BlockList
@@ -45,11 +46,21 @@ export default function CreateSession() {
               subtitle='Questions are related to the class materials and will be rated by students from 1 to 5 based on the Ranking Model'
               value={surveyQuestions}
               add={true}
+              edit={true}
+              remove={true}
               onChange={handleChange('surveyQuestions')}
             />
           </Grid>
           <Grid item xs={12}>
-            <BlockList title='Ranking Model' value={rankingModel} add={true} onChange={handleChange('rankingModel')} />
+            <BlockList
+              title='Ranking Model'
+              showIndexBadges={true}
+              value={rankingModel}
+              add={false}
+              edit={true}
+              remove={false}
+              onChange={handleChange('rankingModel')}
+            />
           </Grid>
           <Grid item xs={12}>
             <BlockList
