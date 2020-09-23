@@ -52,7 +52,7 @@ export default function ActionCard({
   const handleLock = React.useCallback(item => () => onLock && onLock(item), [onLock]);
   const handleRemove = React.useCallback(item => () => onRemove && onRemove(item), [onRemove]);
   const handleEdit = React.useCallback(item => () => onEdit && onEdit(item), [onEdit]);
-  const Title = title ? title : name;
+  const Title = title ? title : name ?? '';  
 
   const isAdminMode = useIsAdminMode();
   const canEdit = !bool(canLock) || (bool(canLock) && bool(!locked)); // Can edit if the user is an admin or an instructor and the object is not locked
@@ -72,9 +72,11 @@ export default function ActionCard({
               </Grid>
             )}
             <Grid item xs>
-              <Typography noWrap gutterBottom variant='h5' color='primary' {...titleProps}>
-                {Title}
-              </Typography>
+              {Title && (
+                <Typography noWrap gutterBottom variant='h5' color='primary' {...titleProps}>
+                  {Title}
+                </Typography>
+              )}
             </Grid>
           </Grid>
         )}

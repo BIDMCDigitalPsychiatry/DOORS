@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { Box, Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import calendar from '../../../images/calendar.png';
 import StyledButton from '../../general/StyledButton';
+import { BlockListItem } from '../../general/BlockList';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -21,19 +22,19 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
     color: palette.common.white,
     background: palette.primary.light,
     padding: spacing(1, 2, 1, 2)
-  }  
+  }
 }));
 
 export default function Session({
-  subtitle = 'Session Placeholder',
+  name = 'Session Name Placeholder',
   title = 'Title Place Holder',
   image = calendar,
-  keySkills = ['Topic 1 Placeholder', 'Topic 2 Placeholder'],
+  keySkills = [] as BlockListItem[],
   className = undefined,
   onClick = undefined,
-  rankingModel = undefined,
-  surveyQuestions = undefined,
-  classResources = undefined,
+  rankingModel = [] as BlockListItem[],
+  surveyQuestions = [] as BlockListItem[],
+  classResources = [],
   classPresentation = undefined,
   ...rest
 }) {
@@ -45,7 +46,7 @@ export default function Session({
           {title}
         </Typography>
         <Typography noWrap gutterBottom variant='h6' color='textPrimary'>
-          {subtitle}
+          {name}
         </Typography>
       </div>
       <div className={classes.imageContainer}>
@@ -53,9 +54,9 @@ export default function Session({
       </div>
       <Grid container className={classes.summary} alignItems='center'>
         <Grid item>
-          {keySkills.map(t => (
-            <Typography key={t} component='h6' gutterBottom variant='subtitle1'>
-              {t}
+          {keySkills.map(({ id, name }) => (
+            <Typography key={id} component='h6' gutterBottom variant='subtitle1'>
+              {name}
             </Typography>
           ))}
         </Grid>

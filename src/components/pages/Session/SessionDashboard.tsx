@@ -5,6 +5,7 @@ import ChildPage from '../ChildPage';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { useLocation } from 'react-router';
 import { useUserType } from '../../../hooks';
+import { isEmpty } from '../../../helpers';
 
 const actionCards = [
   { title: 'Class Mode', description: 'View the class materials the way your students will', route: '/Pre-Survey', disabled: false },
@@ -30,11 +31,13 @@ export default function SessionDashboard({ supertitle }) {
           Key Skills:
         </Typography>
         <Box mt={1} ml={1} mb={3}>
-          {keySkills.map(s => (
-            <Typography key={s} variant='subtitle1'>
-              • {s}
-            </Typography>
-          ))}
+          {keySkills
+            .filter(s => !isEmpty(s))
+            .map(({ id, name }, i) => (
+              <Typography key={`${name}-${id}`} variant='subtitle1'>
+                • {name}
+              </Typography>
+            ))}
         </Box>
         <Grid container spacing={3}>
           {actionCards.map(ac => (

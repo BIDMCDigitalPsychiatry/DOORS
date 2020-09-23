@@ -10,15 +10,10 @@ import SessionPresentationFile from './SessionPresentationFile';
 
 export default function SessionMaterials() {
   const { state }: any = useLocation();
-  const { title, subtitle, keySkills = [], rankingModel = [], classResources = [] } = state;
+  const { name, title, keySkills = [], rankingModel = [], classResources = [] } = state;
   const handleChangeRoute = useHandleChangeRoute();
   return (
-    <ChildPage
-      backLabel='Back to Session'
-      onBack={handleChangeRoute('/SessionDashboard', state)}
-      title={`${title} - ${subtitle}`}
-      subtitle='Edit Class Materials'
-    >
+    <ChildPage backLabel='Back to Session' onBack={handleChangeRoute('/SessionDashboard', state)} title={`${name} - ${title}`} subtitle='Edit Class Materials'>
       <Box mt={2}>
         <Divider />
         <Grid container style={{ marginTop: 16 }} spacing={3}>
@@ -28,9 +23,9 @@ export default function SessionMaterials() {
             </Typography>
             <Box mt={3}>
               <Grid container spacing={2}>
-                {keySkills.map(s => (
-                  <Grid key={s} item lg={4} sm={4} xs={12}>
-                    <ActionCard title={s} minHeight={72} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
+                {keySkills.map(({ name, id }) => (
+                  <Grid key={id} item lg={4} sm={4} xs={12}>
+                    <ActionCard title={name} minHeight={72} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
                   </Grid>
                 ))}
               </Grid>
@@ -42,9 +37,9 @@ export default function SessionMaterials() {
             </Typography>
             <Box mt={3}>
               <Grid container spacing={2}>
-                {rankingModel.map((rm, i) => (
-                  <Grid key={i} item lg={2} sm={6} xs={12}>
-                    <ActionCard title={rm} minHeight={132} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
+                {rankingModel.map(({ name, id }) => (
+                  <Grid key={id} item lg={2} sm={6} xs={12}>
+                    <ActionCard title={name} minHeight={132} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
                   </Grid>
                 ))}
               </Grid>
@@ -69,9 +64,9 @@ export default function SessionMaterials() {
             </Grid>
             <Box mt={1}>
               <Grid container spacing={2}>
-                {rankingModel.map((rm, i) => (
-                  <Grid key={i} item lg={4} sm={6} xs={12}>
-                    <ActionCard title={rm} minHeight={112} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
+                {rankingModel.map(({ name, id }) => (
+                  <Grid key={id} item lg={4} sm={6} xs={12}>
+                    <ActionCard title={name} minHeight={112} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
                   </Grid>
                 ))}
                 <Grid key={'add'} item lg={4} sm={6} xs={12}>

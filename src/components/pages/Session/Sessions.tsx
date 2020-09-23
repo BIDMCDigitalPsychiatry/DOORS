@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { Grid } from '@material-ui/core';
 import Session from './Session';
+import Page from '../Page';
+import { useHandleChangeRoute } from '../../layout/hooks';
+import { useIsAdminMode } from '../../../hooks';
+import StyledButton from '../../general/StyledButton';
+import useSessions from './useSessions';
+/*
 import calendar from '../../../images/calendar.png';
 import wifi from '../../../images/wifi.png';
 import picture from '../../../images/picture.png';
@@ -9,11 +15,9 @@ import musicplayer from '../../../images/musicplayer.png';
 import newspaper from '../../../images/newspaper.png';
 import checkbox from '../../../images/checkbox.png';
 import video from '../../../images/video.png';
-import Page from '../Page';
-import { useHandleChangeRoute } from '../../layout/hooks';
-import { useIsAdminMode } from '../../../hooks';
-import StyledButton from '../../general/StyledButton';
+*/
 
+/*
 const rankingModel = [
   'I cannot do it on my own',
   'I can do it on my own, but with step by step directions',
@@ -38,8 +42,9 @@ const classResources = [
 ];
 
 const classPresentation = { name: 'File_Name.pdf', date: '6/10/20' };
+*/
 
-const sessions = [
+/*const sessions = [
   {
     id: 1,
     title: 'Session 1',
@@ -129,6 +134,7 @@ const sessions = [
     classPresentation
   }
 ];
+*/
 
 const ActionButton = () => {
   const changeRoute = useHandleChangeRoute();
@@ -138,12 +144,14 @@ const ActionButton = () => {
 export default function Sessions() {
   const handleChangeRoute = useHandleChangeRoute();
   const isAdminMode = useIsAdminMode();
+  const { data /*, handleRefresh, loading, success*/ } = useSessions({ table: 'sessions', tab: 'all' });
+
   return (
     <Page title='Available Sessions' ActionButton={isAdminMode ? ActionButton : undefined}>
       <Grid container spacing={3}>
         {[
-          sessions.map(s => (
-            <Grid key={[s.title, s.subtitle].join('-')} item lg={3} sm={6} xs={12}>
+          data.map((s, i) => (
+            <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
               <Session {...s} onClick={handleChangeRoute('/SessionDashboard', s)} />
             </Grid>
           ))
