@@ -4,7 +4,7 @@ import Amplify, { Storage } from 'aws-amplify';
 import { uuid } from '../helpers';
 Amplify.configure(awsconfig);
 
-export default function useS3Bucket({ setState = undefined }) {
+export default function useS3Bucket({ setState = undefined } = {}) {
   const handleUpload = React.useCallback(
     ({
       id = `unknown_${uuid()}`,
@@ -33,7 +33,7 @@ export default function useS3Bucket({ setState = undefined }) {
           setState && setState(prev => ({ ...prev, loading: false, success: false }));
         });
     },
-    []
+    [setState]
   );
 
   return { handleUpload };
