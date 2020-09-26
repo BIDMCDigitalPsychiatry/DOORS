@@ -11,6 +11,7 @@ import { isEmpty, uuid } from '../../../helpers';
 import useProcessData from '../../../database/useProcessData';
 import { tables } from '../../../database/dbConfig';
 import { useSnackBar } from '../../application/SnackBar/useSnackBar';
+import ImageSelector from '../../application/DialogField/ImageSelector';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -34,6 +35,7 @@ export default function CreateSession() {
     id: uuid(),
     adminId,
     name: '',
+    image: '',
     headline: '',
     keySkills: [],
     surveyQuestions: [],
@@ -42,7 +44,7 @@ export default function CreateSession() {
     classPresentation: { name: 'Unknown File Name', date: 'Unknown Date' }
   } as Session);
 
-  const { name, headline, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
+  const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
 
   const handleChangeRoute = useHandleChangeRoute();
   const changeRoute = useChangeRoute();
@@ -109,6 +111,9 @@ export default function CreateSession() {
               label='Session Name'
               fullWidth={false}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <ImageSelector error={errors['image']} disabled={loading} value={image} onChange={handleChange('image')} label='Associated Image' />
           </Grid>
           <Grid item xs={12}>
             <Typography variant='caption' color='textPrimary'>

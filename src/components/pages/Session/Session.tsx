@@ -1,9 +1,9 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Box, Card, Typography, makeStyles, Grid } from '@material-ui/core';
-import calendar from '../../../images/calendar.png';
 import StyledButton from '../../general/StyledButton';
 import { BlockListItem } from '../../general/BlockList';
+import { getImage } from './helpers';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -14,8 +14,8 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   },
   imageContainer: {
     marginTop: spacing(4),
-    marginBottom: spacing(4),
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: spacing(4)
   },
   summary: {
     minHeight: 100,
@@ -28,8 +28,8 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 
 export default function Session({
   headline = '',
-  name = '',  
-  image = calendar,
+  name = '',
+  image = 'calendar',
   keySkills = [] as BlockListItem[],
   className = undefined,
   onClick = undefined,
@@ -51,7 +51,7 @@ export default function Session({
         </Typography>
       </div>
       <div className={classes.imageContainer}>
-        <img src={image} alt={headline} />
+        <img src={getImage(image)} alt={headline} />
       </div>
       <Grid container className={classes.summary} alignItems='center'>
         <Grid item>

@@ -28,6 +28,7 @@ export default interface Session {
   adminId?: string; // user id of the admin user which created the session
   headline?: string;
   name?: string;
+  image?: string;
   keySkills?: BlockListItem[];
   rankingModel?: BlockListItem[];
   surveyQuestions?: BlockListItem[]; // TBD survey question objects
