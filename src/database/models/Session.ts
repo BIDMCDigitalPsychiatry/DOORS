@@ -26,6 +26,7 @@ export const defaultRankingModels: BlockListItem[] = [
 export default interface Session {
   id: string; // unique identifier
   adminId?: string; // user id of the admin user which created the session
+  headline?: string;
   name?: string;
   keySkills?: BlockListItem[];
   rankingModel?: BlockListItem[];

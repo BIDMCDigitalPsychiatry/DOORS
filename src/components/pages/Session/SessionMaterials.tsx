@@ -2,34 +2,41 @@ import * as React from 'react';
 import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRoute } from '../../layout/hooks';
-import { useLocation } from 'react-router';
 import ActionCard from '../../general/ActionCard';
 import * as Icons from '@material-ui/icons';
 import StyledButton from '../../general/StyledButton';
 import SessionPresentationFile from './SessionPresentationFile';
+import { BlockList } from '../../general/BlockList';
+import { tables } from '../../../database/dbConfig';
+import { useLocationData } from '../../../database/useLocationData';
+import { isEmpty } from '../../../helpers';
 
+const Model = tables.sessions;
 export default function SessionMaterials() {
-  const { state }: any = useLocation();
-  const { name, title, keySkills = [], rankingModel = [], classResources = [] } = state;
+  const { data, handleChange }: any = useLocationData({ Model });
+  const {
+    name,
+    header,
+    keySkills = [],
+    rankingModel = [],
+    classResources = [],
+    classPresentation = { name: 'Unknown File Name', date: 'Unknown Date' }
+  } = data;
+
   const handleChangeRoute = useHandleChangeRoute();
+
   return (
-    <ChildPage backLabel='Back to Session' onBack={handleChangeRoute('/SessionDashboard', state)} title={`${name} - ${title}`} subtitle='Edit Class Materials'>
+    <ChildPage
+      backLabel='Back to Session'
+      onBack={handleChangeRoute('/SessionDashboard', data)}
+      title={[name, header].filter(x => !isEmpty(x)).join(' - ')}
+      subtitle='Edit Class Materials'
+    >
       <Box mt={2}>
         <Divider />
         <Grid container style={{ marginTop: 16 }} spacing={3}>
           <Grid item xs={12}>
-            <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
-              Key Skills
-            </Typography>
-            <Box mt={3}>
-              <Grid container spacing={2}>
-                {keySkills.map(({ name, id }) => (
-                  <Grid key={id} item lg={4} sm={4} xs={12}>
-                    <ActionCard title={name} minHeight={72} titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
+            <BlockList title='Key Skills' value={keySkills} add={true} edit={true} remove={true} onChange={handleChange('keySkills')} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
@@ -102,7 +109,7 @@ export default function SessionMaterials() {
             <Typography variant='subtitle1' color='textPrimary'>
               Current class presentation file
             </Typography>
-            <SessionPresentationFile {...state?.classPresentation} />
+            <SessionPresentationFile {...classPresentation} />
           </Grid>
         </Grid>
       </Box>

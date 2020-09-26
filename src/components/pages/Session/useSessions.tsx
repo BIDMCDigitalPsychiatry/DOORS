@@ -16,7 +16,7 @@ export default function useSessions({ table = undefined, tab = undefined, reques
     handleRefresh();
   }, [handleRefresh, table, tab]);
 
-  const rows = Object.keys(data).map((k, i) => ({ ...data[k], title: `Session ${i + 1}` }));
+  const rows = Object.keys(data).map((k, index) => ({ ...data[k] }));
 
   return {
     data: useTableFilter(

@@ -27,7 +27,7 @@ export default function BlockListDialog({ id = title, onClose = undefined, onSub
       id={id}
       title={id}
       onClose={onClose}
-      submitLabel={'Save'}
+      submitLabel={'Done'}
       onSubmit={handleSubmit}
       fields={[
         {

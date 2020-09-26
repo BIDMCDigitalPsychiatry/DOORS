@@ -28,13 +28,13 @@ export default function CreateSession() {
     errors: {}
   });
 
-  const { loading, error, errors } = formState;
-  console.log({ loading, error, errors });
+  const { loading, errors } = formState;
 
   const [state, setState] = React.useState({
     id: uuid(),
     adminId,
     name: '',
+    headline: '',
     keySkills: [],
     surveyQuestions: [],
     rankingModel: defaultRankingModels,
@@ -42,7 +42,7 @@ export default function CreateSession() {
     classPresentation: { name: 'Unknown File Name', date: 'Unknown Date' }
   } as Session);
 
-  const { name, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
+  const { name, headline, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
 
   const handleChangeRoute = useHandleChangeRoute();
   const changeRoute = useChangeRoute();
@@ -89,8 +89,19 @@ export default function CreateSession() {
         <Grid container style={{ marginTop: 16 }} spacing={3}>
           <Grid item xs={12}>
             <Text
-              error={errors['name']}
+              error={errors['headline']}
               autoFocus
+              disabled={loading}
+              placeholder='Enter Session Headline'
+              value={headline}
+              onChange={handleChange('headline')}
+              label='Session Headline'
+              fullWidth={false}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Text
+              error={errors['name']}
               disabled={loading}
               placeholder='Enter Session Name'
               value={name}

@@ -9,7 +9,8 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
   header: {
     color: palette.common.black,
-    padding: spacing(2)
+    padding: spacing(2),
+    minHeight: 96
   },
   imageContainer: {
     marginTop: spacing(4),
@@ -26,8 +27,8 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 }));
 
 export default function Session({
-  name = 'Session Name Placeholder',
-  title = 'Title Place Holder',
+  headline = '',
+  name = '',  
   image = calendar,
   keySkills = [] as BlockListItem[],
   className = undefined,
@@ -43,14 +44,14 @@ export default function Session({
     <Card className={clsx(classes.root, className)} {...rest}>
       <div className={classes.header}>
         <Typography noWrap gutterBottom variant='subtitle1' color='textSecondary'>
-          {title}
+          {headline}
         </Typography>
         <Typography noWrap gutterBottom variant='h6' color='textPrimary'>
           {name}
         </Typography>
       </div>
       <div className={classes.imageContainer}>
-        <img src={image} alt={title} />
+        <img src={image} alt={headline} />
       </div>
       <Grid container className={classes.summary} alignItems='center'>
         <Grid item>

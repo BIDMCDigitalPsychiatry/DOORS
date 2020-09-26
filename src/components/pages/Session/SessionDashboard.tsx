@@ -3,9 +3,10 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import ActionCard from '../../general/ActionCard';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRoute } from '../../layout/hooks';
-import { useLocation } from 'react-router';
 import { useUserType } from '../../../hooks';
 import { isEmpty } from '../../../helpers';
+import { tables } from '../../../database/dbConfig';
+import { useLocationData } from '../../../database/useLocationData';
 
 const actionCards = [
   { title: 'Class Mode', description: 'View the class materials the way your students will', route: '/Pre-Survey', disabled: false },
@@ -13,17 +14,21 @@ const actionCards = [
   { title: 'Class Roster', description: 'View current participants and new members', route: '/SessionMembers' }
 ];
 
-export default function SessionDashboard({ supertitle }) {
-  const { state }: any = useLocation();
-  const { title, subtitle, keySkills = [] } = state ?? {};
+const Model = tables.sessions;
+
+export default function SessionDashboard() {
+  const { data } = useLocationData({ Model });
+  const { name, headline, keySkills = [] } = data;
+
   const userType = useUserType();
   const handleChangeRoute = useHandleChangeRoute();
+
   return (
     <ChildPage
       backLabel='Back to Sessions'
       onBack={handleChangeRoute('/Sessions')}
-      supertitle={title}
-      title={subtitle}
+      supertitle={name}
+      title={headline}
       subtitle={`Your are signed in as ${userType === 'Student' ? 'a' : 'an'} ${userType}`}
     >
       <Box mt={2}>
@@ -42,7 +47,7 @@ export default function SessionDashboard({ supertitle }) {
         <Grid container spacing={3}>
           {actionCards.map(ac => (
             <Grid key={ac.title} item lg={4} sm={4} xs={12}>
-              <ActionCard {...ac} onClick={handleChangeRoute(ac.route, state)} />
+              <ActionCard {...ac} minHeight={150} onClick={handleChangeRoute(ac.route, data)} />
             </Grid>
           ))}
         </Grid>

@@ -144,13 +144,13 @@ const ActionButton = () => {
 export default function Sessions() {
   const handleChangeRoute = useHandleChangeRoute();
   const isAdminMode = useIsAdminMode();
-  const { data /*, handleRefresh, loading, success*/ } = useSessions({ table: 'sessions', tab: 'all' });
+  const { data } = useSessions({ table: 'sessions', tab: 'all' });
 
   return (
     <Page title='Available Sessions' ActionButton={isAdminMode ? ActionButton : undefined}>
       <Grid container spacing={3}>
         {[
-          data.map((s, i) => (
+          data.map(s => (
             <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
               <Session {...s} onClick={handleChangeRoute('/SessionDashboard', s)} />
             </Grid>
