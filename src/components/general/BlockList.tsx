@@ -106,3 +106,12 @@ export function BlockList({
     </>
   );
 }
+
+/*
+ <Grid item style={{ display: 'inline-flex', width: 175 }}>
+                <Icons.Lock color='primary' />
+                <Typography variant='subtitle1' color='primary'>
+                  You can't remove any locked items
+                </Typography>
+              </Grid>
+              */

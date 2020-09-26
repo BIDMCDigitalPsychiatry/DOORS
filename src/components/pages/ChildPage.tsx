@@ -21,6 +21,7 @@ export default function ChildPage({
   supertitle = undefined,
   title = undefined,
   subtitle = undefined,
+  TitleButton = undefined,
   children = <></>
 }) {
   const classes = useStyles();
@@ -32,7 +33,7 @@ export default function ChildPage({
         </DialogButton>
       )}
       <Box mt={2}>
-        <Header supertitle={supertitle} title={title} subtitle={subtitle} />
+        <Header supertitle={supertitle} title={title} subtitle={subtitle} TitleButton={TitleButton} />
         <Container disableGutters={true} className={classes.container} maxWidth={false}>
           {children}
         </Container>

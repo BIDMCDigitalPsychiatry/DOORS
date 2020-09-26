@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
-import { useChangeRoute, useHandleChangeRoute, useUserId } from '../../layout/hooks';
+import { useHandleChangeRoute, useUserId } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import SessionPresentationFile from './SessionPresentationFile';
 import Text from '../../application/DialogField/Text';
 import { BlockList } from '../../general/BlockList';
 import Session, { defaultRankingModels } from '../../../database/models/Session';
 import { isEmpty, uuid } from '../../../helpers';
-import useProcessData from '../../../database/useProcessData';
 import { tables } from '../../../database/dbConfig';
-import { useSnackBar } from '../../application/SnackBar/useSnackBar';
 import ImageSelector from '../../application/DialogField/ImageSelector';
+import useFormState from '../../hooks/useFormState';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -20,15 +19,11 @@ const validate = ({ name }) => {
   }
   return newErrors;
 };
-
+const Model = tables.sessions;
 export default function CreateSession() {
   const adminId = useUserId();
-  const [formState, setFormState] = React.useState({
-    loading: false,
-    error: undefined,
-    errors: {}
-  });
-
+  const handleChangeRoute = useHandleChangeRoute();
+  const { formState, handleCreate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Sessions') });
   const { loading, errors } = formState;
 
   const [state, setState] = React.useState({
@@ -46,8 +41,6 @@ export default function CreateSession() {
 
   const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
 
-  const handleChangeRoute = useHandleChangeRoute();
-  const changeRoute = useChangeRoute();
   const handleChange = React.useCallback(
     key => ({ target }) => {
       const { value } = target;
@@ -55,34 +48,6 @@ export default function CreateSession() {
     },
     [setState]
   );
-
-  const processData = useProcessData();
-  const [, setSnackbar] = useSnackBar();
-
-  const handleSubmit = Data => () => {
-    setFormState(prev => ({ ...prev, loading: true, error: undefined, errors: {} }));
-    const errors = validate(Data);
-    console.log({ errors, length: Object.keys(errors).length });
-    if (Object.keys(errors).length > 0) {
-      setFormState(prev => ({ ...prev, loading: false, errors }));
-      setSnackbar({ open: true, variant: 'error', message: 'Input validation error' });
-    } else {
-      processData({
-        Model: tables.sessions,
-        Action: 'c',
-        Data,
-        onError: () => {
-          setFormState(prev => ({ ...prev, loading: false, error: 'Error creating session' }));
-          setSnackbar({ open: true, variant: 'error', message: 'Error Creating Session' });
-        },
-        onSuccess: () => {
-          setFormState(prev => ({ ...prev, loading: false, error: undefined }));
-          setSnackbar({ open: true, variant: 'success', message: 'Created Session' });
-          changeRoute('/Sessions');
-        }
-      });
-    }
-  };
 
   return (
     <ChildPage backLabel='Back to Sessions' onBack={handleChangeRoute('/Sessions')} title='Create New Session'>
@@ -162,7 +127,7 @@ export default function CreateSession() {
             <SessionPresentationFile {...classPresentation} />
           </Grid>
           <Grid item xs={12}>
-            <StyledButton onClick={handleSubmit(state)}>Create New Session</StyledButton>
+            <StyledButton onClick={handleCreate(state)}>Create New Session</StyledButton>
           </Grid>
         </Grid>
       </Box>

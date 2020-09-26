@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { makeStyles, createStyles, Typography, Grid } from '@material-ui/core';
+import { isEmpty } from '../../helpers';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -16,7 +17,8 @@ export default function Header({
   supertitle = undefined,
   title = undefined,
   subtitle = undefined,
-  ActionButton = undefined
+  ActionButton = undefined,
+  TitleButton = undefined
 }) {
   const classes = useStyles();
   return (
@@ -33,7 +35,14 @@ export default function Header({
           {title && (
             <Grid item xs={12}>
               <Typography className={classes.header} variant={titleVariant as any}>
-                {title}
+                <Grid container justify='space-between'>
+                  {!isEmpty(title) && <Grid item>{title}</Grid>}
+                  {TitleButton && (
+                    <Grid item>
+                      <TitleButton />
+                    </Grid>
+                  )}
+                </Grid>
               </Typography>
             </Grid>
           )}
