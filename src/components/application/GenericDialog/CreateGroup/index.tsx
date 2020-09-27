@@ -1,13 +1,18 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import Label from '../../DialogField/Label';
+import Radio from '../../DialogField/Radio';
 import MarginDivider from '../../DialogField/MarginDivider';
 import { sendStudentInvite } from './helpers';
 import { useDialogState } from '../useDialogState';
 import { useSnackBar } from '../../SnackBar/useSnackBar';
-import { isEmpty, parseEmails, validateEmail } from '../../../../helpers';
+import { isEmpty, parseEmails, uuid, validateEmail } from '../../../../helpers';
+import { tables } from '../../../../database/dbConfig';
+import { useSubmitDialogData } from '../useSubmitDialogData';
 
 export const title = 'Create New Group';
+
+const Model = tables.groups;
 
 const validate = ({ participants }) => {
   const newErrors = {};
@@ -27,6 +32,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
   const [state, setState] = useDialogState(id);
   const { initialValues, subtitle = 'Unknown Session' } = state;
   const [, setSnackbar] = useSnackBar();
+  const submitData = useSubmitDialogData({ id, onClose });
 
   const handleClose = React.useCallback(
     (props = undefined) => {
@@ -37,23 +43,29 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
     [onClose, setState, setSnackbar]
   );
 
-  const onError = React.useCallback(() => {
-    handleClose({ open: true, variant: 'success', message: 'Error creating group' });
-  }, [handleClose]);
+  const onError = React.useCallback(() => handleClose({ open: true, variant: 'error', message: 'Error sending student invite' }), [handleClose]);
 
-  const onSuccess = React.useCallback(() => {
-    handleClose({ open: true, variant: 'success', message: 'Successfully created group' });
-  }, [handleClose]);
-
-  const handleSubmit = React.useCallback(
-    ({ id, name, location, sessionId, participants }, setValues) => {
-      // TODO: Create group in database
-      // Send invite emails
+  const onSubmitSuccess = React.useCallback(
+    values => ({ id, name, location, type, participants }) => {
       parseEmails(participants).forEach(email => {
-        sendStudentInvite({ id, email, name, location, onSuccess, onError });
+        sendStudentInvite({ id, email, name, type, location, onError });
       });
     },
-    [onSuccess, onError]
+    [onError]
+  );
+
+  const handleSubmit = React.useCallback(
+    values =>
+      submitData({
+        Data: {
+          id: uuid(),
+          ...values
+        },
+        Model,
+        Action: 'c',
+        OnSuccess: onSubmitSuccess(values)
+      }),
+    [submitData, onSubmitSuccess]
   );
 
   return (
@@ -96,6 +108,17 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
           label: 'Location',
           placeholder: 'Enter Group Location',
           required: true
+        },
+        {
+          id: 'type',
+          label: 'Group Type',
+          Field: Radio,
+          variant: 'outlined',
+          items: [
+            { value: 'On Site', label: 'On Site' },
+            { value: 'On Line', label: 'On Line' }
+          ],
+          initialValue: 'On Line'
         },
         {
           id: 'participants',

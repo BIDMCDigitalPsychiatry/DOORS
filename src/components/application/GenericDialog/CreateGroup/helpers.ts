@@ -13,6 +13,7 @@ export const sendStudentInvite = ({
   role = 'Student',
   id,
   name = 'Unknown Group Name',
+  type = 'Unknown Group Type',
   location = 'Unknown Location',
   onSuccess = undefined,
   onError = undefined
@@ -21,6 +22,7 @@ export const sendStudentInvite = ({
     <p>User Email: ${email}</p>  
     <p>Role: ${role}</p>
     <p>Group Name: ${name}</p>
+    <p>Group Type: ${type}</p>    
     <p>Group Location: ${location}</p>    
     
     <h2><a href='${hostAddress(publicUrl(`/?i=${id}`))}'>Click here to accept the invite<a/></h2>

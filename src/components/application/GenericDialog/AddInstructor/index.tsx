@@ -54,7 +54,7 @@ export default function AddInstructorDialog({ id = title, onClose }) {
   );
 
   const onError = React.useCallback(() => {
-    handleClose({ open: true, variant: 'success', message: 'Error sending invite' });
+    handleClose({ open: true, variant: 'error', message: 'Error sending invite' });
   }, [handleClose]);
 
   const onSuccess = React.useCallback(() => {
