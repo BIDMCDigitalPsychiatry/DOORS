@@ -10,7 +10,7 @@ import Session from '../pages/Session/Session';
 import SessionDashboard from '../pages/Session/SessionDashboard';
 import SessionClass from '../pages/Session/SessionClass';
 import SessionMaterials from '../pages/Session/SessionMaterials';
-import SessionMembers from '../pages/Session/SessionMembers';
+import ClassRoster from '../pages/Session/ClassRoster';
 import TermsAndConditions from '../pages/TermsAndConditions';
 import StyleGuide from '../pages/StyleGuide';
 import PostSurvey from '../pages/Class/PostSurvey';
@@ -34,7 +34,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/SessionDashboard')} component={SessionDashboard} />
     <Route exact path={publicUrl('/SessionClass')} component={SessionClass} />
     <Route exact path={publicUrl('/SessionMaterials')} component={SessionMaterials} />
-    <Route exact path={publicUrl('/SessionMembers')} component={SessionMembers} />
+    <Route exact path={publicUrl('/ClassRoster')} component={ClassRoster} />
     <Route exact path={publicUrl('/Lesson')} component={Lesson} />
     <Route exact path={publicUrl('/Pre-Survey')} component={PreSurvey} />
     <Route exact path={publicUrl('/Post-Survey')} component={PostSurvey} />

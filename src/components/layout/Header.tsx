@@ -32,24 +32,24 @@ export default function Header({
               </Typography>
             </Grid>
           )}
-          {title && (
+          {(!isEmpty(title) || !isEmpty(subtitle)) && (
             <Grid item xs={12}>
               <Typography className={classes.header} variant={titleVariant as any}>
-                <Grid container justify='space-between'>
-                  {!isEmpty(title) && <Grid item>{title}</Grid>}
+                <Grid container spacing={1} justify='space-between'>
+                  <Grid item>
+                    {title}
+                    {subtitle && (
+                      <Typography color='textSecondary' variant={subVariant as any}>
+                        {subtitle}
+                      </Typography>
+                    )}
+                  </Grid>
                   {TitleButton && (
                     <Grid item>
                       <TitleButton />
                     </Grid>
                   )}
                 </Grid>
-              </Typography>
-            </Grid>
-          )}
-          {subtitle && (
-            <Grid item xs={12}>
-              <Typography color='textSecondary' variant={subVariant as any}>
-                {subtitle}
               </Typography>
             </Grid>
           )}
