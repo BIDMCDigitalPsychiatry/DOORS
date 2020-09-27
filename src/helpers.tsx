@@ -262,3 +262,13 @@ export function getDayTimeFromTimestamp(timestamp: number) {
 
   return `${day} ${month} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
 }
+
+// Accepts a single paramater which is one or more emails separated
+// by space,comma,semicolon,tab, or newline.
+// Returns an array of tokens that should be emails
+// Does not validate emails to see if they are well formed.
+export function parseEmails(emails) {
+  return emails.toLowerCase().split(/[\s,;\t\n]+/);
+}
+
+export const getSessionTitle = ({headline,name}) => [headline, name].filter(x => !isEmpty(x)).join(' - ')

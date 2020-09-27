@@ -131,7 +131,7 @@ const GenericDialog = ({
   ContentProps,
   validate,
   classes: Classes,
-  children,  
+  children,
   ...other
 }: ComponentProps & any) => {
   const { layout } = useTheme();

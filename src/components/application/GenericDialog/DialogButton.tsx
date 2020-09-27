@@ -1,5 +1,4 @@
 import React from 'react';
-import AddIcon from '@material-ui/icons/Add';
 import {
   Button,
   IconButton,
@@ -149,7 +148,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     size = 'small',
     label = '',
     disabled = undefined,
-    Icon = AddIcon,
+    Icon = undefined,
     initialValues = {},
     noGrid = true,
     mount = true,
@@ -162,6 +161,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     setValues = undefined,
     className = undefined,
     disabledColor = undefined,
+    fullWidth = undefined,
     children,
     ...other
   }: DialogButtonProps & any,
@@ -233,7 +233,14 @@ const DialogButton = React.forwardRef(function DialogButton(
       >
         <span>
           {variant === 'styled' ? (
-            <StyledButton variant={styledVariant} width={fullScreen ? 64 : 120} disabled={disabled} onClick={handleClick} size={size}>
+            <StyledButton
+              variant={styledVariant}
+              fullWidth={fullWidth}
+              width={fullWidth ? undefined : fullScreen ? 64 : 120}
+              disabled={disabled}
+              onClick={handleClick}
+              size={size}
+            >
               {Icon && <Icon />}
               {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>{children}</div>}
             </StyledButton>

@@ -23,13 +23,11 @@ export default function ImageSelector({ value = 'calendar', label, className = u
   const classes = useStyles();
   const handleChange = React.useCallback(
     value => () => {
-      console.log(value);
       onChange && onChange({ target: { value } });
     },
     [onChange]
   );
 
-  console.log({ value });
   return (
     <Box>
       <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>

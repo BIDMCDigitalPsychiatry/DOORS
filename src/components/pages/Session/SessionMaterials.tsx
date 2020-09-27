@@ -7,7 +7,7 @@ import SessionPresentationFile from './SessionPresentationFile';
 import { BlockList } from '../../general/BlockList';
 import { tables } from '../../../database/dbConfig';
 import { useLocationData } from '../../../database/useLocationData';
-import { isEmpty } from '../../../helpers';
+import { getSessionTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
 import Text from '../../application/DialogField/Text';
 import ImageSelector from '../../application/DialogField/ImageSelector';
@@ -45,7 +45,7 @@ export default function SessionMaterials() {
     <ChildPage
       backLabel='Back to Session'
       onBack={handleChangeRoute('/SessionDashboard', data)}
-      title={[headline, name].filter(x => !isEmpty(x)).join(' - ')}
+      title={getSessionTitle({ headline, name })}
       subtitle='Edit Class Materials'
       TitleButton={props => <TitleButton onClick={handleUpdate(data)} {...props} />}
     >
