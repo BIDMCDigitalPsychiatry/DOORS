@@ -1,1 +1,15 @@
+## My Classes
 
+ - **Admins** have the ability to create/delete and update a class.  The admin class data will be linked live to individual instructor classes.  This means if the instructor makes changes to the class the changes will be apparent in all linked instructor classes.  If an instructor has modified the class data which an admin later updates, priority will be given to the instructor's modifications unless the admin change includes a locked field.  In the case of a locked field, the admin information will always be used.
+ 
+ - **Instructors** can individualy modify an existing class and create a new session from any of the classes.  Any changes made to a class only apply to the individual instructor.  The class data will be a live link to the individual sessions.  If an instructor has multiple sessions that link to a single class and they update the class, then both sessions will show the updated data.
+ 
+ - **Students** will not have a My Classes tab or section
+
+## My Sessions
+
+- **Admins** can view all sessions from all instructors and also click into their associated session and view/edit class rosters, groups, class modifications, etc
+
+- **Instructors** will see their own set of sessions.  They can click into them and add/edit students, groups, etc.  An instructor can also create multiple sessions from the same class.
+
+- **Students** will see all sessions that they have been invited to.  When the click on the view session button it will show them the student content (pre-survey, lesson, post-survey, etc).  The content that the students see will be linked live to the instructors class data.  This means if the instructor changes the class material, then the changes will be reflected in the student content.
