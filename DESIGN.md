@@ -14,7 +14,7 @@
      - [ ] When a student clicks on the view session button it will show them the student content (pre-survey, lesson, post-survey, etc).  
      - [ ] The content that the students see will be linked live to the instructors class data.  This means if the instructor changes the class material, then the changes will be reflected in the student content.
  
- ## View Class -> Class Roster
+ ## My Classes -> View Class -> Class Roster
  
  - **Admins** 
      - [ ] Can see all groups from all instructors that are associated with the current class. 
@@ -25,11 +25,3 @@
      - [ ] Can only see their groups.  
      - [ ] Can create a new group and link it to their associated class
      - [ ] Can create a new group from an existing group and link it to their associated class
-
-## My Sessions
-
-- **Admins** can view all sessions from all instructors and also click into their associated session and view/edit class rosters, groups, class modifications, etc
-
-- **Instructors** will see their own set of sessions.  They can click into them and add/edit students, groups, etc.  An instructor can also create multiple sessions from the same class.
-
-- **Students** will see all sessions that they have been invited to.  When the click on the view session button it will show them the student content (pre-survey, lesson, post-survey, etc).  The content that the students see will be linked live to the instructors class data.  This means if the instructor changes the class material, then the changes will be reflected in the student content.
