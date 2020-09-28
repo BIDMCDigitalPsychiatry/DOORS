@@ -2,7 +2,7 @@ import React from 'react';
 import { useDialogState } from './useDialogState';
 import useProcessData from '../../../database/useProcessData';
 
-export const useSubmitDialogData = ({ id, onClose }) => {
+export const useSubmitDialogData = ({ id, onClose = undefined }) => {
   const [, setState] = useDialogState(id);
   const processData = useProcessData();
 

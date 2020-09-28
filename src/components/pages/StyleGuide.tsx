@@ -2,6 +2,9 @@ import * as React from 'react';
 import { Container, Grid } from '@material-ui/core';
 import Page from './Page';
 import StyledButton from '../general/StyledButton';
+import DialogButton from '../application/GenericDialog/DialogButton';
+import * as AddStudentDialog from '../application/GenericDialog/AddStudent';
+import * as Icons from '@material-ui/icons';
 
 export default function StyleGuide() {
   return (
@@ -34,6 +37,11 @@ export default function StyleGuide() {
             <StyledButton variant='text' disabled={true}>
               Text Disabled
             </StyledButton>
+          </Grid>
+          <Grid item xs={12}>
+            <DialogButton maxWidth='xl' fullWidth Module={AddStudentDialog} Icon={Icons.Add} size='large' variant='styled' tooltip=''>
+              Add Student
+            </DialogButton>
           </Grid>
         </Grid>
       </Page>
