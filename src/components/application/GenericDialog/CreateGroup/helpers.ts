@@ -18,6 +18,7 @@ export const sendStudentInvite = ({
   onSuccess = undefined,
   onError = undefined
 }) => {
+  console.log('Sending student invite to: ' + email);
   const body = `You have been invited to the Doors Web Application:
     <p>User Email: ${email}</p>  
     <p>Role: ${role}</p>

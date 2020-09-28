@@ -40,12 +40,14 @@ const TitleButton = ({ subtitle = undefined, initialValues = undefined, disabled
 
 export default function ClassRoster() {
   const { data }: any = useLocationData({ Model });
-  const { id, name, headline } = data;
+  const { name, headline } = data;
+
+  // TODO: Add logic to retreive class, if no class found, then automatically create the class for the instructor, disable everything until this is done.
 
   const handleChangeRoute = useHandleChangeRoute();
 
   const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Sessions') });
-  const { loading } = formState;
+  const { loading } = formState;  
 
   return (
     <ChildPage
@@ -56,7 +58,7 @@ export default function ClassRoster() {
       TitleButton={props => (
         <TitleButton
           subtitle={getSessionTitle({ headline, name })}
-          initialValues={{ sessionId: id }}
+          initialValues={{ session: data }}
           disabled={loading}
           onClick={handleUpdate(data)}
           {...props}

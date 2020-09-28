@@ -81,7 +81,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
           Data,
           onError: onError(isLast),
           onSuccess: () => {
-            sendStudentInvite({ id, email, onError, onSuccess: isLast && onSuccess });
+            sendStudentInvite({ id, email, onError: onError(isLast), onSuccess: isLast && onSuccess });
           }
         });
       });

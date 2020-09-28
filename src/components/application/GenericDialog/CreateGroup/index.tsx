@@ -9,15 +9,17 @@ import { useSnackBar } from '../../SnackBar/useSnackBar';
 import { isEmpty, parseEmails, uuid, validateEmail } from '../../../../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { useSubmitDialogData } from '../useSubmitDialogData';
+import { useUserId } from '../../../layout/hooks';
+import useProcessData from '../../../../database/useProcessData';
+import Student from '../../../../database/models/Student';
+import Group from '../../../../database/models/Group';
 
 export const title = 'Create New Group';
-
-const Model = tables.groups;
 
 const validate = ({ participants }) => {
   const newErrors = {};
   if (isEmpty(participants)) {
-    newErrors['name'] = 'Required';
+    newErrors['participants'] = 'Required';
   } else {
     parseEmails(participants).forEach(e => {
       if (!validateEmail(e)) {
@@ -31,41 +33,91 @@ const validate = ({ participants }) => {
 export default function CreateGroupDialog({ id = title, onClose = undefined }) {
   const [state, setState] = useDialogState(id);
   const { initialValues, subtitle = 'Unknown Session' } = state;
+  const { session } = initialValues;
+  const sessionId = session?.id;
+
   const [, setSnackbar] = useSnackBar();
-  const submitData = useSubmitDialogData({ id, onClose });
+  const submitData = useSubmitDialogData({ id });
+  const userId = useUserId();
 
   const handleClose = React.useCallback(
-    (props = undefined) => {
+    (props = undefined, isLast = true) => {
       props && setSnackbar(props);
-      setState(prev => ({ ...prev, open: false, loading: false }));
-      onClose && onClose();
+      if (isLast) {
+        setState(prev => ({ ...prev, open: false, loading: false }));
+        onClose && onClose();
+      }
     },
     [onClose, setState, setSnackbar]
   );
 
-  const onError = React.useCallback(() => handleClose({ open: true, variant: 'error', message: 'Error sending student invite' }), [handleClose]);
+  const onSuccess = React.useCallback(() => {
+    console.log('onSuccess');
+    handleClose({ open: true, variant: 'success', message: 'Successfully sent invite' });
+  }, [handleClose]);
+
+  const onError = React.useCallback(
+    isLast => () => {
+      handleClose({ open: true, variant: 'error', message: 'Error sending invite' }, isLast);
+    },
+    [handleClose]
+  );
+
+  const processData = useProcessData();
+  const parentId = useUserId();
 
   const onSubmitSuccess = React.useCallback(
-    values => ({ id, name, location, type, participants }) => {
-      parseEmails(participants).forEach(email => {
-        sendStudentInvite({ id, email, name, type, location, onError });
+    ({ id: groupId, participants, name, type, location }) => () => {
+      parseEmails(participants).forEach((email, i) => {
+        // Create the student invite rows and also send the individual invites
+        const isLast = i === parseEmails(participants).length - 1;
+        const id = uuid();
+
+        const Data: Student = {
+          id,
+          groupId,
+          sessionId,
+          parentId,
+          email
+        };
+
+        setState(prev => ({ ...prev, loading: true }));
+
+        processData({
+          Model: tables.students,
+          Action: 'c',
+          Data,
+          onError: onError(isLast),
+          onSuccess: () => {
+            sendStudentInvite({ id, email, name, type, location, onError: onError(isLast), onSuccess: isLast && onSuccess });
+          }
+        });
       });
     },
-    [onError]
+    [sessionId, onSuccess, onError, parentId, setState, processData]
   );
 
   const handleSubmit = React.useCallback(
-    values =>
+    ({ name, location, type, participants }) => {
+      // First create the group in the database
+      const group: Group = {
+        id: uuid(),
+        userId, // id of user that created the group
+        sessionId,
+        name,
+        location,
+        type,
+        participants
+      };
+
       submitData({
-        Data: {
-          id: uuid(),
-          ...values
-        },
-        Model,
+        Data: group,
+        Model: tables.groups,
         Action: 'c',
-        OnSuccess: onSubmitSuccess(values)
-      }),
-    [submitData, onSubmitSuccess]
+        OnSuccess: onSubmitSuccess(group) // Next create the student invites
+      });
+    },
+    [userId, sessionId, submitData, onSubmitSuccess]
   );
 
   return (
@@ -88,14 +140,6 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         },
         {
           Field: MarginDivider
-        },
-        {
-          id: 'sessionId',
-          label: 'Session ID',
-          InputProps: {
-            readOnly: true
-          },
-          hidden: true
         },
         {
           id: 'name',
