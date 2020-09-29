@@ -8,6 +8,7 @@ import { getSessionTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CreateGroupDialog from '../../application/GenericDialog/CreateGroup';
+import Group from './Group';
 
 const Model = tables.sessions;
 const validate = ({ name }) => {
@@ -47,7 +48,7 @@ export default function ClassRoster() {
   const handleChangeRoute = useHandleChangeRoute();
 
   const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Sessions') });
-  const { loading } = formState;  
+  const { loading } = formState;
 
   return (
     <ChildPage
@@ -67,6 +68,7 @@ export default function ClassRoster() {
     >
       <Box mt={2}>
         <Divider />
+        <Group />
       </Box>
     </ChildPage>
   );

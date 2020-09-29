@@ -242,7 +242,7 @@ const DialogButton = React.forwardRef(function DialogButton(
               size={size}
             >
               {Icon && <Icon />}
-              {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>{children}</div>}
+              {(Icon === undefined || !fullScreen) && <div style={{ marginLeft: 4, marginRight: 4 }}>{children}</div>}
             </StyledButton>
           ) : variant === 'menuitem' ? (
             <MenuItem key={label} {...shared}>
