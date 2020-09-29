@@ -21,7 +21,7 @@ export const useTableRow = ({ Model = tables.instructors, id, state, setState })
         onSuccess: response => setState(prev => ({ ...prev, loading: false, error: undefined, response }))
       });
     }
-  }, [id, processData, setState]);
+  }, [id, Model, processData, setState]);
 
   const setRow = React.useCallback(
     (newValues, OnSuccess = undefined, OnError = undefined) => {
@@ -42,7 +42,7 @@ export const useTableRow = ({ Model = tables.instructors, id, state, setState })
         });
       }
     },
-    [id, setState, processData, row_str]
+    [id, Model, setState, processData, row_str]
   );
 
   const expired = isExpired(row);
