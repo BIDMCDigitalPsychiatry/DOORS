@@ -78,7 +78,7 @@ export default function Group({
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={8} lg={9} xl={10} className={classes.details}>
-          <Grid container justify='space-between' spacing={1}>
+          <Grid container justify='space-between' spacing={2}>
             <Grid item xs>
               <Grid container justify='flex-start' spacing={2}>
                 <Grid item xs={12}>
