@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Grid, Box, Typography } from '@material-ui/core';
-import { getImage, images } from '../../pages/Session/helpers';
+import { getImage, images } from '../../pages/Class/helpers';
 import OutlinedDivActive from '../../general/OutlinedDiv/OutlinedDivActive';
 
 const useStyles = makeStyles(({ spacing }) => ({

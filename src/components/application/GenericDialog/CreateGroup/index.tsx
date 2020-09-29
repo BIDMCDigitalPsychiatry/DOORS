@@ -32,9 +32,8 @@ const validate = ({ participants }) => {
 
 export default function CreateGroupDialog({ id = title, onClose = undefined }) {
   const [state, setState] = useDialogState(id);
-  const { initialValues, subtitle = 'Unknown Session' } = state;
-  const { session } = initialValues;
-  const sessionId = session?.id;
+  const { initialValues, subtitle = 'Unknown Class' } = state;
+  const classId = initialValues['class']?.id;
 
   const [, setSnackbar] = useSnackBar();
   const submitData = useSubmitDialogData({ id });
@@ -76,7 +75,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         const Data: Student = {
           id,
           groupId,
-          sessionId,
+          classId,
           parentId,
           email
         };
@@ -94,7 +93,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         });
       });
     },
-    [sessionId, onSuccess, onError, parentId, setState, processData]
+    [classId, onSuccess, onError, parentId, setState, processData]
   );
 
   const handleSubmit = React.useCallback(
@@ -104,7 +103,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         id: uuid(),
         userId, // id of user that created the group
         instructorId: userId,
-        sessionId,
+        classId,
         name,
         location,
         type,
@@ -118,7 +117,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         OnSuccess: onSubmitSuccess(group) // Next create the student invites
       });
     },
-    [userId, sessionId, submitData, onSubmitSuccess]
+    [userId, classId, submitData, onSubmitSuccess]
   );
 
   return (
@@ -168,7 +167,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         {
           id: 'participants',
           label: 'Group Participats',
-          placeholder: 'Enter email addressess to give acces to this session',
+          placeholder: 'Enter email addressess to give acces to this class',
           required: true,
           multiline: true,
           rows: 6

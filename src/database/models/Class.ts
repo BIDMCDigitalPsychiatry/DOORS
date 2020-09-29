@@ -1,12 +1,40 @@
-import Session from './Session';
+import { BlockListItem } from './../../components/general/BlockList';
 
-// The Class table links the instructor the othe specific instructors associated data
+export const defaultRankingModels: BlockListItem[] = [
+  {
+    id: '0',
+    name: 'I cannot do it on my own'
+  },
+  {
+    id: '1',
+    name: 'I can do it on my own, but with step by step directions'
+  },
+  {
+    id: '2',
+    name: 'I can do it mostly on my own, but may have a few questions'
+  },
+  {
+    id: '3',
+    name: 'I can do it on my own with ease'
+  },
+  {
+    id: '4',
+    name: 'I can do it and can teach someone else'
+  }
+].map(i => ({ ...i, canEdit: false, canLock: false, canDelete: false }));
+
 export default interface Class {
   id: string; // unique identifier
-  instructorId: string; // associated instructor
-  session: Session; // Instructor's associated session data, this data is secondary to the Admin's session data
-  groupIds: string[]; // Groups that are associated with this class
+  adminId?: string; // user id of the admin user which created the class
+  headline?: string;
+  name?: string;
+  image?: string;
+  keySkills?: BlockListItem[];
+  rankingModel?: BlockListItem[];
+  surveyQuestions?: BlockListItem[]; // TBD survey question objects
+  classPresentation?: any; // TBD file meta data
+  classResources?: any[]; // TBD classResource objects
   created?: number;
-  deleted?: boolean;
   updated?: number;
+  deleted?: boolean;
 }

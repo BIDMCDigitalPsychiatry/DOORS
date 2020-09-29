@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export default function Session({
+export default function Class({
   headline = '',
   name = '',
   image = 'calendar',

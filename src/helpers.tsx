@@ -302,7 +302,6 @@ function nth(d) {
   }
 }
 
-
 export function getDayTimeFromTimestamp(timestamp: number) {
   var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
   d.setUTCMilliseconds(timestamp); //utc time
@@ -325,4 +324,4 @@ export function parseEmails(emails) {
   return emails.toLowerCase().split(/[\s,;\t\n]+/);
 }
 
-export const getSessionTitle = ({headline,name}) => [headline, name].filter(x => !isEmpty(x)).join(' - ')
+export const getClassTitle = ({ headline, name }) => [headline, name].filter(x => !isEmpty(x)).join(' - ');

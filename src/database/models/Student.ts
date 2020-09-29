@@ -1,6 +1,5 @@
 export default interface Student {
-  id: string; // unique identifier
-  sessionId?: string; // Session that the user is invited to
+  id: string; // unique identifier  
   groupId: string; // Group that the user is invited to
   classId?: string; // Group that the user is invited to
   parentId: string; // user id of inviting user

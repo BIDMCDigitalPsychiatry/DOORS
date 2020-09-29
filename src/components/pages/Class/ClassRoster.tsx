@@ -4,14 +4,14 @@ import ChildPage from '../ChildPage';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { tables } from '../../../database/dbConfig';
 import { useLocationData } from '../../../database/useLocationData';
-import { getSessionTitle, isEmpty } from '../../../helpers';
+import { getClassTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CreateGroupDialog from '../../application/GenericDialog/CreateGroup';
 import Group from './Group';
 import { useFullScreen } from '../../../hooks';
 
-const Model = tables.sessions;
+const Model = tables.classes;
 const validate = ({ name }) => {
   const newErrors = {};
   if (isEmpty(name)) {
@@ -29,7 +29,7 @@ const TitleButton = ({ subtitle = undefined, initialValues = undefined, disabled
     </Grid>
     <Grid item xs={12}>
       <DialogButton subtitle={subtitle} variant='styled' styledVariant='secondary' size='large' fullWidth disabled={disabled}>
-        Enter Existing Group ID
+        Add Existing Group
       </DialogButton>
     </Grid>
     <Grid item xs={12}>
@@ -48,7 +48,7 @@ export default function ClassRoster() {
 
   const handleChangeRoute = useHandleChangeRoute();
 
-  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Sessions') });
+  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
   const { loading } = formState;
 
   const created = new Date().getTime();
@@ -64,14 +64,14 @@ export default function ClassRoster() {
 
   return (
     <ChildPage
-      backLabel='Back to Session'
-      onBack={handleChangeRoute('/SessionDashboard', data)}
-      title={getSessionTitle({ headline, name })}
+      backLabel='Back to Class'
+      onBack={handleChangeRoute('/ClassDashboard', data)}
+      title={getClassTitle({ headline, name })}
       subtitle='Class Roster'
       TitleButton={props => (
         <TitleButton
-          subtitle={getSessionTitle({ headline, name })}
-          initialValues={{ session: data }}
+          subtitle={getClassTitle({ headline, name })}
+          initialValues={{ class: data }}
           disabled={loading}
           onClick={handleUpdate(data)}
           {...props}

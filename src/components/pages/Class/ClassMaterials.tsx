@@ -3,16 +3,16 @@ import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import SessionPresentationFile from './SessionPresentationFile';
+import ClassPresentationFile from './ClassPresentationFile';
 import { BlockList } from '../../general/BlockList';
 import { tables } from '../../../database/dbConfig';
 import { useLocationData } from '../../../database/useLocationData';
-import { getSessionTitle, isEmpty } from '../../../helpers';
+import { getClassTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
 import Text from '../../application/DialogField/Text';
 import ImageSelector from '../../application/DialogField/ImageSelector';
 
-const Model = tables.sessions;
+const Model = tables.classes;
 const validate = ({ name }) => {
   const newErrors = {};
   if (isEmpty(name)) {
@@ -23,7 +23,7 @@ const validate = ({ name }) => {
 
 const TitleButton = ({ onClick }) => <StyledButton onClick={onClick}>Save Changes</StyledButton>;
 
-export default function SessionMaterials() {
+export default function ClassMaterials() {
   const { data, handleChange }: any = useLocationData({ Model });
   const {
     name,
@@ -38,14 +38,14 @@ export default function SessionMaterials() {
 
   const handleChangeRoute = useHandleChangeRoute();
 
-  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Sessions') });
+  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
   const { loading, errors } = formState;
 
   return (
     <ChildPage
-      backLabel='Back to Session'
-      onBack={handleChangeRoute('/SessionDashboard', data)}
-      title={getSessionTitle({ headline, name })}
+      backLabel='Back to Class'
+      onBack={handleChangeRoute('/ClassDashboard', data)}
+      title={getClassTitle({ headline, name })}
       subtitle='Edit Class Materials'
       TitleButton={props => <TitleButton onClick={handleUpdate(data)} {...props} />}
     >
@@ -58,10 +58,10 @@ export default function SessionMaterials() {
               error={errors['headline']}
               autoFocus
               disabled={loading}
-              placeholder='Enter Session Headline'
+              placeholder='Enter Class Headline'
               value={headline}
               onChange={handleChange('headline')}
-              label='Session Headline'
+              label='Class Headline'
               fullWidth={false}
             />
           </Grid>
@@ -69,10 +69,10 @@ export default function SessionMaterials() {
             <Text
               error={errors['name']}
               disabled={loading}
-              placeholder='Enter Session Name'
+              placeholder='Enter Class Name'
               value={name}
               onChange={handleChange('name')}
-              label='Session Name'
+              label='Class Name'
               fullWidth={false}
             />
           </Grid>
@@ -113,7 +113,7 @@ export default function SessionMaterials() {
             <Typography variant='subtitle1' color='textPrimary'>
               Current class presentation file
             </Typography>
-            <SessionPresentationFile {...classPresentation} />
+            <ClassPresentationFile {...classPresentation} />
           </Grid>
         </Grid>
       </Box>

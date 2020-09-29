@@ -10,13 +10,13 @@ import { useLocationData } from '../../../database/useLocationData';
 
 const actionCards = [
   { title: 'Class Mode', description: 'View the class materials the way your students will', route: '/Pre-Survey', disabled: false },
-  { title: 'Edit Materials', description: 'Review and edit class materials', route: '/SessionMaterials' },
+  { title: 'Edit Materials', description: 'Review and edit class materials', route: '/ClassMaterials' },
   { title: 'Class Roster', description: 'View current participants and new members', route: '/ClassRoster' }
 ];
 
-const Model = tables.sessions;
+const Model = tables.classes;
 
-export default function SessionDashboard() {
+export default function ClassDashboard() {
   const { data } = useLocationData({ Model });
   const { name, headline, keySkills = [] } = data;
 
@@ -25,8 +25,8 @@ export default function SessionDashboard() {
 
   return (
     <ChildPage
-      backLabel='Back to Sessions'
-      onBack={handleChangeRoute('/Sessions')}
+      backLabel='Back to Classes'
+      onBack={handleChangeRoute('/Classes')}
       supertitle={name}
       title={headline}
       subtitle={`Your are signed in as ${userType === 'Student' ? 'a' : 'an'} ${userType}`}

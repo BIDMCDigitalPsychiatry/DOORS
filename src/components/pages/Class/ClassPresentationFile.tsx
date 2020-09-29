@@ -64,7 +64,7 @@ export const FileActions = () => {
             onSuccess: () => {
               setState(prev => ({ ...prev, uploading: false }));
               setSnackbar({ open: true, variant: 'success', message: 'Successfully uploaded file' });
-              // TODO update session with link to newly uploaded file
+              // TODO update class with link to newly uploaded file
             },
             onError: () => {
               setState(prev => ({ ...prev, uploading: false }));
@@ -101,7 +101,7 @@ export const FileActions = () => {
   );
 };
 
-export default function SessionPresentationFile({ name = 'Unknown File Name', date = 'Unknown Date' }) {
+export default function ClassPresentationFile({ name = 'Unknown File Name', date = 'Unknown Date' }) {
   const classes = useStyles();
   return (
     <Card className={classes.root}>

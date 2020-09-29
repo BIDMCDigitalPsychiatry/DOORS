@@ -3,8 +3,8 @@ import useTable from '../../../database/useTable';
 import { tables } from '../../../database/dbConfig';
 import { useTableFilter } from '../../application/GenericTable/helpers';
 
-export default function useSessions({ table = undefined, tab = undefined, requestParams = undefined }) {
-  const { state, handleRequest } = useTable({ TableName: tables.sessions });
+export default function useClasses({ table = undefined, tab = undefined, requestParams = undefined }) {
+  const { state, handleRequest } = useTable({ TableName: tables.classes });
   const { data, loading, success } = state as any;
 
   const handleRefresh = React.useCallback(() => {
@@ -16,7 +16,7 @@ export default function useSessions({ table = undefined, tab = undefined, reques
     handleRefresh();
   }, [handleRefresh, table, tab]);
 
-  const rows = Object.keys(data).map((k, index) => ({ ...data[k] }));
+  const rows = Object.keys(data).map(k => ({ ...data[k] }));
 
   return {
     data: useTableFilter(

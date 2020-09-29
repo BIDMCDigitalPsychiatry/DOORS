@@ -2,7 +2,7 @@ import { useUserType } from './../../hooks';
 import * as Icons from '@material-ui/icons';
 
 const allTabs = [
-  { id: 'My Classes', icon: Icons.Apps, route: '/Sessions' },
+  { id: 'My Classes', icon: Icons.Apps, route: '/Classes' },
   { id: 'Instructors', icon: Icons.SupervisorAccount, route: '/Instructors', userTypes: ['Admin'] },
   { id: 'My Calendar', icon: Icons.Event, route: '/Calendar' },
   { id: 'My Profile', icon: Icons.AccountBox, route: '/Profile' },

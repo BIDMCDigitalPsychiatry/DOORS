@@ -64,11 +64,11 @@ export default function VerticalLinearStepper() {
   return (
     <>
       <Box p={1}>
-        <DialogButton variant='link' linkVariant='subtitle1' onClick={changeRoute('/Sessions')}>
-          {`<  Back to Sessions`}
+        <DialogButton variant='link' linkVariant='subtitle1' onClick={changeRoute('/Classes')}>
+          {`<  Back to Classes`}
         </DialogButton>
         <Box mt={2}>
-          <Header supertitle={'Session 3'} subtitle={'Managing Responsibilities'} />
+          <Header supertitle={'Class 3'} subtitle={'Managing Responsibilities'} />
         </Box>
       </Box>
       <Stepper activeStep={activeStep} orientation='vertical'>

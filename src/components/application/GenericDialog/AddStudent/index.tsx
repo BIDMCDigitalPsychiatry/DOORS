@@ -66,9 +66,8 @@ export default function AddStudentDialog({ id = title, onClose }) {
 
         const Data: Student = {
           id,
-          sessionId: '',
-          groupId: '',
           classId: '',
+          groupId: '',          
           parentId,
           email
         };
@@ -100,7 +99,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
       validate={validate}
       fields={[
         {
-          label: `Students will receive an invitation on their email address, if the student is already registered they will see the session available on their main dashboard.  You can add multiple email addresses at the same time, just enter a space or comma between different email addresses.`,
+          label: `Students will receive an invitation on their email address, if the student is already registered they will see the class available on their main dashboard.  You can add multiple email addresses at the same time, just enter a space or comma between different email addresses.`,
           Field: Label
         },
         {
@@ -109,7 +108,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
         {
           id: 'emails',
           label: 'Emails to Add',
-          placeholder: 'Enter email address to give access to this session',
+          placeholder: 'Enter email address to give access to this class',
           required: true,
           multiline: true,
           rows: 4

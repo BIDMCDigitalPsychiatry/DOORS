@@ -3,14 +3,14 @@ import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRoute, useUserId } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import SessionPresentationFile from './SessionPresentationFile';
+import ClassPresentationFile from './ClassPresentationFile';
 import Text from '../../application/DialogField/Text';
 import { BlockList } from '../../general/BlockList';
-import Session, { defaultRankingModels } from '../../../database/models/Session';
 import { isEmpty, uuid } from '../../../helpers';
 import { tables } from '../../../database/dbConfig';
 import ImageSelector from '../../application/DialogField/ImageSelector';
 import useFormState from '../../hooks/useFormState';
+import Class, { defaultRankingModels } from '../../../database/models/Class';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -19,11 +19,11 @@ const validate = ({ name }) => {
   }
   return newErrors;
 };
-const Model = tables.sessions;
-export default function CreateSession() {
+const Model = tables.classes;
+export default function CreateClass() {
   const adminId = useUserId();
   const handleChangeRoute = useHandleChangeRoute();
-  const { formState, handleCreate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Sessions') });
+  const { formState, handleCreate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
   const { loading, errors } = formState;
 
   const [state, setState] = React.useState({
@@ -37,7 +37,7 @@ export default function CreateSession() {
     rankingModel: defaultRankingModels,
     classResources: [],
     classPresentation: { name: 'Unknown File Name', date: 'Unknown Date' }
-  } as Session);
+  } as Class);
 
   const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
 
@@ -50,7 +50,7 @@ export default function CreateSession() {
   );
 
   return (
-    <ChildPage backLabel='Back to Sessions' onBack={handleChangeRoute('/Sessions')} title='Create New Session'>
+    <ChildPage backLabel='Back to Classes' onBack={handleChangeRoute('/Classes')} title='Create New Class'>
       <Box mt={2}>
         <Divider />
         <Grid container style={{ marginTop: 16 }} spacing={3}>
@@ -59,10 +59,10 @@ export default function CreateSession() {
               error={errors['headline']}
               autoFocus
               disabled={loading}
-              placeholder='Enter Session Headline'
+              placeholder='Enter Class Headline'
               value={headline}
               onChange={handleChange('headline')}
-              label='Session Headline'
+              label='Class Headline'
               fullWidth={false}
             />
           </Grid>
@@ -70,10 +70,10 @@ export default function CreateSession() {
             <Text
               error={errors['name']}
               disabled={loading}
-              placeholder='Enter Session Name'
+              placeholder='Enter Class Name'
               value={name}
               onChange={handleChange('name')}
-              label='Session Name'
+              label='Class Name'
               fullWidth={false}
             />
           </Grid>
@@ -124,10 +124,10 @@ export default function CreateSession() {
             <Typography variant='subtitle1' color='textPrimary'>
               Current class presentation file
             </Typography>
-            <SessionPresentationFile {...classPresentation} />
+            <ClassPresentationFile {...classPresentation} />
           </Grid>
           <Grid item xs={12}>
-            <StyledButton onClick={handleCreate(state)}>Create New Session</StyledButton>
+            <StyledButton onClick={handleCreate(state)}>Create New Class</StyledButton>
           </Grid>
         </Grid>
       </Box>
