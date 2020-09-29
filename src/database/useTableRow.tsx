@@ -9,8 +9,9 @@ export const isExpired = item => minutesFrom(item?.created) > inviteExpiration;
 export const useTableRow = ({ Model = tables.instructors, id, state, setState }) => {
   const processData = useProcessData();
   const row = state?.response?.Item;
-  const row_str = JSON.stringify(row);
-  React.useEffect(() => {
+  const row_str = JSON.stringify(row) ?? '{}'; // Default to empty object string if undefined
+
+  const handleRefresh = React.useCallback(() => {
     if (!isEmpty(id)) {
       setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
       processData({
@@ -22,6 +23,10 @@ export const useTableRow = ({ Model = tables.instructors, id, state, setState })
       });
     }
   }, [id, Model, processData, setState]);
+
+  React.useEffect(() => {
+    handleRefresh();
+  }, [handleRefresh]);
 
   const setRow = React.useCallback(
     (newValues, OnSuccess = undefined, OnError = undefined) => {
@@ -47,5 +52,5 @@ export const useTableRow = ({ Model = tables.instructors, id, state, setState })
 
   const expired = isExpired(row);
 
-  return [row, setRow, expired];
+  return { row, setRow, expired, handleRefresh };
 };

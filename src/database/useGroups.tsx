@@ -19,13 +19,7 @@ export const useGroups = ({ table = undefined, tab = undefined, requestParams = 
   const rows = Object.keys(data).map(k => ({ ...data[k] }));
 
   return {
-    data: useTableFilter(
-      rows.map(i => ({
-        ...i,
-        getValues: () => i
-      })),
-      table
-    ),
+    data: useTableFilter(rows, table),
     handleRefresh,
     loading,
     success

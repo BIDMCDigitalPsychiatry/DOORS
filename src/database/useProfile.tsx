@@ -4,6 +4,6 @@ import { tables } from './dbConfig';
 
 export function useProfile({ id }) {
   const [state, setState] = React.useState();
-  const [row, setRow] = useTableRow({ Model: tables.profiles, id, state, setState });
-  return [row, setRow, state, setState];
+  const { row, setRow, handleRefresh } = useTableRow({ Model: tables.profiles, id, state, setState });
+  return { profile: row, setProfile: setRow, state, setState, handleRefresh };
 }

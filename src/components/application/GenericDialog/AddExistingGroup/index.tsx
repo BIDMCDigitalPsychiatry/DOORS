@@ -27,7 +27,6 @@ export default function AddExistingGroupDialog({ id = title, onClose = undefined
   const userId = useUserId();
 
   console.log({ id, state });
-
   const handleClose = React.useCallback(
     (props = undefined) => {
       props && setSnackbar(props);

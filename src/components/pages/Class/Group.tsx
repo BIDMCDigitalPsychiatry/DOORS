@@ -47,15 +47,14 @@ export default function Group({
   location = 'Unknown Location',
   type = 'Unknown Type',
   created = undefined,
-  className = undefined,
-  ...rest
+  className = undefined
 }) {
   const classes = useStyles();
 
   const { pendingStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
 
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card className={clsx(classes.root, className)}>
       <Grid container>
         <Grid item xs={12} sm={12} md={4} lg={3} xl={2} className={classes.summary}>
           <Grid container spacing={0}>
@@ -91,8 +90,8 @@ export default function Group({
                 { students: pendingStudents, label: 'Pending Invites (Not Accepted)' }
               ]
                 .filter(i => i.students.length > 0)
-                .map(props => (
-                  <Participants {...props} />
+                .map((props, i) => (
+                  <Participants key={i} {...props} />
                 ))}
             </Grid>
             <Grid item xs={12} sm={12} md={7} lg={4} xl={3} className={classes.actions}>

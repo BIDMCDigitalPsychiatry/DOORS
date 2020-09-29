@@ -63,7 +63,7 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
   const [state, setState] = React.useState({ loading: false, error: undefined, response: undefined, errors: {} });
   const { loading, error } = state;
 
-  const [row, setRow, expired] = useTableRow({
+  const { row, setRow, expired } = useTableRow({
     Model: type === 's' ? tables.students : tables.instructors,
     id,
     state,

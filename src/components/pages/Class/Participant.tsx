@@ -8,15 +8,13 @@ import { useProfile } from '../../../database/useProfile';
 const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
-    width: 128
+    width: 148
   }
 }));
 
 export default function Participant({ student, className = undefined, ...rest }) {
   const classes = useStyles();
-  const [profile] = useProfile({ id: student?.userId });
-
-  console.log({ student, profile });
+  const { profile } = useProfile({ id: student?.userId });
 
   return (
     <div className={clsx(classes.root, className)} {...rest}>
@@ -30,15 +28,15 @@ export default function Participant({ student, className = undefined, ...rest })
           </Typography>
         </Grid>
         {!isEmpty(student?.userId) && (
-          <Grid item>
-            <DialogButton variant='link' underline='always' linkVariant='body2' fullWidth>
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <DialogButton onClick={() => alert('To be implemented')} variant='link' underline='always' linkVariant='body2' fullWidth>
               View Profile
             </DialogButton>
           </Grid>
         )}
         {student.accepted === true ? (
-          <Grid item>
-            <DialogButton variant='link' underline='always' linkVariant='body2' fullWidth>
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <DialogButton onClick={() => alert('To be implemented')} variant='link' underline='always' linkVariant='body2' fullWidth>
               Remove
             </DialogButton>
           </Grid>

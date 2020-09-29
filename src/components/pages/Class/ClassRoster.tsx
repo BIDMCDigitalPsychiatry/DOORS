@@ -66,7 +66,7 @@ export default function ClassRoster() {
         <Divider />
         <Grid container style={{ padding: !fullScreen ? 24 : 8 }} spacing={3}>
           {groups.map((g, i) => (
-            <Grid item xs={12}>
+            <Grid item key={g?.id} xs={12}>
               <Group {...g} mount={i === 0} />
             </Grid>
           ))}
