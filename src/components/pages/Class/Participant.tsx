@@ -5,7 +5,7 @@ import DialogButton from '../../application/GenericDialog/DialogButton';
 import { getStudentName, isEmpty, minutesFrom, minutesToTimeAgo } from '../../../helpers';
 import { useProfile } from '../../../database/useProfile';
 
-const useStyles = makeStyles(({}) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     width: 128
