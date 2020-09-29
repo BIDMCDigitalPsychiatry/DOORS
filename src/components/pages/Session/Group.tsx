@@ -3,21 +3,19 @@ import clsx from 'clsx';
 import { Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
 import Participant from './Participant';
+import { getDateFromTimestamp } from '../../../helpers';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
   summary: {
-    width: 151,
     padding: spacing(1),
     background: palette.primary.light,
     color: palette.common.white
   },
   actions: {
-    width: 270,
     padding: spacing(1),
     display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    alignItems: 'flex-start'
   },
   details: {
     padding: spacing(1),
@@ -29,6 +27,10 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   },
   semibold: {
     fontWeight: 500
+  },
+  createdOn: {
+    marginTop: 12,
+    fontWeight: 500
   }
 }));
 
@@ -38,35 +40,44 @@ export default function Group({
   instructorId = undefined,
   sessionId = undefined,
   name = 'Group Name',
-  location = undefined,
-  type = undefined,
-
-  //actionLabel = 'View',
-  //onClick = undefined,
+  location = 'Unknown Location',
+  type = 'Unknown Type',
+  created = undefined,
   className = undefined,
-  //titleProps = undefined,
-  //minHeight = undefined,
-  //disabled = undefined,
-  //onLock = undefined,
-  //onRemove = undefined,
-  //onEdit = undefined,
   ...rest
 }) {
   const classes = useStyles();
-  //const handleLock = React.useCallback(item => () => onLock && onLock(item), [onLock]);
-  //const handleRemove = React.useCallback(item => () => onRemove && onRemove(item), [onRemove]);
-  //const handleEdit = React.useCallback(item => () => onEdit && onEdit(item), [onEdit]);
-  //const isAdminMode = useIsAdminMode();
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <Grid container>
-        <Grid item className={classes.summary}>
-          <Typography variant='h6' className={classes.semibold}>
-            {name}
-          </Typography>
+        <Grid item xs={12} sm={12} md={4} lg={3} xl={2} className={classes.summary}>
+          <Grid container spacing={0}>
+            <Grid item xs={12}>
+              <Typography variant='h6' className={classes.semibold}>
+                {name}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='body2' className={classes.semibold}>
+                Group Location: {location}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant='body2' className={classes.semibold}>
+                Group Type: {type}
+              </Typography>
+            </Grid>
+            {created && (
+              <Grid item xs={12}>
+                <Typography variant='body2' className={classes.createdOn}>
+                  Created on {getDateFromTimestamp(created)}
+                </Typography>
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs className={classes.details}>
+        <Grid item xs={12} sm={12} md={8} lg={9} xl={10} className={classes.details}>
           <Grid container justify='space-between' spacing={1}>
             <Grid item xs>
               <Grid container justify='flex-start' spacing={2}>
@@ -86,7 +97,7 @@ export default function Group({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item className={classes.actions}>
+            <Grid item xs={12} sm={12} md={7} lg={4} xl={3} className={classes.actions}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <StyledButton fullWidth={true}>Add New Student</StyledButton>

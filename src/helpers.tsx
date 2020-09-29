@@ -159,6 +159,66 @@ export function uuid() {
   return uuidv4();
 }
 
+//returns milliseconds from Jan 1 1970
+export function getTime() {
+  return Date.now();
+}
+export function getIsoDateString(timestamp?: number) {
+  var d = new Date(0);
+  d.setUTCMilliseconds(timestamp || getTime());
+  return d.toISOString();
+}
+
+export function getDateFromTimestamp(milliseconds): string {
+  //UTC timestamp is milliseconds since Jan 1 1970
+  var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+  //utc time
+  d.setUTCMilliseconds(milliseconds);
+  return mmddyyyy(d);
+}
+
+export function getTimeFromTimestamp(milliseconds): string {
+  //UTC timestamp is milliseconds since Jan 1 1970
+  var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+  //utc time
+  d.setUTCMilliseconds(milliseconds);
+  return getHoursMinutes(d);
+}
+
+function addZero(i) {
+  if (i < 10) {
+    i = '0' + i;
+  }
+  return i;
+}
+
+export function getHoursMinutes(date) {
+  var h = addZero(date.getHours());
+  var m = addZero(date.getMinutes());
+  return h + ':' + m;
+}
+
+export function yyyymmdd(date?: Date) {
+  date = date ? date : new Date(); //If we don't pass a date in, then create it
+
+  var mm = date.getMonth() + 1; // getMonth() is zero-based
+  var dd = date.getDate();
+
+  return [date.getFullYear(), (mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd].join('-');
+}
+
+export function mmddyyyy(date) {
+  var mm = date.getMonth() + 1; // getMonth() is zero-based
+  var dd = date.getDate();
+
+  return [(mm > 9 ? '' : '0') + mm, (dd > 9 ? '' : '0') + dd, date.getFullYear()].join('/');
+}
+
+export function getDateForInput(date) {
+  //should be in this format: 2019-01-02
+  return yyyymmdd(date);
+}
+
 // Returns minutes elapsed from time to current time
 export function minutesFrom(time) {
   var current = new Date().getTime();
@@ -242,12 +302,6 @@ function nth(d) {
   }
 }
 
-function addZero(i) {
-  if (i < 10) {
-    i = '0' + i;
-  }
-  return i;
-}
 
 export function getDayTimeFromTimestamp(timestamp: number) {
   var d = new Date(0); // The 0 there is the key, which sets the date to the epoch

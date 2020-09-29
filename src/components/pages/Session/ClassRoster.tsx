@@ -9,6 +9,7 @@ import useFormState from '../../hooks/useFormState';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CreateGroupDialog from '../../application/GenericDialog/CreateGroup';
 import Group from './Group';
+import { useFullScreen } from '../../../hooks';
 
 const Model = tables.sessions;
 const validate = ({ name }) => {
@@ -50,6 +51,17 @@ export default function ClassRoster() {
   const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Sessions') });
   const { loading } = formState;
 
+  const t = new Date();
+  const fullScreen = useFullScreen();
+
+  const groups = [
+    { name: 'Group 1', location: 'Test Location 1', type: 'On Line', created: new Date().getTime() },
+    { name: 'Group 2', location: 'Test Location 2', type: 'On Line', created: new Date().getTime() },
+    { name: 'Group 3', location: 'Test Location 3', type: 'On Line', created: new Date().getTime() },
+    { name: 'Group 4', location: 'Test Location 4', type: 'On Line', created: new Date().getTime() },
+    { name: 'Group 5', location: 'Test Location 5', type: 'On Line', created: new Date().getTime() }
+  ];
+
   return (
     <ChildPage
       backLabel='Back to Session'
@@ -68,7 +80,13 @@ export default function ClassRoster() {
     >
       <Box mt={2}>
         <Divider />
-        <Group />
+        <Grid container style={{ padding: !fullScreen ? 24 : 8 }} spacing={3}>
+          {groups.map(g => (
+            <Grid item xs={12}>
+              <Group {...g} />
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </ChildPage>
   );
