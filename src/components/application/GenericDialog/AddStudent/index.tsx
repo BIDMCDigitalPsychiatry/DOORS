@@ -28,7 +28,9 @@ const validate = ({ emails }) => {
 };
 
 export default function AddStudentDialog({ id = title, onClose }) {
-  const [, setState] = useDialogState(id);
+  const [{ initialValues }, setState] = useDialogState(id);
+  const { group = {} } = initialValues;
+  const { id: groupId, name, type, location } = group;
   const [, setSnackbar] = useSnackBar();
 
   const handleClose = React.useCallback(
@@ -66,8 +68,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
 
         const Data: Student = {
           id,
-          classId: '',
-          groupId: '',          
+          groupId,
           parentId,
           email
         };
@@ -80,12 +81,12 @@ export default function AddStudentDialog({ id = title, onClose }) {
           Data,
           onError: onError(isLast),
           onSuccess: () => {
-            sendStudentInvite({ id, email, onError: onError(isLast), onSuccess: isLast && onSuccess });
+            sendStudentInvite({ id, email, name, type, location, onError: onError(isLast), onSuccess: isLast && onSuccess });
           }
         });
       });
     },
-    [setState, processData, parentId, onSuccess, onError]
+    [setState, processData, parentId, onSuccess, onError, name, type, location, groupId]
   );
 
   return (
@@ -108,6 +109,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
         {
           id: 'emails',
           label: 'Emails to Add',
+          autoFocus: true,
           placeholder: 'Enter email address to give access to this class',
           required: true,
           multiline: true,

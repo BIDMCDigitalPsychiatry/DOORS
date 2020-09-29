@@ -24,7 +24,7 @@ export const sendInstructorInvite = ({
     <p>Role: ${title}</p>
     <p>Institution: ${institution}</p>
     
-    <h2><a href='${hostAddress(publicUrl(`/?i=${id}`))}'>Click here to accept the invite<a/></h2>
+    <h2><a href='${hostAddress(publicUrl(`/?i=${id}&t=i`))}'>Click here to accept the invite<a/></h2>
     `;
 
   // Create sendEmail params

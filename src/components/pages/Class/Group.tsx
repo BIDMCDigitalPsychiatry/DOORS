@@ -2,8 +2,11 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
-import Participant from './Participant';
 import { getDateFromTimestamp } from '../../../helpers';
+import DialogButton from '../../application/GenericDialog/DialogButton';
+import * as AddStudentDialog from '../../application/GenericDialog/AddStudent';
+import useGroupStudents from '../../../database/useGroupStudents';
+import { Participants } from './Participants';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -35,6 +38,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 }));
 
 export default function Group({
+  mount = false,
   id = undefined,
   userId = undefined,
   instructorId = undefined,
@@ -47,6 +51,8 @@ export default function Group({
   ...rest
 }) {
   const classes = useStyles();
+
+  const { pendingStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
@@ -80,38 +86,50 @@ export default function Group({
         <Grid item xs={12} sm={12} md={8} lg={9} xl={10} className={classes.details}>
           <Grid container justify='space-between' spacing={2}>
             <Grid item xs>
-              <Grid container justify='flex-start' spacing={2}>
-                <Grid item xs={12}>
-                  <Typography variant='subtitle1' className={classes.bold}>
-                    X Class Participants
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Participant />
-                </Grid>
-                <Grid item>
-                  <Participant />
-                </Grid>
-                <Grid item>
-                  <Participant />
-                </Grid>
-              </Grid>
+              {[
+                { students: activeStudents, label: 'Class Participants' },
+                { students: pendingStudents, label: 'Pending Invites (Not Accepted)' }
+              ]
+                .filter(i => i.students.length > 0)
+                .map(props => (
+                  <Participants {...props} />
+                ))}
             </Grid>
             <Grid item xs={12} sm={12} md={7} lg={4} xl={3} className={classes.actions}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
-                  <StyledButton fullWidth={true}>Add New Student</StyledButton>
+                  <DialogButton
+                    Module={AddStudentDialog}
+                    mount={mount}
+                    fullWidth={true}
+                    onClose={handleRefresh}
+                    variant='styled'
+                    size='large'
+                    tooltip=''
+                    initialValues={{
+                      group: {
+                        id,
+                        name,
+                        type,
+                        location
+                      }
+                    }}
+                  >
+                    Add New Student
+                  </DialogButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <StyledButton fullWidth={true}>Mark Attendance</StyledButton>
+                  <StyledButton fullWidth={true} onClick={() => alert('To be completed')}>
+                    Mark Attendance
+                  </StyledButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <StyledButton variant='secondary' fullWidth={true}>
+                  <StyledButton variant='secondary' fullWidth={true} onClick={() => alert('To be completed')}>
                     View Attendance History
                   </StyledButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <StyledButton variant='secondary' fullWidth={true}>
+                  <StyledButton variant='secondary' fullWidth={true} onClick={() => alert('To be completed')}>
                     View Class Report
                   </StyledButton>
                 </Grid>

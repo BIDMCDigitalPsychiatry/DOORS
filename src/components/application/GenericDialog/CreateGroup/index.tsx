@@ -18,9 +18,7 @@ export const title = 'Create New Group';
 
 const validate = ({ participants }) => {
   const newErrors = {};
-  if (isEmpty(participants)) {
-    newErrors['participants'] = 'Required';
-  } else {
+  if (!isEmpty(participants)) {
     parseEmails(participants).forEach(e => {
       if (!validateEmail(e)) {
         newErrors['participants'] = 'Invalid email format';
@@ -51,7 +49,6 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
   );
 
   const onSuccess = React.useCallback(() => {
-    console.log('onSuccess');
     handleClose({ open: true, variant: 'success', message: 'Successfully sent invite' });
   }, [handleClose]);
 
@@ -67,33 +64,37 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
 
   const onSubmitSuccess = React.useCallback(
     ({ id: groupId, participants, name, type, location }) => () => {
-      parseEmails(participants).forEach((email, i) => {
-        // Create the student invite rows and also send the individual invites
-        const isLast = i === parseEmails(participants).length - 1;
-        const id = uuid();
+      const invitesToSend = parseEmails(participants);
+      if (invitesToSend.length === 0) {
+        handleClose({ open: true, variant: 'success', message: 'Successfully created group' });
+      } else {
+        invitesToSend.forEach((email, i) => {
+          // Create the student invite rows and also send the individual invites
+          const isLast = i === parseEmails(participants).length - 1;
+          const id = uuid();
 
-        const Data: Student = {
-          id,
-          groupId,
-          classId,
-          parentId,
-          email
-        };
+          const Data: Student = {
+            id,
+            groupId,
+            parentId,
+            email
+          };
 
-        setState(prev => ({ ...prev, loading: true }));
+          setState(prev => ({ ...prev, loading: true }));
 
-        processData({
-          Model: tables.students,
-          Action: 'c',
-          Data,
-          onError: onError(isLast),
-          onSuccess: () => {
-            sendStudentInvite({ id, email, name, type, location, onError: onError(isLast), onSuccess: isLast && onSuccess });
-          }
+          processData({
+            Model: tables.students,
+            Action: 'c',
+            Data,
+            onError: onError(isLast),
+            onSuccess: () => {
+              sendStudentInvite({ id, email, name, type, location, onError: onError(isLast), onSuccess: isLast && onSuccess });
+            }
+          });
         });
-      });
+      }
     },
-    [classId, onSuccess, onError, parentId, setState, processData]
+    [onSuccess, onError, parentId, setState, processData, handleClose]
   );
 
   const handleSubmit = React.useCallback(
@@ -168,7 +169,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
           id: 'participants',
           label: 'Group Participats',
           placeholder: 'Enter email addressess to give acces to this class',
-          required: true,
+          required: false,
           multiline: true,
           rows: 6
         }

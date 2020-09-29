@@ -4,10 +4,11 @@ import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
 import { useHeight, useUserId } from './hooks';
-import { useInstructor } from '../../database/useInstructor';
 import { isEmpty, timeAgo } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
+import { tables } from '../../database/dbConfig';
+import { useTableRow } from '../../database/useTableRow';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -53,7 +54,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function AcceptInvite({ id, onBack = undefined }) {
+export default function AcceptInvite({ id, type, onBack = undefined }) {
   const BannerMsg = 'Click below to accept invitation';
   const height = useHeight();
   const classes = useStyles({ height });
@@ -62,7 +63,12 @@ export default function AcceptInvite({ id, onBack = undefined }) {
   const [state, setState] = React.useState({ loading: false, error: undefined, response: undefined, errors: {} });
   const { loading, error } = state;
 
-  const [instructor, setInstructor, expired] = useInstructor({ id, state, setState });
+  const [row, setRow, expired] = useTableRow({
+    Model: type === 's' ? tables.students : tables.instructors,
+    id,
+    state,
+    setState
+  });
 
   const dispatch = useDispatch();
   const userId = useUserId();
@@ -73,10 +79,10 @@ export default function AcceptInvite({ id, onBack = undefined }) {
   }, [onBack, dispatch]);
 
   const handleSubmit = React.useCallback(() => {
-    setInstructor({ accepted: true, userId }, handleClose);
-  }, [setInstructor, handleClose, userId]);
+    setRow({ accepted: true, userId }, handleClose);
+  }, [setRow, handleClose, userId]);
 
-  const isError = !isEmpty(instructor?.userId) || expired || instructor?.deleted || !isEmpty(error);
+  const isError = !isEmpty(row?.userId) || expired || row?.deleted || !isEmpty(error);
 
   return (
     <div
@@ -126,13 +132,13 @@ export default function AcceptInvite({ id, onBack = undefined }) {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography align='center' className={classes.summary}>
-                    Invited {timeAgo(instructor?.created)}
+                    Invited {timeAgo(row?.created)}
                   </Typography>
                   {isError && (
                     <Typography align='center' color='error' className={classes.summary}>
-                      {!isEmpty(instructor?.userId)
+                      {!isEmpty(row?.userId)
                         ? 'Invite has already been accepted'
-                        : expired || instructor?.deleted
+                        : expired || row?.deleted
                         ? 'Invite has expired or no longer exists. Please request a new invite.'
                         : error}
                     </Typography>

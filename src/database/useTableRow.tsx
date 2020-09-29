@@ -6,15 +6,15 @@ import { inviteExpiration } from '../../package.json';
 
 export const isExpired = item => minutesFrom(item?.created) > inviteExpiration;
 
-export const useInstructor = ({ id, state, setState }) => {
+export const useTableRow = ({ Model = tables.instructors, id, state, setState }) => {
   const processData = useProcessData();
-  const instructor = state.response?.Item;
-  const instructor_str = JSON.stringify(instructor);
+  const row = state?.response?.Item;
+  const row_str = JSON.stringify(row);
   React.useEffect(() => {
     if (!isEmpty(id)) {
       setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
       processData({
-        Model: tables.instructors,
+        Model,
         Action: 'r',
         Data: { id },
         onError: response => setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response })),
@@ -23,14 +23,14 @@ export const useInstructor = ({ id, state, setState }) => {
     }
   }, [id, processData, setState]);
 
-  const setInstructor = React.useCallback(
+  const setRow = React.useCallback(
     (newValues, OnSuccess = undefined, OnError = undefined) => {
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
         processData({
-          Model: tables.instructors,
+          Model,
           Action: 'u',
-          Data: { ...JSON.parse(instructor_str), id, ...newValues },
+          Data: { ...JSON.parse(row_str), id, ...newValues },
           onError: response => {
             setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response }));
             OnError && OnError(response);
@@ -42,10 +42,10 @@ export const useInstructor = ({ id, state, setState }) => {
         });
       }
     },
-    [id, setState, processData, instructor_str]
+    [id, setState, processData, row_str]
   );
 
-  const expired = isExpired(instructor);
+  const expired = isExpired(row);
 
-  return [instructor, setInstructor, expired];
+  return [row, setRow, expired];
 };

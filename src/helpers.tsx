@@ -321,7 +321,9 @@ export function getDayTimeFromTimestamp(timestamp: number) {
 // Returns an array of tokens that should be emails
 // Does not validate emails to see if they are well formed.
 export function parseEmails(emails) {
-  return emails.toLowerCase().split(/[\s,;\t\n]+/);
+  return isEmpty(emails) ? [] : emails.toLowerCase().split(/[\s,;\t\n]+/);
 }
 
 export const getClassTitle = ({ headline, name }) => [headline, name].filter(x => !isEmpty(x)).join(' - ');
+
+export const getStudentName = ({ student, profile }) => profile?.name ?? student?.email ?? 'Unknown Name';
