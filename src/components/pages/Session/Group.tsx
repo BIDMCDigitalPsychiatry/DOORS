@@ -2,6 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
+import Participant from './Participant';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -68,9 +69,22 @@ export default function Group({
         <Grid item xs className={classes.details}>
           <Grid container justify='space-between' spacing={1}>
             <Grid item xs>
-              <Typography variant='subtitle1' className={classes.bold}>
-                X Class Participants
-              </Typography>
+              <Grid container justify='flex-start' spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant='subtitle1' className={classes.bold}>
+                    X Class Participants
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Participant />
+                </Grid>
+                <Grid item>
+                  <Participant />
+                </Grid>
+                <Grid item>
+                  <Participant />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item className={classes.actions}>
               <Grid container spacing={1}>
