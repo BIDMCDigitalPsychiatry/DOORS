@@ -36,7 +36,7 @@ export default function ImageSelector({ value = 'calendar', label, className = u
       <Box mt={1}>
         <Grid container spacing={2}>
           {Object.keys(images).map(key => (
-            <Grid item className={classes.item} onClick={handleChange(key)}>
+            <Grid key={key} item className={classes.item} onClick={handleChange(key)}>
               <OutlinedDivActive active={key === value}>
                 <Box width={72} height={72}>
                   <Typography align='center'>

@@ -21,10 +21,10 @@ const validate = ({ name }) => {
   return newErrors;
 };
 
-const TitleButton = ({ subtitle = undefined, initialValues = undefined, disabled }) => (
+const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose, disabled }) => (
   <Grid container style={{ width: 270 }} spacing={1} justify='center'>
     <Grid item xs={12}>
-      <DialogButton Module={CreateGroupDialog} subtitle={subtitle} variant='styled' size='large' fullWidth disabled={disabled} initialValues={initialValues}>
+      <DialogButton Module={CreateGroupDialog} onClose={onClose} subtitle={subtitle} variant='styled' size='large' fullWidth disabled={disabled} initialValues={initialValues}>
         Create Group
       </DialogButton>
     </Grid>
@@ -50,7 +50,7 @@ export default function ClassRoster() {
   const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
   const { loading } = formState;
   const fullScreen = useFullScreen();
-  const { data: groups } = useGroups();
+  const { data: groups, handleRefresh } = useGroups();
 
   return (
     <ChildPage
@@ -59,7 +59,14 @@ export default function ClassRoster() {
       title={getClassTitle({ headline, name })}
       subtitle='Class Roster'
       TitleButton={props => (
-        <TitleButton subtitle={getClassTitle({ headline, name })} initialValues={{ class: data }} disabled={loading} onClick={handleUpdate(data)} {...props} />
+        <TitleButton
+          subtitle={getClassTitle({ headline, name })}
+          initialValues={{ class: data }}
+          disabled={loading}
+          onClose={handleRefresh}
+          onClick={handleUpdate(data)}
+          {...props}
+        />
       )}
     >
       <Box mt={2}>
