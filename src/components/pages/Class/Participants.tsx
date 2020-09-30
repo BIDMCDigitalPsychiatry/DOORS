@@ -17,9 +17,9 @@ export const Participants = ({ students, label }) => {
           {students.length} {label}
         </Typography>
       </Grid>
-      {students.map(s => (
+      {students.map((s, i) => (
         <Grid item key={s?.id}>
-          <Participant student={s} />
+          <Participant student={s} mount={i === 0} />
         </Grid>
       ))}
     </Grid>

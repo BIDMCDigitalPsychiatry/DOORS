@@ -7,6 +7,7 @@ import { inviteExpiration } from '../../package.json';
 export const isExpired = item => minutesFrom(item?.created) > inviteExpiration;
 
 export const useTableRow = ({ Model = tables.instructors, id, state, setState }) => {
+  const { open } = state ?? { open: undefined };
   const processData = useProcessData();
   const row = state?.response?.Item;
   const row_str = JSON.stringify(row) ?? '{}'; // Default to empty object string if undefined
@@ -25,8 +26,12 @@ export const useTableRow = ({ Model = tables.instructors, id, state, setState })
   }, [id, Model, processData, setState]);
 
   React.useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+    if (open !== undefined) {
+      open && handleRefresh(); // For use with dialogs, so we only request data on open
+    } else {
+      handleRefresh();
+    }
+  }, [handleRefresh, open]);
 
   const setRow = React.useCallback(
     (newValues, OnSuccess = undefined, OnError = undefined) => {

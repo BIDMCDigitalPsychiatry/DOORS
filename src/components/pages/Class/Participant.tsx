@@ -4,6 +4,7 @@ import { makeStyles, Grid, Avatar, Typography } from '@material-ui/core';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import { getStudentName, isEmpty, minutesFrom, minutesToTimeAgo } from '../../../helpers';
 import { useProfile } from '../../../database/useProfile';
+import * as ProfileDialog from '../../application/GenericDialog/Profile';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -12,7 +13,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Participant({ student, className = undefined, ...rest }) {
+export default function Participant({ student, className = undefined, mount = true, ...rest }) {
   const classes = useStyles();
   const { profile } = useProfile({ id: student?.userId });
 
@@ -29,7 +30,15 @@ export default function Participant({ student, className = undefined, ...rest })
         </Grid>
         {!isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <DialogButton onClick={() => alert('To be implemented')} variant='link' underline='always' linkVariant='body2' fullWidth>
+            <DialogButton
+              Module={ProfileDialog}
+              mount={mount}
+              initialValues={{ id: student?.userId }}
+              variant='link'
+              underline='always'
+              linkVariant='body2'
+              fullWidth
+            >
               View Profile
             </DialogButton>
           </Grid>

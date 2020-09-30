@@ -24,17 +24,42 @@ const validate = ({ name }) => {
 const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose, disabled }) => (
   <Grid container style={{ width: 270 }} spacing={1} justify='center'>
     <Grid item xs={12}>
-      <DialogButton Module={CreateGroupDialog} onClose={onClose} subtitle={subtitle} variant='styled' size='large' fullWidth disabled={disabled} initialValues={initialValues}>
+      <DialogButton
+        Module={CreateGroupDialog}
+        onClose={onClose}
+        subtitle={subtitle}
+        variant='styled'
+        size='large'
+        fullWidth
+        disabled={disabled}
+        initialValues={initialValues}
+      >
         Create Group
       </DialogButton>
     </Grid>
     <Grid item xs={12}>
-      <DialogButton subtitle={subtitle} variant='styled' styledVariant='secondary' size='large' fullWidth disabled={disabled}>
+      <DialogButton
+        onClick={() => alert('To be implemented')}
+        subtitle={subtitle}
+        variant='styled'
+        styledVariant='secondary'
+        size='large'
+        fullWidth
+        disabled={disabled}
+      >
         Add Existing Group
       </DialogButton>
     </Grid>
     <Grid item xs={12}>
-      <DialogButton subtitle={subtitle} variant='styled' styledVariant='text' size='large' fullWidth disabled={disabled}>
+      <DialogButton
+        onClick={() => alert('To be implemented')}
+        subtitle={subtitle}
+        variant='styled'
+        styledVariant='text'
+        size='large'
+        fullWidth
+        disabled={disabled}
+      >
         View All Groups
       </DialogButton>
     </Grid>
