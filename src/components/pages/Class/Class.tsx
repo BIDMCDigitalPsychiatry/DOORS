@@ -41,7 +41,7 @@ export default function Class({
 }) {
   const classes = useStyles();
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card className={clsx(classes.root, className)}>
       <div className={classes.header}>
         <Typography noWrap gutterBottom variant='subtitle1' color='textSecondary'>
           {headline}

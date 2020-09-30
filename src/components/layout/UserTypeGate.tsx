@@ -2,18 +2,20 @@ import * as React from 'react';
 import { useLayout } from './hooks';
 import SelectUserType from './SelectUserType';
 import { useIsAdmin } from '../../hooks';
-import { useUserIdInstructors } from '../application/GenericTable/Instructors/useUserIdInstructors';
+import useInstructorsByUserId from '../application/GenericTable/Instructors/useInstructorsByUserId';
+import useStudentsByUserId from '../../database/useStudentsByUserId';
 
 export const UserTypeGate = ({ children }) => {
   const isAdmin = useIsAdmin();
   const [{ admin, instructor, student }, setLayout] = useLayout();
 
-  const instructors = useUserIdInstructors();
-  const students = []; // TODO: Connect students to backend
+  const instructors = useInstructorsByUserId();
+  const students = useStudentsByUserId();
 
   React.useEffect(() => {
     // Auto select user type if user is only associated with one type
-    if (instructors) {
+    if (instructors && students) {
+      // If both instructors and students are loaded from the database, then proceed
       if (isAdmin && instructors.length === 0 && students.length === 0) {
         setLayout({ admin: true, canChangeUserType: false });
       } else if (!isAdmin && instructors.length > 0 && students.length === 0) {

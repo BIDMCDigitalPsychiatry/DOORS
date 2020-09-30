@@ -3,7 +3,7 @@ import { makeStyles, Grid, Paper, Typography, Divider } from '@material-ui/core'
 import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
-import { useHeight, useLayout, useLogout } from './hooks';
+import { useChangeRoute, useHeight, useLayout, useLogout } from './hooks';
 import { evalFunc } from '../../helpers';
 
 const useStyles = makeStyles(({ palette }: any) =>
@@ -67,7 +67,14 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
   var buttonRef = React.useRef(null);
   const [, setLayout] = useLayout();
   const onLogout = useLogout();
-  const handleSelect = React.useCallback(props => () => setLayout({ ...props, canChangeUserType: true }), [setLayout]);
+  const changeRoute = useChangeRoute();
+  const handleSelect = React.useCallback(
+    props => () => {
+      setLayout({ ...props, canChangeUserType: true });
+      changeRoute('/Classes');
+    },
+    [setLayout, changeRoute]
+  );
   const isError = !isAdmin && instructors.length === 0 && students.length === 0;
   const BannerMsg = isError ? 'No associated user types' : 'You have multiple user types, please select desired user type:';
 
@@ -98,7 +105,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                 {buttons.map(
                   ({ label, state, filter }, i) =>
                     filter({ instructors, students, isAdmin }) && (
-                      <Grid item>
+                      <Grid item key={label}>
                         <div className={classes.wrapper}>
                           <Button
                             ref={i === 0 ? buttonRef : undefined}

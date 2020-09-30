@@ -1,9 +1,11 @@
+import { tables } from '../../../../database/dbConfig';
+import { useTableData } from '../../../../database/useTableData';
 import { useUserId } from '../../../layout/hooks';
-import { useInstructors } from './useInstructors';
 
-export const useUserIdInstructors = () => {
+export default function useInstructorsByUserId() {
   const userId = useUserId();
-  const { data, loading, success } = useInstructors({
+  const { data = [], loading, success } = useTableData({
+    TableName: tables.instructors,
     requestParams: {
       FilterExpression: '#userId = :userId AND #accepted = :accepted AND (#deleted = :deleted OR attribute_not_exists(#deleted))',
       ExpressionAttributeNames: {
@@ -21,4 +23,4 @@ export const useUserIdInstructors = () => {
 
   const completed = loading === false && success === true;
   return completed ? data : undefined;
-};
+}

@@ -3,7 +3,7 @@ import { makeStyles, Grid, Paper, Typography, Divider, CircularProgress } from '
 import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
-import { useHeight, useUserId } from './hooks';
+import { useHeight, useUserEmail, useUserId } from './hooks';
 import { isEmpty, timeAgo } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
@@ -82,7 +82,8 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
     setRow({ accepted: true, userId }, handleClose);
   }, [setRow, handleClose, userId]);
 
-  const isError = !isEmpty(row?.userId) || expired || row?.deleted || !isEmpty(error);
+  const email = useUserEmail();
+  const isError = !isEmpty(row?.userId) || expired || row?.deleted || !isEmpty(error) || email.toLowerCase() !== row?.email.toLowerCase();
 
   return (
     <div
@@ -131,15 +132,20 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                   </div>
                 </Grid>
                 <Grid item xs={12}>
+                  <Typography noWrap align='center' className={classes.summary}>
+                    {row?.email}
+                  </Typography>
                   <Typography align='center' className={classes.summary}>
                     Invited {timeAgo(row?.created)}
                   </Typography>
-                  {isError && (
+                  {!loading && isError && (
                     <Typography align='center' color='error' className={classes.summary}>
                       {!isEmpty(row?.userId)
                         ? 'Invite has already been accepted'
                         : expired || row?.deleted
                         ? 'Invite has expired or no longer exists. Please request a new invite.'
+                        : email.toLowerCase() !== row?.email.toLowerCase()
+                        ? `Current user's email does not match the invite.  Please login or create a new account with the ${row?.email} email address.`
                         : error}
                     </Typography>
                   )}
