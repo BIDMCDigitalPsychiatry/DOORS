@@ -11,7 +11,8 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 export const dynamo = new AWS.DynamoDB.DocumentClient();
 
 export type TableName =  
-  | 'doors-classes'
+  | 'doors-classes-admin'
+  | 'doors-classes-instructor'
   | 'doors-users'
   | 'doors-instructors'
   | 'doors-students'
@@ -26,5 +27,6 @@ export const tables = {
   attendance: 'doors-attendance' as TableName,
   groups: 'doors-groups' as TableName,
   profiles: 'doors-profiles' as TableName,  
-  classes: 'doors-classes' as TableName
+  classesAdmin: 'doors-classes-admin' as TableName,
+  classesInstructor: 'doors-classes-instructor' as TableName
 };

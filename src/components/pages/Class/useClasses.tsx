@@ -4,7 +4,7 @@ import { tables } from '../../../database/dbConfig';
 import { useTableFilter } from '../../application/GenericTable/helpers';
 
 export default function useClasses({ table = undefined, tab = undefined, requestParams = undefined }) {
-  const { state, handleRequest } = useTable({ TableName: tables.classes });
+  const { state, handleRequest } = useTable({ TableName: tables.classesAdmin });
   const { data, loading, success } = state as any;
 
   const handleRefresh = React.useCallback(() => {

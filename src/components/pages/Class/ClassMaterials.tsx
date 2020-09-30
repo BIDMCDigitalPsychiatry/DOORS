@@ -12,7 +12,7 @@ import useFormState from '../../hooks/useFormState';
 import Text from '../../application/DialogField/Text';
 import ImageSelector from '../../application/DialogField/ImageSelector';
 
-const Model = tables.classes;
+const Model = tables.classesAdmin;
 const validate = ({ name }) => {
   const newErrors = {};
   if (isEmpty(name)) {

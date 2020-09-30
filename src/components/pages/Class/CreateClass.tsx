@@ -19,7 +19,7 @@ const validate = ({ name }) => {
   }
   return newErrors;
 };
-const Model = tables.classes;
+const Model = tables.classesAdmin;
 export default function CreateClass() {
   const adminId = useUserId();
   const handleChangeRoute = useHandleChangeRoute();

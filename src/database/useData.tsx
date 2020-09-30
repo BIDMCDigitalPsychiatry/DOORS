@@ -3,7 +3,7 @@ import { evalFunc, isEmpty } from '../helpers';
 import { tables } from './dbConfig';
 import useProcessData from './useProcessData';
 
-export default function useData({ id, active = true, Model = tables.classes, initialState = undefined }) {
+export default function useData({ id, active = true, Model = tables.classesAdmin, initialState = undefined }) {
   const processData = useProcessData();
   const [state, setState] = React.useState({ loading: false, error: undefined, response: undefined, data: undefined, ...initialState });
   const { data = {}, index, loading, error } = state;
@@ -66,4 +66,4 @@ export default function useData({ id, active = true, Model = tables.classes, ini
   ]);
 
   return { loading, index, error, data, setData, handleChange, saveData, updateData };
-};
+}

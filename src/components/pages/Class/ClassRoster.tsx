@@ -12,7 +12,7 @@ import Group from './Group';
 import { useFullScreen } from '../../../hooks';
 import { useGroups } from '../../../database/useGroups';
 
-const Model = tables.classes;
+const Model = tables.classesAdmin;
 const validate = ({ name }) => {
   const newErrors = {};
   if (isEmpty(name)) {
@@ -37,6 +37,7 @@ const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose,
         Create Group
       </DialogButton>
     </Grid>
+    {/* No longer needed as groups will have access to all class content, so all groups will always be displayed and also always linked to all class content
     <Grid item xs={12}>
       <DialogButton
         onClick={() => alert('To be implemented')}
@@ -63,6 +64,7 @@ const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose,
         View All Groups
       </DialogButton>
     </Grid>
+*/}
   </Grid>
 );
 

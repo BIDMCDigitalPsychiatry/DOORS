@@ -14,7 +14,7 @@ const actionCards = [
   { title: 'Class Roster', description: 'View current participants and new members', route: '/ClassRoster' }
 ];
 
-const Model = tables.classes;
+const Model = tables.classesAdmin;
 
 export default function ClassDashboard() {
   const { data } = useLocationData({ Model });
