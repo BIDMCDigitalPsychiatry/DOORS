@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, createStyles, Toolbar, Link, AppBar, Typography, Grid } from '@material-ui/core';
 import { theme, beta } from '../../constants';
-import { useFullScreen } from '../../hooks';
+import { useFullScreen, useUserType } from '../../hooks';
 import { useHandleChangeRoute, useUserEmail } from './hooks';
 
 const useStyles = makeStyles(({ palette, zIndex }: any) =>
@@ -34,6 +34,7 @@ export default function Footer() {
 
   const email = useUserEmail();
   const handleChangeRoute = useHandleChangeRoute();
+  const userType = useUserType();
 
   return (
     <>
@@ -73,7 +74,7 @@ export default function Footer() {
               <Grid item xs={4}>
                 {!fullScreen && (
                   <Link color='inherit' noWrap className={classes.pointer} onClick={handleChangeRoute('/StyleGuide')}>
-                    Under Construction
+                    {userType} Portal - Under Construction
                   </Link>
                 )}
               </Grid>
