@@ -13,6 +13,7 @@ export const dynamo = new AWS.DynamoDB.DocumentClient();
 export type TableName =  
   | 'doors-classes-admin'
   | 'doors-classes-instructor'
+  | 'doors-classes-student'
   | 'doors-users'
   | 'doors-instructors'
   | 'doors-students'
@@ -28,5 +29,6 @@ export const tables = {
   groups: 'doors-groups' as TableName,
   profiles: 'doors-profiles' as TableName,  
   classesAdmin: 'doors-classes-admin' as TableName,
-  classesInstructor: 'doors-classes-instructor' as TableName
+  classesInstructor: 'doors-classes-instructor' as TableName,
+  classesStudent: 'doors-classes-student' as TableName
 };
