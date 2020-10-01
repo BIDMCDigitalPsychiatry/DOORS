@@ -30,7 +30,7 @@ export default function CreateClass() {
     id: uuid(),
     adminId,
     name: '',
-    image: '',
+    image: 'wifi',
     headline: '',
     keySkills: [],
     surveyQuestions: [],

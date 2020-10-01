@@ -72,11 +72,11 @@ export default function ForgotPassword({ email: Email = '', onBack, onSuccess = 
 
   const { loading, errors, forgotPassword, email, newPassword, enterNewPassword, confirmNewPassword, confirmationCode } = state;
 
-  const { handleLogin } = useLogin({ state, setState });
+  const { handleLogin } = useLogin({ state, setState, onSuccess });
 
   const handleReset = React.useCallback(() => {
-    handleLogin({ forgotPassword, email, enterNewPassword, confirmationCode, newPassword, onSuccess });
-  }, [forgotPassword, confirmationCode, handleLogin, email, enterNewPassword, newPassword, onSuccess]);
+    handleLogin({ forgotPassword, email, enterNewPassword, confirmationCode, newPassword });
+  }, [forgotPassword, confirmationCode, handleLogin, email, enterNewPassword, newPassword]);
 
   const handleChange = React.useCallback(
     (name: string) => (event: any) => {
