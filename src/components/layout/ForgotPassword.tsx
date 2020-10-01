@@ -215,13 +215,15 @@ export default function ForgotPassword({ email: Email = '', onBack }) {
                     </Button>
                   </div>
                 </Grid>
-                <Grid item>
-                  <div style={{ marginTop: 16 }}>
-                    <Link style={{ marginLeft: 8, cursor: 'pointer' }} underline='always' color='inherit' onClick={handleEnterReset}>
-                      Enter Reset Confirmation Code
-                    </Link>
-                  </div>
-                </Grid>
+                {!enterNewPassword && (
+                  <Grid item>
+                    <div style={{ marginTop: 16 }}>
+                      <Link style={{ marginLeft: 8, cursor: 'pointer' }} underline='always' color='inherit' onClick={handleEnterReset}>
+                        Enter Reset Confirmation Code
+                      </Link>
+                    </div>
+                  </Grid>
+                )}
               </Grid>
             </Paper>
           </Grid>

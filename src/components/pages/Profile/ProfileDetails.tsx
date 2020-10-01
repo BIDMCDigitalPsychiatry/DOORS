@@ -1,11 +1,11 @@
 import React from 'react';
 import type { FC } from 'react';
 import clsx from 'clsx';
-import { Avatar, Box, Card, CardContent, Typography, makeStyles } from '@material-ui/core';
+import { Avatar, Box, Card, CardContent, Typography, makeStyles, Grid } from '@material-ui/core';
 import { useUserType } from '../../../hooks';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import Profile from '../../../database/models/Profile';
-import { useUserEmail } from '../../layout/hooks';
+import { useHandleChangeRoute, useUserEmail } from '../../layout/hooks';
 
 interface ProfileDetailsProps {
   className?: string;
@@ -28,6 +28,8 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ className, profile, ...rest }
   const userType = useUserType();
   const email = useUserEmail();
 
+  const changeRoute = useHandleChangeRoute();
+
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
@@ -46,6 +48,20 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ className, profile, ...rest }
             <Typography color='textPrimary' variant='caption'>
               {email}
             </Typography>
+            <Box mt={1}>
+              <Grid container justify='space-between' spacing={1}>
+                <Grid item>
+                  <DialogButton variant='link' underline='always' onClick={changeRoute('/ForgotPassword')}>
+                    CHANGE PASSWORD
+                  </DialogButton>
+                </Grid>
+                <Grid item>
+                  <DialogButton variant='link' underline='always' onClick={() => alert('To be implemented')}>
+                    CHANGE EMAIL
+                  </DialogButton>
+                </Grid>
+              </Grid>
+            </Box>
           </Box>
         </Box>
       </CardContent>

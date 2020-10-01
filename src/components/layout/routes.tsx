@@ -19,6 +19,14 @@ import Lesson from '../pages/Class/Lesson';
 import Resources from '../pages/Class/Resources';
 import Congratulations from '../pages/Class/Congratulations';
 import CreateClass from '../pages/Class/CreateClass';
+import ForgotPassword from './ForgotPassword';
+import { useHandleChangeRoute, useUserEmail } from './hooks';
+
+const ForgotPasswordRoute = () => {
+  const email = useUserEmail();
+  const changeRoute = useHandleChangeRoute();
+  return <ForgotPassword email={email} onBack={changeRoute('/Profile')} />;
+};
 
 const Routes = () => (
   <Switch>
@@ -40,6 +48,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/Post-Survey')} component={PostSurvey} />
     <Route exact path={publicUrl('/Resources')} component={Resources} />
     <Route exact path={publicUrl('/Congratulations')} component={Congratulations} />
+    <Route exact path={publicUrl('/ForgotPassword')} component={ForgotPasswordRoute} />
 
     <Route path={'/'} component={Classes} />
   </Switch>
