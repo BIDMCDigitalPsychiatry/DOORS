@@ -5,7 +5,7 @@ import { isEmpty } from '../../helpers';
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     header: {
-      color: palette.primary.dark
+      color: 'inherit',
     }
   } as any)
 );
@@ -14,6 +14,7 @@ export default function Header({
   superVariant = 'h6',
   titleVariant = 'h4',
   subVariant = 'subtitle1',
+  color = 'textSecondary' as any,
   supertitle = undefined,
   title = undefined,
   subtitle = undefined,
@@ -27,7 +28,7 @@ export default function Header({
         <Grid container spacing={1}>
           {supertitle && (
             <Grid item xs={12}>
-              <Typography color='textSecondary' variant={superVariant as any}>
+              <Typography color={color} variant={superVariant as any}>
                 {supertitle}
               </Typography>
             </Grid>
@@ -39,7 +40,7 @@ export default function Header({
                   <Grid item>
                     {title}
                     {subtitle && (
-                      <Typography color='textSecondary' variant={subVariant as any}>
+                      <Typography color={color} variant={subVariant as any}>
                         {subtitle}
                       </Typography>
                     )}

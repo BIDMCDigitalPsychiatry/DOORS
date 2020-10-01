@@ -29,7 +29,8 @@ const useStyles = makeStyles(({ breakpoints, palette, transitions, layout }: any
     innerContent: ({ overflow = 'auto', contentHeight, contentPadding, padInnerContent = true }) => ({
       height: contentHeight - (!padInnerContent ? 0 : contentPadding * 2 + 1),
       overflow,
-      padding: padInnerContent ? contentPadding : 0
+      padding: padInnerContent ? contentPadding : 0,
+      color: palette.primary.dark
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,

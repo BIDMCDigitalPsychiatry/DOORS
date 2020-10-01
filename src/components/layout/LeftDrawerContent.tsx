@@ -31,6 +31,33 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       color: theme.palette.primary.dark
+    },
+    stepper: {
+      background: 'inherit',
+      color: 'inherit'
+    },
+    stepLabelRoot: {
+      cursor: 'pointer !important'
+    },
+    stepLabelActive: {
+      color: 'white !important'
+    },
+    stepLabelCompleted: {
+      color: 'white !important'
+    },
+    stepIconRoot: {
+      color: 'transparent',
+      border: `1px solid ${theme.palette.primary.main}`,
+      borderRadius: 25
+    },
+    stepIconActive: {
+      color: 'white !important'
+    },
+    stepIconCompleted: {
+      color: 'white !important'
+    },
+    stepIconText: {
+      fill: `${theme.palette.primary.main} !important`
     }
   })
 );
@@ -62,19 +89,27 @@ export default function VerticalLinearStepper() {
   const changeRoute = useHandleChangeRoute();
 
   return (
-    <>
+    <Box p={1}>
       <Box p={1}>
-        <DialogButton variant='link' linkVariant='subtitle1' onClick={changeRoute('/Classes')}>
-          {`<  Back to Classes`}
+        <DialogButton color='inherit' variant='link' linkVariant='h6' onClick={changeRoute('/Classes')}>
+          {`< Back to Classes`}
         </DialogButton>
         <Box mt={2}>
-          <Header supertitle={'Class 3'} subtitle={'Managing Responsibilities'} />
+          <Header color='inherit' supertitle={'Class 3'} subtitle={'Managing Responsibilities'} />
         </Box>
       </Box>
-      <Stepper activeStep={activeStep} orientation='vertical'>
+      <Stepper className={classes.stepper} activeStep={activeStep} orientation='vertical'>
         {steps.map(({ label }, index) => (
-          <Step key={label}>
-            <StepLabel onClick={changeRoute(`/${label}`)}>{label}</StepLabel>
+          <Step className={classes.stepper} key={label}>
+            <StepLabel
+              classes={{ root: classes.stepLabelRoot, active: classes.stepLabelActive, completed: classes.stepLabelCompleted }}
+              StepIconProps={{
+                classes: { root: classes.stepIconRoot, completed: classes.stepIconCompleted, active: classes.stepIconActive, text: classes.stepIconText }
+              }}
+              onClick={changeRoute(`/${label}`)}
+            >
+              {label}
+            </StepLabel>
           </Step>
         ))}
       </Stepper>
@@ -86,6 +121,6 @@ export default function VerticalLinearStepper() {
           </Button>
         </Paper>
       )}
-    </>
+    </Box>
   );
 }
