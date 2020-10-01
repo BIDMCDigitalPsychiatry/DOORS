@@ -50,7 +50,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function ForgotPassword({ email: Email = '', onBack }) {
+export default function ForgotPassword({ email: Email = '', onBack, onSuccess = undefined }) {
   const id = getUrlParamater('i');
   const BannerMsg = isEmpty(id) ? '' : 'You must log in prior to accepting an invite.  If you do not have an account yet, please create a new account.';
 
@@ -75,8 +75,8 @@ export default function ForgotPassword({ email: Email = '', onBack }) {
   const { handleLogin } = useLogin({ state, setState });
 
   const handleReset = React.useCallback(() => {
-    handleLogin({ forgotPassword, email, enterNewPassword, confirmationCode, newPassword });
-  }, [forgotPassword, confirmationCode, handleLogin, email, enterNewPassword, newPassword]);
+    handleLogin({ forgotPassword, email, enterNewPassword, confirmationCode, newPassword, onSuccess });
+  }, [forgotPassword, confirmationCode, handleLogin, email, enterNewPassword, newPassword, onSuccess]);
 
   const handleChange = React.useCallback(
     (name: string) => (event: any) => {

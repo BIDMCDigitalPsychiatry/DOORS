@@ -25,7 +25,7 @@ import { useHandleChangeRoute, useUserEmail } from './hooks';
 const ForgotPasswordRoute = () => {
   const email = useUserEmail();
   const changeRoute = useHandleChangeRoute();
-  return <ForgotPassword email={email} onBack={changeRoute('/Profile')} />;
+  return <ForgotPassword email={email} onBack={changeRoute('/Profile')} onSuccess={changeRoute('/Profile')} />;
 };
 
 const Routes = () => (

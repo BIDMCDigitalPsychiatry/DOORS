@@ -92,6 +92,7 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
                   console.log('Login success!');
                   dispatch({ type: 'LOGIN', auth: user });
                   setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
+                  onSuccess && onSuccess();
                 })
                 .catch(err => {
                   console.error('Error with Login');
