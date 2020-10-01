@@ -26,7 +26,7 @@ export const useProcessDataHandle = () => {
 };
 
 async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
-  const { Model: Table, Action = 'c', Snackbar = true, onSuccess = undefined, onError = undefined } = pdi;
+  const { Model: Table, Action = 'c', Snackbar = false, onSuccess = undefined, onError = undefined } = pdi;
 
   if (Action === 'c' || Action === 'u' || Action === 'd') {
     dynamo.put({ TableName: Table, Item: Data }, function (err, data) {
