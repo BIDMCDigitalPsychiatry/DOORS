@@ -45,6 +45,7 @@ export default function ActionCard({
   onLock = undefined,
   onRemove = undefined,
   onEdit = undefined,
+  children = undefined,
   ...rest
 }) {
   const classes = useStyles({ minHeight });
@@ -86,7 +87,7 @@ export default function ActionCard({
           </Typography>
         )}
       </div>
-
+      {children}
       {onClick && (
         <Box m={2} textAlign='center'>
           <StyledButton disabled={disabled} onClick={onClick}>
