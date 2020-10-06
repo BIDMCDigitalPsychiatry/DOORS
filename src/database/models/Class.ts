@@ -1,3 +1,4 @@
+import { SurveyQuestionItem } from '../../components/general/SurveyQuestions';
 import { BlockListItem } from './../../components/general/BlockList';
 
 export const defaultRankingModels: BlockListItem[] = [
@@ -31,7 +32,7 @@ export default interface Class {
   image?: string;
   keySkills?: BlockListItem[];
   rankingModel?: BlockListItem[];
-  surveyQuestions?: BlockListItem[]; // TBD survey question objects
+  surveyQuestions?: SurveyQuestionItem[];
   classPresentation?: any; // TBD file meta data
   classResources?: any[]; // TBD classResource objects
   created?: number;
