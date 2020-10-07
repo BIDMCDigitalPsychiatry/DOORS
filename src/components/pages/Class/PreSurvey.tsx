@@ -11,6 +11,7 @@ import { useHandleChangeRoute } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import merge from 'deepmerge';
 import AgeQuestionCard from '../../general/AgeQuestionCard';
+import BorderLinearProgress from '../../general/BorderLinearProgress';
 import { defaultAgeRankingModels } from '../../../database/models/Class';
 import { useFullScreen } from '../../../hooks';
 
@@ -66,6 +67,12 @@ export default function PreSurvey() {
           </Box>
         </Grid>
         <Grid item xs={12} md={3}>
+          <Box mt={1} mb={1}>
+            <Typography>Your Progress</Typography>
+            <Box mt={1} mb={1}>
+              <BorderLinearProgress value={25} />
+            </Box>
+          </Box>
           <ActionCard title='Ranking Model' minHeight={0}>
             <Box pl={2} pr={2}>
               <Grid container spacing={1}>
