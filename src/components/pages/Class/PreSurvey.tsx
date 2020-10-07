@@ -10,6 +10,9 @@ import useFormState from '../../hooks/useFormState';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import merge from 'deepmerge';
+import AgeQuestionCard from '../../general/AgeQuestionCard';
+import { defaultAgeRankingModels } from '../../../database/models/Class';
+import { useFullScreen } from '../../../hooks';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -23,21 +26,38 @@ export default function PreSurvey() {
   const { data /*, handleChange*/ } = useLocationData({ Model: tables.classesAdmin });
   const { data: studentData, handleChange } = useLocationData({ Model: tables.classesStudent });
   const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
-  const { rankingModel = [], surveyQuestions = [] } = mergeData;
+  const { ageQuestion = { name: 'Which of the following best describes your age group?' }, rankingModel = [], surveyQuestions = [] } = mergeData;
 
   const handleChangeRoute = useHandleChangeRoute();
 
   const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute('/Lesson') });
   //const { loading, errors } = formState;
 
+  const handleAgeChange = React.useCallback(
+    value => () => {
+      handleChange('ageQuestion')({ target: { value } });
+    },
+    [handleChange]
+  );
+
+  const fs = useFullScreen();
+
   return (
     <Page title='Pre-Survey'>
-      <Grid container spacing={4}>
+      <Grid container spacing={fs ? 2 : 4}>
         <Grid item xs={12} md={9}>
           <Typography>Before you start your lesson, please complete the following survey.</Typography>
 
           <Typography>This will help you keep track of all of the new things you will learn!</Typography>
-
+          <Box mt={4}>
+            <AgeQuestionCard
+              item={ageQuestion}
+              minHeight={112}
+              titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
+              rankingModel={defaultAgeRankingModels}
+              onChange={handleAgeChange}
+            />
+          </Box>
           <Box mt={4}>
             <SurveyQuestions value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
           </Box>
