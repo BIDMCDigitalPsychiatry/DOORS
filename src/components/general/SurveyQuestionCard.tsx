@@ -46,6 +46,7 @@ export default function SurveyQuestionCard({
   minHeight = undefined,
   rankingModel = [],
   onChange = undefined,
+  answerKey,
   children = undefined,
   ...rest
 }) {
@@ -70,11 +71,12 @@ export default function SurveyQuestionCard({
         <Grid container spacing={2}>
           {rankingModel.map(rm => {
             const { name, id } = rm;
-            const { preSurveyAnswer = {} } = item;
-            const { id: selectedId } = preSurveyAnswer;
+            const answer = item[answerKey] ?? {};
+            const { id: selectedId } = answer;
+
             return (
-              <Grid item>
-                <div className={id === selectedId ? classes.circleSelected : classes.circle} onClick={onChange({ ...item, preSurveyAnswer: rm })}>
+              <Grid item key={id}>
+                <div className={id === selectedId ? classes.circleSelected : classes.circle} onClick={onChange({ ...item, [`${answerKey}`]: rm })}>
                   <Tooltip title={name}>
                     <Typography variant='h5' align='center' color='inherit'>
                       {Number(id) + 1}

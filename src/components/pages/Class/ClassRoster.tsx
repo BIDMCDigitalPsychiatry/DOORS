@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Grid, Box, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import { tables } from '../../../database/dbConfig';
-import { useLocationData } from '../../../database/useLocationData';
 import { getClassTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
 import DialogButton from '../../application/GenericDialog/DialogButton';
@@ -11,6 +10,7 @@ import * as CreateGroupDialog from '../../application/GenericDialog/CreateGroup'
 import Group from './Group';
 import { useFullScreen } from '../../../hooks';
 import { useGroups } from '../../../database/useGroups';
+import { useClassData } from '../../../database/useClassData';
 
 const Model = tables.classesAdmin;
 const validate = ({ name }) => {
@@ -69,12 +69,12 @@ const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose,
 );
 
 export default function ClassRoster() {
-  const { data }: any = useLocationData({ Model });
+  const { data }: any = useClassData({ Model });
   const { name, headline } = data;
 
   // TODO: Add logic to retreive class, if no class found, then automatically create the class for the instructor, disable everything until this is done.
-  const handleChangeRoute = useHandleChangeRoute();
-  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
+  const handleChangeRouteLayout = useHandleChangeRouteLayout();
+  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRouteLayout('/Classes') });
   const { loading } = formState;
   const fullScreen = useFullScreen();
   const { data: groups, handleRefresh } = useGroups();
@@ -82,7 +82,7 @@ export default function ClassRoster() {
   return (
     <ChildPage
       backLabel='Back to Class'
-      onBack={handleChangeRoute('/ClassDashboard', data)}
+      onBack={handleChangeRouteLayout('/ClassDashboard', { class: data })}
       title={getClassTitle({ headline, name })}
       subtitle='Class Roster'
       TitleButton={props => (

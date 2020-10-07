@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import ActionCard from '../../general/ActionCard';
 import ChildPage from '../ChildPage';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import { useUserType } from '../../../hooks';
 import { isEmpty } from '../../../helpers';
 import { tables } from '../../../database/dbConfig';
-import { useLocationData } from '../../../database/useLocationData';
+import { useClassData } from '../../../database/useClassData';
 
 const actionCards = [
   { title: 'Class Mode', description: 'View the class materials the way your students will', route: '/Pre-Survey', disabled: false },
@@ -17,16 +17,16 @@ const actionCards = [
 const Model = tables.classesAdmin;
 
 export default function ClassDashboard() {
-  const { data } = useLocationData({ Model });
+  const { data } = useClassData({ Model });
   const { name, headline, keySkills = [] } = data;
 
   const userType = useUserType();
-  const handleChangeRoute = useHandleChangeRoute();
+  const handleChangeRouteLayout = useHandleChangeRouteLayout();
 
   return (
     <ChildPage
       backLabel='Back to Classes'
-      onBack={handleChangeRoute('/Classes')}
+      onBack={handleChangeRouteLayout('/Classes')}
       supertitle={name}
       title={headline}
       subtitle={`Your are signed in as ${userType === 'Student' ? 'a' : 'an'} ${userType}`}
@@ -47,7 +47,7 @@ export default function ClassDashboard() {
         <Grid container spacing={3}>
           {actionCards.map(ac => (
             <Grid key={ac.title} item lg={4} sm={4} xs={12}>
-              <ActionCard {...ac} minHeight={150} onClick={handleChangeRoute(ac.route, data)} />
+              <ActionCard {...ac} minHeight={150} onClick={handleChangeRouteLayout(ac.route, { class: data })} />
             </Grid>
           ))}
         </Grid>

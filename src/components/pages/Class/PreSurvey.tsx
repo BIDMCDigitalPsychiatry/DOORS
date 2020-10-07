@@ -3,7 +3,6 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import Page from '../Page';
 import ActionCard from '../../general/ActionCard';
 import CircleText from '../../general/CircleText';
-import { useLocationData } from '../../../database/useLocationData';
 import { tables } from '../../../database/dbConfig';
 import SurveyQuestions from '../../general/SurveyQuestions';
 import useFormState from '../../hooks/useFormState';
@@ -14,6 +13,7 @@ import AgeQuestionCard from '../../general/AgeQuestionCard';
 import BorderLinearProgress from '../../general/BorderLinearProgress';
 import { defaultAgeRankingModels } from '../../../database/models/Class';
 import { useFullScreen } from '../../../hooks';
+import { useClassData } from '../../../database/useClassData';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -24,8 +24,8 @@ const validate = ({ name }) => {
 const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 
 export default function PreSurvey() {
-  const { data /*, handleChange*/ } = useLocationData({ Model: tables.classesAdmin });
-  const { data: studentData, handleChange } = useLocationData({ Model: tables.classesStudent });
+  const { data /*, handleChange*/ } = useClassData({ Model: tables.classesAdmin });
+  const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent });
   const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
   const { ageQuestion = { name: 'Which of the following best describes your age group?' }, rankingModel = [], surveyQuestions = [] } = mergeData;
 
@@ -60,7 +60,7 @@ export default function PreSurvey() {
             />
           </Box>
           <Box mt={4}>
-            <SurveyQuestions value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
+            <SurveyQuestions answerKey='preSurveyAnswer' value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
           </Box>
           <Box mt={4}>
             <StyledButton onClick={handleUpdate(mergeData)}>Continue</StyledButton>

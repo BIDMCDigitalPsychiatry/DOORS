@@ -47,8 +47,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
   const processData = useProcessData();
   const parentId = useUserId();
 
-  const onSuccess = React.useCallback(() => {
-    console.log('onSuccess');
+  const onSuccess = React.useCallback(() => {    
     handleClose({ open: true, variant: 'success', message: 'Successfully sent invite' });
   }, [handleClose]);
 

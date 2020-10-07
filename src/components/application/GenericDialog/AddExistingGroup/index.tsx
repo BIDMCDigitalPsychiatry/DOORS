@@ -25,12 +25,10 @@ export default function AddExistingGroupDialog({ id = title, onClose = undefined
   const [, setSnackbar] = useSnackBar();
   const submitData = useSubmitDialogData({ id });
   const userId = useUserId();
-
-  console.log({ id, state });
+  
   const handleClose = React.useCallback(
     (props = undefined) => {
-      props && setSnackbar(props);
-      console.log('closing 1');
+      props && setSnackbar(props);      
       setState(prev => ({ ...prev, open: false, loading: false }));
       onClose && onClose();
     },

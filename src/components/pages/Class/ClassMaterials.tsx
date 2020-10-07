@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import ClassPresentationFile from './ClassPresentationFile';
 import { BlockList } from '../../general/BlockList';
 import { tables } from '../../../database/dbConfig';
-import { useLocationData } from '../../../database/useLocationData';
 import { getClassTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
 import Text from '../../application/DialogField/Text';
 import ImageSelector from '../../application/DialogField/ImageSelector';
+import { useClassData } from '../../../database/useClassData';
 
 const Model = tables.classesAdmin;
 const validate = ({ name }) => {
@@ -24,7 +24,7 @@ const validate = ({ name }) => {
 const TitleButton = ({ onClick }) => <StyledButton onClick={onClick}>Save Changes</StyledButton>;
 
 export default function ClassMaterials() {
-  const { data, handleChange }: any = useLocationData({ Model });
+  const { data, handleChange }: any = useClassData({ Model });
   const {
     name,
     headline,
@@ -36,15 +36,15 @@ export default function ClassMaterials() {
     classPresentation = { name: 'Unknown File Name', date: 'Unknown Date' }
   } = data;
 
-  const handleChangeRoute = useHandleChangeRoute();
+  const handleChangeRouteLayout = useHandleChangeRouteLayout();
 
-  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
+  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRouteLayout('/Classes') });
   const { loading, errors } = formState;
 
   return (
     <ChildPage
       backLabel='Back to Class'
-      onBack={handleChangeRoute('/ClassDashboard', data)}
+      onBack={handleChangeRouteLayout('/ClassDashboard', { class: data })}
       title={getClassTitle({ headline, name })}
       subtitle='Edit Class Materials'
       TitleButton={props => <TitleButton onClick={handleUpdate(data)} {...props} />}

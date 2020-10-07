@@ -37,7 +37,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export default function SurveyQuestionCard({
+export default function AgeQuestionCard({
   title = undefined,
   item = {} as any,
   index = undefined,

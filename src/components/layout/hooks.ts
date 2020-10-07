@@ -195,6 +195,26 @@ export const useChangeRoute = () => {
   );
 };
 
+export const useChangeRouteLayout = () => {
+  const { pathname } = useLocation();
+  const history = useHistory();
+  const [, setLayout] = useLayout();
+  return React.useCallback(
+    (route: string, state: any = undefined, search: any = undefined) => {
+      if (pathname !== route && history) {
+        history.push({ pathname: publicUrl(route), search, state });
+      }
+      state && setLayout(state);
+    },
+    [history, pathname, setLayout]
+  );
+};
+
+export const useHandleChangeRouteLayout = () => {
+  const changeRoute = useChangeRouteLayout();
+  return React.useCallback((route, state = undefined, search = undefined) => event => changeRoute(route, state, search), [changeRoute]);
+};
+
 export const useLayout = (): any[] => {
   const dispatch = useDispatch();
   const layout = useSelector((state: AppState) => state.layout, shallowEqual);
