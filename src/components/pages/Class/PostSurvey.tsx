@@ -29,7 +29,7 @@ export default function PostSurvey() {
 
   const handleChangeRoute = useHandleChangeRoute();
 
-  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute('/Lesson') });
+  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute('/Resources') });
   //const { loading, errors } = formState;
 
   const fs = useFullScreen();
