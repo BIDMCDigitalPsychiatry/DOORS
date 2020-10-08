@@ -43,6 +43,9 @@ export default function PreSurvey() {
 
   const fs = useFullScreen();
 
+  // Only allow continue if all questions have been answered
+  const disabled = [...surveyQuestions, ageQuestion].filter(sq => sq.preSurveyAnswer === undefined).length > 0;
+
   return (
     <Page title='Pre-Survey'>
       <Grid container spacing={fs ? 2 : 4}>
@@ -63,7 +66,9 @@ export default function PreSurvey() {
             <SurveyQuestions answerKey='preSurveyAnswer' value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
           </Box>
           <Box mt={4}>
-            <StyledButton onClick={handleUpdate(mergeData)}>Continue</StyledButton>
+            <StyledButton disabled={disabled} onClick={handleUpdate(mergeData)}>
+              Continue
+            </StyledButton>
           </Box>
         </Grid>
         <Grid item xs={12} md={3}>

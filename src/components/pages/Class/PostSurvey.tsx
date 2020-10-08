@@ -34,6 +34,9 @@ export default function PostSurvey() {
 
   const fs = useFullScreen();
 
+  // Only allow continue if all questions have been answered
+  const disabled = surveyQuestions.filter(sq => sq.postSurveyAnswer === undefined).length > 0;
+
   return (
     <Page title='Post-Survey'>
       <Grid container spacing={fs ? 2 : 4}>
@@ -58,7 +61,7 @@ export default function PostSurvey() {
                 </StyledButton>
               </Grid>
               <Grid item>
-                <StyledButton width={148} onClick={handleUpdate(mergeData)}>
+                <StyledButton disabled={disabled} width={148} onClick={handleUpdate(mergeData)}>
                   Continue
                 </StyledButton>
               </Grid>
