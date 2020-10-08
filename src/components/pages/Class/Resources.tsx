@@ -3,25 +3,23 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import Page from '../Page';
 import YourProgress from '../../general/YourProgress';
 import StyledButton from '../../general/StyledButton';
-import { useChangeRoute, useHandleChangeRoute } from '../../layout/hooks';
+import { useHandleChangeRoute } from '../../layout/hooks';
 import { useClassData } from '../../../database/useClassData';
 import { tables } from '../../../database/dbConfig';
 
 export default function Resources() {
   const handleChangeRoute = useHandleChangeRoute();
-  const changeRoute = useChangeRoute();
   const { data: adminData } = useClassData({ Model: tables.classesAdmin });
 
   const { resources = [] } = adminData;
   console.log({ resources });
 
-  const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent });
+  const { data: studentData, updateData } = useClassData({ Model: tables.classesStudent });
   const { completed } = studentData;
 
   const handleComplete = React.useCallback(() => {
-    handleChange('completed')({ target: { value: true } });
-    changeRoute('/Congratulations');
-  }, [handleChange, changeRoute]);
+    updateData({ completed: true }, handleChangeRoute('/Congratulations'));
+  }, [updateData, handleChangeRoute]);
 
   return (
     <Page title='Resources' ActionButton={() => <YourProgress value={100} />}>
@@ -35,13 +33,18 @@ export default function Resources() {
                 Back
               </StyledButton>
             </Grid>
-            {completed !== 111 && (
-              <Grid item>
+
+            <Grid item>
+              {completed !== true ? (
                 <StyledButton width={148} onClick={handleComplete}>
                   End Session
                 </StyledButton>
-              </Grid>
-            )}
+              ) : (
+                <StyledButton width={148} onClick={handleChangeRoute('/Classes')}>
+                  My Classes
+                </StyledButton>
+              )}
+            </Grid>
           </Grid>
         </Box>
       </>

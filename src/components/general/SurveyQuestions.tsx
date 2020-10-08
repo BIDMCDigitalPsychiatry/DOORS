@@ -8,7 +8,15 @@ export interface SurveyQuestionItem extends BlockListItem {
   postSurveyAnswer: string;
 }
 
-export default function SurveyQuestions({ value = [], rankingModel = [], showIndexBadges = undefined, answerKey, lastAnswerKey = undefined, onChange }) {
+export default function SurveyQuestions({
+  readonly = true,
+  value = [],
+  rankingModel = [],
+  showIndexBadges = undefined,
+  answerKey,
+  lastAnswerKey = undefined,
+  onChange
+}) {
   const value_str = JSON.stringify(value);
 
   const handleChange = React.useCallback(
@@ -37,7 +45,7 @@ export default function SurveyQuestions({ value = [], rankingModel = [], showInd
                 minHeight={112}
                 titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
                 rankingModel={rankingModel}
-                onChange={handleChange}
+                onChange={readonly !== true && handleChange}
               />
             </Grid>
           ))}

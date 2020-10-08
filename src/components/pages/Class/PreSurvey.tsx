@@ -23,15 +23,17 @@ const validate = ({ name }) => {
 // TODO: Add admin/instructor class data and merge logic for individual array items
 const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 
+const nextRoute = '/Lesson';
 export default function PreSurvey() {
   const { data /*, handleChange*/ } = useClassData({ Model: tables.classesAdmin });
   const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent });
   const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
   const { ageQuestion = { name: 'Which of the following best describes your age group?' }, rankingModel = [], surveyQuestions = [] } = mergeData;
+  const { completed } = studentData;
 
   const handleChangeRoute = useHandleChangeRoute();
 
-  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute('/Lesson') });
+  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute(nextRoute) });
   //const { loading, errors } = formState;
 
   const handleAgeChange = React.useCallback(
@@ -55,6 +57,7 @@ export default function PreSurvey() {
           <Typography>This will help you keep track of all of the new things you will learn!</Typography>
           <Box mt={4}>
             <AgeQuestionCard
+              readonly={completed}
               item={ageQuestion}
               minHeight={112}
               titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
@@ -63,12 +66,24 @@ export default function PreSurvey() {
             />
           </Box>
           <Box mt={4}>
-            <SurveyQuestions answerKey='preSurveyAnswer' value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
+            <SurveyQuestions
+              readonly={completed}
+              answerKey='preSurveyAnswer'
+              value={surveyQuestions}
+              rankingModel={rankingModel}
+              onChange={handleChange('surveyQuestions')}
+            />
           </Box>
           <Box mt={4}>
-            <StyledButton disabled={disabled} onClick={handleUpdate(mergeData)}>
-              Continue
-            </StyledButton>
+            {completed ? (
+              <StyledButton width={148} disabled={disabled} onClick={handleChangeRoute(nextRoute)}>
+                Next
+              </StyledButton>
+            ) : (
+              <StyledButton width={148} disabled={disabled} onClick={handleUpdate(mergeData)}>
+                Continue
+              </StyledButton>
+            )}
           </Box>
         </Grid>
         <Grid item xs={12} md={3}>

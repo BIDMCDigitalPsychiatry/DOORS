@@ -39,6 +39,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 
 export default function AgeQuestionCard({
   title = undefined,
+  readonly = undefined,
   item = {} as any,
   index = undefined,
   className = undefined,
@@ -74,7 +75,10 @@ export default function AgeQuestionCard({
             const { id: selectedId } = preSurveyAnswer;
             return (
               <Grid item>
-                <div className={id === selectedId ? classes.circleSelected : classes.circle} onClick={onChange({ ...item, preSurveyAnswer: rm })}>
+                <div
+                  className={id === selectedId ? classes.circleSelected : classes.circle}
+                  onClick={readonly !== true && onChange({ ...item, preSurveyAnswer: rm })}
+                >
                   <Tooltip title={name}>
                     <Typography variant='h5' align='center' color='inherit'>
                       {id}

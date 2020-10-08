@@ -9,8 +9,13 @@ import { useClassData } from '../../../database/useClassData';
 import { tables } from '../../../database/dbConfig';
 import { isEmpty } from '../../../helpers';
 
+const nextRoute = '/Post-Survey';
+
 export default function Lesson() {
   const { data } = useClassData({ Model: tables.classesAdmin });
+  const { data: studentData } = useClassData({ Model: tables.classesStudent });
+  const { completed } = studentData;
+  
   const contentPath = data?.classPresentation;
   const width = useWidth();
   const handleChangeRoute = useHandleChangeRoute();
@@ -32,9 +37,15 @@ export default function Lesson() {
               </StyledButton>
             </Grid>
             <Grid item>
-              <StyledButton width={148} onClick={handleChangeRoute('/Post-Survey')}>
-                Continue
-              </StyledButton>
+              {completed ? (
+                <StyledButton width={148} onClick={handleChangeRoute(nextRoute)}>
+                  Next
+                </StyledButton>
+              ) : (
+                <StyledButton width={148} onClick={handleChangeRoute(nextRoute)}>
+                  Continue
+                </StyledButton>
+              )}
             </Grid>
           </Grid>
         </Grid>

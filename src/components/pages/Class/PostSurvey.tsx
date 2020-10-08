@@ -21,15 +21,19 @@ const validate = ({ name }) => {
 // TODO: Add admin/instructor class data and merge logic for individual array items
 const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 
+const nextRoute = '/Resources';
+
 export default function PostSurvey() {
   const { data /*, handleChange*/ } = useClassData({ Model: tables.classesAdmin });
   const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent });
   const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
   const { rankingModel = [], surveyQuestions = [] } = mergeData;
 
+  const { completed } = studentData;
+
   const handleChangeRoute = useHandleChangeRoute();
 
-  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute('/Resources') });
+  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute(nextRoute) });
   //const { loading, errors } = formState;
 
   const fs = useFullScreen();
@@ -46,6 +50,7 @@ export default function PostSurvey() {
           <Typography>Don't worry if you don't see a big change, you can always take a lesson again!</Typography>
           <Box mt={4}>
             <SurveyQuestions
+              readonly={completed}
               answerKey='postSurveyAnswer'
               lastAnswerKey='preSurveyAnswer'
               value={surveyQuestions}
@@ -61,9 +66,15 @@ export default function PostSurvey() {
                 </StyledButton>
               </Grid>
               <Grid item>
-                <StyledButton disabled={disabled} width={148} onClick={handleUpdate(mergeData)}>
-                  Continue
-                </StyledButton>
+                {completed ? (
+                  <StyledButton width={148} onClick={handleChangeRoute(nextRoute)}>
+                    Next
+                  </StyledButton>
+                ) : (
+                  <StyledButton disabled={disabled} width={148} onClick={handleUpdate(mergeData)}>
+                    Continue
+                  </StyledButton>
+                )}
               </Grid>
             </Grid>
           </Box>

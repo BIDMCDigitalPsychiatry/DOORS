@@ -114,7 +114,7 @@ export default function SurveyQuestionCard({
                         ? classes.circleLast
                         : classes.circle
                     }
-                    onClick={onChange({ ...item, [`${answerKey}`]: rm })}
+                    onClick={onChange && onChange({ ...item, [`${answerKey}`]: rm })}
                   >
                     <Tooltip open={lastSelectedId === id} title={'Last Answer'}>
                       <Typography variant='h5' align='center' color='inherit'>
