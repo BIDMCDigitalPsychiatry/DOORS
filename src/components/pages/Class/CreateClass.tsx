@@ -3,7 +3,7 @@ import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRoute, useUserId } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import ClassPresentationFile from './ClassPresentationFile';
+import ClassPresentationLink from './ClassPresentationLink';
 import Text from '../../application/DialogField/Text';
 import { BlockList } from '../../general/BlockList';
 import { isEmpty, uuid } from '../../../helpers';
@@ -19,6 +19,7 @@ const validate = ({ name }) => {
   }
   return newErrors;
 };
+
 const Model = tables.classesAdmin;
 export default function CreateClass() {
   const adminId = useUserId();
@@ -36,7 +37,7 @@ export default function CreateClass() {
     surveyQuestions: [],
     rankingModel: defaultRankingModels,
     classResources: [],
-    classPresentation: { name: 'Unknown File Name', date: 'Unknown Date' }
+    classPresentation: ''
   } as Class);
 
   const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
@@ -121,10 +122,7 @@ export default function CreateClass() {
             <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
               Class Presentation
             </Typography>
-            <Typography variant='subtitle1' color='textPrimary'>
-              Current class presentation file
-            </Typography>
-            <ClassPresentationFile {...classPresentation} />
+            <ClassPresentationLink value={classPresentation} onChange={handleChange('classPresentation')} />
           </Grid>
           <Grid item xs={12}>
             <StyledButton onClick={handleCreate(state)}>Create New Class</StyledButton>

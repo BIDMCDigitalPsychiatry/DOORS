@@ -3,7 +3,7 @@ import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import ClassPresentationFile from './ClassPresentationFile';
+import ClassPresentationLink from './ClassPresentationLink';
 import { BlockList } from '../../general/BlockList';
 import { tables } from '../../../database/dbConfig';
 import { getClassTitle, isEmpty } from '../../../helpers';
@@ -25,16 +25,7 @@ const TitleButton = ({ onClick }) => <StyledButton onClick={onClick}>Save Change
 
 export default function ClassMaterials() {
   const { data, handleChange }: any = useClassData({ Model });
-  const {
-    name,
-    headline,
-    image,
-    keySkills = [],
-    rankingModel = [],
-    classResources = [],
-    surveyQuestions = [],
-    classPresentation = { name: 'Unknown File Name', date: 'Unknown Date' }
-  } = data;
+  const { name, headline, image, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentation } = data;
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
 
@@ -98,6 +89,12 @@ export default function ClassMaterials() {
             />
           </Grid>
           <Grid item xs={12}>
+            <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
+              Class Presentation
+            </Typography>
+            <ClassPresentationLink value={classPresentation} onChange={handleChange('classPresentation')} />
+          </Grid>
+          <Grid item xs={12}>
             <BlockList
               title='Class Resources'
               subtitle='To be completed - Add links to resources that are relevant to the lesson'
@@ -105,15 +102,6 @@ export default function ClassMaterials() {
               add={true}
               onChange={handleChange('classResources')}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
-              Class Presentation
-            </Typography>
-            <Typography variant='subtitle1' color='textPrimary'>
-              Current class presentation file
-            </Typography>
-            <ClassPresentationFile {...classPresentation} />
           </Grid>
         </Grid>
       </Box>

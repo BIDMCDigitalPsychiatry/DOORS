@@ -1,20 +1,28 @@
 import * as React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import Page from '../Page';
 import ReactPlayer from 'react-player';
 import { useHandleChangeRoute, useWidth } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import YourProgress from '../../general/YourProgress';
+import { useClassData } from '../../../database/useClassData';
+import { tables } from '../../../database/dbConfig';
+import { isEmpty } from '../../../helpers';
 
 export default function Lesson() {
-  const contentPath = 'https://www.youtube.com/watch?v=T8IcC45LRnI';
+  const { data } = useClassData({ Model: tables.classesAdmin });
+  const contentPath = data?.classPresentation;
   const width = useWidth();
   const handleChangeRoute = useHandleChangeRoute();
   return (
     <Page title='Lesson' ActionButton={() => <YourProgress value={75} />}>
       <Grid container justify='center' spacing={3}>
         <Grid item>
-          <ReactPlayer url={contentPath} controls={true} width={Math.min(width - 32, 640)} />
+          {isEmpty(contentPath) ? (
+            <Typography>Lesson has not been added. Please contact your administrator or instructor to setup the lesson.</Typography>
+          ) : (
+            <ReactPlayer url={contentPath} controls={true} width={Math.min(width - 32, 640)} />
+          )}
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2}>
