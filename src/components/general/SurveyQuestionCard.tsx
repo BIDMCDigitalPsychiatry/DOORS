@@ -98,7 +98,7 @@ export default function SurveyQuestionCard({
             const answer = item[answerKey] ?? {};
             const { id: selectedId } = answer;
 
-            const lastAnswer = item[lastAnswerKey] ?? {};
+            const lastAnswer = selectedId ? item[lastAnswerKey] ?? {} : {}; // Only show last answer if answer is selected
             const { id: lastSelectedId } = lastAnswer;
 
             return (
