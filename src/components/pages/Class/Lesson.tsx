@@ -27,12 +27,12 @@ export default function Lesson() {
         <Grid item xs={12}>
           <Grid container spacing={2}>
             <Grid item>
-              <StyledButton width={128} variant='secondary' onClick={handleChangeRoute('/Pre-Survey')}>
+              <StyledButton width={148} variant='secondary' onClick={handleChangeRoute('/Pre-Survey')}>
                 Back
               </StyledButton>
             </Grid>
             <Grid item>
-              <StyledButton width={128} onClick={handleChangeRoute('/Post-Survey')}>
+              <StyledButton width={148} onClick={handleChangeRoute('/Post-Survey')}>
                 Continue
               </StyledButton>
             </Grid>

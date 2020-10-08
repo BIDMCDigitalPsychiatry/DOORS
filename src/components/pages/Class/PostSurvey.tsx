@@ -53,12 +53,12 @@ export default function PostSurvey() {
           <Box mt={4}>
             <Grid container spacing={2}>
               <Grid item>
-                <StyledButton width={128} variant='secondary' onClick={handleChangeRoute('/Lesson')}>
+                <StyledButton width={148} variant='secondary' onClick={handleChangeRoute('/Lesson')}>
                   Back
                 </StyledButton>
               </Grid>
               <Grid item>
-                <StyledButton width={128} onClick={handleUpdate(mergeData)}>
+                <StyledButton width={148} onClick={handleUpdate(mergeData)}>
                   Continue
                 </StyledButton>
               </Grid>
