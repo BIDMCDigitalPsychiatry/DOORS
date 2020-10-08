@@ -10,8 +10,8 @@ import useFormState from '../../hooks/useFormState';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import merge from 'deepmerge';
-import BorderLinearProgress from '../../general/BorderLinearProgress';
 import { useFullScreen } from '../../../hooks';
+import YourProgress from '../../general/YourProgress';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -42,7 +42,13 @@ export default function PostSurvey() {
 
           <Typography>Don't worry if you don't see a big change, you can always take a lesson again!</Typography>
           <Box mt={4}>
-            <SurveyQuestions answerKey='postSurveyAnswer' lastAnswerKey='preSurveyAnswer' value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
+            <SurveyQuestions
+              answerKey='postSurveyAnswer'
+              lastAnswerKey='preSurveyAnswer'
+              value={surveyQuestions}
+              rankingModel={rankingModel}
+              onChange={handleChange('surveyQuestions')}
+            />
           </Box>
           <Box mt={4}>
             <Grid container spacing={2}>
@@ -60,12 +66,7 @@ export default function PostSurvey() {
           </Box>
         </Grid>
         <Grid item xs={12} md={3}>
-          <Box mt={1} mb={1}>
-            <Typography>Your Progress</Typography>
-            <Box mt={1} mb={1}>
-              <BorderLinearProgress value={90} />
-            </Box>
-          </Box>
+          <YourProgress value={90} />
           <ActionCard title='Ranking Model' minHeight={0}>
             <Box pl={2} pr={2}>
               <Grid container spacing={1}>
