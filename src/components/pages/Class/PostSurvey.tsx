@@ -42,7 +42,7 @@ export default function PostSurvey() {
 
           <Typography>Don't worry if you don't see a big change, you can always take a lesson again!</Typography>
           <Box mt={4}>
-            <SurveyQuestions answerKey='postSurveyAnswer' value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
+            <SurveyQuestions answerKey='postSurveyAnswer' lastAnswerKey='preSurveyAnswer' value={surveyQuestions} rankingModel={rankingModel} onChange={handleChange('surveyQuestions')} />
           </Box>
           <Box mt={4}>
             <Grid container spacing={2}>

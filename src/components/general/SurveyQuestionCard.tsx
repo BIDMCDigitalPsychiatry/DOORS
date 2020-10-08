@@ -1,6 +1,7 @@
 import * as React from 'react';
 import clsx from 'clsx';
 import { Card, Typography, makeStyles, Grid, Tooltip } from '@material-ui/core';
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -34,6 +35,27 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
     border: `2px solid ${palette.primary.light}`,
     background: palette.primary.main,
     cursor: 'pointer'
+  },
+  circleLast: {
+    borderRadius: 50,
+    width: 36,
+    height: 36,
+    color: grey[600],
+    border: `2px solid ${grey[600]}`,
+    cursor: 'pointer',
+    '&:hover': {
+      color: palette.common.white,
+      background: palette.primary.light
+    }
+  },
+  circleLastSelected: {
+    borderRadius: 50,
+    width: 36,
+    height: 36,
+    color: palette.common.white,
+    border: `2px solid ${grey[600]}`,
+    background: palette.primary.main,
+    cursor: 'pointer'
   }
 }));
 
@@ -47,6 +69,7 @@ export default function SurveyQuestionCard({
   rankingModel = [],
   onChange = undefined,
   answerKey,
+  lastAnswerKey = undefined,
   children = undefined,
   ...rest
 }) {
@@ -70,19 +93,36 @@ export default function SurveyQuestionCard({
         )}
         <Grid container spacing={2}>
           {rankingModel.map(rm => {
-            const { name, id } = rm;
+            const { id } = rm;
+
             const answer = item[answerKey] ?? {};
             const { id: selectedId } = answer;
 
+            const lastAnswer = item[lastAnswerKey] ?? {};
+            const { id: lastSelectedId } = lastAnswer;
+
             return (
               <Grid item key={id}>
-                <div className={id === selectedId ? classes.circleSelected : classes.circle} onClick={onChange({ ...item, [`${answerKey}`]: rm })}>
-                  <Tooltip title={name}>
-                    <Typography variant='h5' align='center' color='inherit'>
-                      {Number(id) + 1}
-                    </Typography>
-                  </Tooltip>
-                </div>
+                <>
+                  <div
+                    className={
+                      id === selectedId && id === lastSelectedId
+                        ? classes.circleLastSelected
+                        : id === selectedId && id !== lastSelectedId
+                        ? classes.circleSelected
+                        : id !== selectedId && id === lastSelectedId
+                        ? classes.circleLast
+                        : classes.circle
+                    }
+                    onClick={onChange({ ...item, [`${answerKey}`]: rm })}
+                  >
+                    <Tooltip open={lastSelectedId === id} title={'Last Answer'}>
+                      <Typography variant='h5' align='center' color='inherit'>
+                        {Number(id) + 1}
+                      </Typography>
+                    </Tooltip>
+                  </div>
+                </>
               </Grid>
             );
           })}
