@@ -1,30 +1,30 @@
 {
   "files": {
     "main.css": "/doors/static/css/main.34de6062.chunk.css",
-    "main.js": "/doors/static/js/main.c790c9ce.chunk.js",
-    "main.js.map": "/doors/static/js/main.c790c9ce.chunk.js.map",
-    "runtime-main.js": "/doors/static/js/runtime-main.00d060f6.js",
-    "runtime-main.js.map": "/doors/static/js/runtime-main.00d060f6.js.map",
-    "static/js/2.27135926.chunk.js": "/doors/static/js/2.27135926.chunk.js",
-    "static/js/2.27135926.chunk.js.map": "/doors/static/js/2.27135926.chunk.js.map",
+    "main.js": "/doors/static/js/main.b8fa791f.chunk.js",
+    "main.js.map": "/doors/static/js/main.b8fa791f.chunk.js.map",
+    "runtime-main.js": "/doors/static/js/runtime-main.c574c9b4.js",
+    "runtime-main.js.map": "/doors/static/js/runtime-main.c574c9b4.js.map",
+    "static/js/2.5aa3ec2e.chunk.js": "/doors/static/js/2.5aa3ec2e.chunk.js",
+    "static/js/2.5aa3ec2e.chunk.js.map": "/doors/static/js/2.5aa3ec2e.chunk.js.map",
     "static/js/3.9b5c80c6.chunk.js": "/doors/static/js/3.9b5c80c6.chunk.js",
     "static/js/3.9b5c80c6.chunk.js.map": "/doors/static/js/3.9b5c80c6.chunk.js.map",
-    "static/js/4.6a2afa36.chunk.js": "/doors/static/js/4.6a2afa36.chunk.js",
-    "static/js/4.6a2afa36.chunk.js.map": "/doors/static/js/4.6a2afa36.chunk.js.map",
+    "static/js/4.d4dfc7f2.chunk.js": "/doors/static/js/4.d4dfc7f2.chunk.js",
+    "static/js/4.d4dfc7f2.chunk.js.map": "/doors/static/js/4.d4dfc7f2.chunk.js.map",
     "index.html": "/doors/index.html",
-    "precache-manifest.83d2f2ce19689d37d2f52affda5f9a98.js": "/doors/precache-manifest.83d2f2ce19689d37d2f52affda5f9a98.js",
+    "precache-manifest.68c7e35c5cfff03c88539078228238a3.js": "/doors/precache-manifest.68c7e35c5cfff03c88539078228238a3.js",
     "service-worker.js": "/doors/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/doors/static/css/main.34de6062.chunk.css.map",
-    "static/js/2.27135926.chunk.js.LICENSE.txt": "/doors/static/js/2.27135926.chunk.js.LICENSE.txt",
+    "static/js/2.5aa3ec2e.chunk.js.LICENSE.txt": "/doors/static/js/2.5aa3ec2e.chunk.js.LICENSE.txt",
     "static/media/Montserrat-Regular.woff2": "/doors/static/media/Montserrat-Regular.6e5293f1.woff2",
     "static/media/archivo-v7-latin-regular.woff2": "/doors/static/media/archivo-v7-latin-regular.1311922f.woff2",
     "static/media/group.png": "/doors/static/media/group.3f0d16c3.png",
     "static/media/logo.svg": "/doors/static/media/logo.f10b510b.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.00d060f6.js",
-    "static/js/2.27135926.chunk.js",
+    "static/js/runtime-main.c574c9b4.js",
+    "static/js/2.5aa3ec2e.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.c790c9ce.chunk.js"
+    "static/js/main.b8fa791f.chunk.js"
   ]
 }
