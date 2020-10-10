@@ -18,12 +18,13 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
 
   const handleSubmit = React.useCallback(
     (values, setValues) => {
-      onSubmit && onSubmit({ values, setValues, type });
+      const id = type === 'Add' ? uuid() : values?.id;
+      onSubmit && onSubmit({ values: { ...values, id }, setValues, type });
       handleClose();
     },
     [onSubmit, type, handleClose]
   );
-  console.log({ other2 }); 
+  console.log({ other2 });
 
   return (
     <GenericDialog
@@ -35,8 +36,8 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
       fields={[
         {
           id: 'id',
-          hidden: true,
-          initialValue: type === 'Add' ? uuid() : undefined
+          hidden: true
+          //initialValue: type === 'Add' ? uuid() : undefined
         },
         {
           id: 'name',
@@ -52,7 +53,8 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
           Field: AutoCompleteSelect,
           items: [
             { label: 'PDF', value: 'PDF' },
-            { label: 'Video', value: 'Video' }
+            { label: 'Video', value: 'Video' },
+            { label: 'Link', value: 'Link' }
           ],
           disableClearable: true,
           required: true,
