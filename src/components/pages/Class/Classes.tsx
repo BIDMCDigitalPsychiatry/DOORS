@@ -34,6 +34,7 @@ export default function Classes() {
               <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
                 <Class
                   {...s}
+                  buttonLabel={isStudentMode ? 'Start' : 'View'}
                   onClick={changeRouteLayout(isStudentMode ? '/Pre-Survey' : '/ClassDashboard', {
                     class: {
                       ...s,
@@ -58,7 +59,7 @@ export default function Classes() {
                   {[
                     inProgress.map(s => (
                       <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
-                        <Class {...s} onClick={changeRouteLayout('/Pre-Survey', { class: s })} />
+                        <Class {...s} buttonLabel='Resume' onClick={changeRouteLayout('/Pre-Survey', { class: s })} />
                       </Grid>
                     ))
                   ]}

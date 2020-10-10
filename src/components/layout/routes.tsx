@@ -8,7 +8,6 @@ import Calendar from '../pages/Calendar';
 import Classes from '../pages/Class/Classes';
 import Class from '../pages/Class/Class';
 import ClassDashboard from '../pages/Class/ClassDashboard';
-import SessionClass from '../pages/Class/SessionClass';
 import ClassMaterials from '../pages/Class/ClassMaterials';
 import ClassRoster from '../pages/Class/ClassRoster';
 import TermsAndConditions from '../pages/TermsAndConditions';
@@ -39,8 +38,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/Classes')} component={Classes} />
     <Route exact path={publicUrl('/Class')} component={Class} />
     <Route exact path={publicUrl('/CreateClass')} component={CreateClass} />
-    <Route exact path={publicUrl('/ClassDashboard')} component={ClassDashboard} />
-    <Route exact path={publicUrl('/SessionClass')} component={SessionClass} />
+    <Route exact path={publicUrl('/ClassDashboard')} component={ClassDashboard} />    
     <Route exact path={publicUrl('/ClassMaterials')} component={ClassMaterials} />
     <Route exact path={publicUrl('/ClassRoster')} component={ClassRoster} />
     <Route exact path={publicUrl('/Lesson')} component={Lesson} />

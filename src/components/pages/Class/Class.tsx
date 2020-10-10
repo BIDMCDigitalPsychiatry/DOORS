@@ -4,6 +4,7 @@ import { Box, Card, Typography, makeStyles, Grid } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
 import { BlockListItem } from '../../general/BlockList';
 import { getImage } from './helpers';
+import { timeAgo } from '../../../helpers';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -27,8 +28,11 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 }));
 
 export default function Class({
+  buttonLabel = 'View',
   headline = '',
   name = '',
+  updated = undefined,
+  completed,
   image = 'calendar',
   keySkills = [] as BlockListItem[],
   className = undefined,
@@ -63,8 +67,15 @@ export default function Class({
         </Grid>
       </Grid>
       <Box m={2} textAlign='center'>
-        <StyledButton onClick={onClick}>View</StyledButton>
+        <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>
       </Box>
+      {completed && (
+        <Box pl={1} pr={1}>
+          <Typography noWrap align='right' variant='caption' color='textPrimary'>
+            {`Completed ${timeAgo(updated)}`} 
+          </Typography>
+        </Box>
+      )}
     </Card>
   );
 }
