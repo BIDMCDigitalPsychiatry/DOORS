@@ -5,10 +5,18 @@ import Text from './Text';
 const getLabel = option => ((typeof option === 'object' && option ? option.label : option) ?? '').toString();
 const getValue = option => (typeof option === 'object' && option ? option.value : option) ?? '';
 const getSelectedOption = (value, options) =>
-  Array.isArray(options) ? options.find(o => (typeof o === 'object' ? o.value === value : o === value)) ?? '' : '';
+  Array.isArray(options) ? options.find(o => (typeof o === 'object' ? o.value === value : o === value)) ?? undefined : undefined;
 
 // Accepts either an option array of strings, numbers, or { value, label } objects. Reports only the value (not the object) to parent onChange
-export default function AutoCompleteSelect({ items: options = [], value = '', onChange = undefined, size = 'small' as 'small', freeSolo = true, ...other }) {
+export default function AutoCompleteSelect({
+  items: options = [],
+  value = undefined,
+  onChange = undefined,
+  size = 'small' as 'small',
+  disableClearable = undefined,
+  freeSolo = true,
+  ...other
+}) {
   const handleChange = React.useCallback(
     (e, option) => {
       onChange && onChange({ target: { value: getValue(option) } }); // Inject value to mimic behavior of other input on change events
@@ -24,6 +32,7 @@ export default function AutoCompleteSelect({ items: options = [], value = '', on
       getOptionLabel={option => getLabel(option)}
       renderOption={option => getLabel(option)}
       onChange={handleChange}
+      disableClearable={disableClearable}
       renderInput={params => (
         <Text
           {...params}

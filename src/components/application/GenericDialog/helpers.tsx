@@ -71,6 +71,7 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
     rows,
     getProps,
     disableCloseOnSelect,
+    disableClearable,
     description,
     tooltip,
     replace,
@@ -101,6 +102,7 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
     tooltip,
     replace,
     placeholder,
+    disableClearable,
     ...(getProps && getProps(values)) // Allows the field to hook into the internal state values if needed
   };
   Object.keys(props).forEach(key => props[key] === undefined && delete props[key]); // Filter out any undefined props so they don't override any previously specified values
@@ -146,7 +148,7 @@ export const useValues = ({
   externalValues = undefined, // Use with externalSetValues, for having an external state, such as redux
   externalSetValues = undefined, //Use with externalValues, for having an external state, such as redux
   onChange = undefined,
-  disableInitialize = false
+  disableInitialize = true
 }) => {
   const { initialValues = {}, submitting, showErrors } = state;
   const defaultValues = getDefaultValues(fields); // Get any default values from the individual fields first

@@ -24,6 +24,7 @@ export function BlockList({
   add = undefined,
   edit = undefined,
   remove = undefined,
+  DialogModule = BlockListDialog,
   onChange
 }) {
   const value_str = JSON.stringify(value);
@@ -97,7 +98,7 @@ export function BlockList({
           ))}
 
           <Grid style={{ display: add ? 'flex' : 'none' }} key={'add'} item lg={4} sm={6} xs={12}>
-            <DialogButton Module={{ ...BlockListDialog, id: title, title }} variant='styled' styledVariant='secondary' onSubmit={handleSubmit}>
+            <DialogButton Module={{ ...DialogModule, id: title, title }} variant='styled' styledVariant='secondary' onSubmit={handleSubmit}>
               Add New
             </DialogButton>
           </Grid>

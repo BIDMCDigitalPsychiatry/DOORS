@@ -11,6 +11,7 @@ import useFormState from '../../hooks/useFormState';
 import Text from '../../application/DialogField/Text';
 import ImageSelector from '../../application/DialogField/ImageSelector';
 import { useClassData } from '../../../database/useClassData';
+import * as ClassResourceDialog from '../../application/GenericDialog/ClassResource';
 
 const Model = tables.classesAdmin;
 const validate = ({ name }) => {
@@ -97,7 +98,8 @@ export default function ClassMaterials() {
           <Grid item xs={12}>
             <BlockList
               title='Class Resources'
-              subtitle='To be completed - Add links to resources that are relevant to the lesson'
+              subtitle='Add links to resources that are relevant to the lesson'
+              DialogModule={ClassResourceDialog as any}
               value={classResources}
               add={true}
               onChange={handleChange('classResources')}
