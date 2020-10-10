@@ -50,7 +50,7 @@ export default function PostSurvey() {
           <Typography>Don't worry if you don't see a big change, you can always take a lesson again!</Typography>
           <Box mt={4}>
             <SurveyQuestions
-              readonly={completed}
+              readonly={completed === true}
               answerKey='postSurveyAnswer'
               lastAnswerKey='preSurveyAnswer'
               value={surveyQuestions}
@@ -66,7 +66,7 @@ export default function PostSurvey() {
                 </StyledButton>
               </Grid>
               <Grid item>
-                {completed ? (
+                {completed === true ? (
                   <StyledButton width={148} onClick={handleChangeRoute(nextRoute)}>
                     Next
                   </StyledButton>

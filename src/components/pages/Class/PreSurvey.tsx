@@ -49,7 +49,7 @@ export default function PreSurvey() {
   const disabled = [...surveyQuestions, ageQuestion].filter(sq => sq.preSurveyAnswer === undefined).length > 0;
 
   return (
-    <Page title='Pre-Survey' ActionButton={() => <YourProgress value={10} />}>
+    <Page title='Pre-Survey' ActionButton={() => <YourProgress value={20} />}>
       <Grid container spacing={fs ? 2 : 4}>
         <Grid item xs={12} md={9}>
           <Typography>Before you start your lesson, please complete the following survey.</Typography>
@@ -57,7 +57,7 @@ export default function PreSurvey() {
           <Typography>This will help you keep track of all of the new things you will learn!</Typography>
           <Box mt={4}>
             <AgeQuestionCard
-              readonly={completed}
+              readonly={completed === true}
               item={ageQuestion}
               minHeight={112}
               titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
@@ -67,7 +67,7 @@ export default function PreSurvey() {
           </Box>
           <Box mt={4}>
             <SurveyQuestions
-              readonly={completed}
+              readonly={completed === true}
               answerKey='preSurveyAnswer'
               value={surveyQuestions}
               rankingModel={rankingModel}
@@ -75,7 +75,7 @@ export default function PreSurvey() {
             />
           </Box>
           <Box mt={4}>
-            {completed ? (
+            {completed === true ? (
               <StyledButton width={148} disabled={disabled} onClick={handleChangeRoute(nextRoute)}>
                 Next
               </StyledButton>

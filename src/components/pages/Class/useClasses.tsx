@@ -3,8 +3,8 @@ import useTable from '../../../database/useTable';
 import { tables } from '../../../database/dbConfig';
 import { useTableFilter } from '../../application/GenericTable/helpers';
 
-export default function useClasses({ table = undefined, tab = undefined, requestParams = undefined }) {
-  const { state, handleRequest } = useTable({ TableName: tables.classesAdmin });
+export default function useClasses({ Model = tables.classesAdmin, table = undefined, tab = undefined, requestParams = undefined }) {
+  const { state, handleRequest } = useTable({ TableName: Model });
   const { data, loading, success } = state as any;
 
   const handleRefresh = React.useCallback(() => {
