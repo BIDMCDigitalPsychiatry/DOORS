@@ -74,7 +74,7 @@ export default function AgeQuestionCard({
             const { preSurveyAnswer = {} } = item;
             const { id: selectedId } = preSurveyAnswer;
             return (
-              <Grid item>
+              <Grid item key={id}>
                 <div
                   className={id === selectedId ? classes.circleSelected : classes.circle}
                   onClick={readonly !== true && onChange({ ...item, preSurveyAnswer: rm })}

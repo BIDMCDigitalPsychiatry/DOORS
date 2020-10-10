@@ -6,7 +6,7 @@ import CircleText from '../../general/CircleText';
 import { tables } from '../../../database/dbConfig';
 import SurveyQuestions from '../../general/SurveyQuestions';
 import useFormState from '../../hooks/useFormState';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useHandleChangeRoute, useLayoutKey } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import merge from 'deepmerge';
 import AgeQuestionCard from '../../general/AgeQuestionCard';
@@ -15,7 +15,7 @@ import { useFullScreen } from '../../../hooks';
 import { useClassData } from '../../../database/useClassData';
 import YourProgress from '../../general/YourProgress';
 
-const validate = ({ name }) => {
+const validate = () => {
   const newErrors = {};
   return newErrors;
 };
@@ -24,12 +24,14 @@ const validate = ({ name }) => {
 const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 
 const nextRoute = '/Lesson';
+
 export default function PreSurvey() {
-  const { data /*, handleChange*/ } = useClassData({ Model: tables.classesAdmin });
-  const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent });
+  // For the first step, use whichever class data was activated from the dashboard.  The dashboard should handle injection of the session id into the id field
+  const data = useLayoutKey('class');
+  const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent }); // A
   const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
   const { ageQuestion = { name: 'Which of the following best describes your age group?' }, rankingModel = [], surveyQuestions = [] } = mergeData;
-  const { completed } = studentData;
+  const { completed } = studentData; // Set a session id if one does not already exist
 
   const handleChangeRoute = useHandleChangeRoute();
 

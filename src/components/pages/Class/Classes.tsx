@@ -7,6 +7,7 @@ import { useIsAdminMode, useIsStudentMode } from '../../../hooks';
 import StyledButton from '../../general/StyledButton';
 import useClasses from './useClasses';
 import { tables } from '../../../database/dbConfig';
+import { uuid } from '../../../helpers';
 
 const ActionButton = () => {
   const changeRoute = useHandleChangeRoute();
@@ -19,6 +20,8 @@ export default function Classes() {
 
   const { data } = useClasses({ Model: tables.classesAdmin });
   const { data: studentData } = useClasses({ Model: tables.classesStudent });
+  const completed = studentData.filter(c => c.completed === true && !c.deleted);
+  const inProgress = studentData.filter(c => c.completed !== true && !c.deleted);
 
   const changeRouteLayout = useHandleChangeRouteLayout();
 
@@ -29,7 +32,15 @@ export default function Classes() {
           {[
             data.map(s => (
               <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
-                <Class {...s} onClick={changeRouteLayout(isStudentMode ? '/Pre-Survey' : '/ClassDashboard', { class: s })} />
+                <Class
+                  {...s}
+                  onClick={changeRouteLayout(isStudentMode ? '/Pre-Survey' : '/ClassDashboard', {
+                    class: {
+                      ...s,
+                      id: isStudentMode ? [s.id, uuid()].join(':') : s.id // If a student is starting a new class, then append the session id to the class id
+                    }
+                  })}
+                />
               </Grid>
             ))
           ]}
@@ -37,38 +48,42 @@ export default function Classes() {
       </Page>
       {isStudentMode && (
         <>
-          <Box mt={3} mb={3}>
-            <Divider />
-          </Box>
-          <Page title='In Progress Classes'>
-            <Grid container spacing={3}>
-              {[
-                studentData
-                  .filter(c => c.completed !== true)
-                  .map(s => (
-                    <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
-                      <Class {...s} onClick={changeRouteLayout('/Pre-Survey', { class: s })} />
-                    </Grid>
-                  ))
-              ]}
-            </Grid>
-          </Page>
-          <Box mt={3} mb={3}>
-            <Divider />
-          </Box>
-          <Page title='Completed Classes'>
-            <Grid container spacing={3}>
-              {[
-                studentData
-                  .filter(c => c.completed === true)
-                  .map(s => (
-                    <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
-                      <Class {...s} onClick={changeRouteLayout('/Pre-Survey', { class: s })} />
-                    </Grid>
-                  ))
-              ]}
-            </Grid>
-          </Page>
+          {inProgress.length > 0 && (
+            <>
+              <Box mt={3} mb={3}>
+                <Divider />
+              </Box>
+              <Page title='In Progress'>
+                <Grid container spacing={3}>
+                  {[
+                    inProgress.map(s => (
+                      <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
+                        <Class {...s} onClick={changeRouteLayout('/Pre-Survey', { class: s })} />
+                      </Grid>
+                    ))
+                  ]}
+                </Grid>
+              </Page>
+            </>
+          )}
+          {completed.length > 0 && (
+            <>
+              <Box mt={3} mb={3}>
+                <Divider />
+              </Box>
+              <Page title='Completed'>
+                <Grid container spacing={3}>
+                  {[
+                    completed.map(s => (
+                      <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
+                        <Class {...s} onClick={changeRouteLayout('/Pre-Survey', { class: s })} />
+                      </Grid>
+                    ))
+                  ]}
+                </Grid>
+              </Page>
+            </>
+          )}
         </>
       )}
     </>
