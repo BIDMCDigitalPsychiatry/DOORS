@@ -24,12 +24,12 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BorderedLinearProgress({ value }) {
+export default function BorderedLinearProgress({ value, ...other }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <StyledLinearProgress variant='determinate' value={value} />
+      <StyledLinearProgress variant='determinate' value={value} {...other} />
     </div>
   );
 }

@@ -42,7 +42,7 @@ export default function PostSurvey() {
   const disabled = surveyQuestions.filter(sq => sq.postSurveyAnswer === undefined).length > 0;
 
   return (
-    <Page title='Post-Survey'>
+    <Page title='Post-Survey' ActionButton={() => <YourProgress value={90} />}>
       <Grid container spacing={fs ? 2 : 4}>
         <Grid item xs={12} md={9}>
           <Typography>Complete the following survey again and see how you've improved.</Typography>
@@ -80,7 +80,6 @@ export default function PostSurvey() {
           </Box>
         </Grid>
         <Grid item xs={12} md={3}>
-          <YourProgress value={90} />
           <ActionCard title='Ranking Model' minHeight={0}>
             <Box pl={2} pr={2}>
               <Grid container spacing={1}>

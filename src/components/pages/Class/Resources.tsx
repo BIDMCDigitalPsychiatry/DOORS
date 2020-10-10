@@ -6,13 +6,13 @@ import StyledButton from '../../general/StyledButton';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { useClassData } from '../../../database/useClassData';
 import { tables } from '../../../database/dbConfig';
+import { BlockListClassResource } from '../../general/BlockListClassResource';
 
 export default function Resources() {
   const handleChangeRoute = useHandleChangeRoute();
   const { data: adminData } = useClassData({ Model: tables.classesAdmin });
 
-  const { resources = [] } = adminData;
-  console.log({ resources });
+  const { classResources = [] } = adminData;
 
   const { data: studentData, updateData } = useClassData({ Model: tables.classesStudent });
   const { completed } = studentData;
@@ -25,7 +25,7 @@ export default function Resources() {
     <Page title='Resources' ActionButton={() => <YourProgress value={100} />}>
       <>
         <Typography>You can visit the following resources to complement your learning and practice your skills.</Typography>
-        <Grid container spacing={3}></Grid>
+        <BlockListClassResource value={classResources} />
         <Box mt={4}>
           <Grid container spacing={2}>
             <Grid item>

@@ -49,7 +49,7 @@ export default function PreSurvey() {
   const disabled = [...surveyQuestions, ageQuestion].filter(sq => sq.preSurveyAnswer === undefined).length > 0;
 
   return (
-    <Page title='Pre-Survey'>
+    <Page title='Pre-Survey' ActionButton={() => <YourProgress value={10} />}>
       <Grid container spacing={fs ? 2 : 4}>
         <Grid item xs={12} md={9}>
           <Typography>Before you start your lesson, please complete the following survey.</Typography>
@@ -87,7 +87,6 @@ export default function PreSurvey() {
           </Box>
         </Grid>
         <Grid item xs={12} md={3}>
-          <YourProgress value={25} />
           <ActionCard title='Ranking Model' minHeight={0}>
             <Box pl={2} pr={2}>
               <Grid container spacing={1}>

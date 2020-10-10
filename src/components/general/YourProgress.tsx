@@ -7,7 +7,7 @@ export default function ({ value }) {
     <Box mt={1} mb={1}>
       <Typography>Your Progress</Typography>
       <Box mt={1} mb={1}>
-        <BorderLinearProgress value={value} />
+        <BorderLinearProgress value={value} style={{ minWidth: 160 }} />
       </Box>
     </Box>
   );

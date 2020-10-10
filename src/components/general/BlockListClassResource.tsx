@@ -20,7 +20,7 @@ export function BlockListClassResource({
   edit = undefined,
   remove = undefined,
   DialogModule = ClassResourceDialog,
-  onChange
+  onChange = undefined
 }) {
   const value_str = JSON.stringify(value);
 

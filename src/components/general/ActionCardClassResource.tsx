@@ -89,6 +89,9 @@ export default function ActionCardClassResource({
         )}
       </div>
       {children}
+      <StyledButton variant='text' onClick={handleLink}>
+        View Resource
+      </StyledButton>
       {onClick && (
         <Box m={2} textAlign='center'>
           <StyledButton disabled={disabled} onClick={onClick}>
