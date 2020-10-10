@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { adminUsers } from '../package.json';
@@ -64,4 +65,11 @@ export const getUrlParamater = paramName => {
     }
   }
   return undefined;
+};
+
+export const useHandleLink = link => {
+  return React.useCallback(() => {
+    var win = window.open(link, '_blank');
+    win.focus();
+  }, [link]);
 };

@@ -3,6 +3,7 @@ import Text from '../../application/DialogField/Text';
 import { IconButton, InputAdornment } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { isEmpty } from '../../../helpers';
+import { useHandleLink } from '../../../hooks';
 
 const YouTubeAdornment = ({ disabled = undefined, onClick = undefined }) => (
   <InputAdornment position='end'>
@@ -13,10 +14,7 @@ const YouTubeAdornment = ({ disabled = undefined, onClick = undefined }) => (
 );
 
 export default function ClassPresentationLink({ value, onChange }) {
-  const handleLink = React.useCallback(() => {
-    var win = window.open(value, '_blank');
-    win.focus();
-  }, [value]);
+  const handleLink = useHandleLink(value);
 
   return (
     <Text

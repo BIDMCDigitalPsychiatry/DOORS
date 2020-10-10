@@ -11,7 +11,7 @@ import useFormState from '../../hooks/useFormState';
 import Text from '../../application/DialogField/Text';
 import ImageSelector from '../../application/DialogField/ImageSelector';
 import { useClassData } from '../../../database/useClassData';
-import * as ClassResourceDialog from '../../application/GenericDialog/ClassResource';
+import { BlockListClassResource } from '../../general/BlockListClassResource';
 
 const Model = tables.classesAdmin;
 const validate = ({ name }) => {
@@ -91,17 +91,17 @@ export default function ClassMaterials() {
           </Grid>
           <Grid item xs={12}>
             <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
-              Class Presentation
+              Class Video Presentation Link
             </Typography>
             <ClassPresentationLink value={classPresentation} onChange={handleChange('classPresentation')} />
           </Grid>
           <Grid item xs={12}>
-            <BlockList
+            <BlockListClassResource
               title='Class Resources'
               subtitle='Add links to resources that are relevant to the lesson'
-              DialogModule={ClassResourceDialog as any}
               value={classResources}
               add={true}
+              edit={true}
               onChange={handleChange('classResources')}
             />
           </Grid>

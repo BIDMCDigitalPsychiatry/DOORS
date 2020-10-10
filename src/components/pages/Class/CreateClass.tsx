@@ -11,7 +11,7 @@ import { tables } from '../../../database/dbConfig';
 import ImageSelector from '../../application/DialogField/ImageSelector';
 import useFormState from '../../hooks/useFormState';
 import Class, { defaultRankingModels } from '../../../database/models/Class';
-import * as ClassResourceDialog from '../../application/GenericDialog/ClassResource';
+import { BlockListClassResource } from '../../general/BlockListClassResource';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -111,10 +111,9 @@ export default function CreateClass() {
             />
           </Grid>
           <Grid item xs={12}>
-            <BlockList
+            <BlockListClassResource
               title='Class Resources'
               subtitle='Add links to resources that are relevant to the lesson'
-              DialogModule={ClassResourceDialog as any}
               value={classResources}
               add={true}
               onChange={handleChange('classResources')}
@@ -122,7 +121,7 @@ export default function CreateClass() {
           </Grid>
           <Grid item xs={12}>
             <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
-              Class Presentation
+              Class Video Presentation Link
             </Typography>
             <ClassPresentationLink value={classPresentation} onChange={handleChange('classPresentation')} />
           </Grid>

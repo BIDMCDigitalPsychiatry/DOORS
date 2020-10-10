@@ -171,14 +171,10 @@ export const useValues = ({
   const initializeValues = React.useCallback(() => {
     setTouched({});
     setValues(JSON.parse(mergedInitialValuesStr));
-    console.log('initializing');
-    console.log({ values: JSON.parse(mergedInitialValuesStr) });
   }, [setValues, mergedInitialValuesStr]);
 
   React.useEffect(() => {
     // Re-initialize values when necessary
-    console.log('re-initializing');
-    console.log({ values: JSON.parse(mergedInitialValuesStr), open, disableInitialize });
     open && !disableInitialize && setValues(JSON.parse(mergedInitialValuesStr));
     open && !disableInitialize && setTouched({});
   }, [open, mergedInitialValuesStr, disableInitialize, setValues]);

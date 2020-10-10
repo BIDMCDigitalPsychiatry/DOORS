@@ -9,7 +9,7 @@ import FileUploadLink from '../../DialogField/FileUploadLink';
 export const title = 'Class Resource';
 
 export default function ClassResourceDialog({ id = title, onClose = undefined, onSubmit, anchorEl = undefined, setValues = undefined, ...other }) {
-  const [{ type, ...other2 }, setState] = useDialogState(id);
+  const [{ type }, setState] = useDialogState(id);
 
   const handleClose = React.useCallback(() => {
     setState(prev => ({ ...prev, open: false, loading: false }));
@@ -24,7 +24,6 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
     },
     [onSubmit, type, handleClose]
   );
-  console.log({ other2 });
 
   return (
     <GenericDialog
@@ -37,7 +36,6 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
         {
           id: 'id',
           hidden: true
-          //initialValue: type === 'Add' ? uuid() : undefined
         },
         {
           id: 'name',
