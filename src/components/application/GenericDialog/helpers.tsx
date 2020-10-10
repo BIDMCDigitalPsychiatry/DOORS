@@ -148,7 +148,7 @@ export const useValues = ({
   externalValues = undefined, // Use with externalSetValues, for having an external state, such as redux
   externalSetValues = undefined, //Use with externalValues, for having an external state, such as redux
   onChange = undefined,
-  disableInitialize = true
+  disableInitialize = false
 }) => {
   const { initialValues = {}, submitting, showErrors } = state;
   const defaultValues = getDefaultValues(fields); // Get any default values from the individual fields first
@@ -171,10 +171,14 @@ export const useValues = ({
   const initializeValues = React.useCallback(() => {
     setTouched({});
     setValues(JSON.parse(mergedInitialValuesStr));
+    console.log('initializing');
+    console.log({ values: JSON.parse(mergedInitialValuesStr) });
   }, [setValues, mergedInitialValuesStr]);
 
   React.useEffect(() => {
     // Re-initialize values when necessary
+    console.log('re-initializing');
+    console.log({ values: JSON.parse(mergedInitialValuesStr), open, disableInitialize });
     open && !disableInitialize && setValues(JSON.parse(mergedInitialValuesStr));
     open && !disableInitialize && setTouched({});
   }, [open, mergedInitialValuesStr, disableInitialize, setValues]);
