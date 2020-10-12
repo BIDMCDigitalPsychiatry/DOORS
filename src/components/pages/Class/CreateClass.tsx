@@ -12,6 +12,7 @@ import ImageSelector from '../../application/DialogField/ImageSelector';
 import useFormState from '../../hooks/useFormState';
 import Class, { defaultRankingModels } from '../../../database/models/Class';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
+import { useIsAdminMode } from '../../../hooks';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -21,16 +22,18 @@ const validate = ({ name }) => {
   return newErrors;
 };
 
-const Model = tables.classesAdmin;
 export default function CreateClass() {
-  const adminId = useUserId();
+  const userId = useUserId();
+  const isAdminMode = useIsAdminMode();
+  const Model = isAdminMode ? tables.classesAdmin : tables.classesInstructor;
+
   const handleChangeRoute = useHandleChangeRoute();
   const { formState, handleCreate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
   const { loading, errors } = formState;
 
   const [state, setState] = React.useState({
     id: uuid(),
-    adminId,
+    userId,
     name: '',
     image: 'wifi',
     headline: '',

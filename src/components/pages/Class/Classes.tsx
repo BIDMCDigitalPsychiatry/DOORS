@@ -3,11 +3,12 @@ import { Box, Divider, Grid } from '@material-ui/core';
 import Class from './Class';
 import Page from '../Page';
 import { useHandleChangeRoute, useHandleChangeRouteLayout } from '../../layout/hooks';
-import { useIsAdminMode, useIsStudentMode } from '../../../hooks';
+import { useIsAdminMode, useIsInstructorMode, useIsStudentMode } from '../../../hooks';
 import StyledButton from '../../general/StyledButton';
 import useClasses from './useClasses';
 import { tables } from '../../../database/dbConfig';
 import { uuid } from '../../../helpers';
+import useCombinedClasses from './useCombinedClasses';
 
 const ActionButton = () => {
   const changeRoute = useHandleChangeRoute();
@@ -16,9 +17,11 @@ const ActionButton = () => {
 
 export default function Classes() {
   const isAdminMode = useIsAdminMode();
+  const isInstructorMode = useIsInstructorMode();
   const isStudentMode = useIsStudentMode();
 
-  const { data } = useClasses({ Model: tables.classesAdmin });
+  // Find all instructors
+  const { data } = useCombinedClasses();
   const { data: studentData } = useClasses({ Model: tables.classesStudent });
   const completed = studentData.filter(c => c.completed === true && !c.deleted);
   const inProgress = studentData.filter(c => c.completed !== true && !c.deleted);
@@ -27,7 +30,7 @@ export default function Classes() {
 
   return (
     <>
-      <Page title='Available Classes' ActionButton={isAdminMode ? ActionButton : undefined}>
+      <Page title='Available Classes' ActionButton={isAdminMode || isInstructorMode ? ActionButton : undefined}>
         <Grid container spacing={3}>
           {[
             data.map(s => (

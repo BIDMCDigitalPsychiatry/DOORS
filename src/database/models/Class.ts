@@ -50,7 +50,7 @@ export const defaultRankingModels: BlockListItem[] = [
 
 export default interface Class {
   id: string; // unique identifier
-  adminId?: string; // user id of the admin user which created the class
+  userId?: string; // user id of the admin or instructor user which created the class
   headline?: string;
   name?: string;
   image?: string;
