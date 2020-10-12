@@ -6,7 +6,6 @@ import Instructors from '../pages/Instructors';
 import Profile from '../pages/Profile/Profile';
 import Calendar from '../pages/Calendar';
 import Classes from '../pages/Class/Classes';
-import Class from '../pages/Class/Class';
 import ClassDashboard from '../pages/Class/ClassDashboard';
 import ClassMaterials from '../pages/Class/ClassMaterials';
 import ClassRoster from '../pages/Class/ClassRoster';
@@ -20,6 +19,8 @@ import Congratulations from '../pages/Class/Congratulations';
 import CreateClass from '../pages/Class/CreateClass';
 import ForgotPassword from './ForgotPassword';
 import { useHandleChangeRoute, useUserEmail } from './hooks';
+import { useUserType } from '../../hooks';
+import AccessDenied from '../pages/AccessDenied';
 
 const ForgotPasswordRoute = () => {
   const email = useUserEmail();
@@ -27,27 +28,31 @@ const ForgotPasswordRoute = () => {
   return <ForgotPassword email={email} onBack={changeRoute('/Profile')} onSuccess={changeRoute('/Profile')} />;
 };
 
+const ProtectedRoute = ({ userTypes = [], ...other }) => {
+  const userType = useUserType();
+  const denied = userTypes.length > 0 && !userTypes.includes(userType) ? true : false;
+  return denied ? <AccessDenied /> : <Route {...other} />;
+};
+
 const Routes = () => (
   <Switch>
-    <Route exact path={publicUrl('/StyleGuide')} component={StyleGuide} />
+    <ProtectedRoute userTypes={['Admin']} exact path={publicUrl('/PlayGround')} component={PlayGround} />
+    <ProtectedRoute userTypes={['Admin']} exact path={publicUrl('/Instructors')} component={Instructors} />
+    <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/StyleGuide')} component={StyleGuide} />
+    <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/CreateClass')} component={CreateClass} />
+    <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassMaterials')} component={ClassMaterials} />
+    <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassDashboard')} component={ClassDashboard} />
+    <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassRoster')} component={ClassRoster} />
     <Route exact path={publicUrl('/TermsAndConditions')} component={TermsAndConditions} />
-    <Route exact path={publicUrl('/Instructors')} component={Instructors} />
     <Route exact path={publicUrl('/Profile')} component={Profile} />
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />
-    <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
     <Route exact path={publicUrl('/Classes')} component={Classes} />
-    <Route exact path={publicUrl('/Class')} component={Class} />
-    <Route exact path={publicUrl('/CreateClass')} component={CreateClass} />
-    <Route exact path={publicUrl('/ClassDashboard')} component={ClassDashboard} />    
-    <Route exact path={publicUrl('/ClassMaterials')} component={ClassMaterials} />
-    <Route exact path={publicUrl('/ClassRoster')} component={ClassRoster} />
-    <Route exact path={publicUrl('/Lesson')} component={Lesson} />
-    <Route exact path={publicUrl('/Pre-Survey')} component={PreSurvey} />
-    <Route exact path={publicUrl('/Post-Survey')} component={PostSurvey} />
-    <Route exact path={publicUrl('/Resources')} component={Resources} />
-    <Route exact path={publicUrl('/Congratulations')} component={Congratulations} />
-    <Route exact path={publicUrl('/ForgotPassword')} component={ForgotPasswordRoute} />
-
+    <ProtectedRoute exact path={publicUrl('/Lesson')} component={Lesson} />
+    <ProtectedRoute exact path={publicUrl('/Pre-Survey')} component={PreSurvey} />
+    <ProtectedRoute exact path={publicUrl('/Post-Survey')} component={PostSurvey} />
+    <ProtectedRoute exact path={publicUrl('/Resources')} component={Resources} />
+    <ProtectedRoute exact path={publicUrl('/Congratulations')} component={Congratulations} />
+    <ProtectedRoute exact path={publicUrl('/ForgotPassword')} component={ForgotPasswordRoute} />
     <Route path={'/'} component={Classes} />
   </Switch>
 );
