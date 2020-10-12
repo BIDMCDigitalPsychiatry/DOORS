@@ -13,7 +13,7 @@ export default function Profile() {
     <Page title='My Profile'>
       <Grid container spacing={2}>
         <Grid item lg={4} md={6} xl={3} xs={12}>
-          <ProfileDetails profile={profile} />
+          <ProfileDetails profile={profile} setProfile={setProfile} onSuccess={handleRefresh} />
         </Grid>
         <Grid item lg={8} md={6} xl={9} xs={12}>
           <ProfileSettings profile={profile} setProfile={setProfile} onSuccess={handleRefresh} />

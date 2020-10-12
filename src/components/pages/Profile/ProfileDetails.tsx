@@ -1,16 +1,11 @@
 import React from 'react';
-import type { FC } from 'react';
-import clsx from 'clsx';
 import { Avatar, Box, Card, CardContent, Typography, makeStyles, Grid } from '@material-ui/core';
 import { useUserType } from '../../../hooks';
 import DialogButton from '../../application/GenericDialog/DialogButton';
-import Profile from '../../../database/models/Profile';
 import { useHandleChangeRoute, useUserEmail } from '../../layout/hooks';
-
-interface ProfileDetailsProps {
-  className?: string;
-  profile: Profile;
-}
+import { useDialogState } from '../../application/GenericDialog/useDialogState';
+import FileUploadButton from '../../application/DialogField/FileUploadButton';
+import { getObjectUrl } from '../../../aws-exports';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -23,21 +18,36 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProfileDetails: FC<ProfileDetailsProps> = ({ className, profile, ...rest }) => {
+const ProfileDetails = ({ profile = {} as any, setProfile, onSuccess, ...rest }) => {
   const classes = useStyles();
   const userType = useUserType();
   const email = useUserEmail();
 
   const changeRoute = useHandleChangeRoute();
 
+  const [state, setState] = useDialogState('My Profile');
+  const { loading, submitting } = state;
+
+  const profile_s = JSON.stringify(profile);
+  const handleChange = React.useCallback(
+    key => event => {
+      const value = event?.target?.value;
+      var newProfile = JSON.parse(profile_s);
+      newProfile[key] = value;
+      setProfile && setProfile(newProfile, onSuccess);
+      setState(prev => ({ ...prev }));
+    },
+    [setState, setProfile, profile_s, onSuccess]
+  );
+
+  const disabled = loading || submitting;  
+
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card {...rest}>
       <CardContent>
         <Box display='flex' alignItems='center' flexDirection='column' textAlign='center'>
-          <Avatar className={classes.avatar} src={profile?.picture} />
-          <DialogButton variant='link' underline='always' onClick={() => alert('To be implemented')}>
-            UPLOAD PICTURE
-          </DialogButton>
+          <Avatar className={classes.avatar} src={getObjectUrl(profile?.picture)} />
+          <FileUploadButton label='UPLOAD PICTURE' onChange={handleChange('picture')} />
           <Box mt={1}>
             <Typography className={classes.name} color='textPrimary' variant='h4'>
               {profile?.name}
@@ -51,12 +61,12 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ className, profile, ...rest }
             <Box mt={1}>
               <Grid container justify='space-between' spacing={1}>
                 <Grid item>
-                  <DialogButton variant='link' underline='always' onClick={changeRoute('/ForgotPassword')}>
+                  <DialogButton disabled={disabled} variant='link' underline='always' onClick={changeRoute('/ForgotPassword')}>
                     CHANGE PASSWORD
                   </DialogButton>
                 </Grid>
                 <Grid item>
-                  <DialogButton variant='link' underline='always' onClick={() => alert('To be implemented')}>
+                  <DialogButton disabled={disabled} variant='link' underline='always' onClick={() => alert('To be implemented')}>
                     CHANGE EMAIL
                   </DialogButton>
                 </Grid>
