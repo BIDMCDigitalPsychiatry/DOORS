@@ -8,7 +8,11 @@ import * as AddInstructorDialog from '../../GenericDialog/AddInstructor';
 import { RowActionsButton } from './buttons';
 
 const tabs = [
-  { id: 'Active', icon: Icons.GroupOutlined },
+  {
+    id: 'Active',
+    icon: Icons.GroupOutlined,
+    filter: data => data.filter(r => r.deleted !== true) // Easier to filter on client end as AWS doesn't appear to support null filtering
+  },
   {
     id: 'Archived',
     icon: Icons.Archive,
@@ -26,8 +30,11 @@ const tabs = [
 
 export default function Instructors({ name = 'Instructors', ...other }) {
   const [{ value: tab = 'Active' }] = useTabSelector(name);
-  const requestParams = tabs.find(t => t.id === tab)?.requestParams;
+  const selectedTab = tabs.find(t => t.id === tab);
+  const requestParams = selectedTab?.requestParams;
+
   const { data, loading, handleRefresh } = useInstructors({ table: name, tab, requestParams });
+
   return (
     <GenericTableContainer
       name={name}
@@ -43,17 +50,16 @@ export default function Instructors({ name = 'Instructors', ...other }) {
           name: 'actions',
           header: 'Actions',
           width: 88,
-          Cell: props => <RowActionsButton {...props} />
+          Cell: props => <RowActionsButton onUpdate={handleRefresh} {...props} />
         }
       ]}
       toolbar={true}
       footer={true}
       search={true}
       stacked={true}
-      data={data}
+      data={selectedTab?.filter ? selectedTab.filter(data) : data}
       checkbox={false}
-      select={false}
-      //MultiSelectToolbar={props => <MultiUserToolbar tab={tab} {...props} />}
+      select={false}      
       buttons={[
         <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} onClose={handleRefresh} size='small' margin='dense' variant='styled' tooltip=''>
           Add New

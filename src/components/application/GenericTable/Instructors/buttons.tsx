@@ -1,8 +1,10 @@
 ﻿import * as React from 'react';
 import * as Icons from '@material-ui/icons';
 import { IconButton, Menu, MenuItem, Popover } from '@material-ui/core';
+import useTableRow from '../../../../database/useTableRow';
+import { tables } from '../../../../database/dbConfig';
 
-export function RowActionsButton(props) {
+export function RowActionsButton({ id, deleted, onUpdate }) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -11,22 +13,30 @@ export function RowActionsButton(props) {
   };
 
   const handleClose = event => {
-    event.stopPropagation();
+    event?.stopPropagation();
     setAnchorEl(null);
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
-  const { deleted } = props;
+  const [state, setState] = React.useState({ loading: false, open: false }); // Set to false to prevent automatic data request on load
+  const { loading } = state;
+  const { readSetRow } = useTableRow({ Model: tables.instructors, id, state, setState });
+
+  const handleUpdate = React.useCallback(
+    values => () => {
+      setAnchorEl(null);
+      readSetRow({ values, onSuccess: onUpdate });
+    },
+    [readSetRow, onUpdate, setAnchorEl]
+  );
 
   return (
     <div>
-      <IconButton size='small' color='inherit' aria-describedby={id} onClick={handleClick}>
+      <IconButton size='small' color='inherit' onClick={handleClick}>
         <Icons.MoreVert />
       </IconButton>
       <Popover
-        id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -40,7 +50,6 @@ export function RowActionsButton(props) {
         }}
       >
         <Menu
-          id='menu-appbar'
           anchorEl={anchorEl}
           anchorOrigin={{
             vertical: 'top',
@@ -54,13 +63,23 @@ export function RowActionsButton(props) {
           open={open}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => alert('To be implemented')}>Send Email</MenuItem>
-          <MenuItem onClick={() => alert('To be implemented')}>Allow Permissions</MenuItem>
-          <MenuItem onClick={() => alert('To be implemented')}>View Groups</MenuItem>
+          <MenuItem disabled={loading} onClick={() => alert('To be implemented')}>
+            Send Email
+          </MenuItem>
+          <MenuItem disabled={loading} onClick={() => alert('To be implemented')}>
+            Allow Permissions
+          </MenuItem>
+          <MenuItem disabled={loading} onClick={() => alert('To be implemented')}>
+            View Groups
+          </MenuItem>
           {deleted === true ? (
-            <MenuItem onClick={() => alert('To be implemented')}>Restore Instructor</MenuItem>
+            <MenuItem disabled={loading} onClick={handleUpdate({ deleted: false })}>
+              Restore Instructor
+            </MenuItem>
           ) : (
-            <MenuItem onClick={() => alert('To be implemented')}>Archive Instructor</MenuItem>
+            <MenuItem disabled={loading} onClick={handleUpdate({ deleted: true })}>
+              Archive Instructor
+            </MenuItem>
           )}
         </Menu>
       </Popover>
