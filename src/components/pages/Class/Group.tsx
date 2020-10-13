@@ -11,6 +11,7 @@ import { Participants } from './Participants';
 import { useClassData } from '../../../database/useLocationData';
 import { tables } from '../../../database/dbConfig';
 import { createAttendanceKey } from '../../../database/models/Attendance';
+import { useHandleChangeRouteLayout } from '../../layout/hooks';                  
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -57,6 +58,7 @@ export default function Group({
   const { data } = useClassData({ Model: tables.classesAdmin });
 
   const { pendingStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
+  const changeRouteLayout = useHandleChangeRouteLayout();
 
   return (
     <Card className={clsx(classes.root, className)}>
@@ -148,7 +150,13 @@ export default function Group({
                   </StyledButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <StyledButton variant='secondary' fullWidth={true} onClick={() => alert('To be completed')}>
+                  <StyledButton
+                    variant='secondary'
+                    fullWidth={true}
+                    onClick={changeRouteLayout('/ClassReport', {
+                      groupId: id
+                    })}
+                  >
                     View Class Report
                   </StyledButton>
                 </Grid>

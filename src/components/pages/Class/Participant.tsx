@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Participant({ student, className = undefined, view = true, remove = true, mount = true, ...rest }) {
+export default function Participant({ student, className = undefined, view = true, viewReport = false, remove = true, mount = true, ...rest }) {
   const classes = useStyles();
   const { profile } = useProfile({ id: student?.userId });
 
@@ -40,6 +40,21 @@ export default function Participant({ student, className = undefined, view = tru
               fullWidth
             >
               View Profile
+            </DialogButton>
+          </Grid>
+        )}
+        {viewReport && !isEmpty(student?.userId) && (
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <DialogButton
+              Module={ProfileDialog}
+              mount={mount}
+              initialValues={{ id: student?.userId }}
+              variant='link'
+              underline='always'
+              linkVariant='body2'
+              fullWidth
+            >
+              View Report
             </DialogButton>
           </Grid>
         )}

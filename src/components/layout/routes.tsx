@@ -21,6 +21,7 @@ import ForgotPassword from './ForgotPassword';
 import { useHandleChangeRoute, useUserEmail } from './hooks';
 import { useUserType } from '../../hooks';
 import AccessDenied from '../pages/AccessDenied';
+import ClassReport from '../pages/Class/ClassReport';
 
 const ForgotPasswordRoute = () => {
   const email = useUserEmail();
@@ -43,6 +44,7 @@ const Routes = () => (
     <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassMaterials')} component={ClassMaterials} />
     <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassDashboard')} component={ClassDashboard} />
     <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassRoster')} component={ClassRoster} />
+    <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassReport')} component={ClassReport} />
     <Route exact path={publicUrl('/TermsAndConditions')} component={TermsAndConditions} />
     <Route exact path={publicUrl('/Profile')} component={Profile} />
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />

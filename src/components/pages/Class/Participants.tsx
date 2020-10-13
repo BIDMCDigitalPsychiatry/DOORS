@@ -8,7 +8,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export const Participants = ({ students, label }) => {
+export const Participants = ({ students, label, ...other }) => {
   const classes = useStyles();
   return (
     <Grid container justify='flex-start' spacing={2}>
@@ -19,7 +19,7 @@ export const Participants = ({ students, label }) => {
       </Grid>
       {students.map((s, i) => (
         <Grid item key={s?.id}>
-          <Participant student={s} mount={i === 0} />
+          <Participant student={s} mount={i === 0} {...other} />
         </Grid>
       ))}
     </Grid>

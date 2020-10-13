@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import Page from '../Page';
-import ActionCard from '../../general/ActionCard';
-import CircleText from '../../general/CircleText';
 import { tables } from '../../../database/dbConfig';
 import SurveyQuestions from '../../general/SurveyQuestions';
 import useFormState from '../../hooks/useFormState';
