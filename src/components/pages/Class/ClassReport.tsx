@@ -16,11 +16,19 @@ import SurveyResults from './SurveyResults';
 
 const Model = tables.classesAdmin;
 
+const getSurveyResults = () => [
+  { question: 'Test Question 1', value: 3.5, results: [] },
+  { question: 'Test Question 2', value: 5.0, results: [] },
+  { question: 'Test Question 3', value: 4.5, results: [] }
+];
+
 export default function ClassReport() {
   const [state, setState] = React.useState({ loading: false });
   const [{ groupId }] = useLayout();
   const { row: group } = useTableRow({ Model: tables.groups, id: groupId, state, setState });
   const { activeStudents } = useGroupStudents({ groupId });
+
+  console.log({ activeStudents });
 
   const { data }: any = useClassData({ Model });
   const { rankingModel } = data;
@@ -65,10 +73,10 @@ export default function ClassReport() {
                 <AgeChart />
               </Grid>
               <Grid item xs={12} md={4}>
-                <SurveyResults />
+                <SurveyResults surveyResults={getSurveyResults()} />
               </Grid>
               <Grid item xs={12} md={4}>
-                <SurveyResults />
+                <SurveyResults surveyResults={getSurveyResults()} />
               </Grid>
             </Grid>
           </Grid>

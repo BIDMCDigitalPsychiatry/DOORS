@@ -3,19 +3,19 @@ import { Box, Grid } from '@material-ui/core';
 import ActionCard from '../../general/ActionCard';
 import CircleText from '../../general/CircleText';
 
-export default function SurveyResults({ title = 'Pre-Survey', surveyQuestions = [] }) {
+export default function SurveyResults({ title = 'Pre-Survey', surveyResults = [] }) {
   return (
     <ActionCard title={title} minHeight={0}>
       <Box pl={2} pr={2}>
         <Grid container spacing={1}>
-          {surveyQuestions.map(({ id, name }) => (
-            <Grid item xs={12} key={id}>
+          {surveyResults.map(({ question, value }, i) => (
+            <Grid item xs={12} key={i}>
               <Grid container spacing={1} alignItems='center'>
-                <Grid item>
-                  <CircleText text={Number(id) + 1} />
-                </Grid>
                 <Grid item xs>
-                  {name}
+                  {question}
+                </Grid>
+                <Grid item>
+                  <CircleText text={value} width={64} />
                 </Grid>
               </Grid>
             </Grid>

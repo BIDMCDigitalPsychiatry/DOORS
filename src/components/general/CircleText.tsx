@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
-  circle: {
+  circle: ({ width }: any) => ({
     borderRadius: 50,
-    width: 36,
+    width,
     height: 36,
     border: `2px solid ${palette.primary.main}`
-  },
+  }),
   circleText: {
     textAlign: 'center',
     justifyContent: 'center',
@@ -15,8 +15,8 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export default function CircleText({ text = undefined, children = undefined, ...rest }) {
-  const classes = useStyles();
+export default function CircleText({ text = undefined, width = 36, children = undefined, ...rest }) {
+  const classes = useStyles({ width });
 
   return (
     <div className={classes.circle} {...rest}>
