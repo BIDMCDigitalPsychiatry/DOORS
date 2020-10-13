@@ -6,7 +6,7 @@ import { inviteExpiration } from '../../package.json';
 
 export const isExpired = item => minutesFrom(item?.created) > inviteExpiration;
 
-export const useTableRow = ({ Model = tables.instructors, id, state, setState }) => {
+export default function useTableRow({ Model = tables.instructors, id, state, setState }) {
   const { open } = state ?? { open: undefined };
   const processData = useProcessData();
   const row = state?.response?.Item;
@@ -34,20 +34,20 @@ export const useTableRow = ({ Model = tables.instructors, id, state, setState })
   }, [handleRefresh, open]);
 
   const setRow = React.useCallback(
-    (newValues, OnSuccess = undefined, OnError = undefined) => {
+    ({ values, onSuccess = undefined, onError = undefined }) => {
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
         processData({
           Model,
           Action: 'u',
-          Data: { ...JSON.parse(row_str), id, ...newValues },
+          Data: { ...JSON.parse(row_str), id, ...values },
           onError: response => {
             setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response }));
-            OnError && OnError(response);
+            onError && onError(response);
           },
           onSuccess: response => {
             setState(prev => ({ ...prev, loading: false, error: undefined, response }));
-            OnSuccess && OnSuccess(response);
+            onSuccess && onSuccess(response);
           }
         });
       }
@@ -58,4 +58,4 @@ export const useTableRow = ({ Model = tables.instructors, id, state, setState })
   const expired = isExpired(row);
 
   return { row, setRow, expired, handleRefresh };
-};
+}

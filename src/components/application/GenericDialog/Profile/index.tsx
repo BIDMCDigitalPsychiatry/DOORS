@@ -24,7 +24,11 @@ export default function ProfileDialog({ id = title, onClose = undefined, ...othe
 
   const onError = React.useCallback(() => handleClose({ open: true, variant: 'success', message: 'Error saving profile' }), [handleClose]);
   const onSuccess = React.useCallback(() => handleClose({ open: true, variant: 'success', message: 'Successfully saved profile' }), [handleClose]);
-  const handleSubmit = React.useCallback((values, setValues) => setProfile(values, onSuccess, onError), [setProfile, onSuccess, onError]);
+  const handleSubmit = React.useCallback((values, setValues) => setProfile({ values, onSuccess, onError }), [
+    setProfile,
+    onSuccess,
+    onError
+  ]);
 
   return (
     <GenericDialog

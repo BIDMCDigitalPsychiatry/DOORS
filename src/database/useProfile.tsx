@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTableRow } from './useTableRow';
+import useTableRow from './useTableRow';
 import { tables } from './dbConfig';
 
 export function useProfile({ id, state: State = undefined, setState: SetState = undefined }) {

@@ -34,13 +34,13 @@ const ProfileDetails = ({ profile = {} as any, setProfile, onSuccess, ...rest })
       const value = event?.target?.value;
       var newProfile = JSON.parse(profile_s);
       newProfile[key] = value;
-      setProfile && setProfile(newProfile, onSuccess);
+      setProfile && setProfile({ values: newProfile, onSuccess });
       setState(prev => ({ ...prev }));
     },
     [setState, setProfile, profile_s, onSuccess]
   );
 
-  const disabled = loading || submitting;  
+  const disabled = loading || submitting;
 
   return (
     <Card {...rest}>

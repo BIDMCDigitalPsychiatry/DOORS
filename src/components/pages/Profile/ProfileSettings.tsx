@@ -52,7 +52,7 @@ export default function ProfileSettings({ className = undefined, profile = {}, s
     if (errorCount > 0) {
       setState(prev => ({ ...prev, showErrors: true }));
     } else {
-      setProfile && setProfile(JSON.parse(values_s), onSuccess);
+      setProfile && setProfile({ values: JSON.parse(values_s), onSuccess });
       setState(prev => ({ ...prev, showErrors: false }));
     }
   }, [setState, setProfile, values_s, errorCount, onSuccess]);

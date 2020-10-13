@@ -8,7 +8,7 @@ import { isEmpty, timeAgo } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 import { tables } from '../../database/dbConfig';
-import { useTableRow } from '../../database/useTableRow';
+import useTableRow from '../../database/useTableRow';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -79,7 +79,7 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
   }, [onBack, dispatch]);
 
   const handleSubmit = React.useCallback(() => {
-    setRow({ accepted: true, userId }, handleClose);
+    setRow({ values: { accepted: true, userId }, onSuccess: handleClose });
   }, [setRow, handleClose, userId]);
 
   const email = useUserEmail();
