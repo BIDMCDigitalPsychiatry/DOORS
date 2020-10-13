@@ -316,6 +316,16 @@ export function getDayTimeFromTimestamp(timestamp: number) {
   return `${day} ${month} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
 }
 
+export function getDayMonthYear(timestamp: number = Date.now()) {
+  var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+  d.setUTCMilliseconds(timestamp); //utc time
+  var day = dayAbbrOfWeek(d.getDay());
+  var year = d.getDate() + nth(d.getDate());
+  var month = monthAbbrOfYear(d.getMonth());
+
+  return `${day} ${month} ${year}`;
+}
+
 // Accepts a single paramater which is one or more emails separated
 // by space,comma,semicolon,tab, or newline.
 // Returns an array of tokens that should be emails
@@ -330,7 +340,7 @@ export const getStudentName = ({ student, profile }) => profile?.name ?? student
 
 // Returns the first id before the : separator
 export const getId = id => {
-  console.log({ id });
+  //console.log({ id });
   if (isEmpty(id) || !id.includes(':')) {
     return id;
   } else {

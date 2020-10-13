@@ -185,7 +185,7 @@ const DialogButton = React.forwardRef(function DialogButton(
   }, [setDialogState, other_s, initialValues, type]);
 
   const handleClose = React.useCallback(() => {
-    setAnchorEl(null);
+    setAnchorEl(null);    
     onClose && onClose();
   }, [onClose, setAnchorEl]);
 

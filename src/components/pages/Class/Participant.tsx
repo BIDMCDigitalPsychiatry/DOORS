@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Participant({ student, className = undefined, mount = true, ...rest }) {
+export default function Participant({ student, className = undefined, view = true, remove = true, mount = true, ...rest }) {
   const classes = useStyles();
   const { profile } = useProfile({ id: student?.userId });
 
@@ -28,7 +28,7 @@ export default function Participant({ student, className = undefined, mount = tr
             {getStudentName({ student, profile })}
           </Typography>
         </Grid>
-        {!isEmpty(student?.userId) && (
+        {view && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
               Module={ProfileDialog}
@@ -43,15 +43,15 @@ export default function Participant({ student, className = undefined, mount = tr
             </DialogButton>
           </Grid>
         )}
-        {student.accepted === true ? (
-          <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <DialogButton onClick={() => alert('To be implemented')} variant='link' underline='always' linkVariant='body2' fullWidth>
-              Remove
-            </DialogButton>
-          </Grid>
-        ) : (
-          <Typography variant='caption'>Sent {minutesToTimeAgo(minutesFrom(student?.created))}</Typography>
-        )}
+        {student.accepted === true
+          ? remove && (
+              <Grid item xs={12} style={{ textAlign: 'center' }}>
+                <DialogButton onClick={() => alert('To be implemented')} variant='link' underline='always' linkVariant='body2' fullWidth>
+                  Remove
+                </DialogButton>
+              </Grid>
+            )
+          : view && <Typography variant='caption'>Sent {minutesToTimeAgo(minutesFrom(student?.created))}</Typography>}
       </Grid>
     </div>
   );

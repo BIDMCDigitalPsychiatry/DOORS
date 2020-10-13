@@ -5,8 +5,12 @@ import StyledButton from '../../general/StyledButton';
 import { getDateFromTimestamp } from '../../../helpers';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as AddStudentDialog from '../../application/GenericDialog/AddStudent';
+import * as MarkAttendanceDialog from '../../application/GenericDialog/MarkAttendance';
 import useGroupStudents from '../../../database/useGroupStudents';
 import { Participants } from './Participants';
+import { useClassData } from '../../../database/useLocationData';
+import { tables } from '../../../database/dbConfig';
+import { createAttendanceKey } from '../../../database/models/Attendance';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -50,6 +54,7 @@ export default function Group({
   className = undefined
 }) {
   const classes = useStyles();
+  const { data } = useClassData({ Model: tables.classesAdmin });
 
   const { pendingStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
 
@@ -118,9 +123,24 @@ export default function Group({
                   </DialogButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <StyledButton fullWidth={true} onClick={() => alert('To be completed')}>
+                  <DialogButton
+                    Module={MarkAttendanceDialog}
+                    mount={mount}
+                    fullWidth={true}
+                    onClose={handleRefresh}
+                    variant='styled'
+                    size='large'
+                    tooltip=''
+                    initialValues={{
+                      id: createAttendanceKey(data?.class?.id, id),
+                      students: activeStudents.reduce((f, c) => {
+                        f[c.id] = c;
+                        return f;
+                      }, {})
+                    }}
+                  >
                     Mark Attendance
-                  </StyledButton>
+                  </DialogButton>
                 </Grid>
                 <Grid item xs={12}>
                   <StyledButton variant='secondary' fullWidth={true} onClick={() => alert('To be completed')}>
