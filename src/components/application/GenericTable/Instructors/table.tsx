@@ -1,11 +1,11 @@
 ﻿import * as React from 'react';
 import GenericTableContainer from '../GenericTableContainer';
-import { MultiUserToolbar } from './toolbars';
 import { useInstructors } from './useInstructors';
 import * as Icons from '@material-ui/icons';
 import useTabSelector from '../../Selector/useTabSelector';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as AddInstructorDialog from '../../GenericDialog/AddInstructor';
+import { RowActionsButton } from './buttons';
 
 const tabs = [
   { id: 'Active', icon: Icons.GroupOutlined },
@@ -38,7 +38,13 @@ export default function Instructors({ name = 'Instructors', ...other }) {
         { name: 'email', header: 'Email' },
         { name: 'title', header: 'Title' },
         { name: 'institution', header: 'Institution' },
-        { name: 'Invite', header: 'Invite Status' }
+        { name: 'Invite', header: 'Invite Status' },
+        {
+          name: 'actions',
+          header: 'Actions',
+          width: 88,
+          Cell: props => <RowActionsButton {...props} />
+        }
       ]}
       toolbar={true}
       footer={true}
@@ -47,7 +53,7 @@ export default function Instructors({ name = 'Instructors', ...other }) {
       data={data}
       checkbox={false}
       select={false}
-      MultiSelectToolbar={props => <MultiUserToolbar tab={tab} {...props} />}
+      //MultiSelectToolbar={props => <MultiUserToolbar tab={tab} {...props} />}
       buttons={[
         <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} onClose={handleRefresh} size='small' margin='dense' variant='styled' tooltip=''>
           Add New

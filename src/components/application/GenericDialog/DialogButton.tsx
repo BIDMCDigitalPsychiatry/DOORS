@@ -185,7 +185,7 @@ const DialogButton = React.forwardRef(function DialogButton(
   }, [setDialogState, other_s, initialValues, type]);
 
   const handleClose = React.useCallback(() => {
-    setAnchorEl(null);    
+    setAnchorEl(null);
     onClose && onClose();
   }, [onClose, setAnchorEl]);
 
@@ -262,7 +262,7 @@ const DialogButton = React.forwardRef(function DialogButton(
             </Button>
           ) : variant === 'text' ? (
             <Button
-              color='secondary'
+              color={color}
               style={{
                 width: 48,
                 height: 48
