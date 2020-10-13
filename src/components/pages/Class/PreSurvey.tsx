@@ -13,6 +13,7 @@ import { useFullScreen } from '../../../hooks';
 import { useClassData } from '../../../database/useClassData';
 import YourProgress from '../../general/YourProgress';
 import RankingModel from './RankingModel';
+import { ageQuestionLabel } from '../../../constants';
 
 const validate = () => {
   const newErrors = {};
@@ -29,7 +30,7 @@ export default function PreSurvey() {
   const data = useLayoutKey('class');
   const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent }); // A
   const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
-  const { ageQuestion = { name: 'Which of the following best describes your age group?' }, rankingModel = [], surveyQuestions = [] } = mergeData;
+  const { ageQuestion = { name: ageQuestionLabel }, rankingModel = [], surveyQuestions = [] } = mergeData;
   const { completed } = studentData; // Set a session id if one does not already exist
 
   const handleChangeRoute = useHandleChangeRoute();

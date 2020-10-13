@@ -11,6 +11,8 @@ import useGroupStudents from '../../../database/useGroupStudents';
 import RankingModel from './RankingModel';
 import { Participants } from './Participants';
 import MarginDivider from '../../application/DialogField/MarginDivider';
+import AgeChart from './AgeChart';
+import SurveyResults from './SurveyResults';
 
 const Model = tables.classesAdmin;
 
@@ -26,6 +28,11 @@ export default function ClassReport() {
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const fs = useFullScreen();
+
+  // Retreive all of the individual group data
+  // Show the average answer for the age group question
+  // For each pre-survey question, show the averaged answer
+  // For each post-survey question, show the averaged answer
 
   return (
     <ChildPage
@@ -53,6 +60,17 @@ export default function ClassReport() {
           <Grid item xs={12}>
             <Typography variant='h6'>Average Group Answers</Typography>
             <MarginDivider />
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={4}>
+                <AgeChart />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <SurveyResults />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <SurveyResults />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Typography variant='h6'>View Individual Answers</Typography>

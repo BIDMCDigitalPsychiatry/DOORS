@@ -5,6 +5,8 @@ import { steps } from './components/layout/LeftDrawerContent';
 const basetheme = createMuiTheme({});
 export const beta = true;
 
+export const ageQuestionLabel = 'Which of the following best describes your age group?'
+
 const shared = {
   typography: {
     fontFamily: 'Montserrat, Archivo'
