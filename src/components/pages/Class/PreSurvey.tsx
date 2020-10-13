@@ -14,6 +14,7 @@ import { defaultAgeRankingModels } from '../../../database/models/Class';
 import { useFullScreen } from '../../../hooks';
 import { useClassData } from '../../../database/useClassData';
 import YourProgress from '../../general/YourProgress';
+import RankingModel from './RankingModel';
 
 const validate = () => {
   const newErrors = {};
@@ -89,24 +90,7 @@ export default function PreSurvey() {
           </Box>
         </Grid>
         <Grid item xs={12} md={3}>
-          <ActionCard title='Ranking Model' minHeight={0}>
-            <Box pl={2} pr={2}>
-              <Grid container spacing={1}>
-                {rankingModel.map(({ id, name }) => (
-                  <Grid item xs={12} key={id}>
-                    <Grid container spacing={1} alignItems='center'>
-                      <Grid item>
-                        <CircleText text={Number(id) + 1} />
-                      </Grid>
-                      <Grid item xs>
-                        {name}
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          </ActionCard>
+          <RankingModel rankingModel={rankingModel} />
         </Grid>
       </Grid>
     </Page>

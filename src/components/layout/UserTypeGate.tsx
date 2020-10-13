@@ -25,7 +25,7 @@ export const UserTypeGate = ({ children }) => {
       }
     }
     // eslint-disable-next-line
-  }, [isAdmin, JSON.stringify(instructors)]);
+  }, [isAdmin, JSON.stringify(instructors), JSON.stringify(students)]);
 
   // If viewing is not empty, then return children
   // Else if completed == false, then show loading
