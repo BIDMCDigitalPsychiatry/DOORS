@@ -1,10 +1,11 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
-import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
+import { bool, copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import { useDialogState } from '../useDialogState';
 import { Auth } from 'aws-amplify';
 import DialogButton from '../DialogButton';
 import { useLogin } from '../../../layout/hooks';
+import Check from '../../DialogField/Check';
 const passwordValidator = require('password-validator');
 export const title = 'Create New Account';
 
@@ -16,20 +17,21 @@ schema.is().min(8).has().uppercase().has().lowercase().has().digits().has().symb
 const formatPasswordValidateError = errors => {
   for (let i = 0; i < errors.length; i++) {
     if (errors[i] === 'min') {
-      return 'password length should be a at least 8 characters';
+      return 'Password length should be a at least 8 characters';
     } else if (errors[i] === 'lowercase') {
-      return 'password should contain lowercase letters';
+      return 'Password should contain lowercase letters';
     } else if (errors[i] === 'uppercase') {
-      return 'password should contain uppercase letters';
+      return 'Password should contain uppercase letters';
     } else if (errors[i] === 'digits') {
-      return 'password should contain digits';
+      return 'Password should contain digits';
     } else if (errors[i] === 'symbols') {
-      return 'password should contain symbols';
+      return 'Password should contain symbols';
     }
   }
 };
 
-const handleValidation = ({ password, confirmationCodeError, confirmPassword, message }, dialogState) => {
+const handleValidation = (values, dialogState) => {
+  const { agree, password, confirmationCodeError, confirmPassword, message } = values;
   var errors = copyToLower(dialogState.errors); // start with server generated errors, ensure all keys start with lowercase letter
 
   if (password !== confirmPassword) {
@@ -55,6 +57,10 @@ const handleValidation = ({ password, confirmationCodeError, confirmPassword, me
     errors['confirmationCode'] = confirmationCodeError;
   }
 
+  if (bool(agree) !== true) {
+    errors['agree'] = 'You must agree to the terms and conditions to proceed.';
+  }
+
   return errors;
 };
 
@@ -69,13 +75,16 @@ const EnterConfirmationCode = ({ value = false, onChange }) => {
 
 export default function RegisterDialog({ id = title }) {
   const [dialogState, setState] = useDialogState(id);
-  const { confirm, errors } = dialogState;
+  const { confirm } = dialogState;
   const dialogStateStr = JSON.stringify(dialogState);
 
   const { handleLogin } = useLogin({ dialogState, setState });
 
   const handleAdd = React.useCallback(
-    ({ email, password }, setValues) => {
+    (values, setValues) => {
+      console.log('Creating account');
+      const { email, password } = values;
+      setState(prev => ({ ...prev, loading: true, showErrors: false, errors: {} }));
       Auth.signUp({
         username: email,
         password,
@@ -86,20 +95,23 @@ export default function RegisterDialog({ id = title }) {
       })
         .then(result => {
           console.log('Succesfully signed up user!');
-          setState(prev => ({ ...prev, open: true, loading: false }));
+          setState(prev => ({ ...prev, open: true, loading: false, errors: {} }));
           setValues(prev => ({ ...prev, confirm: true }));
         })
         .catch(err => {
           console.error('Error with Register');
-          const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
+          console.error({ err });
+          const newErrors = handleValidation({ ...values, message: err.message }, JSON.parse(dialogStateStr));
           setState(prev => ({ ...prev, showErrors: true, loading: false, errors: newErrors }));
         });
     },
-    [dialogStateStr, setState, errors]
+    [dialogStateStr, setState]
   );
 
   const handleConfirm = React.useCallback(
-    ({ email, password, confirmationCode }, setValues) => {
+    values => {
+      const { email, password, confirmationCode } = values;
+      console.log('Confirming account');
       Auth.confirmSignUp(email, confirmationCode)
         .then(() => {
           console.log('Confirmed account!');
@@ -109,11 +121,11 @@ export default function RegisterDialog({ id = title }) {
         .catch(err => {
           console.error('Invalid code');
           console.error(err);
-          const newErrors = handleValidation({ ...errors, confirmationCodeError: err.message }, JSON.parse(dialogStateStr));
+          const newErrors = handleValidation({ ...values, confirmationCodeError: err.message }, JSON.parse(dialogStateStr));
           setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
         });
     },
-    [dialogStateStr, setState, errors, handleLogin]
+    [dialogStateStr, setState, handleLogin]
   );
 
   const handleSubmit = React.useCallback(({ confirm, ...other }, setValues) => (confirm ? handleConfirm(other, setValues) : handleAdd(other, setValues)), [
@@ -164,6 +176,13 @@ export default function RegisterDialog({ id = title }) {
           label: 'Enter Verification Code',
           Field: EnterConfirmationCode,
           initialValue: false
+        },
+        {
+          id: 'agree',
+          width: 220,
+          Field: Check,
+          label: 'I Agree to the Terms & Conditions',
+          hidden: ({ confirm }) => confirm
         }
       ]}
     />

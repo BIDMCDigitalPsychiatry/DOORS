@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, Grid, Paper, Typography, Divider } from '@material-ui/core';
+import { makeStyles, Grid, Paper, Typography, Divider, Box } from '@material-ui/core';
 import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
@@ -129,9 +129,16 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                 </Grid>
                 <Grid item xs={12}>
                   {isError && (
-                    <Typography align='center' color='error' className={classes.summary}>
-                      You have not accepted any invites yet. You need to receive and accept an invite before you can use this application.
-                    </Typography>
+                    <>
+                      <Typography align='center' color='error' className={classes.summary}>
+                        You have not accepted any invites yet. You need to receive and accept an invite before you can use this application.
+                      </Typography>
+                      <Box mt={2}>
+                        <Typography align='center' color='error' className={classes.summary}>
+                          Please contact your instructor or administrator to request an invite.
+                        </Typography>
+                      </Box>
+                    </>
                   )}
                 </Grid>
               </Grid>
