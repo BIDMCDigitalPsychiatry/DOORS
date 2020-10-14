@@ -74,7 +74,7 @@ export default function StudentClasses() {
               {[
                 inProgress.map(s => (
                   <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
-                    <Class {...s} buttonLabel='Resume' onClick={handleResume(s)} />
+                    <Class {...s} showUpdated={true} buttonLabel='Resume' onClick={handleResume(s)} />
                   </Grid>
                 ))
               ]}

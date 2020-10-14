@@ -33,6 +33,7 @@ export default function Class({
   name = '',
   updated = undefined,
   completed,
+  showUpdated = false,
   image = 'calendar',
   keySkills = [] as BlockListItem[],
   className = undefined,
@@ -69,10 +70,17 @@ export default function Class({
       <Box m={2} textAlign='center'>
         <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>
       </Box>
+      {showUpdated && (
+        <Box pl={1} pr={1}>
+          <Typography noWrap align='right' variant='caption' color='textPrimary'>
+            {`Last updated ${timeAgo(updated)}`}
+          </Typography>
+        </Box>
+      )}
       {completed && (
         <Box pl={1} pr={1}>
           <Typography noWrap align='right' variant='caption' color='textPrimary'>
-            {`Completed ${timeAgo(updated)}`} 
+            {`Completed ${timeAgo(updated)}`}
           </Typography>
         </Box>
       )}
