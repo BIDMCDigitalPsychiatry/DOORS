@@ -36,9 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
       background: 'inherit',
       color: 'inherit'
     },
-    stepLabelRoot: {
-      cursor: 'pointer !important'
-    },
     stepLabelActive: {
       color: 'white !important'
     },
@@ -74,14 +71,6 @@ export default function VerticalLinearStepper() {
     if (idx !== activeStep && idx >= 0) setActiveStep(idx);
   }, [activeStep, pathname]);
 
-  /*const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };*/
-
   const handleReset = () => {
     setActiveStep(0);
   };
@@ -102,11 +91,10 @@ export default function VerticalLinearStepper() {
         {steps.map(({ label }, index) => (
           <Step className={classes.stepper} key={label}>
             <StepLabel
-              classes={{ root: classes.stepLabelRoot, active: classes.stepLabelActive, completed: classes.stepLabelCompleted }}
+              classes={{ active: classes.stepLabelActive, completed: classes.stepLabelCompleted }}
               StepIconProps={{
                 classes: { root: classes.stepIconRoot, completed: classes.stepIconCompleted, active: classes.stepIconActive, text: classes.stepIconText }
               }}
-              onClick={changeRoute(`/${label}`)}
             >
               {label}
             </StepLabel>
