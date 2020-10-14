@@ -337,22 +337,3 @@ export function parseEmails(emails) {
 export const getClassTitle = ({ headline, name }) => [headline, name].filter(x => !isEmpty(x)).join(' - ');
 
 export const getStudentName = ({ student, profile }) => profile?.name ?? student?.email ?? 'Unknown Name';
-
-// Returns the first id before the : separator
-export const getId = id => {
-  //console.log({ id });
-  if (isEmpty(id) || !id.includes(':')) {
-    return id;
-  } else {
-    return id.split(':')[0];
-  }
-};
-
-// Returns the second id after the : separator
-export const getSessionId = id => {
-  if (isEmpty(id) || !id.includes(':')) {
-    return undefined;
-  } else {
-    return id.split(':')[1];
-  }
-};

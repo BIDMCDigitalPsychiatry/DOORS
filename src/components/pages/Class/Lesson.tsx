@@ -5,18 +5,18 @@ import ReactPlayer from 'react-player';
 import { useHandleChangeRoute, useWidth } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import YourProgress from '../../general/YourProgress';
-import { useClassData } from '../../../database/useClassData';
-import { tables } from '../../../database/dbConfig';
 import { isEmpty } from '../../../helpers';
+import { useSessionData } from '../../../database/useSessionData';
+import useCombinedClasses from './useCombinedClasses';
 
 const nextRoute = '/Post-Survey';
 
 export default function Lesson() {
-  const { data } = useClassData({ Model: tables.classesAdmin });
-  const { data: studentData } = useClassData({ Model: tables.classesStudent });
-  const { completed } = studentData;
-  
-  const contentPath = data?.classPresentation;
+  const { data } = useCombinedClasses();
+  const { session, handleSaveSession } = useSessionData();
+  const completed = session?.completed;
+
+  const contentPath = data?.classPresentation; // Class presentation always comes from the admin/instructor class data
   const width = useWidth();
   const handleChangeRoute = useHandleChangeRoute();
   return (
@@ -42,7 +42,7 @@ export default function Lesson() {
                   Next
                 </StyledButton>
               ) : (
-                <StyledButton width={148} onClick={handleChangeRoute(nextRoute)}>
+                <StyledButton width={148} onClick={handleSaveSession(nextRoute)}>
                   Continue
                 </StyledButton>
               )}

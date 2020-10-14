@@ -4,22 +4,19 @@ import Page from '../Page';
 import YourProgress from '../../general/YourProgress';
 import StyledButton from '../../general/StyledButton';
 import { useHandleChangeRoute } from '../../layout/hooks';
-import { useClassData } from '../../../database/useClassData';
-import { tables } from '../../../database/dbConfig';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
+import useCombinedClasses from './useCombinedClasses';
+import { useSessionData } from '../../../database/useSessionData';
+
+const nextRoute = '/Congratulations';
 
 export default function Resources() {
   const handleChangeRoute = useHandleChangeRoute();
-  const { data: adminData } = useClassData({ Model: tables.classesAdmin });
+  const { data } = useCombinedClasses();
+  const { classResources = [] } = data;
 
-  const { classResources = [] } = adminData;
-
-  const { data: studentData, updateData } = useClassData({ Model: tables.classesStudent });
-  const { completed } = studentData;
-
-  const handleComplete = React.useCallback(() => {
-    updateData({ completed: true }, handleChangeRoute('/Congratulations'));
-  }, [updateData, handleChangeRoute]);
+  const { session, handleSaveCompleteSession } = useSessionData();
+  const { completed } = session;
 
   return (
     <Page title='Resources' ActionButton={() => <YourProgress value={100} />}>
@@ -36,7 +33,7 @@ export default function Resources() {
 
             <Grid item>
               {completed !== true ? (
-                <StyledButton width={148} onClick={handleComplete}>
+                <StyledButton width={148} onClick={handleSaveCompleteSession(nextRoute)}>
                   End Session
                 </StyledButton>
               ) : (

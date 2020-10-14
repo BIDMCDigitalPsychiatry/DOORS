@@ -3,6 +3,7 @@ import { useTheme, useMediaQuery } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { adminUsers } from '../package.json';
 import { useLayout, useUserEmail } from './components/layout/hooks';
+import { useLocation } from 'react-router';
 
 export const useFullScreen = (size = 'sm' as any) => {
   const theme = useTheme();
@@ -72,4 +73,9 @@ export const useHandleLink = link => {
     var win = window.open(link, '_blank');
     win.focus();
   }, [link]);
+};
+
+export const useCurrentRoute = () => {
+  const location = useLocation();
+  return location.pathname.substr(location.pathname.lastIndexOf('/'));
 };

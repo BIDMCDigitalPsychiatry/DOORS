@@ -17,7 +17,7 @@ export default function MarkAttendanceDialog({ onClose }) {
   // students: object array of students participating in the class
 
   const { id } = initialValues;
-  const { data: attendanceData, updateData, loading /* index, error, setData, handleChange, saveData, updateData*/ } = useAttendanceRow({ id, active: open });
+  const { data: attendanceData, updateData, loading } = useAttendanceRow({ id, active: open });
   const data = deepmerge(initialValues, attendanceData); // Ensure any new students are merged with existing attendance data
 
   const handleClose = React.useCallback(() => {

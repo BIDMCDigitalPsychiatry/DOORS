@@ -1,39 +1,21 @@
 import * as React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import Page from '../Page';
-import { useClassData } from '../../../database/useClassData';
-import { tables } from '../../../database/dbConfig';
 import SurveyQuestions from '../../general/SurveyQuestions';
-import useFormState from '../../hooks/useFormState';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import merge from 'deepmerge';
 import { useFullScreen } from '../../../hooks';
 import YourProgress from '../../general/YourProgress';
 import RankingModel from './RankingModel';
-
-const validate = ({ name }) => {
-  const newErrors = {};
-  return newErrors;
-};
-
-// TODO: Add admin/instructor class data and merge logic for individual array items
-const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+import { useSessionData } from '../../../database/useSessionData';
 
 const nextRoute = '/Resources';
 
 export default function PostSurvey() {
-  const { data /*, handleChange*/ } = useClassData({ Model: tables.classesAdmin });
-  const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent });
-  const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
-  const { rankingModel = [], surveyQuestions = [] } = mergeData;
-
-  const { completed } = studentData;
+  const { session, handleChange, handleSaveSession } = useSessionData();
+  const { completed, rankingModel = [], surveyQuestions = [] } = session;
 
   const handleChangeRoute = useHandleChangeRoute();
-
-  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute(nextRoute) });
-  //const { loading, errors } = formState;
 
   const fs = useFullScreen();
 
@@ -70,7 +52,7 @@ export default function PostSurvey() {
                     Next
                   </StyledButton>
                 ) : (
-                  <StyledButton disabled={disabled} width={148} onClick={handleUpdate(mergeData)}>
+                  <StyledButton disabled={disabled} width={148} onClick={handleSaveSession(nextRoute)}>
                     Continue
                   </StyledButton>
                 )}

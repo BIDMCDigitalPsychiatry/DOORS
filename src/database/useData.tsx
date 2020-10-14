@@ -60,10 +60,12 @@ export default function useData({ id, active = true, Model = tables.classesAdmin
   );
 
   // Save the values in state.data to the back-end
-  const saveData = React.useCallback((OnSuccess = undefined, OnError = undefined) => updateData(JSON.parse(data_str), OnSuccess, OnError), [
+  const saveData = React.useCallback(({ onSuccess = undefined, onError = undefined }) => updateData(JSON.parse(data_str), onSuccess, onError), [
     data_str,
     updateData
   ]);
 
-  return { loading, index, error, data, setData, handleChange, saveData, updateData };
+  const handleSaveData = React.useCallback(props => () => saveData(props), [saveData]);
+
+  return { loading, index, error, data, setData, handleChange, saveData, handleSaveData, updateData };
 }
