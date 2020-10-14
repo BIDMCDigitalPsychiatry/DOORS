@@ -53,11 +53,13 @@ export default function StudentClasses() {
       <Page title='Available Classes'>
         <Grid container spacing={3}>
           {[
-            data.map(c => (
-              <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
-                <Class {...c} buttonLabel='Start' onClick={handleCreate(c)} />
-              </Grid>
-            ))
+            data
+              .filter(c => !inProgress.find(s => s.classId === c.id && !s.completed)) // Don't show available class if one is currently in progress
+              .map(c => (
+                <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
+                  <Class {...c} buttonLabel='Start' onClick={handleCreate(c)} />
+                </Grid>
+              ))
           ]}
         </Grid>
       </Page>
