@@ -18,8 +18,8 @@ const Model = tables.classesAdmin;
 
 const getSurveyResults = () => [
   { question: 'Test Question 1', value: 3.5, results: [] },
-  { question: 'Test Question 2', value: 5.0, results: [] },
-  { question: 'Test Question 3', value: 4.5, results: [] }
+  { question: 'Test Question 2', value: 5, results: [] },
+  { question: 'Test Question 3', value: 4.5,results: [] }
 ];
 
 export default function ClassReport() {

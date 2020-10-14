@@ -26,17 +26,16 @@ const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 const nextRoute = '/Lesson';
 
 export default function PreSurvey() {
-  // For the first step, use whichever class data was activated from the dashboard.  The dashboard should handle injection of the session id into the id field
+  // For the first step, use whichever class data was activated from the dashboard.  The dashboard concatenates a new session id to the id field for uniqueness
   const data = useLayoutKey('class');
-  const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent }); // A
+  const { data: studentData, handleChange } = useClassData({ Model: tables.classesStudent }); 
   const mergeData = merge(data, studentData, { arrayMerge: overwriteMerge }) as any;
   const { ageQuestion = { name: ageQuestionLabel }, rankingModel = [], surveyQuestions = [] } = mergeData;
   const { completed } = studentData; // Set a session id if one does not already exist
 
   const handleChangeRoute = useHandleChangeRoute();
 
-  const { /*formState,*/ handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute(nextRoute) });
-  //const { loading, errors } = formState;
+  const { handleUpdate } = useFormState({ Model: tables.classesStudent, validate, onSuccess: handleChangeRoute(nextRoute) });
 
   const handleAgeChange = React.useCallback(
     value => () => {
