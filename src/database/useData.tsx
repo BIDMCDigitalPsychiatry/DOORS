@@ -3,9 +3,11 @@ import { evalFunc, isEmpty } from '../helpers';
 import { tables } from './dbConfig';
 import useProcessData from './useProcessData';
 
+const defaultState = { loading: false, error: undefined, response: undefined, data: undefined };
+
 export default function useData({ id, active = true, Model = tables.classesAdmin, initialState = undefined }) {
   const processData = useProcessData();
-  const [state, setState] = React.useState({ loading: false, error: undefined, response: undefined, data: undefined, ...initialState });
+  const [state, setState] = React.useState({ ...defaultState, ...initialState });
   const { data = {}, index, loading, error } = state;
   const data_str = JSON.stringify(data);
 
@@ -33,24 +35,27 @@ export default function useData({ id, active = true, Model = tables.classesAdmin
   }, [id, Model, processData, setState]);
 
   React.useEffect(() => {
+    setState({ ...defaultState, ...initialState });
     active === true && handleRefresh();
-  }, [id, active, handleRefresh]);
+    // eslint-disable-next-line
+  }, [id, active, handleRefresh, setState, JSON.stringify(initialState)]);
 
   // Save the newValues data to the back-end
   const updateData = React.useCallback(
     (newValues, OnSuccess = undefined, OnError = undefined) => {
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
+        const Data = { ...JSON.parse(data_str), id, ...newValues };
         processData({
           Model,
           Action: 'u',
-          Data: { ...JSON.parse(data_str), id, ...newValues },
+          Data,
           onError: response => {
             setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response }));
             OnError && OnError(response);
           },
           onSuccess: response => {
-            setState(prev => ({ ...prev, loading: false, error: undefined, response }));
+            setState(prev => ({ ...prev, loading: false, error: undefined, response, data: Data }));
             OnSuccess && OnSuccess(response);
           }
         });
