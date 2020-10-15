@@ -48,8 +48,7 @@ export const defaultRankingModels: BlockListItem[] = [
   }
 ].map(i => ({ ...i, canEdit: false, canLock: false, canDelete: false }));
 
-export default interface Class {
-  id: string; // unique identifier
+export interface ClassData {
   userId?: string; // user id of the admin or instructor user which created the class
   headline?: string;
   name?: string;
@@ -62,4 +61,8 @@ export default interface Class {
   created?: number;
   updated?: number;
   deleted?: boolean;
+}
+
+export default interface Class extends ClassData {
+  id?: string; // unique class id
 }

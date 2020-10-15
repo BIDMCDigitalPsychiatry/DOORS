@@ -37,7 +37,7 @@ export default function ClassReport() {
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const fs = useFullScreen();
 
-  // Retreive all of the individual group data
+  // Retreive all student rows for the associated groupiD and classId
   // Show the average answer for the age group question
   // For each pre-survey question, show the averaged answer
   // For each post-survey question, show the averaged answer
