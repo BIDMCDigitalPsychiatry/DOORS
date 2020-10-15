@@ -17,6 +17,11 @@ export default function StudentClasses() {
   const completed = sessions.filter(c => c.completed === true && !c.deleted);
   const inProgress = sessions.filter(c => c.completed !== true && !c.deleted);
 
+  // Get all student entries and find all associated groupId's
+  // For each group get all of the instructor id's
+  // For each instructor id get all associated classes (and admin classes if applicable)
+
+
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const changeRouteLayout = useChangeRouteLayout();
 
