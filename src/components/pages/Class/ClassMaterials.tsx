@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Grid, Box, Typography, Divider } from '@material-ui/core';
+import { Grid, Box, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import ClassPresentationLink from './ClassPresentationLink';
 import { BlockList } from '../../general/BlockList';
 import { tables } from '../../../database/dbConfig';
 import { getClassTitle, isEmpty } from '../../../helpers';
@@ -12,6 +11,7 @@ import Text from '../../application/DialogField/Text';
 import ImageSelector from '../../application/DialogField/ImageSelector';
 import { useClassData } from '../../../database/useClassData';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
+import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
 
 const Model = tables.classesAdmin;
 const validate = ({ name }) => {
@@ -26,7 +26,7 @@ const TitleButton = ({ onClick }) => <StyledButton onClick={onClick}>Save Change
 
 export default function ClassMaterials() {
   const { data, handleChange }: any = useClassData({ Model });
-  const { name, headline, image, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentation } = data;
+  const { name, headline, image, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentations = [] } = data;
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
 
@@ -90,10 +90,14 @@ export default function ClassMaterials() {
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
-              Class Video Presentation Link
-            </Typography>
-            <ClassPresentationLink value={classPresentation} onChange={handleChange('classPresentation')} />
+            <BlockListClassPresentation
+              title='Class Presentation Videos'
+              subtitle='Add links to the class presentation videos that are relevant to the lesson'
+              value={classPresentations}
+              add={true}
+              edit={true}
+              onChange={handleChange('classPresentations')}
+            />
           </Grid>
           <Grid item xs={12}>
             <BlockListClassResource

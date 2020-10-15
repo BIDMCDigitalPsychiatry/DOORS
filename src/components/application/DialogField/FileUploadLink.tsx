@@ -94,10 +94,6 @@ export const FileActions = ({ onSuccess = undefined, onError = undefined }) => {
             </MenuItem>
           </label>
         </div>
-        {/* <MenuItem key={'re-assign'} onClick={handleClose}>
-          Re-assign default file
-        </MenuItem>
-        */}
         {error && <Typography color='error'>{error}</Typography>}
       </Menu>
     </div>

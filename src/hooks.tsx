@@ -70,8 +70,7 @@ export const getUrlParamater = paramName => {
 
 export const useHandleLink = link => {
   return React.useCallback(() => {
-    var win = window.open(link, '_blank');
-    win.focus();
+    window.open(link, '_blank').focus();
   }, [link]);
 };
 

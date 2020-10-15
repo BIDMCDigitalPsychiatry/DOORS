@@ -57,8 +57,8 @@ export default interface Class {
   keySkills?: BlockListItem[];
   rankingModel?: BlockListItem[];
   surveyQuestions?: SurveyQuestionItem[];
-  classPresentation?: any; // TBD file meta data
-  classResources?: any[]; // TBD classResource objects
+  classPresentations?: any[];
+  classResources?: any[];
   created?: number;
   updated?: number;
   deleted?: boolean;

@@ -3,7 +3,6 @@ import { Grid, Box, Typography, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRoute, useUserId } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import ClassPresentationLink from './ClassPresentationLink';
 import Text from '../../application/DialogField/Text';
 import { BlockList } from '../../general/BlockList';
 import { isEmpty, uuid } from '../../../helpers';
@@ -13,6 +12,7 @@ import useFormState from '../../hooks/useFormState';
 import Class, { defaultRankingModels } from '../../../database/models/Class';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import { useIsAdminMode } from '../../../hooks';
+import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -44,7 +44,7 @@ export default function CreateClass() {
     classPresentation: ''
   } as Class);
 
-  const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentation } = state;
+  const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentations } = state;
 
   const handleChange = React.useCallback(
     key => ({ target }) => {
@@ -114,6 +114,16 @@ export default function CreateClass() {
             />
           </Grid>
           <Grid item xs={12}>
+            <BlockListClassPresentation
+              title='Class Presentation Videos'
+              subtitle='Add links to the class presentation videos that are relevant to the lesson'
+              value={classPresentations}
+              add={true}
+              edit={true}
+              onChange={handleChange('classPresentations')}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <BlockListClassResource
               title='Class Resources'
               subtitle='Add links to resources that are relevant to the lesson'
@@ -121,12 +131,6 @@ export default function CreateClass() {
               add={true}
               onChange={handleChange('classResources')}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
-              Class Video Presentation Link
-            </Typography>
-            <ClassPresentationLink value={classPresentation} onChange={handleChange('classPresentation')} />
           </Grid>
           <Grid item xs={12}>
             <StyledButton onClick={handleCreate(state)}>Create New Class</StyledButton>

@@ -10,7 +10,9 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
   header: {
     color: palette.common.black,
-    padding: spacing(2)
+    paddingTop: spacing(2),
+    paddingLeft: spacing(2),
+    paddingRight: spacing(2)
   },
   actions: {
     display: 'flex',
@@ -42,6 +44,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 export default function ActionCardClassResource({
   title = undefined,
   item,
+  label = 'View Resource',
   actionLabel = 'View',
   onClick = undefined,
   className = undefined,
@@ -68,8 +71,11 @@ export default function ActionCardClassResource({
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <Box textAlign='center' p={3} className={classes.iconContainer} onClick={handleLink}>
+      <Box textAlign='center' pt={1} className={classes.iconContainer} onClick={handleLink}>
         <Icon className={classes.icon} />
+        <StyledButton color='inherit' variant='whiteText' onClick={handleLink}>
+          {label}
+        </StyledButton>
       </Box>
       <div className={classes.header}>
         <Grid container spacing={1}>
@@ -89,9 +95,7 @@ export default function ActionCardClassResource({
         )}
       </div>
       {children}
-      <StyledButton variant='text' onClick={handleLink}>
-        View Resource
-      </StyledButton>
+
       {onClick && (
         <Box m={2} textAlign='center'>
           <StyledButton disabled={disabled} onClick={onClick}>

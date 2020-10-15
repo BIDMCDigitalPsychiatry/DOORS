@@ -85,10 +85,30 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   disabled: {
     color: palette.common.white,
     background: palette.common.white
-  }
+  },
+  whiteTextRoot: ({ width }: any) => ({
+    width,
+    color: palette.common.white,
+    '&:hover': {
+      opacity: '85%'      
+    },
+    '&:disabled': {
+      opacity: '85%',
+      color: palette.secondary.main
+    }
+  }),
+  whiteTextPressed: ({ width }: any) => ({
+    width,
+    text: {},
+    pressed: {},
+    disabled: {
+      color: palette.common.white,
+      background: palette.common.white
+    }
+  })
 }));
 
-export type StyledButtonVariant = 'primary' | 'secondary' | 'text';
+export type StyledButtonVariant = 'primary' | 'secondary' | 'text' | 'whiteText';
 
 export default function StyledButton({
   disabled = undefined,
@@ -106,7 +126,14 @@ export default function StyledButton({
 
   const className = pressed ? pressedClass : rootClass;
   return (
-    <Button disabled={disabled} color='default' variant={variant === 'text' ? variant : 'contained'} size={size} className={className} {...other}>
+    <Button
+      disabled={disabled}
+      color='default'
+      variant={variant === 'text' || variant === 'whiteText' ? 'text' : 'contained'}
+      size={size}
+      className={className}
+      {...other}
+    >
       {Icon && <Icon />}
       {variant === 'text' ? <u>{children}</u> : children}
     </Button>

@@ -13,16 +13,16 @@ const YouTubeAdornment = ({ disabled = undefined, onClick = undefined }) => (
   </InputAdornment>
 );
 
-export default function ClassPresentationLink({ value, onChange }) {
+export default function ClassPresentationLink({ value, label = 'Class Presenation Link', onChange, ...other }) {
   const handleLink = useHandleLink(value);
 
   return (
     <Text
-      style={{ maxWidth: 600 }}
-      label='Current Class Presenation Link'
+      label={label}
       value={value}
       onChange={onChange}
       InputProps={{ endAdornment: <YouTubeAdornment onClick={handleLink} disabled={isEmpty(value)} /> }}
+      {...other}
     />
   );
 }
