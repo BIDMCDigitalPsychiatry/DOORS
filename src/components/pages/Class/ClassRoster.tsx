@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Box, Divider } from '@material-ui/core';
 import ChildPage from '../ChildPage';
-import { useHandleChangeRouteLayout } from '../../layout/hooks';
+import { useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
 import { tables } from '../../../database/dbConfig';
 import { getClassTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
@@ -44,13 +44,26 @@ export default function ClassRoster() {
   const { data }: any = useClassData({ Model });
   const { name, headline } = data;
   const isInstructorMode = useIsInstructorMode();
+  const [{ instructor }] = useLayout();
 
   // TODO: Add logic to retreive class, if no class found, then automatically create the class for the instructor, disable everything until this is done.
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRouteLayout('/Classes') });
   const { loading } = formState;
   const fullScreen = useFullScreen();
-  const { data: groups, handleRefresh } = useGroups();
+
+  const { data: groups, handleRefresh } = useGroups({
+    requestParams: instructor && {
+      // If instructor mode, then filter groups by instructor's userId
+      FilterExpression: '#userId = :userId',
+      ExpressionAttributeNames: {
+        '#userId': 'userId'
+      },
+      ExpressionAttributeValues: {
+        ':userId': instructor?.userId
+      }
+    }
+  });
 
   return (
     <ChildPage
