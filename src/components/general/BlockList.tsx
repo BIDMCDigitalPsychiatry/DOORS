@@ -9,6 +9,7 @@ import { useDialogState } from '../application/GenericDialog/useDialogState';
 export interface BlockListItem {
   id: string;
   name: string;
+  rankingValue?: number;
   canEdit?: boolean;
   canLock?: boolean;
   canDelete?: boolean;

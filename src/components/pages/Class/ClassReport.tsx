@@ -3,7 +3,7 @@ import { Grid, Box, Divider, Typography } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
 import { tables } from '../../../database/dbConfig';
-import { getClassTitle, getDateFromTimestamp, isEmpty } from '../../../helpers';
+import { getClassTitle, getDateFromTimestamp, isEmpty, onlyUnique } from '../../../helpers';
 import { useFullScreen } from '../../../hooks';
 import { useClassData } from '../../../database/useClassData';
 import useTableRow from '../../../database/useTableRow';
@@ -13,14 +13,66 @@ import { Participants } from './Participants';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import AgeChart from './AgeChart';
 import SurveyResults from './SurveyResults';
+import useSessions from '../../../database/useSessions';
+import { defaultAgeRankingModels, defaultRankingModels } from '../../../database/models/Class';
+import Session from '../../../database/models/Session';
+import Decimal from 'decimal.js-light';
 
 const Model = tables.classesAdmin;
 
-const getSurveyResults = () => [
-  { question: 'Test Question 1', value: 3.5, results: [] },
-  { question: 'Test Question 2', value: 5, results: [] },
-  { question: 'Test Question 3', value: 4.5,results: [] }
-];
+const getRankingValue = id => {
+  return defaultRankingModels.find(rm => rm.id === id)?.rankingValue;
+};
+
+const getReportData = (sessions: Session[]) => {
+  const surveyQuestions = sessions.map(s => s.surveyQuestions).reduce((f, c) => f.concat(c), []);
+  const surveyQuestionNames = surveyQuestions.map(sq => sq.name).filter(onlyUnique);
+
+  var results = [];
+
+  // For each question create an array of the ranking model and the number of answers for each ranking model
+  surveyQuestionNames.forEach(question => {
+    var preAnswers = [];
+    var postAnswers = [];
+    sessions.forEach(session => {
+      session.surveyQuestions.forEach(sq => {
+        if (sq.name === question) {
+          if (!isEmpty(sq.preSurveyAnswer)) {
+            preAnswers = [
+              ...preAnswers,
+              {
+                studentId: session.studentId,
+                value: getRankingValue(sq.preSurveyAnswer.id)
+              }
+            ];
+          }
+          if (!isEmpty(sq.postSurveyAnswer)) {
+            postAnswers = [
+              ...postAnswers,
+              {
+                studentId: session.studentId,
+                value: getRankingValue(sq.postSurveyAnswer.id)
+              }
+            ];
+          }
+        }
+      });
+    });
+
+    results.push({
+      question,
+      preAnswers,
+      postAnswers,
+      preAnswersAverage: new Decimal(preAnswers.reduce((t, c) => t + c.value, 0)).dividedBy(preAnswers.length).toDecimalPlaces(2).toNumber(),
+      postAnswersAverage: new Decimal(postAnswers.reduce((t, c) => t + c.value, 0)).dividedBy(postAnswers.length).toDecimalPlaces(2).toNumber()
+    });
+  });
+
+  return {
+    ageQuestionData: defaultAgeRankingModels.map(rm => sessions.filter(s => s.ageQuestion.preSurveyAnswer.id === rm.id).length),
+    results
+  };
+};
 
 export default function ClassReport() {
   const [state, setState] = React.useState({ loading: false });
@@ -28,7 +80,11 @@ export default function ClassReport() {
   const { row: group } = useTableRow({ Model: tables.groups, id: groupId, state, setState });
   const { activeStudents } = useGroupStudents({ groupId });
 
-  console.log({ activeStudents });
+  const { sessions } = useSessions();
+  const completed = sessions.filter(c => c.completed === true);
+  //const inProgress = sessions.filter(c => c.completed !== true);
+
+  const { results, ageQuestionData } = getReportData(completed);
 
   const { data }: any = useClassData({ Model });
   const { rankingModel } = data;
@@ -37,6 +93,7 @@ export default function ClassReport() {
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const fs = useFullScreen();
 
+  // TODO filter sessions that only apply to the associated group
   // Retreive all student rows for the associated groupiD and classId
   // Show the average answer for the age group question
   // For each pre-survey question, show the averaged answer
@@ -70,13 +127,13 @@ export default function ClassReport() {
             <MarginDivider />
             <Grid container spacing={3}>
               <Grid item xs={12} md={4}>
-                <AgeChart />
+                <AgeChart data={ageQuestionData} />
               </Grid>
               <Grid item xs={12} md={4}>
-                <SurveyResults surveyResults={getSurveyResults()} />
+                <SurveyResults title='Pre-Survey (Averages)' surveyResults={results} valueKey='pre' />
               </Grid>
               <Grid item xs={12} md={4}>
-                <SurveyResults surveyResults={getSurveyResults()} />
+                <SurveyResults title='Post-Survey (Averages)' surveyResults={results} valueKey='post' />
               </Grid>
             </Grid>
           </Grid>

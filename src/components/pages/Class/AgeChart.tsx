@@ -1,14 +1,13 @@
 import React from 'react';
-import type { FC } from 'react';
 import Chart from 'react-apexcharts';
 import { Card, CardContent, Typography, useTheme } from '@material-ui/core';
 import { ageQuestionLabel } from '../../../constants';
 import { defaultAgeRankingModels } from '../../../database/models/Class';
 
-const AgeChart: FC = () => {
+export default function AgeChart({ data = [] }) {
   const theme = useTheme();
 
-  const data = {
+  const chartData = {
     options: {
       chart: {
         background: theme.palette.background.paper,
@@ -85,7 +84,7 @@ const AgeChart: FC = () => {
     series: [
       {
         name: 'Participants',
-        data: [30, 40, 25, 50, 49, 21, 70, 51]
+        data
       }
     ]
   };
@@ -96,10 +95,8 @@ const AgeChart: FC = () => {
         <Typography variant='subtitle1' color='textPrimary'>
           {ageQuestionLabel}
         </Typography>
-        <Chart options={data.options} series={data.series} type='bar' height='300' />
+        <Chart options={chartData.options} series={chartData.series} type='bar' height='300' />
       </CardContent>
     </Card>
   );
-};
-
-export default AgeChart;
+}

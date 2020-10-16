@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, makeStyles } from '@material-ui/core';
+import { Typography, makeStyles, Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   circle: ({ width }: any) => ({
@@ -15,14 +15,24 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export default function CircleText({ text = undefined, width = 36, children = undefined, ...rest }) {
+export default function CircleText({ text = undefined, width = 36, tooltip = undefined, placement = 'left' as any, children = undefined, ...rest }) {
   const classes = useStyles({ width });
+
+  const Content = (
+    <Typography variant='h5' align='center' color='primary'>
+      {text}
+    </Typography>
+  );
 
   return (
     <div className={classes.circle} {...rest}>
-      <Typography variant='h5' align='center' color='primary'>
-        {text}
-      </Typography>
+      {tooltip ? (
+        <Tooltip placement={placement} title={tooltip}>
+          {Content}
+        </Tooltip>
+      ) : (
+        Content
+      )}
     </div>
   );
 }

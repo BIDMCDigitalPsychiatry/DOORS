@@ -32,6 +32,7 @@
     "deepmerge": "4.2.2",
     "history": "4.10.1",
     "localforage": "1.7.4",
+    "decimal.js-light": "2.5.0",
     "mui-virtualized-table": "3.0.0-6",
     "password-validator": "5.1.0",
     "react": "16.13.1",

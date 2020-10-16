@@ -8,7 +8,7 @@ export const useSessionData = () => {
 
   // Set active to false to use the session in the layout and prevent reading from the server everytime.
   // There is currently no need to read the session everytime for a single student
-  const { data, updateData, setData, ...other } = useData({ active: false, id: session.id, Model: tables.sessions, initialState: { data: session } });
+  const { data, updateData, setData, ...other } = useData({ active: false, id: session?.id, Model: tables.sessions, initialState: { data: session } });
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
 

@@ -4,8 +4,10 @@ import { BlockListItem } from './BlockList';
 import SurveyQuestionCard from './SurveyQuestionCard';
 
 export interface SurveyQuestionItem extends BlockListItem {
-  preSurveyAnswer: string;
-  postSurveyAnswer: string;
+  id: string;
+  name: string;
+  preSurveyAnswer: any;
+  postSurveyAnswer: any;
 }
 
 export default function SurveyQuestions({

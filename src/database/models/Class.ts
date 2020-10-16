@@ -28,22 +28,27 @@ export const defaultAgeRankingModels = [
 export const defaultRankingModels: BlockListItem[] = [
   {
     id: '0',
+    rankingValue: 1,
     name: 'I cannot do it on my own'
   },
   {
     id: '1',
+    rankingValue: 2,
     name: 'I can do it on my own, but with step by step directions'
   },
   {
     id: '2',
+    rankingValue: 3,
     name: 'I can do it mostly on my own, but may have a few questions'
   },
   {
     id: '3',
+    rankingValue: 4,
     name: 'I can do it on my own with ease'
   },
   {
     id: '4',
+    rankingValue: 5,
     name: 'I can do it and can teach someone else'
   }
 ].map(i => ({ ...i, canEdit: false, canLock: false, canDelete: false }));
@@ -53,6 +58,7 @@ export interface ClassData {
   headline?: string;
   name?: string;
   image?: string;
+  ageQuestion?: any;
   keySkills?: BlockListItem[];
   rankingModel?: BlockListItem[];
   surveyQuestions?: SurveyQuestionItem[];
