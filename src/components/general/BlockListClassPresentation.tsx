@@ -83,7 +83,7 @@ export function BlockListClassPresentation({
               <ActionCardClassResource
                 item={item}
                 onLock={onLock}
-                label='View Presentation'
+                viewLabel='View Presentation'
                 onRemove={remove && onRemove}
                 onEdit={edit && onEdit}
                 minHeight={112}

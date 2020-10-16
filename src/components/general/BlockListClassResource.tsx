@@ -15,11 +15,12 @@ export interface BlockListClassResourceItem extends BlockListItem {
 export function BlockListClassResource({
   title = undefined,
   subtitle = undefined,
-  value = [],  
+  value = [],
   add = undefined,
   edit = undefined,
   remove = undefined,
   DialogModule = ClassResourceDialog,
+  viewLabel = 'View Resource',
   onChange = undefined
 }) {
   const value_str = JSON.stringify(value);
@@ -81,12 +82,13 @@ export function BlockListClassResource({
           {value.map((item, i) => (
             <Grid key={i} item xs={12} sm={6} md={3} lg={2}>
               <ActionCardClassResource
-                item={item}                
+                item={item}
                 onLock={onLock}
                 onRemove={remove && onRemove}
                 onEdit={edit && onEdit}
                 minHeight={112}
                 titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
+                viewLabel={viewLabel}
               />
             </Grid>
           ))}

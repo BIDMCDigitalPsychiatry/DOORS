@@ -44,7 +44,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 export default function ActionCardClassResource({
   title = undefined,
   item,
-  label = 'View Resource',
+  viewLabel = 'View Resource',
   actionLabel = 'View',
   onClick = undefined,
   className = undefined,
@@ -78,7 +78,7 @@ export default function ActionCardClassResource({
           </Grid>
           <Grid item xs={12}>
             <StyledButton color='inherit' variant='whiteText' onClick={handleLink}>
-              {label}
+              {viewLabel}
             </StyledButton>
           </Grid>
         </Grid>

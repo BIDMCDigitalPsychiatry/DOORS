@@ -1,35 +1,35 @@
 import * as React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import Page from '../Page';
-import ReactPlayer from 'react-player';
-import { useHandleChangeRoute, useWidth } from '../../layout/hooks';
+import { useHandleChangeRoute } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
 import YourProgress from '../../general/YourProgress';
 import { isEmpty } from '../../../helpers';
 import { useSessionData } from '../../../database/useSessionData';
-import useCombinedClasses from './useCombinedClasses';
+import { BlockListClassResource } from '../../general/BlockListClassResource';
 
 const nextRoute = '/Post-Survey';
 
-export default function Lesson() {
-  const { data } = useCombinedClasses();
-  const { session, handleSaveSession } = useSessionData();
-  const completed = session?.completed;
+// {/*<ReactPlayer url={contentPath} controls={true} width={Math.min(width - 32, 640)} />*/}
 
-  const contentPath = data?.classPresentation; // Class presentation always comes from the admin/instructor class data
-  const width = useWidth();
+export default function Lesson() {
+  const { session, handleSaveSession } = useSessionData();
+  const { classPresentations, completed } = session;
+
   const handleChangeRoute = useHandleChangeRoute();
   return (
-    <Page title='Lesson' ActionButton={() => <YourProgress value={75} />}>
-      <Grid container justify='center' spacing={3}>
-        <Grid item>
-          {isEmpty(contentPath) ? (
-            <Typography>Lesson has not been added. Please contact your administrator or instructor to setup the lesson.</Typography>
-          ) : (
-            <ReactPlayer url={contentPath} controls={true} width={Math.min(width - 32, 640)} />
-          )}
-        </Grid>
-        <Grid item xs={12}>
+    <Page title='Lessons' ActionButton={() => <YourProgress value={75} />}>
+      <>
+        {isEmpty(classPresentations) ? (
+          <Typography>Lessons have not been added. Please contact your administrator or instructor to setup the lessons.</Typography>
+        ) : (
+          <>
+            <Typography>View each of the following lessons prior to continuing:</Typography>
+            <BlockListClassResource viewLabel='View Lesson' value={classPresentations} />
+          </>
+        )}
+
+        <Box mt={4}>
           <Grid container spacing={2}>
             <Grid item>
               <StyledButton width={148} variant='secondary' onClick={handleChangeRoute('/Pre-Survey')}>
@@ -48,8 +48,8 @@ export default function Lesson() {
               )}
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </Box>
+      </>
     </Page>
   );
 }
