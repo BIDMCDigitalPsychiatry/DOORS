@@ -11,7 +11,16 @@ export interface State {
   instructor?: any;
   student?: any;
   canChangeUserType?: boolean;
+  canChangeCurrentGroup?: boolean;
+  groups?: any;
+  selectedGroupId?: string;
 }
+
+export const defaultGroupState = {
+  groups: [],
+  selectedGroupId: undefined,
+  canChangeCurrentGroup: false
+};
 
 export const defaultUserState = {
   admin: false,
@@ -26,7 +35,8 @@ const defaultState = {
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
   leftDrawerOpen: false,
-  ...defaultUserState
+  ...defaultUserState,
+  ...defaultGroupState
 };
 
 export const reducer: Reducer<State> = (state: State | any, action) => {

@@ -14,7 +14,7 @@ import useTabs from './useTabs';
 import * as HelpDialog from '../application/GenericDialog/Help';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
-import { defaultUserState } from './store';
+import { defaultGroupState, defaultUserState } from './store';
 
 const useStyles = makeStyles(({ breakpoints, palette, zIndex, layout }: any) =>
   createStyles({
@@ -121,9 +121,13 @@ export default function ApplicationBar() {
   const fullScreen = useFullScreen('xs');
   const [, , leftDrawerEnabled] = useLeftDrawer();
 
-  const [{ canChangeUserType }, setLayout] = useLayout();
+  const [{ canChangeUserType, canChangeCurrentGroup }, setLayout] = useLayout();
   const resetUserType = React.useCallback(() => {
     setLayout(defaultUserState);
+  }, [setLayout]);
+
+  const resetCurrentGroup = React.useCallback(() => {
+    setLayout(defaultGroupState);
   }, [setLayout]);
 
   return (
@@ -165,10 +169,11 @@ export default function ApplicationBar() {
                   MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
                 >
                   {[
-                    { label: 'Change User Type', onClick: resetUserType },
-                    { label: 'Sign Out', onClick: handleLogout }
+                    { label: 'Change User Type', onClick: resetUserType, filter: canChangeUserType },
+                    { label: 'Change Current Group', onClick: resetCurrentGroup, filter: canChangeCurrentGroup },
+                    { label: 'Sign Out', onClick: handleLogout, filter: true }
                   ]
-                    .filter(({ label }) => label !== 'Change User Type' || (label === 'Change User Type' && canChangeUserType))
+                    .filter(({ filter }) => filter)
                     .map(({ label, onClick }) => (
                       <MenuItem key={label} onClick={onClick}>
                         {label}
