@@ -22,3 +22,19 @@ export default function useSessions({ requestParams = undefined } = {}) {
     success
   };
 }
+
+export const useSessionsByGroupId = ({ groupId }) => {
+  return useSessions({
+    requestParams: {
+      requestParams: {
+        FilterExpression: '#groupId = :groupId',
+        ExpressionAttributeNames: {
+          '#groupId': 'groupId'
+        },
+        ExpressionAttributeValues: {
+          ':groupId': groupId
+        }
+      }
+    }
+  });
+};

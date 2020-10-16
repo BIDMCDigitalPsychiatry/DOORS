@@ -5,7 +5,7 @@ import Page from '../Page';
 import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
 import { uuid } from '../../../helpers';
 import useCombinedClasses from './useCombinedClasses';
-import useSessions from '../../../database/useSessions';
+import { useSessionsByGroupId } from '../../../database/useSessions';
 import { tables } from '../../../database/dbConfig';
 import useProcessDataState from '../../hooks/useProcessDataState';
 
@@ -16,7 +16,8 @@ export default function StudentClasses() {
   const { id: studentId, groupId } = student;
 
   const { data } = useCombinedClasses();
-  const { sessions } = useSessions();
+  const { sessions } = useSessionsByGroupId({ groupId });
+
   const completed = sessions.filter(c => c.completed === true && !c.deleted);
   const inProgress = sessions.filter(c => c.completed !== true && !c.deleted);
 
