@@ -6,6 +6,8 @@ import { Auth } from 'aws-amplify';
 import DialogButton from '../DialogButton';
 import { useLogin } from '../../../layout/hooks';
 import Check from '../../DialogField/Check';
+import * as TermsAndConditionsDialog from '../../GenericDialog/TermsAndConditions';
+
 const passwordValidator = require('password-validator');
 export const title = 'Create New Account';
 
@@ -72,6 +74,12 @@ const EnterConfirmationCode = ({ value = false, onChange }) => {
     </DialogButton>
   );
 };
+
+const ViewTermsAndConditions = () => (
+  <DialogButton Module={TermsAndConditionsDialog} fullWidth={true} size='small' margin='dense' variant='link' tooltip=''>
+    View Terms and Conditions
+  </DialogButton>
+);
 
 export default function RegisterDialog({ id = title }) {
   const [dialogState, setState] = useDialogState(id);
@@ -172,17 +180,21 @@ export default function RegisterDialog({ id = title }) {
           hidden: ({ confirm }) => !confirm
         },
         {
+          id: 'agree',
+          Field: Check,
+          color: 'primary',
+          label: 'I agree to the terms & conditions',
+          hidden: ({ confirm }) => confirm
+        },
+        {
+          Field: ViewTermsAndConditions,
+          hidden: ({ confirm }) => confirm
+        },
+        {
           id: 'confirm',
           label: 'Enter Verification Code',
           Field: EnterConfirmationCode,
           initialValue: false
-        },
-        {
-          id: 'agree',
-          width: 220,
-          Field: Check,
-          label: 'I Agree to the Terms & Conditions',
-          hidden: ({ confirm }) => confirm
         }
       ]}
     />
