@@ -72,10 +72,16 @@ export default function ActionCardClassResource({
   return (
     <Card className={clsx(classes.root, className)}>
       <Box textAlign='center' pt={1} className={classes.iconContainer} onClick={handleLink}>
-        <Icon className={classes.icon} />
-        <StyledButton color='inherit' variant='whiteText' onClick={handleLink}>
-          {label}
-        </StyledButton>
+        <Grid container>
+          <Grid item xs={12}>
+            <Icon className={classes.icon} />
+          </Grid>
+          <Grid item xs={12}>
+            <StyledButton color='inherit' variant='whiteText' onClick={handleLink}>
+              {label}
+            </StyledButton>
+          </Grid>
+        </Grid>
       </Box>
       <div className={classes.header}>
         <Grid container spacing={1}>
