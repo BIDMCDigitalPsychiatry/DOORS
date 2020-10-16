@@ -13,7 +13,7 @@ import { Participants } from './Participants';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import AgeChart from './AgeChart';
 import SurveyResults from './SurveyResults';
-import useSessions from '../../../database/useSessions';
+import { useSessionsByGroupId } from '../../../database/useSessions';
 import { defaultAgeRankingModels, defaultRankingModels } from '../../../database/models/Class';
 import Session from '../../../database/models/Session';
 import Decimal from 'decimal.js-light';
@@ -80,7 +80,7 @@ export default function ClassReport() {
   const { row: group } = useTableRow({ Model: tables.groups, id: groupId, state, setState });
   const { activeStudents } = useGroupStudents({ groupId });
 
-  const { sessions } = useSessions();
+  const { sessions } = useSessionsByGroupId({ groupId });
   const completed = sessions.filter(c => c.completed === true);
   //const inProgress = sessions.filter(c => c.completed !== true);
 
@@ -92,12 +92,6 @@ export default function ClassReport() {
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const fs = useFullScreen();
-
-  // TODO filter sessions that only apply to the associated group
-  // Retreive all student rows for the associated groupiD and classId
-  // Show the average answer for the age group question
-  // For each pre-survey question, show the averaged answer
-  // For each post-survey question, show the averaged answer
 
   return (
     <ChildPage

@@ -40,7 +40,7 @@ export default function SurveyResults({ title = 'Pre-Survey', valueKey = 'pre', 
                     {question}
                   </Grid>
                   <Grid item>
-                    <CircleText text={value} width={64} tooltip={<ResultSummary answers={answers} />} />
+                    <CircleText text={value} width={72} tooltip={<ResultSummary answers={answers} />} />
                   </Grid>
                 </Grid>
               </Grid>
