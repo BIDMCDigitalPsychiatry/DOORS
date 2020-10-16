@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { Card, Typography, makeStyles, Grid } from '@material-ui/core';
+import { Card, Typography, makeStyles, Grid, Box } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
 import { getDateFromTimestamp } from '../../../helpers';
 import DialogButton from '../../application/GenericDialog/DialogButton';
@@ -11,7 +11,8 @@ import { Participants } from './Participants';
 import { useClassData } from '../../../database/useLocationData';
 import { tables } from '../../../database/dbConfig';
 import { createAttendanceKey } from '../../../database/models/Attendance';
-import { useHandleChangeRouteLayout } from '../../layout/hooks';                  
+import { useHandleChangeRouteLayout } from '../../layout/hooks';
+import MarginDivider from '../../application/DialogField/MarginDivider';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -57,7 +58,7 @@ export default function Group({
   const classes = useStyles();
   const { data } = useClassData({ Model: tables.classesAdmin });
 
-  const { pendingStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
+  const { pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
   const changeRouteLayout = useHandleChangeRouteLayout();
 
   return (
@@ -94,11 +95,15 @@ export default function Group({
             <Grid item xs>
               {[
                 { students: activeStudents, label: 'Class Participants' },
-                { students: pendingStudents, label: 'Pending Invites (Not Accepted)' }
+                { students: pendingStudents, label: 'Pending Invites (Not Accepted)' },
+                { students: deletedStudents, label: 'Archived Students' }
               ]
                 .filter(i => i.students.length > 0)
                 .map((props, i) => (
-                  <Participants key={i} {...props} />
+                  <Box mb={1}>
+                    {i !== 0 && <MarginDivider />}
+                    <Participants key={i} onRefresh={handleRefresh} {...props} />
+                  </Box>
                 ))}
             </Grid>
             <Grid item xs={12} sm={12} md={7} lg={4} xl={3} className={classes.actions}>

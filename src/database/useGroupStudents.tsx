@@ -8,14 +8,12 @@ export default function useGroupStudents({ groupId }) {
 
   const handleRefresh = React.useCallback(() => {
     handleRequest({
-      FilterExpression: '#groupId = :groupId AND (#deleted = :deleted OR attribute_not_exists(#deleted))',
+      FilterExpression: '#groupId = :groupId',
       ExpressionAttributeNames: {
-        '#groupId': 'groupId',
-        '#deleted': 'deleted'
+        '#groupId': 'groupId'
       },
       ExpressionAttributeValues: {
-        ':groupId': groupId,
-        ':deleted': false
+        ':groupId': groupId
       }
     });
     // eslint-disable-next-line
@@ -26,9 +24,10 @@ export default function useGroupStudents({ groupId }) {
   }, [handleRefresh]);
 
   const students = Object.keys(state?.data).map(k => ({ ...state?.data[k] }));
-  const activeStudents = students.filter(s => s.accepted);
-  const pendingStudents = students.filter(s => !s.accepted && !isExpired(s));
-  const expiredStudents = students.filter(s => !s.accepted && isExpired(s));
+  const activeStudents = students.filter(s => s.accepted && s.deleted !== true);
+  const pendingStudents = students.filter(s => !s.accepted && !isExpired(s) && s.deleted !== true);
+  const expiredStudents = students.filter(s => !s.accepted && isExpired(s) && s.deleted !== true);
+  const deletedStudents = students.filter(s => s.deleted);
 
-  return { state, students, activeStudents, pendingStudents, expiredStudents, handleRequest, handleRefresh };
+  return { state, students, activeStudents, pendingStudents, expiredStudents, deletedStudents, handleRequest, handleRefresh };
 }

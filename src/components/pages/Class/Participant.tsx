@@ -5,6 +5,9 @@ import DialogButton from '../../application/GenericDialog/DialogButton';
 import { getStudentName, isEmpty, minutesFrom, minutesToTimeAgo } from '../../../helpers';
 import { useProfile } from '../../../database/useProfile';
 import * as ProfileDialog from '../../application/GenericDialog/Profile';
+import { tables } from '../../../database/dbConfig';
+import useTableRow from '../../../database/useTableRow';
+import { useSnackBar } from '../../application/SnackBar/useSnackBar';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -13,9 +16,34 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Participant({ student, className = undefined, view = true, viewReport = false, remove = true, mount = true, ...rest }) {
+export default function Participant({
+  student,
+  className = undefined,
+  view = true,
+  viewReport = false,
+  remove = true,
+  mount = true,
+  onRefresh = undefined,
+  ...rest
+}) {
   const classes = useStyles();
   const { profile } = useProfile({ id: student?.userId });
+  const [state, setState] = React.useState();
+  const { readSetRow } = useTableRow({ Model: tables.students, id: student?.id, state, setState });
+  const [, setSnackbar] = useSnackBar();
+
+  const handleRemove = React.useCallback(
+    deleted => () => {
+      readSetRow({
+        values: { deleted: !deleted },
+        onSuccess: () => {
+          onRefresh && onRefresh();
+          setSnackbar({ open: true, variant: 'success', message: `Successfully ${deleted ? 'restored' : 'deleted'} participant` });
+        }
+      });
+    },
+    [readSetRow, setSnackbar, onRefresh]
+  );
 
   return (
     <div className={clsx(classes.root, className)} {...rest}>
@@ -61,8 +89,8 @@ export default function Participant({ student, className = undefined, view = tru
         {student.accepted === true
           ? remove && (
               <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <DialogButton onClick={() => alert('To be implemented')} variant='link' underline='always' linkVariant='body2' fullWidth>
-                  Remove
+                <DialogButton onClick={handleRemove(student?.deleted)} variant='link' underline='always' linkVariant='body2' fullWidth>
+                  {student?.deleted ? 'Restore' : 'Remove'}
                 </DialogButton>
               </Grid>
             )
