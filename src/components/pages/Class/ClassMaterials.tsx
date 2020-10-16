@@ -27,11 +27,10 @@ const TitleButton = ({ onClick }) => <StyledButton onClick={onClick}>Save Change
 
 export default function ClassMaterials() {
   const isAdminMode = useIsAdminMode();
-  const { data, handleChange }: any = useClassData({ Model: isAdminMode ? tables.classesAdmin : tables.classesInstructor });
 
-  //const [{ class: classData }] = useLayout();
-  //const { name, headline, keySkills = [] } = classData;
-
+  // Set active to false, so we use the local copy instead of querying the database.
+  // This is useful because the query will fail if the instructor has not saved an edited copy yet.
+  const { data, handleChange }: any = useClassData({ active: false, Model: isAdminMode ? tables.classesAdmin : tables.classesInstructor });
   const { name, headline, image, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentations = [] } = data;
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
@@ -122,30 +121,3 @@ export default function ClassMaterials() {
     </ChildPage>
   );
 }
-
-/*
-<Grid item xs={12}>
-<BlockList
-  title='Survey Questions'
-  subtitle='Questions are related to the class materials and will be rated by students from 1 to 5 based on the Ranking Model'
-  value={surveyQuestions}
-  add={true}
-  edit={true}
-  remove={true}
-  onChange={handleChange('surveyQuestions')}
-/>
-</Grid>
-<Grid item xs={12}>
-<BlockList
-  title='Ranking Model'
-  showIndexBadges={true}
-  value={rankingModel}
-  add={false}
-  edit={true}
-  remove={false}
-  onChange={handleChange('rankingModel')}
-/>
-</Grid>
-<Grid item xs={12}>
-
-*/
