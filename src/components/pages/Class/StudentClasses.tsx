@@ -3,11 +3,8 @@ import { Box, Divider, Grid } from '@material-ui/core';
 import Class from './Class';
 import Page from '../Page';
 import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
-import { uuid } from '../../../helpers';
 import useCombinedClasses from './useCombinedClasses';
-import { useSessionsByGroupId } from '../../../database/useSessions';
-import { tables } from '../../../database/dbConfig';
-import useProcessDataState from '../../hooks/useProcessDataState';
+import { useHandleCreateSession, useSessionsByGroupId } from '../../../database/useSessions';
 
 const nextRoute = '/Pre-Survey';
 
@@ -28,26 +25,7 @@ export default function StudentClasses() {
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const changeRouteLayout = useChangeRouteLayout();
 
-  const { handleUpdate } = useProcessDataState({ Model: tables.sessions });
-
-  const handleCreate = React.useCallback(
-    c => () => {
-      const session = {
-        ...c, // Copy class data
-        id: uuid(), // Create new session id
-        classId: c.id, // Link the class id
-        groupId,
-        studentId
-      };
-      handleUpdate({
-        Data: session,
-        onSuccess: () => {
-          changeRouteLayout(nextRoute, { session });
-        }
-      }); // insert into database and change route on success
-    },
-    [groupId, studentId, handleUpdate, changeRouteLayout]
-  );
+  const handleCreateSession = useHandleCreateSession({ studentId, groupId, nextRoute });
 
   const handleResume = React.useCallback(
     session => () => {
@@ -67,7 +45,7 @@ export default function StudentClasses() {
               .filter(c => !inProgress.find(s => s.classId === c.id && !s.completed)) // Don't show available class if one is currently in progress
               .map(c => (
                 <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
-                  <Class {...c} buttonLabel='Start' onClick={handleCreate(c)} />
+                  <Class {...c} buttonLabel='Start' onClick={handleCreateSession(c)} />
                 </Grid>
               ))
           ]}

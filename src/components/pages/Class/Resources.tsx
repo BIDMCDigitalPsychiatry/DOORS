@@ -5,18 +5,14 @@ import YourProgress from '../../general/YourProgress';
 import StyledButton from '../../general/StyledButton';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
-import useCombinedClasses from './useCombinedClasses';
 import { useSessionData } from '../../../database/useSessionData';
 
 const nextRoute = '/Congratulations';
 
 export default function Resources() {
   const handleChangeRoute = useHandleChangeRoute();
-  const { data } = useCombinedClasses();
-  const { classResources = [] } = data;
-
   const { session, handleSaveCompleteSession } = useSessionData();
-  const { completed } = session;
+  const { classResources, completed } = session;
 
   return (
     <Page title='Resources' ActionButton={() => <YourProgress value={100} />}>

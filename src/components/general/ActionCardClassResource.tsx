@@ -70,7 +70,7 @@ export default function ActionCardClassResource({
   const handleLink = useHandleLink(link);
 
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card className={clsx(classes.root, className)}>
       <Box textAlign='center' pt={1} className={classes.iconContainer} onClick={handleLink}>
         <Icon className={classes.icon} />
         <StyledButton color='inherit' variant='whiteText' onClick={handleLink}>

@@ -1,6 +1,9 @@
 import * as React from 'react';
 import useTable from './useTable';
 import { tables } from './dbConfig';
+import { useChangeRouteLayout } from '../components/layout/hooks';
+import useProcessDataState from '../components/hooks/useProcessDataState';
+import { uuid } from '../helpers';
 
 export default function useSessions({ requestParams = undefined } = {}) {
   const { state, handleRequest } = useTable({ TableName: tables.sessions });
@@ -37,4 +40,29 @@ export const useSessionsByGroupId = ({ groupId }) => {
       }
     }
   });
+};
+
+export const useHandleCreateSession = ({ groupId, studentId, nextRoute = '/Pre-Survey' }) => {
+  const changeRouteLayout = useChangeRouteLayout();
+
+  const { handleUpdate } = useProcessDataState({ Model: tables.sessions });
+
+  return React.useCallback(
+    c => () => {
+      const session = {
+        ...c, // Copy class data
+        id: uuid(), // Create new session id
+        classId: c.id, // Link the class id
+        groupId,
+        studentId
+      };
+      handleUpdate({
+        Data: session,
+        onSuccess: () => {
+          changeRouteLayout(nextRoute, { session });
+        }
+      }); // insert into database and change route on success
+    },
+    [groupId, studentId, handleUpdate, changeRouteLayout, nextRoute]
+  );
 };

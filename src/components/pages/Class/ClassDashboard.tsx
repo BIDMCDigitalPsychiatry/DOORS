@@ -4,17 +4,17 @@ import ActionCard from '../../general/ActionCard';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import { useUserType } from '../../../hooks';
-import { isEmpty, uuid } from '../../../helpers';
+import { isEmpty } from '../../../helpers';
 import { tables } from '../../../database/dbConfig';
 import { useClassData } from '../../../database/useClassData';
+import { useHandleCreateSession } from '../../../database/useSessions';
 
 const actionCards = [
   {
     title: 'Class Mode',
     description: 'View the class materials the way your students will',
-    route: '/Pre-Survey',
     disabled: false,
-    data: data => ({ ...data, deleted: true, id: [data?.id, uuid()].join(':') }) // Generate a new session id to simulate class mode, also default to deleted so it doesn't show up in the class list if the instructor happens to be a student as well
+    createSession: true
   },
   { title: 'Edit Materials', description: 'Review and edit class materials', route: '/ClassMaterials' },
   { title: 'Class Roster', description: 'View current participants and new members', route: '/ClassRoster' }
@@ -28,6 +28,8 @@ export default function ClassDashboard() {
 
   const userType = useUserType();
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
+
+  const handleCreateSession = useHandleCreateSession({ studentId: undefined, groupId: undefined });
 
   return (
     <ChildPage
@@ -53,7 +55,11 @@ export default function ClassDashboard() {
         <Grid container spacing={3}>
           {actionCards.map(ac => (
             <Grid key={ac.title} item lg={4} sm={4} xs={12}>
-              <ActionCard {...ac} minHeight={150} onClick={handleChangeRouteLayout(ac.route, { class: ac.data ? ac.data(data) : data })} />
+              <ActionCard
+                {...ac}
+                minHeight={150}
+                onClick={ac.createSession ? handleCreateSession({ ...data, deleted: true }) : handleChangeRouteLayout(ac.route)}
+              />
             </Grid>
           ))}
         </Grid>
