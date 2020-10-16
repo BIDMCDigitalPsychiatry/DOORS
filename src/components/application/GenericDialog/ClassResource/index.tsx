@@ -55,7 +55,7 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
             { label: 'Link', value: 'Link' }
           ],
           disableClearable: true,
-          required: true,          
+          required: true,
           xs: 4
         },
 
@@ -63,6 +63,7 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
           id: 'link',
           label: 'Resource Link',
           Field: FileUploadLink,
+          http: true,
           placeholder: 'Enter link to resource or upload file',
           required: true,
           xs: 12

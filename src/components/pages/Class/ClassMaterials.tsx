@@ -96,6 +96,7 @@ export default function ClassMaterials() {
               value={classPresentations}
               add={true}
               edit={true}
+              remove={true}
               onChange={handleChange('classPresentations')}
             />
           </Grid>
@@ -106,6 +107,7 @@ export default function ClassMaterials() {
               value={classResources}
               add={true}
               edit={true}
+              remove={true}
               onChange={handleChange('classResources')}
             />
           </Grid>

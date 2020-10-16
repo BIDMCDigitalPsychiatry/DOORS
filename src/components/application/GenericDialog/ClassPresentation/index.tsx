@@ -57,6 +57,7 @@ export default function ClassPresenationDialog({ id = title, onClose = undefined
         {
           id: 'link',
           label: 'Presentation Link',
+          http: true,
           Field: ClassPresentationLink,
           placeholder: 'Enter link to video presentation',
           required: true,
