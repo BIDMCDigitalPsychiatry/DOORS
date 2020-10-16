@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Layout from './Layout';
 import AuthGate from './AuthGate';
 import InviteGate from './InviteGate';
-import { UserTypeGate } from './UserTypeGate';
+import UserTypeGate from './UserTypeGate';
 
 export interface AppRouterProps {
   history?: any;
@@ -19,9 +19,9 @@ function AppRouter(props: AppRouterProps) {
       <AuthGate>
         <InviteGate>
           <UserTypeGate>
-            <Layout>
-              <Routes />
-            </Layout>
+              <Layout>
+                <Routes />
+              </Layout>
           </UserTypeGate>
         </InviteGate>
       </AuthGate>

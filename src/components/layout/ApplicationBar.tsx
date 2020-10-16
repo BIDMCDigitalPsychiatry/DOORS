@@ -5,7 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.svg';
 import { useAppBarHeightRef, useChangeRoute, useLayout, useLeftDrawer, useLogout } from './hooks';
-import { useSignedIn, useFullScreen, useContentPadding } from '../../hooks';
+import { useCanChangeUserType, useSignedIn, useFullScreen, useContentPadding } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
@@ -14,7 +14,7 @@ import useTabs from './useTabs';
 import * as HelpDialog from '../application/GenericDialog/Help';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
-import { defaultGroupState, defaultUserState } from './store';
+import { defaultUserState } from './store';
 
 const useStyles = makeStyles(({ breakpoints, palette, zIndex, layout }: any) =>
   createStyles({
@@ -121,14 +121,12 @@ export default function ApplicationBar() {
   const fullScreen = useFullScreen('xs');
   const [, , leftDrawerEnabled] = useLeftDrawer();
 
-  const [{ canChangeUserType, canChangeCurrentGroup }, setLayout] = useLayout();
+  const [, setLayout] = useLayout();
   const resetUserType = React.useCallback(() => {
     setLayout(defaultUserState);
   }, [setLayout]);
 
-  const resetCurrentGroup = React.useCallback(() => {
-    setLayout(defaultGroupState);
-  }, [setLayout]);
+  const canChangeUserType = useCanChangeUserType();
 
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={1} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
@@ -170,7 +168,6 @@ export default function ApplicationBar() {
                 >
                   {[
                     { label: 'Change User Type', onClick: resetUserType, filter: canChangeUserType },
-                    { label: 'Change Current Group', onClick: resetCurrentGroup, filter: canChangeCurrentGroup },
                     { label: 'Sign Out', onClick: handleLogout, filter: true }
                   ]
                     .filter(({ filter }) => filter)

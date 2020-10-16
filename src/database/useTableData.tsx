@@ -3,7 +3,7 @@ import { useTableFilter } from '../components/application/GenericTable/helpers';
 import { tables } from './dbConfig';
 import useTable from './useTable';
 
-export const useTableData = ({ TableName = tables.students, table = undefined, tab = undefined, requestParams = undefined }) => {
+export const useTableData = ({ TableName = tables.students, loadOnMount = true, table = undefined, tab = undefined, requestParams = undefined }) => {
   const { state, handleRequest } = useTable({ TableName });
   const { data, loading, success } = state as any;
 
@@ -13,8 +13,8 @@ export const useTableData = ({ TableName = tables.students, table = undefined, t
   }, [JSON.stringify(requestParams), handleRequest]);
 
   React.useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh, table, tab]);
+    loadOnMount && handleRefresh();
+  }, [handleRefresh, loadOnMount, table, tab]);
 
   const rows = Object.keys(data).map(k => ({ ...data[k] }));
 

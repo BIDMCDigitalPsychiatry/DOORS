@@ -4,7 +4,6 @@ import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
 import { useChangeRoute, useHeight, useLayout, useLogout } from './hooks';
-import { evalFunc } from '../../helpers';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -43,24 +42,6 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-const buttons = [
-  {
-    label: 'Admin',
-    state: { admin: true, student: undefined, instructor: undefined },
-    filter: ({ isAdmin }) => isAdmin
-  },
-  {
-    label: 'Instructor',
-    state: ({ instructors }) => ({ admin: false, student: undefined, instructor: instructors[0] }),
-    filter: ({ instructors }) => instructors.length > 0
-  },
-  {
-    label: 'Student',
-    state: ({ students }) => ({ admin: false, student: students[0], instructor: undefined }),
-    filter: ({ students }) => students.length > 0
-  }
-];
-
 export default function SelectUserType({ instructors = [], students = [], isAdmin, onBack = undefined }) {
   const height = useHeight();
   const classes = useStyles({ height });
@@ -70,13 +51,39 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
   const changeRoute = useChangeRoute();
   const handleSelect = React.useCallback(
     props => () => {
-      setLayout({ ...props, canChangeUserType: true });
+      setLayout(props);
       changeRoute('/Classes');
     },
     [setLayout, changeRoute]
   );
   const isError = !isAdmin && instructors.length === 0 && students.length === 0;
-  const BannerMsg = isError ? 'No associated user types' : 'You have multiple user types, please select desired user type:';
+  const BannerMsg = isError ? 'No associated user types' : 'You have multiple user types or groups, please select desired user type:';
+
+  var buttons = [];
+  if (isAdmin) {
+    buttons = buttons.concat({
+      label: 'Admin',
+      state: { admin: true, student: undefined, instructor: undefined }
+    });
+  }
+
+  // Instructor buttons
+  buttons = buttons.concat(
+    instructors.map(instructor => ({
+      label: 'Instructor',
+      sublabel: `Invited by: ${instructor.parentId}`,
+      state: { admin: false, student: undefined, instructor }
+    }))
+  );
+
+  // Student buttons
+  buttons = buttons.concat(
+    students.map(student => ({
+      label: 'Student',
+      sublabel: `Group: ${student.groupId}`,
+      state: { admin: false, student, instructor: undefined }
+    }))
+  );
 
   return (
     <div
@@ -102,24 +109,34 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                     {BannerMsg}
                   </Typography>
                 </Grid>
-                {buttons.map(
-                  ({ label, state, filter }, i) =>
-                    filter({ instructors, students, isAdmin }) && (
-                      <Grid item key={label}>
-                        <div className={classes.wrapper}>
-                          <Button
-                            ref={i === 0 ? buttonRef : undefined}
-                            fullWidth={true}
-                            variant='contained'
-                            className={classes.button}
-                            onClick={handleSelect(evalFunc(state, { instructors, students, isAdmin }))}
-                          >
-                            {label}
-                          </Button>
-                        </div>
-                      </Grid>
-                    )
-                )}
+                {buttons.map(({ label, sublabel, state }, i) => (
+                  <Grid item key={label}>
+                    <div className={classes.wrapper}>
+                      <Button
+                        ref={i === 0 ? buttonRef : undefined}
+                        fullWidth={true}
+                        variant='contained'
+                        className={classes.button}
+                        onClick={handleSelect(state)}
+                      >
+                        <Grid container>
+                          {label && (
+                            <Grid item xs={12}>
+                              {label}
+                            </Grid>
+                          )}
+                          {sublabel && (
+                            <Grid item xs={12}>
+                              <Typography style={{ fontSize: 7 }} variant='overline' noWrap>
+                                {sublabel}
+                              </Typography>
+                            </Grid>
+                          )}
+                        </Grid>
+                      </Button>
+                    </div>
+                  </Grid>
+                ))}
                 <Grid item>
                   <div className={classes.wrapper}>
                     <Button fullWidth={true} variant='contained' onClick={onLogout}>

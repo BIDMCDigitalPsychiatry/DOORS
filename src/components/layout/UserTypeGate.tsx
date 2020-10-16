@@ -1,31 +1,47 @@
 import * as React from 'react';
-import { useLayout } from './hooks';
+import { useLayout, useUserId } from './hooks';
 import SelectUserType from './SelectUserType';
 import { useIsAdmin } from '../../hooks';
 import useInstructorsByUserId from '../application/GenericTable/Instructors/useInstructorsByUserId';
 import useStudentsByUserId from '../../database/useStudentsByUserId';
+import { isEmpty } from '../../helpers';
 
-export const UserTypeGate = ({ children }) => {
+export default function UserTypeGate({ children }) {
   const isAdmin = useIsAdmin();
+
   const [{ admin, instructor, student }, setLayout] = useLayout();
 
-  const instructors = useInstructorsByUserId();
-  const students = useStudentsByUserId();
+  const { instructors, handleRefresh } = useInstructorsByUserId();
+  const { students, handleRefresh: handleRefreshStudents } = useStudentsByUserId();
+
+  const userId = useUserId();
+
+  // Refresh on load or whenever the userId or
+  React.useEffect(() => {
+    if (!isEmpty(userId)) {
+      console.log(`Loading user information (${userId})`);
+      handleRefresh();
+      handleRefreshStudents();
+    }
+  }, [userId, handleRefresh, handleRefreshStudents]);
 
   React.useEffect(() => {
     // Auto select user type if user is only associated with one type
     if (instructors && students) {
+      console.log('setting student information');
       // If both instructors and students are loaded from the database, then proceed
       if (isAdmin && instructors.length === 0 && students.length === 0) {
-        setLayout({ admin: true, canChangeUserType: false });
+        setLayout({ admin: true, students, instructors }); // Must be an admin user
       } else if (!isAdmin && instructors.length > 0 && students.length === 0) {
-        setLayout({ instructor: instructors[0], canChangeUserType: false });
+        setLayout({ instructor: instructors[0], students, instructors }); // Must be an instructor
       } else if (!isAdmin && instructors.length === 0 && students.length > 0) {
-        setLayout({ student: students[0], canChangeUserType: false });
+        setLayout({ student: students[0], students, instructors }); // Must be a student
+      } else {
+        setLayout({ students, instructors }); // Can be one of admin, instructor or studnet, not sure
       }
     }
     // eslint-disable-next-line
-  }, [isAdmin, JSON.stringify(instructors), JSON.stringify(students)]);
+  }, [userId, isAdmin, JSON.stringify(instructors), JSON.stringify(students)]);
 
   // If viewing is not empty, then return children
   // Else if completed == false, then show loading
@@ -39,4 +55,4 @@ export const UserTypeGate = ({ children }) => {
   ) : (
     <SelectUserType instructors={instructors} students={students} isAdmin={isAdmin} />
   );
-};
+}

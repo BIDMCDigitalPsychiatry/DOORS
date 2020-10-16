@@ -78,3 +78,15 @@ export const useCurrentRoute = () => {
   const location = useLocation();
   return location.pathname.substr(location.pathname.lastIndexOf('/'));
 };
+
+export const useCanChangeStudentGroup = () => {
+  const [{ students }] = useLayout();
+  const isStudentMode = useIsStudentMode();
+  return isStudentMode && students?.length > 1 ? true : false;
+};
+
+export const useCanChangeUserType = () => {
+  const isAdmin = useIsAdmin();
+  const [{ students, instructors }] = useLayout();
+  return (isAdmin && (students?.length > 0 || instructors?.length > 0)) || (!isAdmin && students?.length > 0 && instructors?.length > 0);
+};
