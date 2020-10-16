@@ -12,8 +12,9 @@ import ImageSelector from '../../application/DialogField/ImageSelector';
 import { useClassData } from '../../../database/useClassData';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
+import { useIsAdminMode } from '../../../hooks';
 
-const Model = tables.classesAdmin;
+const Model = tables.classesInstructor;
 const validate = ({ name }) => {
   const newErrors = {};
   if (isEmpty(name)) {
@@ -25,7 +26,12 @@ const validate = ({ name }) => {
 const TitleButton = ({ onClick }) => <StyledButton onClick={onClick}>Save Changes</StyledButton>;
 
 export default function ClassMaterials() {
-  const { data, handleChange }: any = useClassData({ Model });
+  const isAdminMode = useIsAdminMode();
+  const { data, handleChange }: any = useClassData({ Model: isAdminMode ? tables.classesAdmin : tables.classesInstructor });
+
+  //const [{ class: classData }] = useLayout();
+  //const { name, headline, keySkills = [] } = classData;
+
   const { name, headline, image, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentations = [] } = data;
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();

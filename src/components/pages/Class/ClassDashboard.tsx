@@ -2,11 +2,9 @@ import * as React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import ActionCard from '../../general/ActionCard';
 import ChildPage from '../ChildPage';
-import { useHandleChangeRouteLayout } from '../../layout/hooks';
+import { useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
 import { useUserType } from '../../../hooks';
 import { isEmpty } from '../../../helpers';
-import { tables } from '../../../database/dbConfig';
-import { useClassData } from '../../../database/useClassData';
 import { useHandleCreateSession } from '../../../database/useSessions';
 
 const actionCards = [
@@ -20,16 +18,14 @@ const actionCards = [
   { title: 'Class Roster', description: 'View current participants and new members', route: '/ClassRoster' }
 ];
 
-const Model = tables.classesAdmin;
-
 export default function ClassDashboard() {
-  const { data } = useClassData({ Model });
-  const { name, headline, keySkills = [] } = data;
+  const [{ class: classData }] = useLayout();
+
+  const { name, headline, keySkills = [] } = classData;
 
   const userType = useUserType();
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
-
-  const handleCreateSession = useHandleCreateSession({ studentId: undefined, groupId: undefined });
+  const handleCreateSession = useHandleCreateSession({ studentId: undefined, groupId: undefined }); // Don't specify student or group id's when viewing as student
 
   return (
     <ChildPage
@@ -58,7 +54,7 @@ export default function ClassDashboard() {
               <ActionCard
                 {...ac}
                 minHeight={150}
-                onClick={ac.createSession ? handleCreateSession({ ...data, deleted: true }) : handleChangeRouteLayout(ac.route)}
+                onClick={ac.createSession ? handleCreateSession({ ...classData, deleted: true }) : handleChangeRouteLayout(ac.route)}
               />
             </Grid>
           ))}
