@@ -8,7 +8,7 @@ import useFormState from '../../hooks/useFormState';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CreateGroupDialog from '../../application/GenericDialog/CreateGroup';
 import Group from './Group';
-import { useFullScreen } from '../../../hooks';
+import { useFullScreen, useIsInstructorMode } from '../../../hooks';
 import { useGroups } from '../../../database/useGroups';
 import { useClassData } from '../../../database/useClassData';
 
@@ -37,40 +37,13 @@ const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose,
         Create Group
       </DialogButton>
     </Grid>
-    {/* No longer needed as groups will have access to all class content, so all groups will always be displayed and also always linked to all class content
-    <Grid item xs={12}>
-      <DialogButton
-        onClick={() => alert('To be implemented')}
-        subtitle={subtitle}
-        variant='styled'
-        styledVariant='secondary'
-        size='large'
-        fullWidth
-        disabled={disabled}
-      >
-        Add Existing Group
-      </DialogButton>
-    </Grid>
-    <Grid item xs={12}>
-      <DialogButton
-        onClick={() => alert('To be implemented')}
-        subtitle={subtitle}
-        variant='styled'
-        styledVariant='text'
-        size='large'
-        fullWidth
-        disabled={disabled}
-      >
-        View All Groups
-      </DialogButton>
-    </Grid>
-*/}
   </Grid>
 );
 
 export default function ClassRoster() {
   const { data }: any = useClassData({ Model });
   const { name, headline } = data;
+  const isInstructorMode = useIsInstructorMode();
 
   // TODO: Add logic to retreive class, if no class found, then automatically create the class for the instructor, disable everything until this is done.
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
@@ -85,16 +58,18 @@ export default function ClassRoster() {
       onBack={handleChangeRouteLayout('/ClassDashboard', { class: data })}
       title={getClassTitle({ headline, name })}
       subtitle='Class Roster'
-      TitleButton={props => (
-        <TitleButton
-          subtitle={getClassTitle({ headline, name })}
-          initialValues={{ class: data }}
-          disabled={loading}
-          onClose={handleRefresh}
-          onClick={handleUpdate(data)}
-          {...props}
-        />
-      )}
+      TitleButton={props =>
+        isInstructorMode && ( // Only show the create group button for instructors
+          <TitleButton
+            subtitle={getClassTitle({ headline, name })}
+            initialValues={{ class: data }}
+            disabled={loading}
+            onClose={handleRefresh}
+            onClick={handleUpdate(data)}
+            {...props}
+          />
+        )
+      }
     >
       <Box mt={2}>
         <Divider />

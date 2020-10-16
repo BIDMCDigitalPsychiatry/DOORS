@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { Card, Typography, makeStyles, Grid, Box } from '@material-ui/core';
+import { Card, Typography, makeStyles, Grid, Box, Divider } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
 import { getDateFromTimestamp } from '../../../helpers';
 import DialogButton from '../../application/GenericDialog/DialogButton';
@@ -13,6 +13,7 @@ import { tables } from '../../../database/dbConfig';
 import { createAttendanceKey } from '../../../database/models/Attendance';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import MarginDivider from '../../application/DialogField/MarginDivider';
+import useTableRow from '../../../database/useTableRow';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -37,8 +38,10 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   semibold: {
     fontWeight: 500
   },
+  light: {
+    fontWeight: 550
+  },
   createdOn: {
-    marginTop: 12,
     fontWeight: 500
   }
 }));
@@ -47,7 +50,6 @@ export default function Group({
   mount = false,
   id = undefined,
   userId = undefined,
-  instructorId = undefined,
   sessionId = undefined,
   name = 'Group Name',
   location = 'Unknown Location',
@@ -58,8 +60,11 @@ export default function Group({
   const classes = useStyles();
   const { data } = useClassData({ Model: tables.classesAdmin });
 
+  const { row: instructorProfile } = useTableRow({ Model: tables.profiles, id: userId });
   const { pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
   const changeRouteLayout = useHandleChangeRouteLayout();
+
+  const instructorName = instructorProfile?.name;
 
   return (
     <Card className={clsx(classes.root, className)}>
@@ -67,25 +72,31 @@ export default function Group({
         <Grid item xs={12} sm={12} md={4} lg={3} xl={2} className={classes.summary}>
           <Grid container spacing={0}>
             <Grid item xs={12}>
-              <Typography variant='h6' className={classes.semibold}>
+              <Typography noWrap variant='h6' className={classes.semibold}>
                 {name}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant='body2' className={classes.semibold}>
-                Group Location: {location}
+              <Divider style={{ background: 'white', marginTop: 8 }} />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography noWrap variant='caption'>
+                Instructor: {instructorName}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant='body2' className={classes.semibold}>
-                Group Type: {type}
+              <Typography noWrap variant='caption'>
+                Location: {location}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography noWrap variant='caption'>
+                Type: {type}
               </Typography>
             </Grid>
             {created && (
               <Grid item xs={12}>
-                <Typography variant='body2' className={classes.createdOn}>
-                  Created on {getDateFromTimestamp(created)}
-                </Typography>
+                <Typography variant='caption'>Created on {getDateFromTimestamp(created)}</Typography>
               </Grid>
             )}
           </Grid>

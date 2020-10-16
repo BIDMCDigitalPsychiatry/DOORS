@@ -103,7 +103,6 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
       const group: Group = {
         id: uuid(),
         userId, // id of user that created the group
-        instructorId: userId,
         classId,
         name,
         location,

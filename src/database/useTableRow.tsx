@@ -6,7 +6,10 @@ import { inviteExpiration } from '../../package.json';
 
 export const isExpired = item => minutesFrom(item?.created) > inviteExpiration;
 
-export default function useTableRow({ Model = tables.instructors, id, state, setState }) {
+export default function useTableRow({ Model = tables.instructors, id, state: externalState = undefined, setState: setExternalState = undefined }) {
+  const [internalState, setInternalState] = React.useState();
+  const state = externalState ? externalState : internalState;
+  const setState = setExternalState ? setExternalState : setInternalState;
   const { open } = state ?? { open: undefined };
   const processData = useProcessData();
   const row = state?.response?.Item;
