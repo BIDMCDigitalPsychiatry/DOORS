@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Divider, Grid } from '@material-ui/core';
 import Class from './Class';
 import Page from '../Page';
-import { useChangeRouteLayout, useHandleChangeRouteLayout } from '../../layout/hooks';
+import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
 import { uuid } from '../../../helpers';
 import useCombinedClasses from './useCombinedClasses';
 import useSessions from '../../../database/useSessions';
@@ -12,6 +12,9 @@ import useProcessDataState from '../../hooks/useProcessDataState';
 const nextRoute = '/Pre-Survey';
 
 export default function StudentClasses() {
+  const [{ student }] = useLayout();
+  const { id: studentId, groupId } = student;
+
   const { data } = useCombinedClasses();
   const { sessions } = useSessions();
   const completed = sessions.filter(c => c.completed === true && !c.deleted);
@@ -20,7 +23,6 @@ export default function StudentClasses() {
   // Get all student entries and find all associated groupId's
   // For each group get all of the instructor id's
   // For each instructor id get all associated classes (and admin classes if applicable)
-
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const changeRouteLayout = useChangeRouteLayout();
@@ -32,7 +34,9 @@ export default function StudentClasses() {
       const session = {
         ...c, // Copy class data
         id: uuid(), // Create new session id
-        classId: c.id // Link the class id
+        classId: c.id, // Link the class id
+        groupId,
+        studentId
       };
       handleUpdate({
         Data: session,
@@ -41,7 +45,7 @@ export default function StudentClasses() {
         }
       }); // insert into database and change route on success
     },
-    [handleUpdate, changeRouteLayout]
+    [groupId, studentId, handleUpdate, changeRouteLayout]
   );
 
   const handleResume = React.useCallback(

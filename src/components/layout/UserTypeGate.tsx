@@ -28,7 +28,6 @@ export default function UserTypeGate({ children }) {
   React.useEffect(() => {
     // Auto select user type if user is only associated with one type
     if (instructors && students) {
-      console.log('setting student information');
       // If both instructors and students are loaded from the database, then proceed
       if (isAdmin && instructors.length === 0 && students.length === 0) {
         setLayout({ admin: true, students, instructors }); // Must be an admin user
@@ -39,6 +38,7 @@ export default function UserTypeGate({ children }) {
       } else {
         setLayout({ students, instructors }); // Can be one of admin, instructor or studnet, not sure
       }
+      console.log('User information loaded');
     }
     // eslint-disable-next-line
   }, [userId, isAdmin, JSON.stringify(instructors), JSON.stringify(students)]);

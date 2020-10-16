@@ -71,7 +71,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
   buttons = buttons.concat(
     instructors.map(instructor => ({
       label: 'Instructor',
-      sublabel: `Invited by: ${instructor.parentId}`,
+      sublabel: instructors.length > 1 && `Invited by: ${instructor.parentId}`,
       state: { admin: false, student: undefined, instructor }
     }))
   );
@@ -80,7 +80,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
   buttons = buttons.concat(
     students.map(student => ({
       label: 'Student',
-      sublabel: `Group: ${student.groupId}`,
+      sublabel: students.length > 1 && `Group: ${student.groupId}`,
       state: { admin: false, student, instructor: undefined }
     }))
   );
@@ -110,7 +110,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                   </Typography>
                 </Grid>
                 {buttons.map(({ label, sublabel, state }, i) => (
-                  <Grid item key={label}>
+                  <Grid item key={[label, sublabel].filter(l => l).join('-')}>
                     <div className={classes.wrapper}>
                       <Button
                         ref={i === 0 ? buttonRef : undefined}

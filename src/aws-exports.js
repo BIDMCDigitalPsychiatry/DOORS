@@ -15,4 +15,4 @@ const awsmobile = {
 
 export default awsmobile;
 
-export const getObjectUrl = filename => `https://${awsmobile.aws_user_files_s3_bucket}.s3.amazonaws.com/public/${filename}`;
+export const getObjectUrl = filename => filename && `https://${awsmobile.aws_user_files_s3_bucket}.s3.amazonaws.com/public/${filename}`;

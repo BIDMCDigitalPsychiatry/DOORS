@@ -45,8 +45,7 @@ export default function ActionCard({
   onLock = undefined,
   onRemove = undefined,
   onEdit = undefined,
-  children = undefined,
-  ...rest
+  children = undefined,  
 }) {
   const classes = useStyles({ minHeight });
   const { name, locked, canLock } = item;
@@ -59,7 +58,7 @@ export default function ActionCard({
   const canEdit = !bool(canLock) || (bool(canLock) && bool(!locked)); // Can edit if the user is an admin or an instructor and the object is not locked
   const canDelete = canEdit;
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card className={clsx(classes.root, className)}>
       <div className={classes.header}>
         {Title && (
           <Grid container spacing={1}>

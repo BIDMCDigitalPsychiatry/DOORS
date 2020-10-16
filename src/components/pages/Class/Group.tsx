@@ -100,9 +100,9 @@ export default function Group({
               ]
                 .filter(i => i.students.length > 0)
                 .map((props, i) => (
-                  <Box mb={1}>
+                  <Box key={i} mb={1}>
                     {i !== 0 && <MarginDivider />}
-                    <Participants key={i} onRefresh={handleRefresh} {...props} />
+                    <Participants onRefresh={handleRefresh} {...props} />
                   </Box>
                 ))}
             </Grid>
