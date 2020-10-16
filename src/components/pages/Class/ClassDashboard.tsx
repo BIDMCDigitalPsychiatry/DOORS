@@ -25,7 +25,7 @@ export default function ClassDashboard() {
 
   const userType = useUserType();
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
-  const handleCreateSession = useHandleCreateSession({ studentId: undefined, groupId: undefined }); // Don't specify student or group id's when viewing as student
+  const handleCreateSession = useHandleCreateSession({ studentId: undefined, studentUserId: undefined, groupId: undefined }); // Don't specify student or group id's when viewing as student
 
   return (
     <ChildPage

@@ -12,7 +12,7 @@ import RankingModel from './RankingModel';
 import { Participants } from './Participants';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import AgeChart from './AgeChart';
-import SurveyResults from './SurveyResults';
+import SurveyResults from './SurveyResults/SurveyResults';
 import { useSessionsByGroupId } from '../../../database/useSessions';
 import { defaultAgeRankingModels, defaultRankingModels } from '../../../database/models/Class';
 import Session from '../../../database/models/Session';
@@ -41,7 +41,7 @@ const getReportData = (sessions: Session[]) => {
             preAnswers = [
               ...preAnswers,
               {
-                studentId: session.studentId,
+                session: session,
                 value: getRankingValue(sq.preSurveyAnswer.id)
               }
             ];
@@ -50,7 +50,7 @@ const getReportData = (sessions: Session[]) => {
             postAnswers = [
               ...postAnswers,
               {
-                studentId: session.studentId,
+                session: session,
                 value: getRankingValue(sq.postSurveyAnswer.id)
               }
             ];

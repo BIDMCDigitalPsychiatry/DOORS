@@ -42,7 +42,7 @@ export const useSessionsByGroupId = ({ groupId }) => {
   });
 };
 
-export const useHandleCreateSession = ({ groupId, studentId, nextRoute = '/Pre-Survey' }) => {
+export const useHandleCreateSession = ({ groupId, studentId, studentUserId, nextRoute = '/Pre-Survey' }) => {
   const changeRouteLayout = useChangeRouteLayout();
 
   const { handleUpdate } = useProcessDataState({ Model: tables.sessions });
@@ -54,7 +54,8 @@ export const useHandleCreateSession = ({ groupId, studentId, nextRoute = '/Pre-S
         id: uuid(), // Create new session id
         classId: c.id, // Link the class id
         groupId,
-        studentId
+        studentId,
+        studentUserId
       };
       handleUpdate({
         Data: session,
@@ -63,6 +64,6 @@ export const useHandleCreateSession = ({ groupId, studentId, nextRoute = '/Pre-S
         }
       }); // insert into database and change route on success
     },
-    [groupId, studentId, handleUpdate, changeRouteLayout, nextRoute]
+    [groupId, studentId, studentUserId, handleUpdate, changeRouteLayout, nextRoute]
   );
 };

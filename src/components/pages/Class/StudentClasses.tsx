@@ -10,7 +10,7 @@ const nextRoute = '/Pre-Survey';
 
 export default function StudentClasses() {
   const [{ student }] = useLayout();
-  const { id: studentId, groupId } = student;
+  const { id: studentId, userId: studentUserId, groupId } = student;
 
   const { data } = useCombinedClasses();
   const { sessions } = useSessionsByGroupId({ groupId });
@@ -25,7 +25,7 @@ export default function StudentClasses() {
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const changeRouteLayout = useChangeRouteLayout();
 
-  const handleCreateSession = useHandleCreateSession({ studentId, groupId, nextRoute });
+  const handleCreateSession = useHandleCreateSession({ studentId, studentUserId, groupId, nextRoute });
 
   const handleResume = React.useCallback(
     session => () => {

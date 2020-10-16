@@ -1,28 +1,8 @@
 import * as React from 'react';
-import { Box, Divider, Grid, Typography } from '@material-ui/core';
-import ActionCard from '../../general/ActionCard';
-import CircleText from '../../general/CircleText';
-
-const ResultSummary = ({ answers = [] }) => {
-  return (
-    <>
-      <Typography>
-        {answers.length} answer{answers.length === 1 ? '' : 's'} provided
-      </Typography>
-      {answers.length > 0 && <Divider style={{ background: 'white', marginBottom: 8 }} />}
-      <Grid container>
-        {answers.map(answer => (
-          <Grid item xs={12}>
-            <Grid container justify='space-between'>
-              <Grid item>{answer.studentId ?? 'Unknown student'}</Grid>
-              <Grid item>{answer.value}</Grid>
-            </Grid>
-          </Grid>
-        ))}
-      </Grid>
-    </>
-  );
-};
+import { Box, Grid } from '@material-ui/core';
+import ActionCard from '../../../general/ActionCard';
+import CircleText from '../../../general/CircleText';
+import ResultSummary from './ResultSummary';
 
 export default function SurveyResults({ title = 'Pre-Survey', valueKey = 'pre', surveyResults = [] }) {
   return (
