@@ -1,5 +1,7 @@
-import Class from "./Class";
+import { ClassData } from './Class';
 
-export interface InstructorClass extends Class {  
-  instructorId?: string; // user id of the admin user which created the class    
+export default interface InstructorClass extends ClassData {
+  id?: string; // unique identifier of instructor class
+  classId?: string; // link to original class
+  instructorId?: string;
 }
