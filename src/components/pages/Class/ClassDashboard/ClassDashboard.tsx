@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { useIsAdminMode, useIsStudentMode } from '../../../../hooks';
-import StudentClassDashboard from './StudentClassDashboard';
-import AdminClassDashboard from './AdminClassDashboard';
-import InstructorClassDashboard from './InstructorClassDashboard';
+import { useIsAdminMode } from '../../../../hooks';
+import cards from './cards';
+import ClassDashboardContent from './ClassDashboardContent';
 
 export default function ClassesDashboard() {
   const isAdminMode = useIsAdminMode();
-  const isStudentMode = useIsStudentMode();
-  return isStudentMode ? <StudentClassDashboard /> : isAdminMode ? <AdminClassDashboard /> : <InstructorClassDashboard />;
+  return <ClassDashboardContent cards={isAdminMode ? cards.filter(c => c.title !== 'Class Roster') : cards} />;
 }
