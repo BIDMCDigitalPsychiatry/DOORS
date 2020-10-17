@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/doors/static/css/main.34de6062.chunk.css",
-    "main.js": "/doors/static/js/main.3c7fe104.chunk.js",
-    "main.js.map": "/doors/static/js/main.3c7fe104.chunk.js.map",
+    "main.js": "/doors/static/js/main.4a327235.chunk.js",
+    "main.js.map": "/doors/static/js/main.4a327235.chunk.js.map",
     "runtime-main.js": "/doors/static/js/runtime-main.a3906ea4.js",
     "runtime-main.js.map": "/doors/static/js/runtime-main.a3906ea4.js.map",
-    "static/js/2.9982242e.chunk.js": "/doors/static/js/2.9982242e.chunk.js",
-    "static/js/2.9982242e.chunk.js.map": "/doors/static/js/2.9982242e.chunk.js.map",
+    "static/js/2.43d13e06.chunk.js": "/doors/static/js/2.43d13e06.chunk.js",
+    "static/js/2.43d13e06.chunk.js.map": "/doors/static/js/2.43d13e06.chunk.js.map",
     "static/js/3.020cf64b.chunk.js": "/doors/static/js/3.020cf64b.chunk.js",
     "static/js/3.020cf64b.chunk.js.map": "/doors/static/js/3.020cf64b.chunk.js.map",
     "static/js/4.197ae876.chunk.js": "/doors/static/js/4.197ae876.chunk.js",
     "static/js/4.197ae876.chunk.js.map": "/doors/static/js/4.197ae876.chunk.js.map",
     "index.html": "/doors/index.html",
-    "precache-manifest.8bb37cca2c70e3a254f6c44cb3016cac.js": "/doors/precache-manifest.8bb37cca2c70e3a254f6c44cb3016cac.js",
+    "precache-manifest.b0c2794abfce8f2237a2a3fca10f35f9.js": "/doors/precache-manifest.b0c2794abfce8f2237a2a3fca10f35f9.js",
     "service-worker.js": "/doors/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/doors/static/css/main.34de6062.chunk.css.map",
-    "static/js/2.9982242e.chunk.js.LICENSE.txt": "/doors/static/js/2.9982242e.chunk.js.LICENSE.txt",
+    "static/js/2.43d13e06.chunk.js.LICENSE.txt": "/doors/static/js/2.43d13e06.chunk.js.LICENSE.txt",
     "static/media/Montserrat-Regular.woff2": "/doors/static/media/Montserrat-Regular.6e5293f1.woff2",
     "static/media/archivo-v7-latin-regular.woff2": "/doors/static/media/archivo-v7-latin-regular.1311922f.woff2",
     "static/media/group.png": "/doors/static/media/group.3f0d16c3.png",
@@ -23,8 +23,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.a3906ea4.js",
-    "static/js/2.9982242e.chunk.js",
+    "static/js/2.43d13e06.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.3c7fe104.chunk.js"
+    "static/js/main.4a327235.chunk.js"
   ]
 }
