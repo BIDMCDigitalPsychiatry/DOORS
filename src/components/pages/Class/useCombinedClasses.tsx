@@ -17,6 +17,8 @@ export default function useCombinedClasses({ requestParams = undefined } = {}) {
     Model: tables.classesInstructor
   });
 
+  console.log({ adminData, instructorData });
+
   const handleRefresh = React.useCallback(() => {
     handleAdminRefresh();
     handleInstructorRefresh();

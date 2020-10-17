@@ -5,7 +5,7 @@ import PlayGround from './PlayGround';
 import Instructors from '../pages/Instructors';
 import Profile from '../pages/Profile/Profile';
 import Calendar from '../pages/Calendar';
-import Classes from '../pages/Class/Classes';
+import Classes from '../pages/Class/Classes/Classes';
 import ClassDashboard from '../pages/Class/ClassDashboard';
 import ClassMaterials from '../pages/Class/ClassMaterials';
 import ClassRoster from '../pages/Class/ClassRoster';

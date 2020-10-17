@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Box, Divider, Grid } from '@material-ui/core';
-import Class from './Class';
-import Page from '../Page';
-import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
-import useCombinedClasses from './useCombinedClasses';
-import { useHandleCreateSession, useSessionsByGroupId } from '../../../database/useSessions';
+import Class from '../Class';
+import Page from '../../Page';
+import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
+import useCombinedClasses from '../useCombinedClasses';
+import { useHandleCreateSession, useSessionsByGroupId } from '../../../../database/useSessions';
 
 const nextRoute = '/Pre-Survey';
 
