@@ -258,6 +258,14 @@ export function sortAscending(a = 0, b = 0) {
   return 0;
 }
 
+export function sortUdpatedAscending({ updated: a }, { updated: b }) {
+  return sortAscending(a, b);
+}
+
+export function sortUdpatedDescending({ updated: a }, { updated: b }) {
+  return sortDescending(a, b);
+}
+
 export const getAndroidIdFromUrl = (url: string) => {
   var searchStr = '?id=';
   var index = (url as string)?.indexOf(searchStr);

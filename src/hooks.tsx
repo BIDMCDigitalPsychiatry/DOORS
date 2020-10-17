@@ -91,3 +91,8 @@ export const useCanChangeUserType = () => {
   const [{ students, instructors }] = useLayout();
   return (isAdmin && (students?.length > 0 || instructors?.length > 0)) || (!isAdmin && students?.length > 0 && instructors?.length > 0);
 };
+
+export const useSignedInAsText = () => {
+  const userType = useUserType();
+  return `Yor are signed in as ${userType === 'Student' ? 'a' : 'an'} ${userType}`;
+};

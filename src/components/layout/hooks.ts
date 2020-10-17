@@ -15,9 +15,9 @@ export const useUserEmail = () => {
   const auth = useAuth();
   return auth.signInUserSession?.idToken?.payload?.email ?? 'Username';
 };
-export const useUserId = () => {
+export const useUserId = ({ userId = undefined } = {}) => {
   const auth = useAuth();
-  return auth.username;
+  return userId ? userId : auth.username;
 };
 
 export const useLogout = () => {

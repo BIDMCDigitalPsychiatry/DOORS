@@ -12,7 +12,7 @@ export default function AdminClasses() {
   const changeRouteLayout = useHandleChangeRouteLayout();
 
   return (
-    <Page title='Available Admin Classes' ActionButton={CreateNewClassButton}>
+    <Page title='My Classes (Administrator)' ActionButton={CreateNewClassButton}>
       <Grid container spacing={3}>
         {[
           data.map(c => (

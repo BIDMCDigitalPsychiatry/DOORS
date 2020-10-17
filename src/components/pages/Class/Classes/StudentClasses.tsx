@@ -3,8 +3,9 @@ import { Box, Divider, Grid } from '@material-ui/core';
 import Class from '../Class';
 import Page from '../../Page';
 import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
-import useCombinedClasses from '../useCombinedClasses';
 import { useHandleCreateSession, useSessionsByGroupId } from '../../../../database/useSessions';
+import useInstructorClasses from '../useInstructorClasses';
+import { sortUdpatedDescending } from '../../../../helpers';
 
 const nextRoute = '/Pre-Survey';
 
@@ -12,15 +13,11 @@ export default function StudentClasses() {
   const [{ student }] = useLayout();
   const { id: studentId, userId: studentUserId, groupId } = student;
 
-  const { data } = useCombinedClasses();
+  const { data: instructorClasses } = useInstructorClasses();
   const { sessions } = useSessionsByGroupId({ groupId });
 
-  const completed = sessions.filter(c => c.completed === true && !c.deleted);
-  const inProgress = sessions.filter(c => c.completed !== true && !c.deleted);
-
-  // Get all student entries and find all associated groupId's
-  // For each group get all of the instructor id's
-  // For each instructor id get all associated classes (and admin classes if applicable)
+  const completed = sessions.filter(c => c.completed === true && !c.deleted).sort(sortUdpatedDescending);
+  const inProgress = sessions.filter(c => c.completed !== true && !c.deleted).sort(sortUdpatedDescending);
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const changeRouteLayout = useChangeRouteLayout();
@@ -41,7 +38,7 @@ export default function StudentClasses() {
       <Page title='Available Classes'>
         <Grid container spacing={3}>
           {[
-            data
+            instructorClasses
               .filter(c => !inProgress.find(s => s.classId === c.id && !s.completed)) // Don't show available class if one is currently in progress
               .map(c => (
                 <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>

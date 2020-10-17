@@ -1,40 +1,25 @@
 import * as React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
-import ActionCard from '../../general/ActionCard';
-import ChildPage from '../ChildPage';
-import { useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
-import { useUserType } from '../../../hooks';
-import { isEmpty } from '../../../helpers';
-import { useHandleCreateSession } from '../../../database/useSessions';
+import ActionCard from '../../../general/ActionCard';
+import ChildPage from '../../ChildPage';
+import { useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
+import { isEmpty } from '../../../../helpers';
+import { useHandleCreateSession } from '../../../../database/useSessions';
+import cards from './cards';
+import { useSignedInAsText } from '../../../../hooks';
 
-const actionCards = [
-  {
-    title: 'Class Mode',
-    description: 'View the class materials the way your students will',
-    disabled: false,
-    createSession: true
-  },
-  { title: 'Edit Materials', description: 'Review and edit class materials', route: '/ClassMaterials' },
-  { title: 'Class Roster', description: 'View current participants and new members', route: '/ClassRoster' }
-];
-
-export default function ClassDashboard() {
+export default function StudentClassDashboard() {
   const [{ class: classData }] = useLayout();
 
   const { name, headline, keySkills = [] } = classData;
 
-  const userType = useUserType();
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const handleCreateSession = useHandleCreateSession({ studentId: undefined, studentUserId: undefined, groupId: undefined }); // Don't specify student or group id's when viewing as student
 
+  const actionCards = cards;
+
   return (
-    <ChildPage
-      backLabel='Back to Classes'
-      onBack={handleChangeRouteLayout('/Classes')}
-      supertitle={name}
-      title={headline}
-      subtitle={`Your are signed in as ${userType === 'Student' ? 'a' : 'an'} ${userType}`}
-    >
+    <ChildPage backLabel='Back to Classes' onBack={handleChangeRouteLayout('/Classes')} supertitle={name} title={headline} subtitle={useSignedInAsText}>
       <Box mt={2}>
         <Typography variant='h6' style={{ fontWeight: 'bold' }}>
           Key Skills:
