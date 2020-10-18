@@ -28,6 +28,16 @@ const tabs = [
   }
 ];
 
+const ViewClassesButton = props => {
+  const disabled = props?.Invite !== 'Accepted';
+
+  return (
+    <DialogButton disabled={disabled} variant='link' linkVariant='subtitle2' underline='always' onClick={() => alert('To be implemented')} {...props}>
+      {disabled ? 'N/A' : 'View Classes'}
+    </DialogButton>
+  );
+};
+
 export default function Instructors({ name = 'Instructors', ...other }) {
   const [{ value: tab = 'Active' }] = useTabSelector(name);
   const selectedTab = tabs.find(t => t.id === tab);
@@ -47,6 +57,11 @@ export default function Instructors({ name = 'Instructors', ...other }) {
         { name: 'institution', header: 'Institution' },
         { name: 'Invite', header: 'Invite Status' },
         {
+          name: 'Classes',
+          header: 'View Classes',
+          Cell: ViewClassesButton
+        },
+        {
           name: 'actions',
           header: 'Actions',
           width: 88,
@@ -59,7 +74,7 @@ export default function Instructors({ name = 'Instructors', ...other }) {
       stacked={true}
       data={selectedTab?.filter ? selectedTab.filter(data) : data}
       checkbox={false}
-      select={false}      
+      select={false}
       buttons={[
         <DialogButton Module={AddInstructorDialog} Icon={Icons.Add} onClose={handleRefresh} size='small' margin='dense' variant='styled' tooltip=''>
           Add New
