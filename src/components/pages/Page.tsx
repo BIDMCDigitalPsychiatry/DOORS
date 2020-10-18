@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Container, createStyles, makeStyles } from '@material-ui/core';
+import { Box, Container, createStyles, makeStyles } from '@material-ui/core';
 import Header from '../layout/Header';
+import DialogButton from '../application/GenericDialog/DialogButton';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -14,10 +15,17 @@ const useStyles = makeStyles(({ palette }: any) =>
   } as any)
 );
 
-export default function Page({ title = '', ActionButton = undefined, children = <></> }) {
+export default function Page({ title = '', ActionButton = undefined, children = <></>, backLabel = 'Back', onBack = undefined }) {
   const classes = useStyles();
   return (
     <>
+      {onBack && (
+        <Box mt={-2} mb={1}>
+          <DialogButton variant='link' linkVariant='body1' onClick={onBack}>
+            {`<  ${backLabel}`}
+          </DialogButton>
+        </Box>
+      )}
       <Header title={title} ActionButton={ActionButton} />
       <Container disableGutters={true} className={classes.container} maxWidth={false}>
         {children}

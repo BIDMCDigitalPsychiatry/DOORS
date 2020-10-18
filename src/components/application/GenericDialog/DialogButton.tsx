@@ -282,7 +282,7 @@ const DialogButton = React.forwardRef(function DialogButton(
             </Button>
           ) : variant === 'link' ? (
             disabled ? (
-              <Typography color='textSecondary' variant='caption'>
+              <Typography color='textSecondary' variant={linkVariant}>
                 {children}
               </Typography>
             ) : (
