@@ -30,13 +30,13 @@ export default function UserTypeGate({ children }) {
     if (instructors && students) {
       // If both instructors and students are loaded from the database, then proceed
       if (isAdmin && instructors.length === 0 && students.length === 0) {
-        setLayout({ admin: true, students, instructors }); // Must be an admin user
+        setLayout({ admin: true, students, instructors, back: undefined }); // Must be an admin user
       } else if (!isAdmin && instructors.length > 0 && students.length === 0) {
-        setLayout({ instructor: instructors[0], students, instructors }); // Must be an instructor
+        setLayout({ instructor: instructors[0], students, instructors, back: undefined }); // Must be an instructor
       } else if (!isAdmin && instructors.length === 0 && students.length > 0) {
-        setLayout({ student: students[0], students, instructors }); // Must be a student
+        setLayout({ student: students[0], students, instructors, back: undefined }); // Must be a student
       } else {
-        setLayout({ students, instructors }); // Can be one of admin, instructor or studnet, not sure
+        setLayout({ students, instructors, back: undefined }); // Can be one of admin, instructor or studnet, not sure
       }
       console.log('User information loaded');
     }

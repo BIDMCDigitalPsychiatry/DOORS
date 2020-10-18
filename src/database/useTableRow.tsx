@@ -6,7 +6,12 @@ import { inviteExpiration } from '../../package.json';
 
 export const isExpired = item => minutesFrom(item?.created) > inviteExpiration;
 
-export default function useTableRow({ Model = tables.instructors, id, state: externalState = undefined, setState: setExternalState = undefined }) {
+export default function useTableRow({
+  Model = tables.instructors,
+  id: Id = undefined,
+  state: externalState = undefined,
+  setState: setExternalState = undefined
+}) {
   const [internalState, setInternalState] = React.useState();
   const state = externalState ? externalState : internalState;
   const setState = setExternalState ? setExternalState : setInternalState;
@@ -17,12 +22,12 @@ export default function useTableRow({ Model = tables.instructors, id, state: ext
 
   const handleRefresh = React.useCallback(
     ({ onSuccess } = {}) => {
-      if (!isEmpty(id)) {
+      if (!isEmpty(Id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
         processData({
           Model,
           Action: 'r',
-          Data: { id },
+          Data: { id: Id },
           onError: response => setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response })),
           onSuccess: response => {
             setState(prev => ({ ...prev, loading: false, error: undefined, response }));
@@ -31,7 +36,7 @@ export default function useTableRow({ Model = tables.instructors, id, state: ext
         });
       }
     },
-    [id, Model, processData, setState]
+    [Id, Model, processData, setState]
   );
 
   React.useEffect(() => {
@@ -43,7 +48,9 @@ export default function useTableRow({ Model = tables.instructors, id, state: ext
   }, [handleRefresh, open]);
 
   const setRow = React.useCallback(
-    ({ values, prev = undefined, onSuccess = undefined, onError = undefined }) => {
+    ({ id: _Id = undefined, values, prev = undefined, onSuccess = undefined, onError = undefined }) => {
+      // If an id is provided via the function call, use that over Id
+      const id = _Id ? _Id : Id;
       if (!isEmpty(id)) {
         const prevValues = prev === undefined ? JSON.parse(row_str) : prev; // If user provides previous value, use that, otherwise use the values stored in local state
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
@@ -62,7 +69,7 @@ export default function useTableRow({ Model = tables.instructors, id, state: ext
         });
       }
     },
-    [id, Model, setState, processData, row_str]
+    [Id, Model, setState, processData, row_str]
   );
 
   // Reads the row from the database first, and then merges the new values into the existing data before saving back to the database

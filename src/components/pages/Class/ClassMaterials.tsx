@@ -12,9 +12,8 @@ import ImageSelector from '../../application/DialogField/ImageSelector';
 import { useClassData } from '../../../database/useClassData';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
-import { useIsAdminMode } from '../../../hooks';
 
-const Model = tables.classesInstructor;
+const Model = tables.classes;
 const validate = ({ name }) => {
   const newErrors = {};
   if (isEmpty(name)) {
@@ -26,16 +25,14 @@ const validate = ({ name }) => {
 const TitleButton = ({ onClick }) => <StyledButton onClick={onClick}>Save Changes</StyledButton>;
 
 export default function ClassMaterials() {
-  const isAdminMode = useIsAdminMode();
-
   // Set active to false, so we use the local copy instead of querying the database.
   // This is useful because the query will fail if the instructor has not saved an edited copy yet.
-  const { data, handleChange }: any = useClassData({ active: false, Model: isAdminMode ? tables.classesAdmin : tables.classesInstructor });
+  const { data, handleChange }: any = useClassData({ active: false });
   const { name, headline, image, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentations = [] } = data;
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
 
-  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRouteLayout('/Classes') });
+  const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRouteLayout('/ClassDashboard', { class: data }) });
   const { loading, errors } = formState;
 
   return (

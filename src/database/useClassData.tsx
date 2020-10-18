@@ -1,7 +1,8 @@
 import { useLayoutKey } from '../components/layout/hooks';
+import { tables } from './dbConfig';
 import useData from './useData';
 
-export const useClassData = ({ Model, active = true}) => {
+export const useClassData = ({ active = true } = {}) => {
   const data = useLayoutKey('class');
-  return useData({ id: data?.id, Model, initialState: { data }, active });
+  return useData({ id: data?.id, Model: tables.classes, initialState: { data }, active });
 };

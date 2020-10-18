@@ -1,10 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Box, Card, Typography, makeStyles, Grid } from '@material-ui/core';
+import { Box, Card, Typography, makeStyles, Grid, Divider } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
 import { BlockListItem } from '../../general/BlockList';
 import { getImage } from './helpers';
 import { timeAgo } from '../../../helpers';
+import DialogButton from '../../application/GenericDialog/DialogButton';
+import { useHandleChangeRouteLayout } from '../../layout/hooks';
+import { useProfile } from '../../../database/useProfile';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -27,6 +30,21 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
+const ViewInstructorClassButton = ({ cc }) => {
+  const { profile } = useProfile({ id: cc.userId });
+  const changeRoute = useHandleChangeRouteLayout();
+  return (
+    <Grid container spacing={2}>
+      <Grid item>{profile?.name}</Grid>
+      <Grid item>
+        <DialogButton width={20} onClick={changeRoute('/ClassDashboard', { instructor: { userId: cc.userId }, class: cc })} variant='link' underline='always'>
+          {`View Instructor Copy`}
+        </DialogButton>
+      </Grid>
+    </Grid>
+  );
+};
+
 export default function Class({
   buttonLabel = 'View',
   headline = '',
@@ -42,6 +60,7 @@ export default function Class({
   surveyQuestions = [] as BlockListItem[],
   classResources = [],
   classPresentation = undefined,
+  childClasses = [],
   ...rest
 }) {
   const classes = useStyles();
@@ -70,6 +89,19 @@ export default function Class({
       <Box m={2} textAlign='center'>
         <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>
       </Box>
+      {childClasses.length > 0 && (
+        <Box m={2}>
+          <Typography>Instructors:</Typography>
+          <Divider />
+          <Grid container style={{ marginTop: 8 }}>
+            {childClasses.map(cc => (
+              <Grid item key={cc.id}>
+                <ViewInstructorClassButton cc={cc} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
       {showUpdated && (
         <Box pl={1} pr={1}>
           <Typography noWrap align='right' variant='caption' color='textPrimary'>

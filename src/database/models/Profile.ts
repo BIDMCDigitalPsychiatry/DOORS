@@ -1,6 +1,6 @@
 export default interface Profile {
   id: string; // unique identifier
-  userId: string; // id of user who accepts the invite
+  userId: string; // id of user
   picture: string; // profile picture
   name: string; // full name of user
   city: string;

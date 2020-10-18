@@ -9,7 +9,6 @@ import { useSnackBar } from '../../SnackBar/useSnackBar';
 import { isEmpty, parseEmails, uuid, validateEmail } from '../../../../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { useSubmitDialogData } from '../useSubmitDialogData';
-import { useUserId } from '../../../layout/hooks';
 import useProcessData from '../../../../database/useProcessData';
 import Student from '../../../../database/models/Student';
 import Group from '../../../../database/models/Group';
@@ -32,10 +31,10 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
   const [state, setState] = useDialogState(id);
   const { initialValues, subtitle = 'Unknown Class' } = state;
   const classId = initialValues['class']?.id;
+  const userId = initialValues?.userId;
 
   const [, setSnackbar] = useSnackBar();
   const submitData = useSubmitDialogData({ id });
-  const userId = useUserId();
 
   const handleClose = React.useCallback(
     (props = undefined, isLast = true) => {
@@ -60,7 +59,6 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
   );
 
   const processData = useProcessData();
-  const parentId = useUserId();
 
   const onSubmitSuccess = React.useCallback(
     ({ id: groupId, participants, name, type, location }) => () => {
@@ -76,7 +74,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
           const Data: Student = {
             id,
             groupId,
-            parentId,
+            parentId: userId,
             email
           };
 
@@ -94,7 +92,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         });
       }
     },
-    [onSuccess, onError, parentId, setState, processData, handleClose]
+    [onSuccess, onError, userId, setState, processData, handleClose]
   );
 
   const handleSubmit = React.useCallback(

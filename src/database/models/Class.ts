@@ -55,6 +55,8 @@ export const defaultRankingModels: BlockListItem[] = [
 
 export interface ClassData {
   userId?: string; // user id of the admin or instructor user which created the class
+  parentClassId?: string; // id of parent class if created from existing class
+  parentUserId?: string; // id of parent user, for query simplicity
   headline?: string;
   name?: string;
   image?: string;

@@ -4,14 +4,13 @@ import Page from '../Page';
 import YourProgress from '../../general/YourProgress';
 import { useHandleChangeRoute, useWidth } from '../../layout/hooks';
 import StyledButton from '../../general/StyledButton';
-import { tables } from '../../../database/dbConfig';
 import { useClassData } from '../../../database/useClassData';
 import { isEmpty } from '../../../helpers';
 import group from '../../../images/group.png';
 
 export default function Congratulations() {
   const changeRoute = useHandleChangeRoute();
-  const { data } = useClassData({ Model: tables.classesAdmin });
+  const { data } = useClassData();
   const { headline, name } = data;
   const width = useWidth();
 

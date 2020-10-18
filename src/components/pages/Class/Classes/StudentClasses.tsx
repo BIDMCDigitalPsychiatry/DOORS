@@ -4,16 +4,17 @@ import Class from '../Class';
 import Page from '../../Page';
 import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
 import { useHandleCreateSession, useSessionsByGroupId } from '../../../../database/useSessions';
-import useInstructorClasses from '../useInstructorClasses';
 import { sortUdpatedDescending } from '../../../../helpers';
+import useClassesByUserId from '../useClassesByUserId';
 
 const nextRoute = '/Pre-Survey';
 
 export default function StudentClasses() {
   const [{ student }] = useLayout();
-  const { id: studentId, userId: studentUserId, groupId } = student;
+  const { id: studentId, userId: studentUserId, groupId, parentId } = student;
 
-  const { data: instructorClasses } = useInstructorClasses();
+  const { data: instructorClasses } = useClassesByUserId({ userId: parentId });
+
   const { sessions } = useSessionsByGroupId({ groupId });
 
   const completed = sessions.filter(c => c.completed === true && !c.deleted).sort(sortUdpatedDescending);

@@ -6,7 +6,12 @@ import useTabSelector from '../../Selector/useTabSelector';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as AddInstructorDialog from '../../GenericDialog/AddInstructor';
 import { RowActionsButton } from './buttons';
+import { useHandleChangeRouteLayout, useUserId } from '../../../layout/hooks';
 
+const back = {
+  label: 'Back to Instructors',
+  route: '/Instructors'
+};
 const tabs = [
   {
     id: 'Active',
@@ -30,9 +35,22 @@ const tabs = [
 
 const ViewClassesButton = props => {
   const disabled = props?.Invite !== 'Accepted';
+  const userId = useUserId(); // Admin userid
+
+  const changeRoute = useHandleChangeRouteLayout();
 
   return (
-    <DialogButton disabled={disabled} variant='link' linkVariant='subtitle2' underline='always' onClick={() => alert('To be implemented')} {...props}>
+    <DialogButton
+      disabled={disabled}
+      variant='link'
+      linkVariant='subtitle2'
+      underline='always'
+      onClick={changeRoute('/InstructorClasses', {
+        back,
+        instructor: { userId: props?.userId, parentId: userId }
+      })}
+      {...props}
+    >
       {disabled ? 'N/A' : 'View Classes'}
     </DialogButton>
   );

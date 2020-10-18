@@ -1,28 +1,41 @@
 import * as React from 'react';
-import { Grid } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import Class from '../Class';
 import Page from '../../Page';
-import { useHandleChangeRouteLayout } from '../../../layout/hooks';
-import useClasses from '../useClasses';
+import { useHandleChangeRouteLayout, useUserId } from '../../../layout/hooks';
 import CreateNewClassButton from './CreateNewClassButton';
+import useClassesByUserId from '../useClassesByUserId';
 
 export default function AdminClasses() {
-  const { data } = useClasses();
+  const userId = useUserId();
+
+  const { data } = useClassesByUserId({ userId, parentUserId: userId });
+
+  const myClasses = data.filter(d => d.userId === userId);
+  const childClasses = data.filter(d => d.parentUserId === userId);
 
   const changeRouteLayout = useHandleChangeRouteLayout();
 
   return (
-    <Page title='My Classes (Administrator)' ActionButton={CreateNewClassButton}>
+    <Page title='Administrator Classes' ActionButton={CreateNewClassButton}>
       <Grid container spacing={3}>
+        {myClasses.length === 0 && (
+          <Grid item>
+            <Box mt={2}>
+              <Typography color='error'>No classes found, click the Create New Class button to add a class.</Typography>
+            </Box>
+          </Grid>
+        )}
         {[
-          data.map(c => (
-            <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
+          myClasses.map((c, i) => (
+            <Grid key={[c.id, c.title, i].join('-')} item lg={3} sm={6} xs={12}>
               <Class
                 {...c}
                 buttonLabel='View'
                 onClick={changeRouteLayout('/ClassDashboard', {
                   class: c
                 })}
+                childClasses={childClasses.filter(cc => cc.parentClassId === c.id)}
               />
             </Grid>
           ))

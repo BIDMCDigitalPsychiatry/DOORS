@@ -11,7 +11,6 @@ import ImageSelector from '../../application/DialogField/ImageSelector';
 import useFormState from '../../hooks/useFormState';
 import Class, { defaultRankingModels } from '../../../database/models/Class';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
-import { useIsAdminMode } from '../../../hooks';
 import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
 
 const validate = ({ name }) => {
@@ -23,9 +22,8 @@ const validate = ({ name }) => {
 };
 
 export default function CreateClass() {
-  const userId = useUserId();
-  const isAdminMode = useIsAdminMode();
-  const Model = isAdminMode ? tables.classesAdmin : tables.classesInstructor;
+  const userId = useUserId();  
+  const Model = tables.classes;
 
   const handleChangeRoute = useHandleChangeRoute();
   const { formState, handleCreate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });

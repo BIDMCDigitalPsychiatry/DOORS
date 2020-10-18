@@ -5,7 +5,7 @@ import useProcessData from './useProcessData';
 
 const defaultState = { loading: false, error: undefined, response: undefined, data: undefined };
 
-export default function useData({ id, active = true, Model = tables.classesAdmin, initialState = undefined }) {
+export default function useData({ id, active = true, Model = tables.classes, initialState = undefined }) {
   const processData = useProcessData();
   const [state, setState] = React.useState({ ...defaultState, ...initialState });
   const { data = {}, index, loading, error } = state;

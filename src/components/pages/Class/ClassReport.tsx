@@ -18,8 +18,6 @@ import { defaultAgeRankingModels, defaultRankingModels } from '../../../database
 import Session from '../../../database/models/Session';
 import Decimal from 'decimal.js-light';
 
-const Model = tables.classesAdmin;
-
 const getRankingValue = id => {
   return defaultRankingModels.find(rm => rm.id === id)?.rankingValue;
 };
@@ -80,13 +78,15 @@ export default function ClassReport() {
   const { row: group } = useTableRow({ Model: tables.groups, id: groupId, state, setState });
   const { activeStudents } = useGroupStudents({ groupId });
 
-  const { sessions } = useSessionsByGroupId({ groupId });
+  const { data }: any = useClassData();
+
+  const { sessions } = useSessionsByGroupId({ groupId, classId: data.id });
+  
   const completed = sessions.filter(c => c.completed === true);
   //const inProgress = sessions.filter(c => c.completed !== true);
 
   const { results, ageQuestionData } = getReportData(completed);
 
-  const { data }: any = useClassData({ Model });
   const { rankingModel } = data;
   const { name, headline } = data;
 

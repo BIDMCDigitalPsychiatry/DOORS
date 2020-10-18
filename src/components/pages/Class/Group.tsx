@@ -8,12 +8,12 @@ import * as AddStudentDialog from '../../application/GenericDialog/AddStudent';
 import * as MarkAttendanceDialog from '../../application/GenericDialog/MarkAttendance';
 import useGroupStudents from '../../../database/useGroupStudents';
 import { Participants } from './Participants';
-import { useClassData } from '../../../database/useLocationData';
 import { tables } from '../../../database/dbConfig';
 import { createAttendanceKey } from '../../../database/models/Attendance';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import useTableRow from '../../../database/useTableRow';
+import { useClassData } from '../../../database/useClassData';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -58,7 +58,7 @@ export default function Group({
   className = undefined
 }) {
   const classes = useStyles();
-  const { data } = useClassData({ Model: tables.classesAdmin });
+  const { data } = useClassData();
 
   const { row: instructorProfile } = useTableRow({ Model: tables.profiles, id: userId });
   const { pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });

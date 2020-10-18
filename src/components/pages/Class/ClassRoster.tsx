@@ -12,7 +12,7 @@ import { useFullScreen, useIsInstructorMode } from '../../../hooks';
 import { useGroups } from '../../../database/useGroups';
 import { useClassData } from '../../../database/useClassData';
 
-const Model = tables.classesAdmin;
+const Model = tables.classes;
 const validate = ({ name }) => {
   const newErrors = {};
   if (isEmpty(name)) {
@@ -41,7 +41,9 @@ const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose,
 );
 
 export default function ClassRoster() {
-  const { data }: any = useClassData({ Model });
+  const { data }: any = useClassData();
+  const { userId } = data;
+
   const { name, headline } = data;
   const isInstructorMode = useIsInstructorMode();
   const [{ instructor }] = useLayout();
@@ -75,7 +77,7 @@ export default function ClassRoster() {
         isInstructorMode && ( // Only show the create group button for instructors
           <TitleButton
             subtitle={getClassTitle({ headline, name })}
-            initialValues={{ class: data }}
+            initialValues={{ userId, class: data }}
             disabled={loading}
             onClose={handleRefresh}
             onClick={handleUpdate(data)}

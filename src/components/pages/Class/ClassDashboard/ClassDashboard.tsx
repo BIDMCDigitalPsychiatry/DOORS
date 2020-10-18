@@ -10,14 +10,17 @@ import cards from './cards';
 
 export default function ClassDashboard() {
   const isAdminMode = useIsAdminMode();
-  const [{ class: classData }] = useLayout();
-  const { name, headline, keySkills = [] } = classData;
-  const handleChangeRouteLayout = useHandleChangeRouteLayout();    
+  const [{ instructor, class: classData }] = useLayout();
+  const { userId, name, headline, keySkills = [] } = classData;
+  const handleChangeRouteLayout = useHandleChangeRouteLayout();
+
+  const isInstructorClass = instructor && instructor.userId === userId;
+
   return (
     <ChildPage backLabel='Back to Classes' onBack={handleChangeRouteLayout('/Classes')} supertitle={name} title={headline} subtitle={useSignedInAsText()}>
       <Box mt={2}>
         <KeySkills keySkills={keySkills} />
-        <ActionCards cards={isAdminMode ? cards.filter(c => c.title !== 'Class Roster') : cards} />
+        <ActionCards cards={isAdminMode && !isInstructorClass ? cards.filter(c => c.title !== 'Class Roster') : cards} />
       </Box>
     </ChildPage>
   );
