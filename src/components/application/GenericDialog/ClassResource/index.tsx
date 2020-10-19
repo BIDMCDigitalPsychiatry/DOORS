@@ -3,7 +3,7 @@ import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import Check from '../../DialogField/Check';
 import { uuid } from '../../../../helpers';
-import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
+import Select from '../../DialogField/Select';
 import FileUploadLink from '../../DialogField/FileUploadLink';
 
 export const title = 'Class Resource';
@@ -48,14 +48,14 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
         {
           id: 'type',
           label: 'Type',
-          Field: AutoCompleteSelect,
+          Field: Select,
           items: [
             { label: 'PDF', value: 'PDF' },
             //{ label: 'Video', value: 'Video' },
             { label: 'Link', value: 'Link' }
           ],
           disableClearable: true,
-          required: true,
+          required: true,          
           xs: 4
         },
 
@@ -65,7 +65,7 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
           Field: FileUploadLink,
           http: true,
           placeholder: 'Enter link to resource or upload file',
-          required: true,
+          required: true,          
           xs: 12
         },
         {

@@ -2,7 +2,7 @@ import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import { uuid } from '../../../../helpers';
-import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
+import Select from '../../DialogField/Select';
 import ClassPresentationLink from '../../../pages/Class/ClassPresentationLink';
 import Check from '../../DialogField/Check';
 
@@ -46,7 +46,7 @@ export default function ClassPresentationDialog({ id = title, onClose = undefine
         {
           id: 'type',
           label: 'Type',
-          Field: AutoCompleteSelect,
+          Field: Select,
           items: [
             //{ label: 'PDF', value: 'PDF' },
             { label: 'Video', value: 'Video' }
