@@ -53,7 +53,7 @@ export const buildParticipants = (students, sessions) => {
     const ss = sessions.filter(s => s.studentUserId === as.userId);
     participants.push({
       student: as,
-      session: ss,
+      sessions: ss,
       completed: ss.filter(c => c.completed === true && !c.deleted).sort(sortUdpatedDescending),
       inProgress: ss.filter(c => c.completed !== true && !c.deleted).sort(sortUdpatedDescending)
     });

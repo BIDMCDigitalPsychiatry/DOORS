@@ -8,7 +8,7 @@ export default function StudentSummary({ session, value }) {
 
   return (
     <Grid container justify='space-between' spacing={2}>
-      <Grid item xs>
+      <Grid item xs zeroMinWidth>
         <Typography noWrap>{name ?? 'Unknown student'}</Typography>
       </Grid>
       <Grid item>

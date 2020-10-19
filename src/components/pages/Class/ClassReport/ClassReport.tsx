@@ -1,29 +1,28 @@
 import * as React from 'react';
 import { Grid, Box, Divider, Typography } from '@material-ui/core';
-import ChildPage from '../ChildPage';
-import { useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
-import { tables } from '../../../database/dbConfig';
-import { getClassTitle, getDateFromTimestamp, isEmpty, onlyUnique } from '../../../helpers';
-import { useFullScreen } from '../../../hooks';
-import { useClassData } from '../../../database/useClassData';
-import useTableRow from '../../../database/useTableRow';
-import useGroupStudents from '../../../database/useGroupStudents';
-import RankingModel from './RankingModel';
-import MarginDivider from '../../application/DialogField/MarginDivider';
-import AgeChart from './AgeChart';
-import SurveyResults from './SurveyResults/SurveyResults';
-import { useSessionsByGroupId } from '../../../database/useSessions';
-import { defaultAgeRankingModels, defaultRankingModels } from '../../../database/models/Class';
-import Session from '../../../database/models/Session';
+import ChildPage from '../../ChildPage';
+import { useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
+import { tables } from '../../../../database/dbConfig';
+import { getClassTitle, getDateFromTimestamp, isEmpty, onlyUnique } from '../../../../helpers';
+import { useFullScreen } from '../../../../hooks';
+import { useClassData } from '../../../../database/useClassData';
+import useTableRow from '../../../../database/useTableRow';
+import useGroupStudents from '../../../../database/useGroupStudents';
+import RankingModel from '../RankingModel';
+import MarginDivider from '../../../application/DialogField/MarginDivider';
+import { useSessionsByGroupId } from '../../../../database/useSessions';
+import { defaultAgeRankingModels, defaultRankingModels } from '../../../../database/models/Class';
+import Session from '../../../../database/models/Session';
 import Decimal from 'decimal.js-light';
-import { buildParticipants } from './ClassGroup';
-import { ParticipantsDetailed } from './ParticipantsDetailed';
+import { buildParticipants } from '../ClassGroup';
+import { ParticipantsDetailed } from '../ParticipantsDetailed';
+import ResultsSummary from './ResultsSummary';
 
 const getRankingValue = id => {
   return defaultRankingModels.find(rm => rm.id === id)?.rankingValue;
 };
 
-const getReportData = (sessions: Session[]) => {
+export const getReportData = (sessions: Session[]) => {
   const surveyQuestions = sessions.map(s => s.surveyQuestions).reduce((f, c) => f.concat(c), []);
   const surveyQuestionNames = surveyQuestions.map(sq => sq.name).filter(onlyUnique);
 
@@ -118,19 +117,7 @@ export default function ClassReport() {
             <RankingModel rankingModel={rankingModel} />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='h6'>Average Group Answers</Typography>
-            <MarginDivider />
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={4}>
-                <AgeChart data={ageQuestionData} />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <SurveyResults title='Pre-Survey (Averages)' surveyResults={results} valueKey='pre' />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <SurveyResults title='Post-Survey (Averages)' surveyResults={results} valueKey='post' />
-              </Grid>
-            </Grid>
+            <ResultsSummary results={results} ageQuestionData={ageQuestionData} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant='h6'>View Individual Answers</Typography>

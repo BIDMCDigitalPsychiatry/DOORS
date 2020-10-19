@@ -4,7 +4,7 @@ import { makeStyles, Grid, Avatar, Typography } from '@material-ui/core';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import { getStudentName, isEmpty, minutesFrom, minutesToTimeAgo } from '../../../helpers';
 import { useProfile } from '../../../database/useProfile';
-import * as ProfileDialog from '../../application/GenericDialog/Profile';
+import * as ViewReportDialog from '../../application/GenericDialog/ViewReport';
 import { tables } from '../../../database/dbConfig';
 import useTableRow from '../../../database/useTableRow';
 import { useSnackBar } from '../../application/SnackBar/useSnackBar';
@@ -85,7 +85,7 @@ export default function ParticipantDetailed({
         {view && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
-              Module={ProfileDialog}
+              Module={ViewReportDialog}
               mount={mount}
               initialValues={{ id: student?.userId }}
               variant='link'
@@ -100,9 +100,9 @@ export default function ParticipantDetailed({
         {viewReport && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
-              Module={ProfileDialog}
+              Module={ViewReportDialog}
               mount={mount}
-              initialValues={{ id: student?.userId }}
+              initialValues={{ participant }}
               variant='link'
               underline='always'
               linkVariant='body2'

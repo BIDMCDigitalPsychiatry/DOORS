@@ -21,8 +21,8 @@ import ForgotPassword from './ForgotPassword';
 import { useHandleChangeRoute, useUserEmail } from './hooks';
 import { useUserType } from '../../hooks';
 import AccessDenied from '../pages/AccessDenied';
-import ClassReport from '../pages/Class/ClassReport';
-import InstructorClasses from '../pages/Class/Classes/InstructorClasses';
+import ClassReport from '../pages/Class/ClassReport/ClassReport';
+import InstructorClasses from '../pages/Class/Classes/InstructorClasses'; 
 
 const ForgotPasswordRoute = () => {
   const email = useUserEmail();
