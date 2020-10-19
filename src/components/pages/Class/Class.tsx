@@ -34,11 +34,20 @@ const ViewInstructorClassButton = ({ cc }) => {
   const { profile } = useProfile({ id: cc.userId });
   const changeRoute = useHandleChangeRouteLayout();
   return (
-    <Grid container spacing={2}>
-      <Grid item>{profile?.name}</Grid>
+    <Grid container justify='space-between' alignItems='center' wrap='nowrap' spacing={2}>
+      <Grid item xs zeroMinWidth>
+        <Typography noWrap>
+          {profile?.name}
+        </Typography>
+      </Grid>
       <Grid item>
-        <DialogButton width={20} onClick={changeRoute('/ClassDashboard', { instructor: { userId: cc.userId }, class: cc })} variant='link' underline='always'>
-          {`View Instructor Copy`}
+        <DialogButton
+          onClick={changeRoute('/ClassDashboard', { instructor: { userId: cc.userId }, class: cc })}
+          variant='link'
+          linkVariant='body1'
+          underline='always'
+        >
+          {`View Class`}
         </DialogButton>
       </Grid>
     </Grid>
@@ -95,7 +104,7 @@ export default function Class({
           <Divider />
           <Grid container style={{ marginTop: 8 }}>
             {childClasses.map(cc => (
-              <Grid item key={cc.id}>
+              <Grid item xs key={cc.id}>
                 <ViewInstructorClassButton cc={cc} />
               </Grid>
             ))}
