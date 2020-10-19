@@ -33,6 +33,7 @@ export default function AdminClasses() {
                 {...c}
                 buttonLabel='View'
                 onClick={changeRouteLayout('/ClassDashboard', {
+                  instructor: undefined, // Reset instructor to ensure the class roster isn't visible for admin classes
                   class: c
                 })}
                 childClasses={childClasses.filter(cc => cc.parentClassId === c.id)}
