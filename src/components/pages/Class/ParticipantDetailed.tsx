@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { makeStyles, Grid, Avatar, Typography, Chip, Tooltip } from '@material-ui/core';
+import { makeStyles, Grid, Avatar, Typography } from '@material-ui/core';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import { getStudentName, isEmpty, minutesFrom, minutesToTimeAgo } from '../../../helpers';
 import { useProfile } from '../../../database/useProfile';
@@ -9,6 +9,7 @@ import { tables } from '../../../database/dbConfig';
 import useTableRow from '../../../database/useTableRow';
 import { useSnackBar } from '../../application/SnackBar/useSnackBar';
 import { green, yellow } from '@material-ui/core/colors';
+import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -26,11 +27,6 @@ const useStyles = makeStyles(({ palette }) => ({
     background: yellow[700]
   }
 }));
-
-const getLabel = (text, count, check = true) => {
-  const classText = count === 1 ? 'Class' : 'Classes';
-  return check === false ? ` ${count} ${classText} ${text}` : count > 1 ? text + ` (${count})` : text;
-};
 
 export default function ParticipantDetailed({
   participant,
@@ -74,14 +70,17 @@ export default function ParticipantDetailed({
           </Typography>
         </Grid>
         {participant.completed.length > 0 && (
-          <Tooltip title={getLabel('Completed', participant.completed.length, false)}>
-            <Chip className={classes.completed} size='small' variant='outlined' label={getLabel('Completed', participant.completed.length)} />
-          </Tooltip>
+          <ClassStatusChip
+            tooltip={getClassStatusLabel('Completed', participant.completed.length, false)}
+            label={getClassStatusLabel('Completed', participant.completed.length)}
+          />
         )}
         {participant.inProgress.length > 0 && (
-          <Tooltip title={getLabel('In Progress', participant.inProgress.length, false)}>
-            <Chip className={classes.inProgress} size='small' variant='outlined' label={getLabel('In Progress', participant.inProgress.length)} />
-          </Tooltip>
+          <ClassStatusChip
+            inProgress={true}
+            tooltip={getClassStatusLabel('In Progress', participant.inProgress.length, false)}
+            label={getClassStatusLabel('In Progress', participant.inProgress.length)}
+          />
         )}
         {view && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>

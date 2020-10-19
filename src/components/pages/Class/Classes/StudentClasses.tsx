@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Divider, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import Class from '../Class';
 import Page from '../../Page';
 import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
@@ -36,56 +36,46 @@ export default function StudentClasses() {
 
   return (
     <>
-      <Page title='Available Classes'>
+      <Page title='Student Classes'>
         <Grid container spacing={3}>
           {[
             instructorClasses
-              .filter(c => !inProgress.find(s => s.classId === c.id && !s.completed)) // Don't show available class if one is currently in progress
+              .filter(c => !completed.find(s => s.classId === c.id) && !inProgress.find(s => s.classId === c.id)) // Don't show available class in progress or completed
               .map(c => (
                 <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
-                  <Class {...c} buttonLabel='Start' onClick={handleCreateSession(c)} />
+                  <Class isAvailable={true} {...c} buttonLabel='Start' onClick={handleCreateSession(c)} />
                 </Grid>
               ))
           ]}
+          {inProgress.length > 0 && [
+            inProgress.map(s => (
+              <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
+                <Class inProgress={true} {...s} showUpdated={true} buttonLabel='Resume' onClick={handleResume(s)} />
+              </Grid>
+            ))
+          ]}
+          {completed.length > 0 && [
+            completed.map(s => {
+              // Determine if the class can be started again.  Check if another session is already in progress and if the class still exists
+              const isInProgress = inProgress.find(ip => ip.classId === s.classId) ? true : false;
+              const instructorClass = instructorClasses.find(ic => ic.id === s.classId && ic.deleted !== true);
+              const canStartNew = !isInProgress && instructorClass;
+
+              return (
+                <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
+                  <Class
+                    {...s}
+                    buttonLabel='View Class'
+                    buttonLabel2={canStartNew && 'Start New'}
+                    onClick2={canStartNew && handleCreateSession(instructorClass)} // Start a new class using the latest revision
+                    onClick={handleChangeRouteLayout('/Pre-Survey', { session: s })}
+                  />
+                </Grid>
+              );
+            })
+          ]}
         </Grid>
       </Page>
-
-      {inProgress.length > 0 && (
-        <>
-          <Box mt={3} mb={3}>
-            <Divider />
-          </Box>
-          <Page title='In Progress'>
-            <Grid container spacing={3}>
-              {[
-                inProgress.map(s => (
-                  <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
-                    <Class {...s} showUpdated={true} buttonLabel='Resume' onClick={handleResume(s)} />
-                  </Grid>
-                ))
-              ]}
-            </Grid>
-          </Page>
-        </>
-      )}
-      {completed.length > 0 && (
-        <>
-          <Box mt={3} mb={3}>
-            <Divider />
-          </Box>
-          <Page title='Completed'>
-            <Grid container spacing={3}>
-              {[
-                completed.map(s => (
-                  <Grid key={[s.id, s.title].join('-')} item lg={3} sm={6} xs={12}>
-                    <Class {...s} onClick={handleChangeRouteLayout('/Pre-Survey', { session: s })} />
-                  </Grid>
-                ))
-              ]}
-            </Grid>
-          </Page>
-        </>
-      )}
     </>
   );
 }

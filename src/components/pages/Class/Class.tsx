@@ -8,9 +8,12 @@ import { timeAgo } from '../../../helpers';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import { useProfile } from '../../../database/useProfile';
+import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
-  root: {},
+  root: {
+    minHeight: 450
+  },
   header: {
     color: palette.common.black,
     padding: spacing(2),
@@ -36,9 +39,7 @@ const ViewInstructorClassButton = ({ cc }) => {
   return (
     <Grid container justify='space-between' alignItems='center' wrap='nowrap' spacing={2}>
       <Grid item xs zeroMinWidth>
-        <Typography noWrap>
-          {profile?.name}
-        </Typography>
+        <Typography noWrap>{profile?.name}</Typography>
       </Grid>
       <Grid item>
         <DialogButton
@@ -55,7 +56,10 @@ const ViewInstructorClassButton = ({ cc }) => {
 };
 
 export default function Class({
+  inProgress = false,
+  isAvailable = false,
   buttonLabel = 'View',
+  buttonLabel2 = undefined,
   headline = '',
   name = '',
   updated = undefined,
@@ -65,6 +69,7 @@ export default function Class({
   keySkills = [] as BlockListItem[],
   className = undefined,
   onClick = undefined,
+  onClick2 = undefined,
   rankingModel = [] as BlockListItem[],
   surveyQuestions = [] as BlockListItem[],
   classResources = [],
@@ -76,12 +81,31 @@ export default function Class({
   return (
     <Card className={clsx(classes.root, className)}>
       <div className={classes.header}>
-        <Typography noWrap gutterBottom variant='subtitle1' color='textSecondary'>
-          {headline}
-        </Typography>
-        <Typography noWrap gutterBottom variant='h6' color='textPrimary'>
-          {name}
-        </Typography>
+        <Grid container justify='space-between'>
+          <Grid item>
+            <Typography noWrap gutterBottom variant='subtitle1' color='textSecondary'>
+              {headline}
+            </Typography>
+            <Typography noWrap gutterBottom variant='h6' color='textPrimary'>
+              {name}
+            </Typography>
+          </Grid>
+          {completed ? (
+            <Grid item>
+              <ClassStatusChip label={getClassStatusLabel('Completed', 1)} />
+            </Grid>
+          ) : inProgress ? (
+            <Grid item>
+              <ClassStatusChip inProgress={inProgress} label={getClassStatusLabel('In Progress', 1)} />
+            </Grid>
+          ) : isAvailable ? (
+            <Grid item>
+              <ClassStatusChip isAvailable={isAvailable} label={getClassStatusLabel('Available', 1)} />
+            </Grid>
+          ) : (
+            <></>
+          )}
+        </Grid>
       </div>
       <div className={classes.imageContainer}>
         <img src={getImage(image)} alt={headline} />
@@ -96,7 +120,16 @@ export default function Class({
         </Grid>
       </Grid>
       <Box m={2} textAlign='center'>
-        <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>
+        <Grid container justify='center' spacing={2}>
+          <Grid item>
+            <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>
+          </Grid>
+          {buttonLabel2 && (
+            <Grid item>
+              <StyledButton onClick={onClick2}>{buttonLabel2}</StyledButton>
+            </Grid>
+          )}
+        </Grid>
       </Box>
       {childClasses.length > 0 && (
         <Box m={2}>
