@@ -25,7 +25,7 @@ export default function Lesson() {
         ) : (
           <>
             <Typography>View each of the following lessons prior to continuing:</Typography>
-            <BlockListClassResource viewLabel='View Lesson' value={classPresentations} />
+            <BlockListClassResource isOwner={false} viewLabel='View Lesson' value={classPresentations} />
           </>
         )}
 

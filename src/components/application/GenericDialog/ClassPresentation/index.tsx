@@ -4,10 +4,11 @@ import { useDialogState } from '../useDialogState';
 import { uuid } from '../../../../helpers';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import ClassPresentationLink from '../../../pages/Class/ClassPresentationLink';
+import Check from '../../DialogField/Check';
 
 export const title = 'Class Presentation';
 
-export default function ClassPresenationDialog({ id = title, onClose = undefined, onSubmit, anchorEl = undefined, setValues = undefined, ...other }) {
+export default function ClassPresentationDialog({ id = title, onClose = undefined, onSubmit, anchorEl = undefined, setValues = undefined, ...other }) {
   const [{ type }, setState] = useDialogState(id);
 
   const handleClose = React.useCallback(() => {
@@ -62,6 +63,12 @@ export default function ClassPresenationDialog({ id = title, onClose = undefined
           placeholder: 'Enter link to video presentation',
           required: true,
           xs: 12
+        },
+        {
+          id: 'locked',
+          label: 'Is locked for editing?',
+          Field: Check,
+          color: 'primary'
         }
       ]}
       {...other}

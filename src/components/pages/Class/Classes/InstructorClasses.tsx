@@ -14,10 +14,10 @@ import { useIsAdminMode } from '../../../../hooks';
 export default function InstructorClasses() {
   const isAdminMode = useIsAdminMode();
   const [{ back, instructor }] = useLayout();
-  const { userId } = instructor;
+  const { userId, parentId } = instructor;
 
   const { data: instructorClasses, handleRefresh: refreshInstructor } = useClassesByUserId({ userId });
-  const { data: adminClasses, handleRefresh: refreshAdmin } = useClassesByUserId({ userId: instructor?.parentId });
+  const { data: adminClasses, handleRefresh: refreshAdmin } = useClassesByUserId({ userId: parentId });
 
   const notAddedClasses = adminClasses.filter(ac => !instructorClasses.find(ic => ic.parentClassId === ac.id || ic.id === ac.id));
   const notAddedClasses_str = JSON.stringify(notAddedClasses);

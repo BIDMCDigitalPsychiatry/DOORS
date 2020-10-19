@@ -21,7 +21,8 @@ export function BlockListClassResource({
   remove = undefined,
   DialogModule = ClassResourceDialog,
   viewLabel = 'View Resource',
-  onChange = undefined
+  onChange = undefined,
+  isOwner
 }) {
   const value_str = JSON.stringify(value);
 
@@ -55,7 +56,7 @@ export function BlockListClassResource({
   const onLock = React.useCallback(item => handleReplace(item?.id, { ...item, locked: !bool(item?.locked) }), [handleReplace]);
   const onRemove = React.useCallback(item => handleReplace(item?.id), [handleReplace]);
   const onEdit = React.useCallback(
-    item => {
+    item => {      
       setDialogState({
         type: 'Edit',
         open: true,
@@ -89,6 +90,7 @@ export function BlockListClassResource({
                 minHeight={112}
                 titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
                 viewLabel={viewLabel}
+                isOwner={isOwner}
               />
             </Grid>
           ))}

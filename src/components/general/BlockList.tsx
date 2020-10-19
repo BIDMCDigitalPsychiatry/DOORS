@@ -11,7 +11,6 @@ export interface BlockListItem {
   name: string;
   rankingValue?: number;
   canEdit?: boolean;
-  canLock?: boolean;
   canDelete?: boolean;
   locked?: boolean;
   deleted?: boolean;
@@ -26,7 +25,8 @@ export function BlockList({
   edit = undefined,
   remove = undefined,
   DialogModule = BlockListDialog,
-  onChange
+  onChange,
+  isOwner
 }) {
   const value_str = JSON.stringify(value);
 
@@ -89,6 +89,7 @@ export function BlockList({
               <ActionCard
                 item={item}
                 index={showIndexBadges && i}
+                isOwner={isOwner}
                 onLock={onLock}
                 onRemove={remove && onRemove}
                 onEdit={edit && onEdit}

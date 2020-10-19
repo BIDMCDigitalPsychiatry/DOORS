@@ -4,7 +4,6 @@ import { Box, Card, Typography, makeStyles, CardActions, Grid } from '@material-
 import StyledButton from './StyledButton';
 import { bool } from '../../helpers';
 import * as Icons from '@material-ui/icons';
-import { useIsAdminMode } from '../../hooks';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -45,17 +44,17 @@ export default function ActionCard({
   onLock = undefined,
   onRemove = undefined,
   onEdit = undefined,
-  children = undefined,  
+  isOwner = false,
+  children = undefined
 }) {
   const classes = useStyles({ minHeight });
-  const { name, locked, canLock } = item;
+  const { name, locked } = item;
   const handleLock = React.useCallback(item => () => onLock && onLock(item), [onLock]);
   const handleRemove = React.useCallback(item => () => onRemove && onRemove(item), [onRemove]);
   const handleEdit = React.useCallback(item => () => onEdit && onEdit(item), [onEdit]);
-  const Title = title ? title : name ?? '';  
+  const Title = title ? title : name ?? '';
 
-  const isAdminMode = useIsAdminMode();
-  const canEdit = !bool(canLock) || (bool(canLock) && bool(!locked)); // Can edit if the user is an admin or an instructor and the object is not locked
+  const canEdit = !bool(locked); // Can edit if the user is an admin or an instructor and the object is not locked
   const canDelete = canEdit;
   return (
     <Card className={clsx(classes.root, className)}>
@@ -109,7 +108,7 @@ export default function ActionCard({
                 </StyledButton>
               </Grid>
             )}
-            {isAdminMode && bool(canLock) && (
+            {isOwner && (
               <Grid item>
                 <StyledButton Icon={bool(locked) ? Icons.Lock : Icons.LockOpen} variant='text' width={140} onClick={handleLock(item)}>
                   {bool(locked) ? 'Locked' : 'Un-locked'}

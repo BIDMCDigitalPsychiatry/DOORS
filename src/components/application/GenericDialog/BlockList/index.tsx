@@ -2,7 +2,7 @@ import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import Check from '../../DialogField/Check';
-import { bool, uuid } from '../../../../helpers';
+import { uuid } from '../../../../helpers';
 
 export const title = 'Block List';
 
@@ -40,27 +40,11 @@ export default function BlockListDialog({ id = title, onClose = undefined, onSub
           label: 'Name',
           placeholder: 'Enter name'
         },
-        /*
-        {
-          id: 'canDelete',
-          label: 'Can remove?',
-          Field: Check
-        },
-        {
-          id: 'canEdit',
-          label: 'Can edit?',
-          Field: Check
-        },*/
-        {
-          id: 'canLock',
-          label: 'Can lock for editing?',
-          Field: Check
-        },
         {
           id: 'locked',
           label: 'Is locked for editing?',
           Field: Check,
-          active: vals => bool(vals?.canLock)
+          color: 'primary'
         }
       ]}
       {...other}

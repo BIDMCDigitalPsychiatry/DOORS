@@ -51,7 +51,7 @@ export const defaultRankingModels: BlockListItem[] = [
     rankingValue: 5,
     name: 'I can do it and can teach someone else'
   }
-].map(i => ({ ...i, canEdit: false, canLock: false, canDelete: false }));
+].map(i => ({ ...i, canEdit: false, canDelete: false }));
 
 export interface ClassData {
   userId?: string; // user id of the admin or instructor user which created the class

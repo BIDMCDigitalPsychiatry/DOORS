@@ -22,7 +22,7 @@ const validate = ({ name }) => {
 };
 
 export default function CreateClass() {
-  const userId = useUserId();  
+  const userId = useUserId();
   const Model = tables.classes;
 
   const handleChangeRoute = useHandleChangeRoute();
@@ -51,6 +51,8 @@ export default function CreateClass() {
     },
     [setState]
   );
+
+  const isOwner = true;
 
   return (
     <ChildPage backLabel='Back to Classes' onBack={handleChangeRoute('/Classes')} title='Create New Class'>
@@ -87,12 +89,13 @@ export default function CreateClass() {
             <Typography variant='caption' color='textPrimary'>
               Edit Class Materials
             </Typography>
-            <BlockList title='Key Skills' value={keySkills} add={true} edit={true} remove={true} onChange={handleChange('keySkills')} />
+            <BlockList title='Key Skills' isOwner={isOwner} value={keySkills} add={true} edit={true} remove={true} onChange={handleChange('keySkills')} />
           </Grid>
           <Grid item xs={12}>
             <BlockList
               title='Survey Questions'
               subtitle='Questions are related to the class materials and will be rated by students from 1 to 5 based on the Ranking Model'
+              isOwner={isOwner}
               value={surveyQuestions}
               add={true}
               edit={true}
@@ -104,6 +107,7 @@ export default function CreateClass() {
             <BlockList
               title='Ranking Model'
               showIndexBadges={true}
+              isOwner={isOwner}
               value={rankingModel}
               add={false}
               edit={true}
@@ -115,6 +119,7 @@ export default function CreateClass() {
             <BlockListClassPresentation
               title='Class Presentation Videos'
               subtitle='Add links to the class presentation videos that are relevant to the lesson'
+              isOwner={isOwner}
               value={classPresentations}
               add={true}
               edit={true}
@@ -126,6 +131,7 @@ export default function CreateClass() {
               title='Class Resources'
               subtitle='Add links to resources that are relevant to the lesson'
               value={classResources}
+              isOwner={isOwner}
               add={true}
               onChange={handleChange('classResources')}
             />

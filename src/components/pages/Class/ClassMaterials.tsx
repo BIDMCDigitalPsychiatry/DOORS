@@ -12,6 +12,7 @@ import ImageSelector from '../../application/DialogField/ImageSelector';
 import { useClassData } from '../../../database/useClassData';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
+import { useIsOwner } from '../../../database/useIsOwnertsx';
 
 const Model = tables.classes;
 const validate = ({ name }) => {
@@ -34,6 +35,8 @@ export default function ClassMaterials() {
 
   const { formState, handleUpdate } = useFormState({ Model, validate, onSuccess: handleChangeRouteLayout('/ClassDashboard', { class: data }) });
   const { loading, errors } = formState;
+
+  const isOwner = useIsOwner(data);
 
   return (
     <ChildPage
@@ -75,15 +78,24 @@ export default function ClassMaterials() {
           </Grid>
 
           <Grid item xs={12}>
-            <BlockList title='Key Skills' value={keySkills} add={true} edit={true} remove={true} onChange={handleChange('keySkills')} />
+            <BlockList title='Key Skills' isOwner={isOwner} value={keySkills} add={true} edit={true} remove={true} onChange={handleChange('keySkills')} />
           </Grid>
           <Grid item xs={12}>
-            <BlockList title='Ranking Model' value={rankingModel} add={false} edit={true} remove={false} onChange={handleChange('rankingModel')} />
+            <BlockList
+              title='Ranking Model'
+              isOwner={isOwner}
+              value={rankingModel}
+              add={false}
+              edit={true}
+              remove={false}
+              onChange={handleChange('rankingModel')}
+            />
           </Grid>
           <Grid item xs={12}>
             <BlockList
               title='Survey Questions'
               subtitle='Questions are related to the class materials and will be rated by students from 1 to 5 based on the Ranking Model'
+              isOwner={isOwner}
               value={surveyQuestions}
               add={true}
               edit={true}
@@ -95,6 +107,7 @@ export default function ClassMaterials() {
             <BlockListClassPresentation
               title='Class Presentation Videos'
               subtitle='Add links to the class presentation videos that are relevant to the lesson'
+              isOwner={isOwner}
               value={classPresentations}
               add={true}
               edit={true}
@@ -106,6 +119,7 @@ export default function ClassMaterials() {
             <BlockListClassResource
               title='Class Resources'
               subtitle='Add links to resources that are relevant to the lesson'
+              isOwner={isOwner}
               value={classResources}
               add={true}
               edit={true}
