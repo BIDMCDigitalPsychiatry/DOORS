@@ -29,27 +29,32 @@ export const defaultRankingModels: BlockListItem[] = [
   {
     id: '0',
     rankingValue: 1,
-    name: 'I cannot do it on my own'
+    name: 'I cannot do it on my own',
+    locked: true
   },
   {
     id: '1',
     rankingValue: 2,
-    name: 'I can do it on my own, but with step by step directions'
+    name: 'I can do it on my own, but with step by step directions',
+    locked: true
   },
   {
     id: '2',
     rankingValue: 3,
-    name: 'I can do it mostly on my own, but may have a few questions'
+    name: 'I can do it mostly on my own, but may have a few questions',
+    locked: true
   },
   {
     id: '3',
     rankingValue: 4,
-    name: 'I can do it on my own with ease'
+    name: 'I can do it on my own with ease',
+    locked: true
   },
   {
     id: '4',
     rankingValue: 5,
-    name: 'I can do it and can teach someone else'
+    name: 'I can do it and can teach someone else',
+    locked: true
   }
 ].map(i => ({ ...i, canEdit: false, canDelete: false }));
 
