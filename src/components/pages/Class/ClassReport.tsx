@@ -9,7 +9,6 @@ import { useClassData } from '../../../database/useClassData';
 import useTableRow from '../../../database/useTableRow';
 import useGroupStudents from '../../../database/useGroupStudents';
 import RankingModel from './RankingModel';
-import { Participants } from './Participants';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import AgeChart from './AgeChart';
 import SurveyResults from './SurveyResults/SurveyResults';
@@ -17,6 +16,8 @@ import { useSessionsByGroupId } from '../../../database/useSessions';
 import { defaultAgeRankingModels, defaultRankingModels } from '../../../database/models/Class';
 import Session from '../../../database/models/Session';
 import Decimal from 'decimal.js-light';
+import { buildParticipants } from './ClassGroup';
+import { ParticipantsDetailed } from './ParticipantsDetailed';
 
 const getRankingValue = id => {
   return defaultRankingModels.find(rm => rm.id === id)?.rankingValue;
@@ -75,13 +76,13 @@ const getReportData = (sessions: Session[]) => {
 export default function ClassReport() {
   const [state, setState] = React.useState({ loading: false });
   const [{ groupId }] = useLayout();
-  const { row: group } = useTableRow({ Model: tables.groups, id: groupId, state, setState });
-  const { activeStudents } = useGroupStudents({ groupId });
 
   const { data }: any = useClassData();
-
+  const { row: group } = useTableRow({ Model: tables.groups, id: groupId, state, setState });
   const { sessions } = useSessionsByGroupId({ groupId, classId: data.id });
-  
+  const { activeStudents } = useGroupStudents({ groupId });
+  const activeParticipants = buildParticipants(activeStudents, sessions);
+
   const completed = sessions.filter(c => c.completed === true);
   //const inProgress = sessions.filter(c => c.completed !== true);
 
@@ -137,10 +138,10 @@ export default function ClassReport() {
             <Box mt={2}>
               <Grid container>
                 <Grid item xs>
-                  {[{ students: activeStudents, label: 'Class Participants', view: false, viewReport: true, remove: false }]
-                    .filter(i => i.students.length > 0)
+                  {[{ participants: activeParticipants, label: 'Active Participants', view: false, viewReport: true, remove: false }]
+                    .filter(i => i.participants.length > 0)
                     .map((props, i) => (
-                      <Participants key={i} {...props} />
+                      <ParticipantsDetailed key={i} {...props} />
                     ))}
                 </Grid>
               </Grid>

@@ -47,7 +47,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-const buildParticipants = (students, sessions) => {
+export const buildParticipants = (students, sessions) => {
   var participants = [];
   students.forEach(as => {
     const ss = sessions.filter(s => s.studentUserId === as.userId);
@@ -92,8 +92,6 @@ export default function ClassGroup({
   const activeParticipants = buildParticipants(activeStudents, sessions);
   const pendingParticipants = buildParticipants(pendingStudents, sessions);
   const deletedParticipants = buildParticipants(deletedStudents, sessions);
-
-  console.log({ pendingStudents, sessions });
 
   return (
     <Card className={clsx(classes.root, className)}>
@@ -202,7 +200,8 @@ export default function ClassGroup({
                     variant='secondary'
                     fullWidth={true}
                     onClick={changeRouteLayout('/ClassReport', {
-                      groupId: id
+                      groupId: id,
+                      classId
                     })}
                   >
                     View Class Report
