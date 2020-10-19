@@ -58,7 +58,15 @@ export function BlockList({
     [onChange, handleReplace, value_str]
   );
   const onLock = React.useCallback(item => handleReplace(item?.id, { ...item, locked: !bool(item?.locked) }), [handleReplace]);
-  const onRemove = React.useCallback(item => handleReplace(item?.id), [handleReplace]);
+  const onRemove = React.useCallback(
+    item => {
+      var result = window.confirm('Are you sure you wish to remove this item?');
+      if (result) {
+        handleReplace(item?.id);
+      }
+    },
+    [handleReplace]
+  );
   const onEdit = React.useCallback(
     item => {
       setDialogState({
