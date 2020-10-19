@@ -64,7 +64,7 @@ export default function InstructorClasses() {
                 </Grid>
                 <Grid item>
                   <DialogButton onClick={handleAdd} variant='link' underline='always'>
-                    Click here to auto import
+                    Click here to auto import.
                   </DialogButton>
                 </Grid>
               </Grid>
