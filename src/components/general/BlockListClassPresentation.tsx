@@ -88,7 +88,7 @@ export function BlockListClassPresentation({
       <Box mt={1}>
         <Grid container spacing={2}>
           {value.map((item, i) => (
-            <Grid key={i} item xs={12} sm={6} md={3} lg={2}>
+            <Grid key={i} item>
               <ActionCardClassResource
                 item={item}
                 onLock={onLock}

@@ -7,7 +7,9 @@ import * as Icons from '@material-ui/icons';
 import { useHandleLink } from '../../hooks';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
-  root: {},
+  root: {
+    maxWidth: 320
+  },
   header: {
     color: palette.common.black,
     paddingTop: spacing(2),
