@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import { Card, Typography, makeStyles, Grid, Box, Divider } from '@material-ui/core';
+import { Card, Typography, makeStyles, Grid, Box, Divider, Tooltip } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
 import { getDateFromTimestamp, sortUdpatedDescending } from '../../../helpers';
 import DialogButton from '../../application/GenericDialog/DialogButton';
@@ -50,7 +50,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 export const buildParticipants = (students, sessions) => {
   var participants = [];
   students.forEach(as => {
-    const ss = sessions.filter(s => s.studentUserId === as.userId);
+    const ss = sessions.filter(s => s.studentId === as.id);
     participants.push({
       student: as,
       sessions: ss,
@@ -99,9 +99,25 @@ export default function ClassGroup({
         <Grid item xs={12} sm={12} md={4} lg={3} xl={2} className={classes.summary}>
           <Grid container spacing={0}>
             <Grid item xs={12}>
-              <Typography noWrap variant='h6' className={classes.semibold}>
-                {name}
-              </Typography>
+              <Tooltip
+                title={
+                  <>
+                    <Typography noWrap variant='h6' className={classes.semibold}>
+                      Group ID: {id}
+                    </Typography>
+                    <Typography noWrap variant='h6' className={classes.semibold}>
+                      Class ID: {classId}
+                    </Typography>
+                    <Typography noWrap variant='h6' className={classes.semibold}>
+                      User ID: {userId}
+                    </Typography>
+                  </>
+                }
+              >
+                <Typography noWrap variant='h6' className={classes.semibold}>
+                  {name}
+                </Typography>
+              </Tooltip>
             </Grid>
             <Grid item xs={12}>
               <Divider style={{ background: 'white', marginTop: 8 }} />

@@ -5,6 +5,7 @@ import DialogButton from '../../application/GenericDialog/DialogButton';
 import { getStudentName, isEmpty, minutesFrom, minutesToTimeAgo } from '../../../helpers';
 import { useProfile } from '../../../database/useProfile';
 import * as ViewReportDialog from '../../application/GenericDialog/ViewReport';
+import * as ProfileDialog from '../../application/GenericDialog/Profile';
 import { tables } from '../../../database/dbConfig';
 import useTableRow from '../../../database/useTableRow';
 import { useSnackBar } from '../../application/SnackBar/useSnackBar';
@@ -85,7 +86,7 @@ export default function ParticipantDetailed({
         {view && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
-              Module={ViewReportDialog}
+              Module={ProfileDialog}
               mount={mount}
               initialValues={{ id: student?.userId }}
               variant='link'
