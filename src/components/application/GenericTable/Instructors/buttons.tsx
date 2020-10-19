@@ -3,8 +3,10 @@ import * as Icons from '@material-ui/icons';
 import { IconButton, Menu, MenuItem, Popover } from '@material-ui/core';
 import useTableRow from '../../../../database/useTableRow';
 import { tables } from '../../../../database/dbConfig';
+import * as InstructorAlertDialog from '../../GenericDialog/InstructorAlert';
+import DialogButton from '../../GenericDialog/DialogButton';
 
-export function RowActionsButton({ id, deleted, onUpdate }) {
+export function RowActionsButton({ id, deleted, onUpdate, email }) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -63,15 +65,9 @@ export function RowActionsButton({ id, deleted, onUpdate }) {
           open={open}
           onClose={handleClose}
         >
-          <MenuItem disabled={loading} onClick={() => alert('To be implemented')}>
-            Send Email
-          </MenuItem>
-          <MenuItem disabled={loading} onClick={() => alert('To be implemented')}>
-            Allow Permissions
-          </MenuItem>
-          <MenuItem disabled={loading} onClick={() => alert('To be implemented')}>
-            View Groups
-          </MenuItem>
+          <DialogButton id={id} initialValues={{ email }} variant='menuitem' onClose={handleClose} Module={InstructorAlertDialog}>
+            Send Email Alert
+          </DialogButton>
           {deleted === true ? (
             <MenuItem disabled={loading} onClick={handleUpdate({ deleted: false })}>
               Restore Instructor

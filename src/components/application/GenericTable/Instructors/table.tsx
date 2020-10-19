@@ -63,6 +63,8 @@ export default function Instructors({ name = 'Instructors', ...other }) {
 
   const { data, loading, handleRefresh } = useInstructors({ table: name, tab, requestParams });
 
+  const RowActionsCell = React.useCallback(props => <RowActionsButton onUpdate={handleRefresh} {...props} />, [handleRefresh]);
+
   return (
     <GenericTableContainer
       name={name}
@@ -83,7 +85,7 @@ export default function Instructors({ name = 'Instructors', ...other }) {
           name: 'actions',
           header: 'Actions',
           width: 88,
-          Cell: props => <RowActionsButton onUpdate={handleRefresh} {...props} />
+          Cell: RowActionsCell
         }
       ]}
       toolbar={true}
