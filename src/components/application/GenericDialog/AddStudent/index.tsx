@@ -47,7 +47,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
   const processData = useProcessData();
   const parentId = useUserId();
 
-  const onSuccess = React.useCallback(() => {    
+  const onSuccess = React.useCallback(() => {
     handleClose({ open: true, variant: 'success', message: 'Successfully sent invite' });
   }, [handleClose]);
 
@@ -92,7 +92,7 @@ export default function AddStudentDialog({ id = title, onClose }) {
     <GenericDialog
       id={id}
       maxWidth='sm'
-      title={id}
+      title={title}
       submitLabel='Send Invite'
       onSubmit={handleSubmit}
       onClose={onClose}

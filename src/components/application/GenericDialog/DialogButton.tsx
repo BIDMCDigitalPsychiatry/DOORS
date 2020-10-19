@@ -216,7 +216,7 @@ const DialogButton = React.forwardRef(function DialogButton(
 
   return wrapGrid(
     <>
-      {mount && Module && renderDialogModule({ ...Module, anchorEl, onClose: handleClose, onChange, onReset, values, setValues, onSubmit })}
+      {mount && Module && renderDialogModule({ ...Module, id, anchorEl, onClose: handleClose, onChange, onReset, values, setValues, onSubmit })}
       <Tooltip
         placement={placement}
         title={

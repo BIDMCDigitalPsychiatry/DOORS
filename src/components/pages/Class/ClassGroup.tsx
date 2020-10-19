@@ -151,8 +151,8 @@ export default function ClassGroup({
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <DialogButton
+                    id={id}
                     Module={AddStudentDialog}
-                    mount={mount}
                     fullWidth={true}
                     onClose={handleRefresh}
                     variant='styled'
