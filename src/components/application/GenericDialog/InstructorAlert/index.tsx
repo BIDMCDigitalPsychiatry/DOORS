@@ -22,19 +22,16 @@ export default function InstructorAlertDialog({ id = title, onClose = undefined 
   );
 
   const onError = React.useCallback(() => {
-    console.log('error');
     handleClose({ open: true, variant: 'success', message: 'Error sending message' });
   }, [handleClose]);
 
   const onSuccess = React.useCallback(() => {
-    console.log('success');
     handleClose({ open: true, variant: 'success', message: 'Successfully sent message' });
   }, [handleClose]);
 
   const handleSubmit = React.useCallback(
-    ({ name, email, message }, setValues) => {
-      console.log({ submitting: true, name, email, message });
-      sendInstructorEmail({ name, email, message, onSuccess, onError });
+    ({ email, message }) => {
+      sendInstructorEmail({ email, message, onSuccess, onError });
     },
     [onSuccess, onError]
   );

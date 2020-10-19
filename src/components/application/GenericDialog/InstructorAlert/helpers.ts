@@ -1,4 +1,4 @@
-import { region, identityPoolIdUnauth, adminUsers, sourceEmailAddress } from '../../../../../package.json';
+import { region, identityPoolIdUnauth, sourceEmailAddress } from '../../../../../package.json';
 export const AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
 
 // Initialize the Amazon Cognito credentials provider
@@ -7,7 +7,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: identityPoolIdUnauth
 });
 
-export const sendInstructorEmail = ({ name, email, message, onSuccess = undefined, onError = undefined }) => {
+export const sendInstructorEmail = ({ email, message, onSuccess = undefined, onError = undefined }) => {
   const body = `Instructor Alert - Doors Web Application:     
     <p>User Email: ${email}</p>  
     <p>Message: ${message}</p>
@@ -17,7 +17,7 @@ export const sendInstructorEmail = ({ name, email, message, onSuccess = undefine
   var params = {
     Destination: {
       /* required */ CcAddresses: [],
-      ToAddresses: adminUsers.split(',')
+      ToAddresses: [email]
     },
     Message: {
       /* required */
