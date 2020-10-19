@@ -7,10 +7,10 @@ import { getClassTitle, isEmpty } from '../../../helpers';
 import useFormState from '../../hooks/useFormState';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CreateGroupDialog from '../../application/GenericDialog/CreateGroup';
-import Group from './Group';
 import { useFullScreen, useIsInstructorMode } from '../../../hooks';
 import { useGroups } from '../../../database/useGroups';
 import { useClassData } from '../../../database/useClassData';
+import ClassGroup from './ClassGroup';
 
 const Model = tables.classes;
 const validate = ({ name }) => {
@@ -44,7 +44,7 @@ export default function ClassRoster() {
   const { data }: any = useClassData();
   const { userId } = data;
 
-  const { name, headline } = data;
+  const { name, headline, id } = data;
   const isInstructorMode = useIsInstructorMode();
   const [{ instructor }] = useLayout();
 
@@ -91,7 +91,7 @@ export default function ClassRoster() {
         <Grid container style={{ padding: !fullScreen ? 24 : 8 }} spacing={3}>
           {groups.map((g, i) => (
             <Grid item key={g?.id} xs={12}>
-              <Group {...g} mount={i === 0} />
+              <ClassGroup {...g} classId={id} mount={i === 0} />
             </Grid>
           ))}
         </Grid>
