@@ -29,7 +29,7 @@ export default function EditAttendanceDialog({ id: dialogId = title, onClose }) 
 
   return (
     <GenericDialog
-      id={dialogId}
+      id={dialogId}      
       title={title}
       submitLabel='Save'
       onSubmit={handleSubmit}

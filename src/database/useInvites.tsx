@@ -1,9 +1,11 @@
+import { isEmpty } from '../helpers';
 import { tables } from './dbConfig';
 import { isExpired } from './useInstructor';
 import { useTableData } from './useTableData';
 
 export default function useInvites({ email = undefined, Model = tables.students } = {}) {
   const { data, loading, success, handleRefresh } = useTableData({
+    loadOnMount: !isEmpty(email),
     TableName: Model,
     requestParams: {
       FilterExpression:

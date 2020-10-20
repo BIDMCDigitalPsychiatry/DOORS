@@ -1,10 +1,11 @@
 import { useAttendance } from '../database/useAttendance';
+import { isEmpty } from '../helpers';
 
 export const title = 'Mark Attendance';
 
 export default function useClassGroupAttendance({ classId, groupId, date = undefined, active = true }) {
   return useAttendance({
-    active,
+    active: active && !isEmpty(classId) && !isEmpty(groupId),
     requestParams:
       date === undefined
         ? {

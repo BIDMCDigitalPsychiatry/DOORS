@@ -55,14 +55,12 @@ const FileUploadButton = ({
               setState(prev => ({ ...prev, uploading: true }));
             },
             onSuccess: () => {
-              console.log('success');
               setState(prev => ({ ...prev, uploading: false }));
-
               onSuccess && onSuccess(id);
               // TODO update class with link to newly uploaded file
             },
             onError: () => {
-              console.log('error');
+              console.error('Error uploading file');
               setState(prev => ({ ...prev, uploading: false }));
               alert('Error uploading file');
               //onError && onError('');

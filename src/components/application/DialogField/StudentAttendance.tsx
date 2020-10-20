@@ -38,7 +38,7 @@ export default function StudentAttendance({
         </Grid>
       </Grid>
       {students.map(student => (
-        <Grid item xs={12}>
+        <Grid item key={student.id} xs={12}>
           <Grid container justify='space-between' spacing={1}>
             <Grid item xs>
               <ParticipantDetailed participant={{ student }} view={false} remove={false} viewReport={false} />

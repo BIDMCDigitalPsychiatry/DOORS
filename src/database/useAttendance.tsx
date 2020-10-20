@@ -12,7 +12,7 @@ export const useAttendance = ({ requestParams = undefined, active = true } = {})
   }, [JSON.stringify(requestParams), handleRequest]);
 
   React.useEffect(() => {
-    active &&  handleRefresh();
+    active && handleRefresh();
   }, [active, handleRefresh]);
 
   const rows = Object.keys(data).map(k => ({ ...data[k] }));
