@@ -6,6 +6,7 @@ import useClassGroupAttendance from '../../../../database/useClassGroupAttendanc
 import useTableRow from '../../../../database/useTableRow';
 import { tables } from '../../../../database/dbConfig';
 import { Grid, Typography } from '@material-ui/core';
+import { useTableFilter } from '../helpers';
 
 const OpenAttendanceButton = props => {
   const { id, handleRefresh } = props;
@@ -46,7 +47,7 @@ export default function AttendanceHistory({ name = 'Attendance History', groupId
     <GenericTableContainer
       name={name}
       loading={loading}
-      title={`${name}`}
+      title={name}
       columns={[
         { name: 'groupId', header: 'Class and Group Name', Cell: ClassGroupName },
         { name: 'dateString', header: 'Date', width: 128 },
@@ -71,7 +72,7 @@ export default function AttendanceHistory({ name = 'Attendance History', groupId
       footer={true}
       search={true}
       stacked={true}
-      data={data.map(r => ({ ...r, handleRefresh, getValues: () => r }))}
+      data={useTableFilter(data, name).map(r => ({ ...r, handleRefresh, getValues: () => r }))}
       checkbox={false}
       select={false}
       {...other}
