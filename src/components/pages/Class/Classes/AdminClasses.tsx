@@ -32,11 +32,13 @@ export default function AdminClasses() {
               <Class
                 {...c}
                 buttonLabel='View'
+                showUpdated={true}
                 onClick={changeRouteLayout('/ClassDashboard', {
                   instructor: undefined, // Reset instructor to ensure the class roster isn't visible for admin classes
                   class: c
                 })}
                 childClasses={childClasses.filter(cc => cc.parentClassId === c.id)}
+                showChildClasses={true} // show even when there are no child classes for min height purposes
               />
             </Grid>
           ))

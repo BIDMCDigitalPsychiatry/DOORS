@@ -1,15 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Box, Card, Typography, makeStyles, Grid, Divider } from '@material-ui/core';
+import { Box, Card, Typography, makeStyles, Grid, Tooltip } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
 import { BlockListItem } from '../../general/BlockList';
 import { getImage } from './helpers';
 import { timeAgo } from '../../../helpers';
-import DialogButton from '../../application/GenericDialog/DialogButton';
-import { useHandleChangeRouteLayout } from '../../layout/hooks';
-import { useProfile } from '../../../database/useProfile';
 import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
 
+const minHeight = 96;
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {
     minHeight: 450
@@ -17,7 +15,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   header: {
     color: palette.common.black,
     padding: spacing(2),
-    minHeight: 96
+    minHeight
   },
   imageContainer: {
     marginTop: spacing(4),
@@ -25,7 +23,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
     marginBottom: spacing(4)
   },
   summary: {
-    minHeight: 100,
+    minHeight: 124,
     alignItems: 'center',
     color: palette.common.white,
     background: palette.primary.light,
@@ -33,27 +31,15 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-const ViewInstructorClassButton = ({ cc }) => {
-  const { profile } = useProfile({ id: cc.userId });
-  const changeRoute = useHandleChangeRouteLayout();
-  return (
-    <Grid container justify='space-between' alignItems='center' wrap='nowrap' spacing={2}>
-      <Grid item xs zeroMinWidth>
-        <Typography noWrap>{profile?.name}</Typography>
-      </Grid>
-      <Grid item>
-        <DialogButton
-          onClick={changeRoute('/ClassDashboard', { instructor: { userId: cc.userId }, class: cc })}
-          variant='link'
-          linkVariant='body1'
-          underline='always'
-        >
-          {`View Class`}
-        </DialogButton>
-      </Grid>
-    </Grid>
-  );
+const KeySkills = ({ keySkills }) => {
+  return keySkills.map(({ id, name }) => (
+    <Typography key={id} component='h6' gutterBottom variant='subtitle1'>
+      {name}
+    </Typography>
+  ));
 };
+
+const maxKeySkills = 3;
 
 export default function Class({
   inProgress = false,
@@ -63,6 +49,7 @@ export default function Class({
   headline = '',
   name = '',
   updated = undefined,
+  created = undefined,
   completed,
   showUpdated = false,
   image = 'calendar',
@@ -74,10 +61,14 @@ export default function Class({
   surveyQuestions = [] as BlockListItem[],
   classResources = [],
   classPresentation = undefined,
+  showChildClasses = false,
   childClasses = [],
   ...rest
 }) {
   const classes = useStyles();
+  const filteredKeySkills = keySkills.filter((ks, i) => i < maxKeySkills);
+  const moreKeySkills = keySkills.filter((ks, i) => i >= maxKeySkills);
+
   return (
     <Card className={clsx(classes.root, className)}>
       <div className={classes.header}>
@@ -112,11 +103,20 @@ export default function Class({
       </div>
       <Grid container className={classes.summary} alignItems='center'>
         <Grid item>
-          {keySkills.map(({ id, name }) => (
-            <Typography key={id} component='h6' gutterBottom variant='subtitle1'>
-              {name}
-            </Typography>
-          ))}
+          {keySkills.length <= maxKeySkills + 1 ? (
+            <KeySkills keySkills={keySkills} />
+          ) : (
+            <>
+              <KeySkills keySkills={filteredKeySkills} />
+              {moreKeySkills.length > 0 && (
+                <Tooltip title={<KeySkills keySkills={moreKeySkills} />}>
+                  <Typography>
+                    {moreKeySkills.length} Additional Key Skill{moreKeySkills.length === 1 ? '' : 's'}
+                  </Typography>
+                </Tooltip>
+              )}
+            </>
+          )}
         </Grid>
       </Grid>
       <Box m={2} textAlign='center'>
@@ -131,33 +131,27 @@ export default function Class({
           )}
         </Grid>
       </Box>
-      {childClasses.length > 0 && (
-        <Box m={2}>
-          <Typography>Instructors:</Typography>
-          <Divider />
-          <Grid container style={{ marginTop: 8 }}>
-            {childClasses.map(cc => (
-              <Grid item xs key={cc.id}>
-                <ViewInstructorClassButton cc={cc} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
-      {showUpdated && (
-        <Box pl={1} pr={1}>
-          <Typography noWrap align='right' variant='caption' color='textPrimary'>
-            {`Last updated ${timeAgo(updated)}`}
-          </Typography>
-        </Box>
-      )}
-      {completed && (
-        <Box pl={1} pr={1}>
-          <Typography noWrap align='right' variant='caption' color='textPrimary'>
-            {`Completed ${timeAgo(updated)}`}
-          </Typography>
-        </Box>
-      )}
+      <Grid container style={{ paddingLeft: 8, paddingRight: 8 }} justify='space-between'>
+        <Grid item>
+          {showUpdated && (
+            <Typography noWrap align='right' variant='caption' color='textPrimary'>
+              {`Last updated ${timeAgo(updated ?? created)}`}
+            </Typography>
+          )}
+          {completed && (
+            <Typography noWrap align='right' variant='caption' color='textPrimary'>
+              {`Completed ${timeAgo(updated ?? created)}`}
+            </Typography>
+          )}
+        </Grid>
+        <Grid item>
+          {(showChildClasses || childClasses.length > 0) && (
+            <Typography variant='caption'>
+              {childClasses.length} Instructor{childClasses.length === 1 ? '' : 's'}
+            </Typography>
+          )}
+        </Grid>
+      </Grid>
     </Card>
   );
 }

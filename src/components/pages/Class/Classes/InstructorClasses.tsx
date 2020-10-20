@@ -36,9 +36,10 @@ export default function InstructorClasses() {
     classes.forEach((c, i) => {
       const { created, updated, deleted, ...other } = c;
       const id = uuid();
+      const now = new Date().getTime();
       setRow({
         id,
-        values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, userId },
+        values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, userId, created: now, updated: now },
         onSuccess: i === classes.length - 1 && handleRefresh
       });
     });
@@ -76,6 +77,7 @@ export default function InstructorClasses() {
             <Class
               {...c}
               buttonLabel='View'
+              showUpdated={true}
               onClick={changeRouteLayout('/ClassDashboard', {
                 class: c
               })}
