@@ -2,17 +2,16 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { Card, Typography, makeStyles, Grid, Box, Divider, Tooltip } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
-import { getDateFromTimestamp, sortUdpatedDescending } from '../../../helpers';
+import { getDateFromTimestamp, getDayMonthYear, sortUdpatedDescending, yyyymmdd } from '../../../helpers';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as AddStudentDialog from '../../application/GenericDialog/AddStudent';
 import * as MarkAttendanceDialog from '../../application/GenericDialog/MarkAttendance';
+import * as AttendanceHistoryDialog from '../../application/GenericDialog/AttendanceHistory';
 import useGroupStudents from '../../../database/useGroupStudents';
 import { tables } from '../../../database/dbConfig';
-import { createAttendanceKey } from '../../../database/models/Attendance';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import useTableRow from '../../../database/useTableRow';
-import { useClassData } from '../../../database/useClassData';
 import { useSessionsByGroupId } from '../../../database/useSessions';
 import { ParticipantsDetailed } from './ParticipantsDetailed';
 
@@ -80,7 +79,6 @@ export default function ClassGroup({
   className = undefined
 }) {
   const classes = useStyles();
-  const { data } = useClassData();
 
   const { row: instructorProfile } = useTableRow({ Model: tables.profiles, id: userId });
   const { pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
@@ -148,7 +146,7 @@ export default function ClassGroup({
           <Grid container justify='space-between' spacing={2}>
             <Grid item xs>
               {[
-                { participants: activeParticipants, label: activeParticipants.length === 1 ? 'Participant' : 'Participants' },
+                { participants: activeParticipants, label: activeParticipants.length === 1 ? 'Student' : 'Students' },
                 {
                   participants: pendingParticipants,
                   label: pendingParticipants.length === 1 ? 'Pending Invite (Not Accepted)' : 'Pending Invites (Not Accepted)'
@@ -196,7 +194,10 @@ export default function ClassGroup({
                     size='large'
                     tooltip=''
                     initialValues={{
-                      id: createAttendanceKey(data?.class?.id, id),
+                      groupId: id,
+                      classId,
+                      date: yyyymmdd(),
+                      dateString: getDayMonthYear(),
                       students: activeStudents.reduce((f, c) => {
                         f[c.id] = c;
                         return f;

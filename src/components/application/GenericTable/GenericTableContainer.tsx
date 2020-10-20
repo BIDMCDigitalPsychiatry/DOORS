@@ -35,7 +35,7 @@ export interface GenericTableContainerProps extends TabSelectorProps, GenericTab
   FilterContainer?: any;
 }
 
-const injectValues = (Component, { getValues, handleRefresh }) => <Component {...getValues()} handleRefresh={handleRefresh} />;
+const injectValues = (Component, { getValues, handleRefresh }) => <Component {...(getValues && getValues())} handleRefresh={handleRefresh} />;
 
 export default function GenericTableContainer(props: GenericTableContainerProps) {
   const {
@@ -60,7 +60,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     ...tableProps
   } = props;
 
-  const { layout } : any= useTheme();
+  const { layout }: any = useTheme();
   const { noPadPaths } = layout;
   const layoutHeight = useHeight();
   const height = Height ? Height : layoutHeight;
