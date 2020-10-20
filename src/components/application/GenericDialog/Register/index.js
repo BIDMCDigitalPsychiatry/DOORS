@@ -183,7 +183,7 @@ export default function RegisterDialog({ id = title }) {
           id: 'agree',
           Field: Check,
           color: 'primary',
-          label: 'I agree to the terms & conditions',
+          label: 'I agree to the terms and conditions',
           hidden: ({ confirm }) => confirm
         },
         {

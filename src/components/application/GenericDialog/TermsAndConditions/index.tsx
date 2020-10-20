@@ -8,7 +8,7 @@ export default function TermsAndConditionsDialog({ id = title, onClose = undefin
   return (
     <GenericDialog
       id={id}
-      title={id}
+      title={null}
       submitLabel={null}
       cancelLabel={'Close'}
       maxWidth='md'
