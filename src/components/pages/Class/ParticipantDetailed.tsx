@@ -11,6 +11,7 @@ import useTableRow from '../../../database/useTableRow';
 import { useSnackBar } from '../../application/SnackBar/useSnackBar';
 import { green, yellow } from '@material-ui/core/colors';
 import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
+import { getObjectUrl } from '../../../aws-exports';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -26,6 +27,10 @@ const useStyles = makeStyles(({ palette }) => ({
     margin: 2,
     color: palette.common.white,
     background: yellow[700]
+  },
+  avatar: {
+    height: 82,
+    width: 82
   }
 }));
 
@@ -35,12 +40,12 @@ export default function ParticipantDetailed({
   view = true,
   viewReport = false,
   remove = true,
-  mount = true,
   onRefresh = undefined,
   ...rest
 }) {
   const classes = useStyles();
   const student = participant?.student;
+  console.log({ student });
   const { profile } = useProfile({ id: student?.userId });
   const [state, setState] = React.useState();
   const { readSetRow } = useTableRow({ Model: tables.students, id: student?.id, state, setState });
@@ -63,20 +68,20 @@ export default function ParticipantDetailed({
     <div className={clsx(classes.root, className)} {...rest}>
       <Grid container alignItems='center' justify='center' spacing={0}>
         <Grid item>
-          <Avatar src='/broken-image.jpg' />
+          <Avatar className={classes.avatar} src={getObjectUrl(profile?.picture)} />
         </Grid>
         <Grid item xs={12}>
           <Typography noWrap align='center' variant='subtitle2'>
             {getStudentName({ student, profile })}
           </Typography>
         </Grid>
-        {participant.completed.length > 0 && (
+        {participant.completed?.length > 0 && (
           <ClassStatusChip
             tooltip={getClassStatusLabel('Completed', participant.completed.length, false)}
             label={getClassStatusLabel('Completed', participant.completed.length)}
           />
         )}
-        {participant.inProgress.length > 0 && (
+        {participant.inProgress?.length > 0 && (
           <ClassStatusChip
             inProgress={true}
             tooltip={getClassStatusLabel('In Progress', participant.inProgress.length, false)}

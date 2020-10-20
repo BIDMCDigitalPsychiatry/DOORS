@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Grid } from '@material-ui/core';
-import Participant from '../../pages/Class/Participant';
 import Check from './Check';
 import { bool } from '../../../helpers';
+import ParticipantDetailed from '../../pages/Class/ParticipantDetailed';
 
 export default function StudentAttendance({
   value = {},
@@ -22,7 +22,7 @@ export default function StudentAttendance({
       onChange && onChange({ target: { value: newStudents } });
     },
     [value_str, onChange]
-  );  
+  );
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -36,15 +36,17 @@ export default function StudentAttendance({
         </Grid>
       </Grid>
       {Object.keys(value).map((k, i) => {
-        const student = value[k];
+        const participant = {
+          student: value[k]
+        };
         return (
           <Grid item xs={12}>
             <Grid container justify='space-between' spacing={1}>
               <Grid item xs>
-                <Participant student={student} mount={false} view={false} remove={false} />
+                <ParticipantDetailed participant={participant} view={false} remove={false} viewReport={false} />
               </Grid>
               <Grid item style={{ width: 64 }}>
-                <Check value={student.present} color='primary' onChange={handleCheck(student)} />
+                <Check value={participant.student.present} color='primary' onChange={handleCheck(participant)} />
               </Grid>
             </Grid>
             {/*<TextField
