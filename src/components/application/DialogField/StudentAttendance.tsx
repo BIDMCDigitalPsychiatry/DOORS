@@ -23,6 +23,8 @@ export default function StudentAttendance({
     },
     [value_str, onChange]
   );
+
+  const students = Object.keys(value).map(k => value[k]);
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -35,36 +37,18 @@ export default function StudentAttendance({
           </Grid>
         </Grid>
       </Grid>
-      {Object.keys(value).map((k, i) => {
-        const participant = {
-          student: value[k]
-        };
-        return (
-          <Grid item xs={12}>
-            <Grid container justify='space-between' spacing={1}>
-              <Grid item xs>
-                <ParticipantDetailed participant={participant} view={false} remove={false} viewReport={false} />
-              </Grid>
-              <Grid item style={{ width: 64 }}>
-                <Check value={participant.student.present} color='primary' onChange={handleCheck(participant)} />
-              </Grid>
+      {students.map(student => (
+        <Grid item xs={12}>
+          <Grid container justify='space-between' spacing={1}>
+            <Grid item xs>
+              <ParticipantDetailed participant={{ student }} view={false} remove={false} viewReport={false} />
             </Grid>
-            {/*<TextField
-            value={value}
-            error={isError(error)}
-            helperText={forceErrorMargin ? error || ' ' : error} // Forces a constant helper text margin
-            margin={margin as any}
-            variant={variant as any}
-            fullWidth
-            InputLabelProps={{
-              shrink: true
-            }}
-            {...other}
-          />
-        */}
+            <Grid item style={{ width: 64 }}>
+              <Check value={student.present} color='primary' onChange={handleCheck(student)} />
+            </Grid>
           </Grid>
-        );
-      })}
+        </Grid>
+      ))}
     </Grid>
   );
 }
