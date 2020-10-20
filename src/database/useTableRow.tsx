@@ -82,5 +82,5 @@ export default function useTableRow({
 
   const expired = isExpired(row);
 
-  return { row, setRow, readSetRow, expired, handleRefresh };
+  return { row, setRow, readSetRow, expired, handleRefresh, loading: state?.loading };
 }

@@ -5,6 +5,8 @@ import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
 import { useChangeRoute, useHeight, useLayout, useLogout } from './hooks';
 import { onlyUnique } from '../../helpers';
+import { tables } from '../../database/dbConfig';
+import useTableRow from '../../database/useTableRow';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -42,6 +44,20 @@ const useStyles = makeStyles(({ palette }: any) =>
     }
   })
 );
+
+const useGroupName = ({ groupId }) => {
+  const { row } = useTableRow({ id: groupId, Model: tables.groups });
+  return row?.name;
+};
+
+const GroupName = ({ groupId }) => {
+  const name = useGroupName({ groupId });
+  return (
+    <Typography style={{ fontSize: 9 }} display='block' variant='overline' noWrap>
+      {name}
+    </Typography>
+  );
+};
 
 export default function SelectUserType({ instructors = [], students = [], isAdmin, onBack = undefined }) {
   const height = useHeight();
@@ -85,7 +101,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
       const student = students.find(s => s.groupId === groupId); // Find the first student entry with a matching group id
       return {
         label: 'Student',
-        sublabel: uniqueStudentGroupIds.length > 1 && `Group: ${student.groupId}`,
+        groupId: uniqueStudentGroupIds.length > 1 && student.groupId,
         state: { admin: false, student, instructor: undefined }
       };
     })
@@ -115,8 +131,8 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                     {BannerMsg}
                   </Typography>
                 </Grid>
-                {buttons.map(({ label, sublabel, state }, i) => (
-                  <Grid item key={[label, sublabel].filter(l => l).join('-')}>
+                {buttons.map(({ label, groupId, state }, i) => (
+                  <Grid item key={[label, groupId].filter(l => l).join('-')}>
                     <div className={classes.wrapper}>
                       <Button
                         ref={i === 0 ? buttonRef : undefined}
@@ -131,11 +147,9 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                               {label}
                             </Grid>
                           )}
-                          {sublabel && (
+                          {groupId && (
                             <Grid item xs={12}>
-                              <Typography style={{ fontSize: 7 }} variant='overline' noWrap>
-                                {sublabel}
-                              </Typography>
+                              <GroupName groupId={groupId} />
                             </Grid>
                           )}
                         </Grid>
@@ -158,7 +172,8 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                       </Typography>
                       <Box mt={2}>
                         <Typography align='center' color='error' className={classes.summary}>
-                          Please contact your instructor or administrator to request an invite.  Once you receive an invite, click the link in the email that you receive to accept.
+                          Please contact your instructor or administrator to request an invite. Once you receive an invite, click the link in the email that you
+                          receive to accept.
                         </Typography>
                       </Box>
                     </>
