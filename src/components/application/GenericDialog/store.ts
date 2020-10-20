@@ -9,9 +9,7 @@ export const defaultDialogState = {
   initialValues: {}
 };
 
-const initialState = {
-  'Getting Started': { open: true }
-};
+const initialState = {};
 
 export const updateDialog = (id, payload) => ({ type: 'UPDATE_DIALOG', id, payload });
 

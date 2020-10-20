@@ -22,7 +22,11 @@ export const useUserId = ({ userId = undefined } = {}) => {
 
 export const useLogout = () => {
   const dispatch = useDispatch();
-  return React.useCallback(() => dispatch({ type: 'LOGOUT' }), [dispatch]);
+  const changeRoute = useChangeRoute();
+  return React.useCallback(() => {
+    dispatch({ type: 'LOGOUT' });
+    changeRoute('/');
+  }, [changeRoute, dispatch]);
 };
 
 export default function useRequest({ url, setState = undefined, onSuccess = undefined, onError = undefined, method = 'post' as any }) {
