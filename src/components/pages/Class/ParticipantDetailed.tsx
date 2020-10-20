@@ -86,9 +86,9 @@ export default function ParticipantDetailed({
         {view && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
-              id={student?.id}
+              id={`view-profile-${student?.id}`}
               Module={ProfileDialog}
-              mount={mount}
+              mount={true}
               initialValues={{ id: student?.userId }}
               variant='link'
               underline='always'
@@ -102,9 +102,9 @@ export default function ParticipantDetailed({
         {viewReport && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
-              id={student?.id}
+              id={`view-report-${student?.id}`}
               Module={ViewReportDialog}
-              mount={mount}
+              mount={true}
               initialValues={{ participant }}
               variant='link'
               underline='always'

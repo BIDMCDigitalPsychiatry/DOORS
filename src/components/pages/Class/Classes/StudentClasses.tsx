@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import Class from '../Class';
 import Page from '../../Page';
 import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
-import { useHandleCreateSession, useSessionsByGroupId } from '../../../../database/useSessions';
+import { useHandleCreateSession, useSessionsByStudentGroupId } from '../../../../database/useSessions';
 import { sortUdpatedDescending } from '../../../../helpers';
 import useClassesByUserId from '../useClassesByUserId';
 
@@ -15,7 +15,7 @@ export default function StudentClasses() {
 
   const { data: instructorClasses } = useClassesByUserId({ userId: parentId });
 
-  const { sessions } = useSessionsByGroupId({ groupId });
+  const { sessions } = useSessionsByStudentGroupId({ groupId, studentId });
 
   const completed = sessions.filter(c => c.completed === true && !c.deleted).sort(sortUdpatedDescending);
   const inProgress = sessions.filter(c => c.completed !== true && !c.deleted).sort(sortUdpatedDescending);

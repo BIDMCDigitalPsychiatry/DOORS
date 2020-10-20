@@ -9,7 +9,7 @@ export default function useSessions({ requestParams = undefined } = {}) {
   const { state, handleRequest } = useTable({ TableName: tables.sessions });
   const { data, loading, success } = state as any;
 
-  const handleRefresh = React.useCallback(() => {    
+  const handleRefresh = React.useCallback(() => {
     handleRequest(requestParams);
     // eslint-disable-next-line
   }, [JSON.stringify(requestParams), handleRequest]);
@@ -25,6 +25,22 @@ export default function useSessions({ requestParams = undefined } = {}) {
     success
   };
 }
+
+export const useSessionsByStudentGroupId = ({ groupId, studentId }) => {
+  return useSessions({
+    requestParams: {
+      FilterExpression: '#groupId = :groupId AND #studentId = :studentId',
+      ExpressionAttributeNames: {
+        '#groupId': 'groupId',
+        '#studentId': 'studentId'
+      },
+      ExpressionAttributeValues: {
+        ':groupId': groupId,
+        ':studentId': studentId
+      }
+    }
+  });
+};
 
 export const useSessionsByGroupId = ({ groupId, classId = undefined }) => {
   return useSessions({
