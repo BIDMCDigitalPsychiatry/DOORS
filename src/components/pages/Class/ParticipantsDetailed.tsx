@@ -19,7 +19,7 @@ export const ParticipantsDetailed = ({ participants, label, ...other }) => {
       </Grid>
       {participants.map((p, i) => (
         <Grid item key={p?.student?.id}>
-          <ParticipantDetailed participant={p} mount={i === 0} {...other} />
+          <ParticipantDetailed participant={p} {...other} />
         </Grid>
       ))}
     </Grid>

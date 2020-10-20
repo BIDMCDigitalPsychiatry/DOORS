@@ -44,8 +44,7 @@ export default function ParticipantDetailed({
   ...rest
 }) {
   const classes = useStyles();
-  const student = participant?.student;
-  console.log({ student });
+  const student = participant?.student;  
   const { profile } = useProfile({ id: student?.userId });
   const [state, setState] = React.useState();
   const { readSetRow } = useTableRow({ Model: tables.students, id: student?.id, state, setState });
