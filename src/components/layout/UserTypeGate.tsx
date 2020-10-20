@@ -19,7 +19,6 @@ export default function UserTypeGate({ children }) {
   // Refresh on load or whenever the userId or
   React.useEffect(() => {
     if (!isEmpty(userId)) {
-      console.log(`Loading user information (${userId})`);
       handleRefresh();
       handleRefreshStudents();
     }
@@ -38,7 +37,6 @@ export default function UserTypeGate({ children }) {
       } else {
         setLayout({ students, instructors, back: undefined }); // Can be one of admin, instructor or studnet, not sure
       }
-      console.log('User information loaded');
     }
     // eslint-disable-next-line
   }, [userId, isAdmin, JSON.stringify(instructors), JSON.stringify(students)]);
