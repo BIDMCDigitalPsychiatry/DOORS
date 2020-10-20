@@ -17,7 +17,7 @@ export default function ViewReportDialog({ id = title, onClose = undefined, ...o
   return (
     <GenericDialog
       id={id}
-      title={id}
+      title={title}
       maxWidth='xl'
       onClose={onClose}
       cancelLabel='Done'

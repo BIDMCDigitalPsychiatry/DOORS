@@ -86,6 +86,7 @@ export default function ParticipantDetailed({
         {view && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
+              id={student?.id}
               Module={ProfileDialog}
               mount={mount}
               initialValues={{ id: student?.userId }}
@@ -101,6 +102,7 @@ export default function ParticipantDetailed({
         {viewReport && !isEmpty(student?.userId) && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
+              id={student?.id}
               Module={ViewReportDialog}
               mount={mount}
               initialValues={{ participant }}
