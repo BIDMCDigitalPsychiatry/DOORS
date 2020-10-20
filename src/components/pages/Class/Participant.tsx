@@ -12,7 +12,7 @@ import { useSnackBar } from '../../application/SnackBar/useSnackBar';
 const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
-    width: 148
+    width: 164
   }
 }));
 

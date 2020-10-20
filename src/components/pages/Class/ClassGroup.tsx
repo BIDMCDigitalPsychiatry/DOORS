@@ -78,7 +78,7 @@ export default function ClassGroup({
   created = undefined,
   className = undefined
 }) {
-  const classes = useStyles();
+  const classes = useStyles();  
 
   const { row: instructorProfile } = useTableRow({ Model: tables.profiles, id: userId });
   const { pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
@@ -208,9 +208,28 @@ export default function ClassGroup({
                   </DialogButton>
                 </Grid>
                 <Grid item xs={12}>
-                  <StyledButton variant='secondary' fullWidth={true} onClick={() => alert('To be completed')}>
+                  <DialogButton
+                    Module={AttendanceHistoryDialog}
+                    mount={mount}
+                    fullWidth={true}
+                    onClose={handleRefresh}
+                    variant='styled'
+                    styledVariant='secondary'
+                    size='large'
+                    tooltip=''
+                    initialValues={{
+                      classId,
+                      groupId: id,
+                      date: yyyymmdd(),
+                      dateString: getDayMonthYear(),
+                      students: activeStudents.reduce((f, c) => {
+                        f[c.id] = c;
+                        return f;
+                      }, {})
+                    }}
+                  >
                     View Attendance History
-                  </StyledButton>
+                  </DialogButton>
                 </Grid>
                 <Grid item xs={12}>
                   <StyledButton

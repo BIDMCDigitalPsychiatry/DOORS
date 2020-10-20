@@ -15,7 +15,7 @@ import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
 const useStyles = makeStyles(({ palette }) => ({
   root: {
     display: 'flex',
-    width: 148
+    width: 164
   },
   completed: {
     margin: 2,

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { tables } from './dbConfig';
 import useTable from './useTable';
 
-export const useAttendance = ({ requestParams = undefined } = {}) => {
+export const useAttendance = ({ requestParams = undefined, active = true } = {}) => {
   const { state, handleRequest } = useTable({ TableName: tables.attendance });
   const { data, loading, success } = state as any;
 
@@ -12,8 +12,8 @@ export const useAttendance = ({ requestParams = undefined } = {}) => {
   }, [JSON.stringify(requestParams), handleRequest]);
 
   React.useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+    active &&  handleRefresh();
+  }, [active, handleRefresh]);
 
   const rows = Object.keys(data).map(k => ({ ...data[k] }));
 

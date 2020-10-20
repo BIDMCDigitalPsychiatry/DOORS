@@ -11,8 +11,8 @@ import useClassGroupAttendance from '../../../../database/useClassGroupAttendanc
 
 export const title = 'Mark Attendance';
 
-export default function MarkAttendanceDialog({ onClose }) {
-  const [{ initialValues, open }, setState] = useDialogState(title);
+export default function MarkAttendanceDialog({ id: Id = title, onClose }) {
+  const [{ initialValues, open }, setState] = useDialogState(Id);
 
   const { classId, groupId, date } = initialValues;
 
@@ -30,7 +30,6 @@ export default function MarkAttendanceDialog({ onClose }) {
   // Sets the id to match an existing database row if it exists, otherwise set a new id
   React.useEffect(() => {
     const row = rowStr && JSON.parse(rowStr);
-    console.log({ row, open, loading, success });
     if (open && loading === false && success === true) {
       if (row) {
         setId(row?.id);
@@ -52,7 +51,6 @@ export default function MarkAttendanceDialog({ onClose }) {
 
   const handleSubmit = React.useCallback(
     values => {
-      console.log({ values });
       updateData(values, handleClose);
     },
     [updateData, handleClose]
@@ -60,7 +58,7 @@ export default function MarkAttendanceDialog({ onClose }) {
 
   return (
     <GenericDialog
-      id={title}
+      id={Id}
       title={title}
       submitLabel='Save'
       onSubmit={handleSubmit}

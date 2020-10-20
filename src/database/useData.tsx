@@ -43,6 +43,7 @@ export default function useData({ id, active = true, Model = tables.classes, ini
   // Save the newValues data to the back-end
   const updateData = React.useCallback(
     (newValues, OnSuccess = undefined, OnError = undefined) => {
+      console.log('Updating data...');
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
         const Data = { ...JSON.parse(data_str), id, ...newValues };
@@ -51,14 +52,18 @@ export default function useData({ id, active = true, Model = tables.classes, ini
           Action: 'u',
           Data,
           onError: response => {
+            console.error('Error updating data');
             setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response }));
             OnError && OnError(response);
           },
           onSuccess: response => {
+            console.log('Successfully updated data');
             setState(prev => ({ ...prev, loading: false, error: undefined, response, data: Data }));
             OnSuccess && OnSuccess(response);
           }
         });
+      } else {
+        console.error('Error: No id provided to the updateData function');
       }
     },
     [id, Model, setState, processData, data_str]

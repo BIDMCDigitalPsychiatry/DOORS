@@ -158,7 +158,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                       </Typography>
                       <Box mt={2}>
                         <Typography align='center' color='error' className={classes.summary}>
-                          Please contact your instructor or administrator to request an invite.
+                          Please contact your instructor or administrator to request an invite.  Once you receive an invite, click the link in the email that you receive to accept.
                         </Typography>
                       </Box>
                     </>
