@@ -3,6 +3,9 @@ import GenericTableContainer from '../GenericTableContainer';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as EditAttendanceDialog from '../../GenericDialog/EditAttendance';
 import useClassGroupAttendance from '../../../../database/useClassGroupAttendance';
+import useTableRow from '../../../../database/useTableRow';
+import { tables } from '../../../../database/dbConfig';
+import { Grid, Typography } from '@material-ui/core';
 
 const OpenAttendanceButton = props => {
   const { id, handleRefresh } = props;
@@ -16,8 +19,23 @@ const OpenAttendanceButton = props => {
       linkVariant='subtitle2'
       underline='always'
     >
-      Edit Attendance
+      Edit
     </DialogButton>
+  );
+};
+
+const ClassGroupName = ({ groupId, classId }) => {
+  const { row: g } = useTableRow({ id: groupId, Model: tables.groups });
+  const { row: c } = useTableRow({ id: classId, Model: tables.classes });
+  return (
+    <Grid container>
+      <Grid item xs={12}>
+        <Typography variant='subtitle1'>{c?.name}</Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant='subtitle2'>{g?.name}</Typography>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -30,11 +48,12 @@ export default function AttendanceHistory({ name = 'Attendance History', groupId
       loading={loading}
       title={`${name}`}
       columns={[
-        { name: 'id', header: 'id' },
-        { name: 'dateString', header: 'Date' },
+        { name: 'groupId', header: 'Class and Group Name', Cell: ClassGroupName },
+        { name: 'dateString', header: 'Date', width: 128 },
         {
           name: 'Attendance',
           header: 'Attendence',
+          width: 200,
           Cell: ({ students }) => {
             const length = Object.keys(students ?? {}).length;
             const present = Object.keys(students ?? {}).filter(k => students[k].present === true).length;
@@ -42,8 +61,9 @@ export default function AttendanceHistory({ name = 'Attendance History', groupId
           }
         },
         {
-          name: 'Edit Attendance',
-          header: 'Edit Attendance',
+          name: 'Edit',
+          header: 'Edit',
+          width: 95,
           Cell: OpenAttendanceButton
         }
       ]}
