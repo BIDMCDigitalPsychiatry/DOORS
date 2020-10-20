@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, Grid, Paper, Typography, Divider, CircularProgress } from '@material-ui/core';
+import { makeStyles, Grid, Paper, Typography, Divider, CircularProgress, Box } from '@material-ui/core';
 import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
@@ -9,6 +9,7 @@ import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 import { tables } from '../../database/dbConfig';
 import useTableRow from '../../database/useTableRow';
+import useGroupName from '../../database/useGroupName';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -41,6 +42,9 @@ const useStyles = makeStyles(({ palette }: any) =>
       },
       marginTop: 8
     },
+    backButton: {
+      marginTop: 8
+    },
     wrapper: {
       width: 224
     },
@@ -55,7 +59,8 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 export default function AcceptInvite({ id, type, onBack = undefined }) {
-  const BannerMsg = 'Click below to accept invitation';
+  const HeaderMsg = type === 's' ? 'Student invitation' : 'Instructor invitation';
+  const BannerMsg = 'Click below to accept';
   const height = useHeight();
   const classes = useStyles({ height });
   var buttonRef = React.useRef(null);
@@ -70,6 +75,11 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
     setState
   });
 
+  const groupId = row?.groupId;
+
+  const groupName = useGroupName({ groupId });
+  console.log({ groupId, groupName });
+
   const dispatch = useDispatch();
   const userId = useUserId();
 
@@ -78,9 +88,12 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
     onBack && onBack(); // Force a refresh in parent component
   }, [onBack, dispatch]);
 
-  const handleSubmit = React.useCallback(() => {
-    setRow({ values: { accepted: true, userId }, onSuccess: handleClose });
-  }, [setRow, handleClose, userId]);
+  const handleSubmit = React.useCallback(
+    accepted => () => {
+      setRow({ values: { accepted, deleted: accepted === false, userId }, onSuccess: handleClose });
+    },
+    [setRow, handleClose, userId]
+  );
 
   const email = useUserEmail();
   const isError = !isEmpty(row?.userId) || expired || row?.deleted || !isEmpty(error) || email.toLowerCase() !== row?.email.toLowerCase();
@@ -105,9 +118,22 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
               <Divider />
               <Grid container spacing={1} direction='column' justify='center' alignItems='center' style={{ padding: 16 }}>
                 <Grid item>
+                  {groupName && (
+                    <Typography align='center' className={classes.disclaimer}>
+                      {groupName}
+                    </Typography>
+                  )}
                   <Typography align='center' className={classes.disclaimer}>
-                    {BannerMsg}
+                    {HeaderMsg}
                   </Typography>
+
+                  <Divider style={{ marginTop: 8 }} />
+
+                  <Box mt={1}>
+                    <Typography align='center' className={classes.disclaimer}>
+                      {BannerMsg}
+                    </Typography>
+                  </Box>
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
@@ -117,7 +143,7 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                       disabled={loading || isError}
                       variant='contained'
                       className={classes.button}
-                      onClick={handleSubmit}
+                      onClick={handleSubmit(true)}
                     >
                       Accept Invite
                     </Button>
@@ -126,11 +152,27 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <Button ref={buttonRef} fullWidth={true} variant='contained' onClick={handleClose}>
+                    <Button
+                      ref={buttonRef}
+                      fullWidth={true}
+                      disabled={loading || isError}
+                      variant='contained'
+                      className={classes.button}
+                      onClick={handleSubmit(false)}
+                    >
+                      Decline Invite
+                    </Button>
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                  </div>
+                </Grid>
+                {/*<Grid item>
+                  <div className={classes.wrapper}>
+                    <Button className={classes.backButton} ref={buttonRef} fullWidth={true} variant='contained' onClick={handleClose}>
                       Back
                     </Button>
                   </div>
                 </Grid>
+                */}
                 <Grid item xs={12}>
                   <Typography noWrap align='center' className={classes.summary}>
                     {row?.email}

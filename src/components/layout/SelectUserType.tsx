@@ -5,8 +5,7 @@ import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
 import { useChangeRoute, useHeight, useLayout, useLogout } from './hooks';
 import { onlyUnique } from '../../helpers';
-import { tables } from '../../database/dbConfig';
-import useTableRow from '../../database/useTableRow';
+import useGroupName from '../../database/useGroupName';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -44,11 +43,6 @@ const useStyles = makeStyles(({ palette }: any) =>
     }
   })
 );
-
-const useGroupName = ({ groupId }) => {
-  const { row } = useTableRow({ id: groupId, Model: tables.groups });
-  return row?.name;
-};
 
 const GroupName = ({ groupId }) => {
   const name = useGroupName({ groupId });
