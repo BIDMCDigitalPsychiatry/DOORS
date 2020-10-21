@@ -25,6 +25,7 @@ export default function useStudentsByUserId() {
 
   const completed = loading === false && success === true;
   return {
+    loading,
     students: completed ? data : undefined,
     handleRefresh
   };

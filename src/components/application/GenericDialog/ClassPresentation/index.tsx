@@ -41,7 +41,8 @@ export default function ClassPresentationDialog({ id = title, onClose = undefine
           id: 'name',
           label: 'Presentation Name',
           placeholder: 'Enter name',
-          required: true
+          required: true,
+          autoFocus: true
         },
         {
           id: 'type',

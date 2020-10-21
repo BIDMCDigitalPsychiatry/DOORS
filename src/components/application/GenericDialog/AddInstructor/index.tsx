@@ -26,7 +26,7 @@ export default function AddInstructorDialog({ id = title, onClose }) {
     [onClose, setState, setSnackbar]
   );
 
-  const processData = useProcessData();
+const processData = useProcessData();
   const parentId = useUserId();
 
   const submitData = React.useCallback(

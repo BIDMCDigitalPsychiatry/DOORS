@@ -89,7 +89,7 @@ export const useCanChangeStudentGroup = () => {
 export const useCanChangeUserType = () => {
   const isAdmin = useIsAdmin();
   const [{ students, instructors }] = useLayout();
-  return (isAdmin && (students?.length > 0 || instructors?.length > 0)) || (!isAdmin && students?.length > 0 && instructors?.length > 0);
+  return students.length > 1 || (isAdmin && (students?.length > 0 || instructors?.length > 0)) || (!isAdmin && students?.length > 0 && instructors?.length > 0);
 };
 
 export const useSignedInAsText = () => {

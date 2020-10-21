@@ -38,7 +38,8 @@ export default function BlockListDialog({ id = title, onClose = undefined, onSub
         {
           id: 'name',
           label: 'Name',
-          placeholder: 'Enter name'
+          placeholder: 'Enter name',
+          autoFocus: true
         },
         {
           id: 'locked',

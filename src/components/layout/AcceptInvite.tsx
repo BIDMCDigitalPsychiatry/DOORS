@@ -78,7 +78,6 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
   const groupId = row?.groupId;
 
   const groupName = useGroupName({ groupId });
-  console.log({ groupId, groupName });
 
   const dispatch = useDispatch();
   const userId = useUserId();

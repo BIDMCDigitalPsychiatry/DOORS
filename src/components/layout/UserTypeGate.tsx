@@ -12,8 +12,8 @@ export default function UserTypeGate({ children }) {
 
   const [{ admin, instructor, student }, setLayout] = useLayout();
 
-  const { instructors, handleRefresh } = useInstructorsByUserId();
-  const { students, handleRefresh: handleRefreshStudents } = useStudentsByUserId();
+  const { instructors, handleRefresh, loading } = useInstructorsByUserId();
+  const { students, handleRefresh: handleRefreshStudents, loading: loadingStudents } = useStudentsByUserId();
 
   const userId = useUserId();
 
@@ -33,7 +33,7 @@ export default function UserTypeGate({ children }) {
         setLayout({ admin: true, students, instructors, back: undefined }); // Must be an admin user
       } else if (!isAdmin && instructors.length > 0 && students.length === 0) {
         setLayout({ instructor: instructors[0], students, instructors, back: undefined }); // Must be an instructor
-      } else if (!isAdmin && instructors.length === 0 && students.length > 0) {
+      } else if (!isAdmin && instructors.length === 0 && students.length === 1) {
         setLayout({ student: students[0], students, instructors, back: undefined }); // Must be a student
       } else {
         setLayout({ students, instructors, back: undefined }); // Can be one of admin, instructor or studnet, not sure
@@ -50,7 +50,7 @@ export default function UserTypeGate({ children }) {
   return admin || instructor || student ? (
     children
   ) : (
-    <LoadingGate loading={!instructors}>
+    <LoadingGate loading={loading || loadingStudents}>
       <SelectUserType instructors={instructors} students={students} isAdmin={isAdmin} />
     </LoadingGate>
   );

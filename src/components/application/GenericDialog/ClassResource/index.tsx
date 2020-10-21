@@ -42,6 +42,7 @@ export default function ClassResourceDialog({ id = title, onClose = undefined, o
           label: 'Resource Name',
           placeholder: 'Enter name',
           required: true,
+          autoFocus: true,
           xs: 8
         },
 

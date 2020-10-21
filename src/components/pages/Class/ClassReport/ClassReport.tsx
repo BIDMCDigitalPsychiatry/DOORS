@@ -82,8 +82,7 @@ export default function ClassReport() {
   const { activeStudents } = useGroupStudents({ groupId });
   const activeParticipants = buildParticipants(activeStudents, sessions);
 
-  const completed = sessions.filter(c => c.completed === true);
-  //const inProgress = sessions.filter(c => c.completed !== true);
+  const completed = activeParticipants.map(ap => ap.completed).reduce((t, c) => [...t, ...c], []);
 
   const { results, ageQuestionData } = getReportData(completed);
 

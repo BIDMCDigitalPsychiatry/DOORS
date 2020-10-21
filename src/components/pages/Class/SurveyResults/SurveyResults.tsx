@@ -6,7 +6,7 @@ import ResultSummary from './ResultSummary';
 
 export default function SurveyResults({ title = 'Pre-Survey', valueKey = 'pre', surveyResults = [] }) {
   return (
-    <ActionCard title={title} minHeight={160}>
+    <ActionCard title={title} minHeight={40}>
       <Box pl={2} pr={2}>
         <Grid container spacing={1}>
           {surveyResults.length === 0 && (

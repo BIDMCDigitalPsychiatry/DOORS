@@ -50,8 +50,7 @@ export default function StudentClasses() {
         {showArchived ? 'Hide Archived' : 'Show Archived'}
       </DialogButton>
     );
-  }, [showArchived]);
-  console.log({ deleted: instructorClasses.filter(c => c.deleted) });
+  }, [showArchived]);  
 
   return (
     <>
@@ -98,8 +97,8 @@ export default function StudentClasses() {
                         canArchive={true}
                         Model={tables.sessions}
                         onRefresh={handleRefresh}
-                        buttonLabel='View Class'
-                        buttonLabel2={canStartNew && 'Start New'}
+                        buttonLabel='View'
+                        buttonLabel2={canStartNew && 'Start'}
                         onClick2={canStartNew && handleCreateSession(instructorClass)} // Start a new class using the latest revision
                         onClick={handleChangeRouteLayout('/Pre-Survey', { session: s })}
                       />

@@ -24,6 +24,7 @@ export default function useInstructorsByUserId() {
 
   const completed = loading === false && success === true;
   return {
+    loading,
     instructors: completed ? data : undefined,
     handleRefresh
   };
