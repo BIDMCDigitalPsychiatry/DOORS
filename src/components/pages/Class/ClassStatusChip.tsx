@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Chip, Tooltip } from '@material-ui/core';
-import { green, red } from '@material-ui/core/colors';
+import { deepPurple, green, red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(({ palette }) => ({
   completed: {
@@ -9,6 +9,11 @@ const useStyles = makeStyles(({ palette }) => ({
     background: green[500]
   },
   inProgress: {
+    margin: 2,
+    color: palette.common.white,
+    background: deepPurple[300]
+  },
+  archived: {
     margin: 2,
     color: palette.common.white,
     background: red[500]
@@ -25,11 +30,16 @@ export const getClassStatusLabel = (text, count, check = true) => {
   return check === false ? ` ${count} ${classText} ${text}` : count > 1 ? text + ` (${count})` : text;
 };
 
-export default function ClassStatusChip({ inProgress = false, isAvailable = false, label, tooltip = '' }) {
+export default function ClassStatusChip({ isArchived = false, inProgress = false, isAvailable = false, label, tooltip = '' }) {
   const classes = useStyles({});
   return (
     <Tooltip title={tooltip}>
-      <Chip className={isAvailable ? classes.isAvailable : inProgress ? classes.inProgress : classes.completed} size='small' variant='outlined' label={label} />
+      <Chip
+        className={isArchived ? classes.archived : isAvailable ? classes.isAvailable : inProgress ? classes.inProgress : classes.completed}
+        size='small'
+        variant='outlined'
+        label={label}
+      />
     </Tooltip>
   );
 }

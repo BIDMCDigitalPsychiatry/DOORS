@@ -6,6 +6,9 @@ import { BlockListItem } from '../../general/BlockList';
 import { getImage } from './helpers';
 import { timeAgo } from '../../../helpers';
 import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
+import DialogButton from '../../application/GenericDialog/DialogButton';
+import useTableRow from '../../../database/useTableRow';
+import { tables } from '../../../database/dbConfig';
 
 const minHeight = 96;
 const useStyles = makeStyles(({ palette, spacing }) => ({
@@ -42,6 +45,8 @@ const KeySkills = ({ keySkills }) => {
 const maxKeySkills = 3;
 
 export default function Class({
+  id,
+  Model = tables.classes,
   inProgress = false,
   isAvailable = false,
   buttonLabel = 'View',
@@ -50,7 +55,9 @@ export default function Class({
   name = '',
   updated = undefined,
   created = undefined,
+  canArchive = false,
   completed,
+  deleted,
   showUpdated = false,
   image = 'calendar',
   keySkills = [] as BlockListItem[],
@@ -63,17 +70,29 @@ export default function Class({
   classPresentation = undefined,
   showChildClasses = false,
   childClasses = [],
+  onRefresh = undefined,
   ...rest
 }) {
   const classes = useStyles();
   const filteredKeySkills = keySkills.filter((ks, i) => i < maxKeySkills);
   const moreKeySkills = keySkills.filter((ks, i) => i >= maxKeySkills);
 
+  const { readSetRow } = useTableRow({ id, Model });
+
+  const handleArchive = React.useCallback(() => {
+    readSetRow({ values: { deleted: true }, onSuccess: onRefresh });
+  }, [readSetRow, onRefresh]);
+
+  const handleRestore = React.useCallback(() => {
+    readSetRow({ values: { deleted: false }, onSuccess: onRefresh });
+    onRefresh && onRefresh();
+  }, [readSetRow, onRefresh]);
+
   return (
     <Card className={clsx(classes.root, className)}>
       <div className={classes.header}>
         <Grid container justify='space-between'>
-          <Grid item>
+          <Grid item zeroMinWidth xs>
             <Typography noWrap gutterBottom variant='subtitle1' color='textSecondary'>
               {headline}
             </Typography>
@@ -81,7 +100,11 @@ export default function Class({
               {name}
             </Typography>
           </Grid>
-          {completed ? (
+          {deleted ? (
+            <Grid item>
+              <ClassStatusChip isArchived={true} label={getClassStatusLabel('Archived', 1)} />
+            </Grid>
+          ) : completed ? (
             <Grid item>
               <ClassStatusChip label={getClassStatusLabel('Completed', 1)} />
             </Grid>
@@ -121,36 +144,52 @@ export default function Class({
       </Grid>
       <Box m={2} textAlign='center'>
         <Grid container justify='center' spacing={2}>
-          <Grid item>
-            <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>
-          </Grid>
-          {buttonLabel2 && (
+          {deleted ? (
             <Grid item>
-              <StyledButton onClick={onClick2}>{buttonLabel2}</StyledButton>
+              <StyledButton disabled={true}>Archived</StyledButton>
             </Grid>
+          ) : (
+            <>
+              <Grid item>
+                <StyledButton onClick={onClick}>{buttonLabel}</StyledButton>
+              </Grid>
+              {buttonLabel2 && (
+                <Grid item>
+                  <StyledButton onClick={onClick2}>{buttonLabel2}</StyledButton>
+                </Grid>
+              )}
+            </>
           )}
         </Grid>
       </Box>
-      <Grid container style={{ paddingLeft: 8, paddingRight: 8 }} justify='space-between'>
+      <Grid container style={{ paddingLeft: 8, paddingRight: 8 }} alignItems='center' justify='space-between'>
         <Grid item>
           {showUpdated && (
             <Typography noWrap align='right' variant='caption' color='textPrimary'>
               {`Last updated ${timeAgo(updated ?? created)}`}
             </Typography>
           )}
-          {completed && (
+          {completed && !showUpdated && (
             <Typography noWrap align='right' variant='caption' color='textPrimary'>
               {`Completed ${timeAgo(updated ?? created)}`}
             </Typography>
           )}
         </Grid>
-        <Grid item>
-          {(showChildClasses || childClasses.length > 0) && (
+        {canArchive && (
+          <Grid item>
+            <DialogButton onClick={deleted === true ? handleRestore : handleArchive} variant='link' underline='always'>
+              {deleted === true ? 'Restore' : 'Archive'}
+            </DialogButton>
+          </Grid>
+        )}
+
+        {(showChildClasses || childClasses.length > 0) && (
+          <Grid item>
             <Typography variant='caption'>
               {childClasses.length} Instructor{childClasses.length === 1 ? '' : 's'}
             </Typography>
-          )}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
     </Card>
   );
