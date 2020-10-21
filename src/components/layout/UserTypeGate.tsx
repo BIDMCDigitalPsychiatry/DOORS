@@ -5,6 +5,7 @@ import { useIsAdmin } from '../../hooks';
 import useInstructorsByUserId from '../application/GenericTable/Instructors/useInstructorsByUserId';
 import useStudentsByUserId from '../../database/useStudentsByUserId';
 import { isEmpty } from '../../helpers';
+import LoadingGate from './LoadingGate';
 
 export default function UserTypeGate({ children }) {
   const isAdmin = useIsAdmin();
@@ -48,9 +49,9 @@ export default function UserTypeGate({ children }) {
 
   return admin || instructor || student ? (
     children
-  ) : !instructors ? (
-    <div>Loading</div>
   ) : (
-    <SelectUserType instructors={instructors} students={students} isAdmin={isAdmin} />
+    <LoadingGate loading={!instructors}>
+      <SelectUserType instructors={instructors} students={students} isAdmin={isAdmin} />
+    </LoadingGate>
   );
 }

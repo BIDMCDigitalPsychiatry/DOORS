@@ -10,7 +10,7 @@ import DialogButton from '../../../application/GenericDialog/DialogButton';
 export default function AdminClasses() {
   const userId = useUserId();
 
-  const { data, handleRefresh } = useClassesByUserId({ userId, parentUserId: userId });
+  const { data, handleRefresh, loading } = useClassesByUserId({ userId, parentUserId: userId });
 
   const myClasses = data.filter(d => d.userId === userId);
   const childClasses = data.filter(d => d.parentUserId === userId);
@@ -36,7 +36,7 @@ export default function AdminClasses() {
   }, [showArchived]);
 
   return (
-    <Page title='Administrator Classes' ActionButton={Buttons}>
+    <Page title='Administrator Classes' loading={loading} ActionButton={Buttons}>
       <Grid container spacing={3}>
         {myClasses.length === 0 && (
           <Grid item>

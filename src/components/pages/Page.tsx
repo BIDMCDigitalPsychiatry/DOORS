@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Container, createStyles, makeStyles } from '@material-ui/core';
 import Header from '../layout/Header';
 import DialogButton from '../application/GenericDialog/DialogButton';
+import LoadingGate from '../layout/LoadingGate';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -15,7 +16,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   } as any)
 );
 
-export default function Page({ title = '', ActionButton = undefined, children = <></>, backLabel = 'Back', onBack = undefined }) {
+export default function Page({ title = '', loading = undefined, ActionButton = undefined, children = <></>, backLabel = 'Back', onBack = undefined }) {
   const classes = useStyles();
   return (
     <>
@@ -28,7 +29,7 @@ export default function Page({ title = '', ActionButton = undefined, children = 
       )}
       <Header title={title} ActionButton={ActionButton} />
       <Container disableGutters={true} className={classes.container} maxWidth={false}>
-        {children}
+        <LoadingGate loading={loading === undefined ? false : loading}>{children}</LoadingGate>
       </Container>
     </>
   );

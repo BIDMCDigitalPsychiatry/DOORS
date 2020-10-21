@@ -16,8 +16,8 @@ export default function InstructorClasses() {
   const [{ back, instructor }] = useLayout();
   const { userId, parentId } = instructor;
 
-  const { data: instructorClasses, handleRefresh: refreshInstructor } = useClassesByUserId({ userId });
-  const { data: adminClasses, handleRefresh: refreshAdmin } = useClassesByUserId({ userId: parentId });
+  const { data: instructorClasses, handleRefresh: refreshInstructor, loading } = useClassesByUserId({ userId });
+  const { data: adminClasses, handleRefresh: refreshAdmin, loading: loadingParent } = useClassesByUserId({ userId: parentId });
 
   const notAddedClasses = adminClasses.filter(ac => !ac.deleted && !instructorClasses.find(ic => ic.parentClassId === ac.id || ic.id === ac.id));
   const notAddedClasses_str = JSON.stringify(notAddedClasses);
@@ -65,7 +65,13 @@ export default function InstructorClasses() {
   }, [isAdminMode, showArchived]);
 
   return (
-    <Page title='Instructor Classes' ActionButton={Buttons} backLabel={back?.label} onBack={back?.route && changeRouteLayout(back.route)}>
+    <Page
+      title='Instructor Classes'
+      loading={loading || loadingParent}
+      ActionButton={Buttons}
+      backLabel={back?.label}
+      onBack={back?.route && changeRouteLayout(back.route)}
+    >
       <Grid container spacing={3}>
         {!showArchived && notAddedClasses.length > 0 && (
           <Grid item xs={12}>
@@ -73,7 +79,7 @@ export default function InstructorClasses() {
               <Grid container spacing={1}>
                 <Grid item>
                   <Typography variant='body2' color='error'>
-                    {notAddedClasses.length === 1 
+                    {notAddedClasses.length === 1
                       ? `There is ${notAddedClasses.length} admin class which is not included in your available classes.`
                       : `There are ${notAddedClasses.length} admin classes which are not included in your available classes.`}
                   </Typography>

@@ -54,7 +54,7 @@ export default function ClassRoster() {
   const { loading } = formState;
   const fullScreen = useFullScreen();
 
-  const { data: groups, handleRefresh } = useGroups({
+  const { data: groups, handleRefresh, loading: loadingGroups } = useGroups({
     requestParams: instructor && {
       // If instructor mode, then filter groups by instructor's userId
       FilterExpression: '#userId = :userId',
@@ -69,6 +69,7 @@ export default function ClassRoster() {
 
   return (
     <ChildPage
+      loading={loading || loadingGroups}
       backLabel='Back to Class'
       onBack={handleChangeRouteLayout('/ClassDashboard', { class: data })}
       title={getClassTitle({ headline, name })}

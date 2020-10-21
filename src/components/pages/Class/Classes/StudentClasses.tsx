@@ -15,9 +15,9 @@ export default function StudentClasses() {
   const [{ student }] = useLayout();
   const { id: studentId, userId: studentUserId, groupId, parentId } = student;
 
-  const { data: instructorClasses, handleRefresh: handleRefreshClasses } = useClassesByUserId({ userId: parentId });
+  const { data: instructorClasses, handleRefresh: handleRefreshClasses, loading } = useClassesByUserId({ userId: parentId });
 
-  const { sessions, handleRefresh: handleRefreshSessions } = useSessionsByStudentGroupId({ groupId, studentId });
+  const { sessions, handleRefresh: handleRefreshSessions, loading: loadingSessions } = useSessionsByStudentGroupId({ groupId, studentId });
 
   const handleRefresh = React.useCallback(() => {
     handleRefreshClasses();
@@ -55,7 +55,7 @@ export default function StudentClasses() {
 
   return (
     <>
-      <Page title='Student Classes' ActionButton={ShowButton}>
+      <Page title='Student Classes' ActionButton={ShowButton} loading={loading || loadingSessions}>
         <Grid container spacing={3}>
           {!showArchived && (
             <>
