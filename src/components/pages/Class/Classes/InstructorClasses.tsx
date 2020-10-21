@@ -19,7 +19,7 @@ export default function InstructorClasses() {
   const { data: instructorClasses, handleRefresh: refreshInstructor } = useClassesByUserId({ userId });
   const { data: adminClasses, handleRefresh: refreshAdmin } = useClassesByUserId({ userId: parentId });
 
-  const notAddedClasses = adminClasses.filter(ac => !instructorClasses.find(ic => ic.parentClassId === ac.id || ic.id === ac.id));
+  const notAddedClasses = adminClasses.filter(ac => !ac.deleted && !instructorClasses.find(ic => ic.parentClassId === ac.id || ic.id === ac.id));
   const notAddedClasses_str = JSON.stringify(notAddedClasses);
 
   const handleRefresh = React.useCallback(() => {
@@ -72,10 +72,11 @@ export default function InstructorClasses() {
             <Box pt={1} pb={1}>
               <Grid container spacing={1}>
                 <Grid item>
-                  <Typography
-                    variant='body2'
-                    color='error'
-                  >{`There are ${notAddedClasses.length} admin classes which are not included in your available classes.`}</Typography>
+                  <Typography variant='body2' color='error'>
+                    {notAddedClasses.length === 1 
+                      ? `There is ${notAddedClasses.length} admin class which is not included in your available classes.`
+                      : `There are ${notAddedClasses.length} admin classes which are not included in your available classes.`}
+                  </Typography>
                 </Grid>
                 <Grid item>
                   <DialogButton onClick={handleAdd} variant='link' underline='always'>

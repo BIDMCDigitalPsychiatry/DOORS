@@ -175,19 +175,18 @@ export default function Class({
             </Typography>
           )}
         </Grid>
-        {canArchive && (
-          <Grid item>
-            <DialogButton onClick={deleted === true ? handleRestore : handleArchive} variant='link' underline='always'>
-              {deleted === true ? 'Restore' : 'Archive'}
-            </DialogButton>
-          </Grid>
-        )}
-
         {(showChildClasses || childClasses.length > 0) && (
           <Grid item>
             <Typography variant='caption'>
               {childClasses.length} Instructor{childClasses.length === 1 ? '' : 's'}
             </Typography>
+          </Grid>
+        )}
+        {canArchive && (
+          <Grid item>
+            <DialogButton onClick={deleted === true ? handleRestore : handleArchive} variant='link' underline='always'>
+              {deleted === true ? 'Restore' : 'Archive'}
+            </DialogButton>
           </Grid>
         )}
       </Grid>
