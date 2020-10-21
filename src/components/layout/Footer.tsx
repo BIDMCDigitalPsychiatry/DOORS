@@ -73,9 +73,9 @@ export default function Footer() {
             <Grid container justify='center' spacing={2}>
               <Grid item xs={4}>
                 {!fullScreen && (
-                  <Link color='inherit' noWrap className={classes.pointer} onClick={handleChangeRoute('/StyleGuide')}>
+                  <Typography variant='body2' color='inherit' noWrap>
                     {userType} Portal - Under Construction
-                  </Link>
+                  </Typography>
                 )}
               </Grid>
               <Grid item xs={8}>
