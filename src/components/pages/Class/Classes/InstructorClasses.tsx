@@ -45,15 +45,29 @@ export default function InstructorClasses() {
     });
   }, [setRow, handleRefresh, notAddedClasses_str, userId]);
 
-  return (
-    <Page
-      title='Instructor Classes'
-      ActionButton={!isAdminMode && CreateNewClassButton}
-      backLabel={back?.label}
-      onBack={back?.route && changeRouteLayout(back.route)}
-    >
+  const [showArchived, setShowArchived] = React.useState(false);
+
+  const Buttons = React.useCallback(() => {
+    return (
       <Grid container spacing={3}>
-        {notAddedClasses.length > 0 && (
+        <Grid item>
+          <DialogButton size='large' onClick={() => setShowArchived(!showArchived)} fullWidth variant='styled'>
+            {showArchived ? 'Hide Archived' : 'Show Archived'}
+          </DialogButton>
+        </Grid>
+        {!isAdminMode && (
+          <Grid item>
+            <CreateNewClassButton />
+          </Grid>
+        )}
+      </Grid>
+    );
+  }, [isAdminMode, showArchived]);
+
+  return (
+    <Page title='Instructor Classes' ActionButton={Buttons} backLabel={back?.label} onBack={back?.route && changeRouteLayout(back.route)}>
+      <Grid container spacing={3}>
+        {!showArchived && notAddedClasses.length > 0 && (
           <Grid item xs={12}>
             <Box pt={1} pb={1}>
               <Grid container spacing={1}>
@@ -72,18 +86,29 @@ export default function InstructorClasses() {
             </Box>
           </Grid>
         )}
-        {instructorClasses.map(c => (
-          <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
-            <Class
-              {...c}
-              buttonLabel='View'
-              showUpdated={true}
-              onClick={changeRouteLayout('/ClassDashboard', {
-                class: c
-              })}
-            />
-          </Grid>
-        ))}
+        {showArchived && instructorClasses.filter(c => c.deleted).length === 0 && (
+          <>
+            <Box m={3}>
+              <Typography>There are no archived classes at this time.</Typography>
+            </Box>
+          </>
+        )}
+        {instructorClasses
+          .filter(c => (showArchived && c.deleted) || (!showArchived && !c.deleted))
+          .map(c => (
+            <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
+              <Class
+                {...c}
+                buttonLabel='View'
+                showUpdated={true}
+                onClick={changeRouteLayout('/ClassDashboard', {
+                  class: c
+                })}
+                canArchive={true}
+                onRefresh={handleRefresh}
+              />
+            </Grid>
+          ))}
       </Grid>
     </Page>
   );

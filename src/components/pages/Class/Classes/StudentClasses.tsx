@@ -43,14 +43,15 @@ export default function StudentClasses() {
   );
 
   const [showArchived, setShowArchived] = React.useState(false);
-  
+
   const ShowButton = React.useCallback(() => {
     return (
-      <DialogButton onClick={() => setShowArchived(!showArchived)} fullWidth variant='styled'>
-        {showArchived ? 'Hide Arhived' : 'Show Archived'}
+      <DialogButton size='large' onClick={() => setShowArchived(!showArchived)} fullWidth variant='styled'>
+        {showArchived ? 'Hide Archived' : 'Show Archived'}
       </DialogButton>
     );
   }, [showArchived]);
+  console.log({ deleted: instructorClasses.filter(c => c.deleted) });
 
   return (
     <>
@@ -60,7 +61,7 @@ export default function StudentClasses() {
             <>
               {[
                 instructorClasses
-                  .filter(c => !completed.find(s => s.classId === c.id) && !inProgress.find(s => s.classId === c.id)) // Don't show available class in progress or completed
+                  .filter(c => !c.deleted && !completed.find(s => s.classId === c.id) && !inProgress.find(s => s.classId === c.id)) // Don't show available class in progress or completed
                   .map(c => (
                     <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
                       <Class isAvailable={true} showUpdated={true} {...c} buttonLabel='Start' onClick={handleCreateSession(c)} />
