@@ -59,17 +59,18 @@ const ProfileDetails = ({ profile = {} as any, setProfile, onSuccess, ...rest })
               {email}
             </Typography>
             <Box mt={1}>
-              <Grid container justify='space-between' spacing={1}>
+              <Grid container justify='center' spacing={1}>
                 <Grid item>
                   <DialogButton disabled={disabled} variant='link' underline='always' onClick={changeRoute('/ForgotPassword')}>
                     CHANGE PASSWORD
                   </DialogButton>
                 </Grid>
-                <Grid item>
+                {/*<Grid item>
                   <DialogButton disabled={disabled} variant='link' underline='always' onClick={() => alert('To be implemented')}>
                     CHANGE EMAIL
                   </DialogButton>
                 </Grid>
+                */}
               </Grid>
             </Box>
           </Box>
