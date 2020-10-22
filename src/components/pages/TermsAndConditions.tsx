@@ -9,8 +9,8 @@ export default function TermsAndConditions() {
         <Grid container spacing={2}>
           <Grid item>
             <Typography>
-              DOORS offers materials for educational purposes. We are not a health care or medical device provider, and our materials should be interpreted as
-              medical advice. We make no claims, representations or guarantees that the teaching materials we provide offer physical or therapeutic benefit.
+              DOORS offers materials for educational purposes. We are not a health care or medical device provider, and our materials should not be interpreted
+              as medical advice. We make no claims, representations or guarantees that the teaching materials we provide offer physical or therapeutic benefit.
             </Typography>
           </Grid>
           <Grid item>
