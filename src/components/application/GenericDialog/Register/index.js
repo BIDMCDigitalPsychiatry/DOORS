@@ -81,7 +81,7 @@ const ViewTermsAndConditions = () => (
   </DialogButton>
 );
 
-export default function RegisterDialog({ id = title }) {
+export default function RegisterDialog({ id = title, onClose }) {
   const [dialogState, setState] = useDialogState(id);
   const { confirm } = dialogState;
   const dialogStateStr = JSON.stringify(dialogState);
@@ -147,6 +147,7 @@ export default function RegisterDialog({ id = title }) {
       title={id}
       submitLabel={values => (values.confirm ? 'Confirm' : id)}
       onSubmit={handleSubmit}
+      onClose={onClose}
       validate={handleValidation}
       fields={[
         {

@@ -70,8 +70,8 @@ export default function Login() {
 
   const { email, password } = values;
 
-  const [state, setState] = React.useState({ loading: false, errors: {}, forgotPassword: false });
-  const { loading, errors, forgotPassword } = state;
+  const [state, setState] = React.useState({ enableKeys: true, loading: false, errors: {}, forgotPassword: false });
+  const { enableKeys, loading, errors, forgotPassword } = state;
 
   const { handleLogin } = useLogin({ state, setState });
 
@@ -104,7 +104,7 @@ export default function Login() {
       onKeyUp={(e: any) => {
         if (e.keyCode === 13) {
           // Enter key
-          buttonRef.current && buttonRef.current.click();
+          enableKeys && buttonRef.current && buttonRef.current.click();
         }
       }}
     >
@@ -169,7 +169,16 @@ export default function Login() {
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <DialogButton Module={RegisterDialog} disabled={loading} size='medium' variant='contained' tooltip='' className={classes.button}>
+                    <DialogButton
+                      Module={RegisterDialog}
+                      disabled={loading}
+                      size='medium'
+                      variant='contained'
+                      tooltip=''
+                      onClick={() => setState(prev => ({ ...prev, enableKeys: false }))}
+                      onClose={() => setState(prev => ({ ...prev, enableKeys: true }))}
+                      className={classes.button}
+                    >
                       Create New Account
                     </DialogButton>
                   </div>
