@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux';
 import { tables } from '../../database/dbConfig';
 import useTableRow from '../../database/useTableRow';
 import useGroupName from '../../database/useGroupName';
+import * as ResearchPartyAgreementDialog from '../application/GenericDialog/ResearchPartyAgreement';
+import DialogButton from '../application/GenericDialog/DialogButton';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -136,16 +138,17 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <Button
+                    <DialogButton
+                      Module={ResearchPartyAgreementDialog}
                       ref={buttonRef}
                       fullWidth={true}
                       disabled={loading || isError}
                       variant='contained'
                       className={classes.button}
-                      onClick={handleSubmit(true)}
+                      onSubmit={handleSubmit(true)}
                     >
                       Accept Invite
-                    </Button>
+                    </DialogButton>
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                 </Grid>
