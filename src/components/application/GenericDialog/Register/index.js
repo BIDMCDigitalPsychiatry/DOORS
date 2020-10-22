@@ -7,6 +7,7 @@ import DialogButton from '../DialogButton';
 import { useLogin } from '../../../layout/hooks';
 import Check from '../../DialogField/Check';
 import * as TermsAndConditionsDialog from '../../GenericDialog/TermsAndConditions';
+import { Grid, Typography } from '@material-ui/core';
 
 const passwordValidator = require('password-validator');
 export const title = 'Create New Account';
@@ -17,19 +18,29 @@ const schema = new passwordValidator();
 schema.is().min(8).has().uppercase().has().lowercase().has().digits().has().symbols();
 
 const formatPasswordValidateError = errors => {
+  const displayErrors = [];
   for (let i = 0; i < errors.length; i++) {
     if (errors[i] === 'min') {
-      return 'Password length should be a at least 8 characters';
+      displayErrors.push('Password length should be a at least 8 characters');
     } else if (errors[i] === 'lowercase') {
-      return 'Password should contain lowercase letters';
+      displayErrors.push('Password should contain lowercase letters');
     } else if (errors[i] === 'uppercase') {
-      return 'Password should contain uppercase letters';
+      displayErrors.push('Password should contain uppercase letters');
     } else if (errors[i] === 'digits') {
-      return 'Password should contain digits';
+      displayErrors.push('Password should contain digits');
     } else if (errors[i] === 'symbols') {
-      return 'Password should contain symbols';
+      displayErrors.push('Password should contain symbols');
     }
   }
+  return (
+    <Grid container>
+      {displayErrors.map(e => (
+        <Grid item xs={12}>
+          <Typography variant='caption'>{e}</Typography>
+        </Grid>
+      ))}
+    </Grid>
+  );
 };
 
 const handleValidation = (values, dialogState) => {
