@@ -25,7 +25,7 @@ const validate = values => {
 };
 
 const getFields = email => [
-  { id: 'name', label: 'Name' },
+  { id: 'name', label: 'Name', required: true },
   { id: 'city', label: 'City', xs: 8 },
   { id: 'state', label: 'State', xs: 4 }
 ];

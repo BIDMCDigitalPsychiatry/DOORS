@@ -7,6 +7,7 @@ import Layout from './Layout';
 import AuthGate from './AuthGate';
 import InviteGate from './InviteGate';
 import UserTypeGate from './UserTypeGate';
+import ProfileGate from './ProfileGate';
 
 export interface AppRouterProps {
   history?: any;
@@ -19,9 +20,11 @@ function AppRouter(props: AppRouterProps) {
       <AuthGate>
         <InviteGate>
           <UserTypeGate>
+            <ProfileGate>
               <Layout>
                 <Routes />
               </Layout>
+            </ProfileGate>
           </UserTypeGate>
         </InviteGate>
       </AuthGate>

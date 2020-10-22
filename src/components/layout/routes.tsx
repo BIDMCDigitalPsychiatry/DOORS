@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
 import Instructors from '../pages/Instructors';
-import Profile from '../pages/Profile/Profile';
+import { ProfileProvider } from '../pages/Profile/Profile';
 import Calendar from '../pages/Calendar';
 import Classes from '../pages/Class/Classes/Classes';
 import ClassDashboard from '../pages/Class/ClassDashboard/ClassDashboard';
@@ -22,7 +22,7 @@ import { useHandleChangeRoute, useUserEmail } from './hooks';
 import { useUserType } from '../../hooks';
 import AccessDenied from '../pages/AccessDenied';
 import ClassReport from '../pages/Class/ClassReport/ClassReport';
-import InstructorClasses from '../pages/Class/Classes/InstructorClasses'; 
+import InstructorClasses from '../pages/Class/Classes/InstructorClasses';
 
 const ForgotPasswordRoute = () => {
   const email = useUserEmail();
@@ -48,7 +48,7 @@ const Routes = () => (
     <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassReport')} component={ClassReport} />
     <ProtectedRoute userTypes={['Admin']} exact path={publicUrl('/InstructorClasses')} component={InstructorClasses} />
     <Route exact path={publicUrl('/TermsAndConditions')} component={TermsAndConditions} />
-    <Route exact path={publicUrl('/Profile')} component={Profile} />
+    <Route exact path={publicUrl('/Profile')} component={ProfileProvider} />
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />
     <Route exact path={publicUrl('/Classes')} component={Classes} />
     <ProtectedRoute exact path={publicUrl('/Lesson')} component={Lesson} />
