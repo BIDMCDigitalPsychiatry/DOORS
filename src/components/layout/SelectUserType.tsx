@@ -3,9 +3,10 @@ import { makeStyles, Grid, Paper, Typography, Divider, Box } from '@material-ui/
 import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
-import { useChangeRoute, useHeight, useLayout, useLogout } from './hooks';
+import { useChangeRoute, useHeight, useLayout, useLogout, useUserEmail } from './hooks';
 import { onlyUnique } from '../../helpers';
 import useGroupName from '../../database/useGroupName';
+import { sendInviteRequestEmail } from './sendInviteRequestEmail';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -101,6 +102,12 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
     })
   );
 
+  const email = useUserEmail();
+
+  const handleRequest = React.useCallback(() => {
+    sendInviteRequestEmail({ email, onSuccess: () => alert('The program administrators have been notified of your invite request.  Once approved you will receive an invite link via email.') });
+  }, [email]);
+
   return (
     <div
       className={classes.root}
@@ -151,6 +158,17 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                     </div>
                   </Grid>
                 ))}
+                {isError && (
+                  <Grid item>
+                    <div className={classes.wrapper}>
+                      <Button fullWidth={true} variant='contained' className={classes.button} onClick={handleRequest}>
+                        <Grid item xs={12}>
+                          Request an Invite
+                        </Grid>
+                      </Button>
+                    </div>
+                  </Grid>
+                )}
                 <Grid item>
                   <div className={classes.wrapper}>
                     <Button fullWidth={true} variant='contained' onClick={onLogout}>
@@ -166,8 +184,8 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                       </Typography>
                       <Box mt={2}>
                         <Typography align='center' color='error' className={classes.summary}>
-                          Please contact your instructor or administrator to request an invite. Once you receive an invite, click the link in the email that you
-                          receive to accept.
+                          Please contact your instructor or administrator or click above to request an invite. Once you receive an invite, click the link in the
+                          email that you receive to accept.
                         </Typography>
                       </Box>
                     </>

@@ -8,7 +8,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 
 export const sendHelpEmail = ({ name, email, message, onSuccess = undefined, onError = undefined }) => {
-  const body = `Help Request - Doors Web Application:
+  const body = `Help Request - DOORS Web Application:
     <p>Name: ${name}</p>  
     <p>User Email: ${email}</p>  
     <p>Message: ${message}</p>
@@ -35,7 +35,7 @@ export const sendHelpEmail = ({ name, email, message, onSuccess = undefined, onE
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: `Help Request - Doors Web Application`
+        Data: `Help Request - DOORS Web Application`
       }
     },
     Source: sourceEmailAddress,
