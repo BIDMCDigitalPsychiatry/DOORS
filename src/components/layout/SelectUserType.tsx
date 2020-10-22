@@ -105,7 +105,10 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
   const email = useUserEmail();
 
   const handleRequest = React.useCallback(() => {
-    sendInviteRequestEmail({ email, onSuccess: () => alert('The program administrators have been notified of your invite request.  Once approved you will receive an invite link via email.') });
+    sendInviteRequestEmail({
+      email,
+      onSuccess: () => alert('The program administrators have been notified of your invite request.  Once approved you will receive an invite link via email.')
+    });
   }, [email]);
 
   return (
@@ -184,8 +187,7 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                       </Typography>
                       <Box mt={2}>
                         <Typography align='center' color='error' className={classes.summary}>
-                          Please contact your instructor or administrator or click above to request an invite. Once you receive an invite, click the link in the
-                          email that you receive to accept.
+                          Please contact your instructor or administrator or click above to request an invite.
                         </Typography>
                       </Box>
                     </>
