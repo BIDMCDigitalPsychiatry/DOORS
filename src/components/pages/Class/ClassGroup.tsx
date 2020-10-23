@@ -2,7 +2,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import { Card, Typography, makeStyles, Grid, Box, Divider, Tooltip } from '@material-ui/core';
 import StyledButton from '../../general/StyledButton';
-import { getDateFromTimestamp, getDayMonthYear, sortUdpatedDescending, yyyymmdd } from '../../../helpers';
+import { getDateFromTimestamp, getDayMonthYear, isEmpty, sortUdpatedDescending, yyyymmdd } from '../../../helpers';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as AddStudentDialog from '../../application/GenericDialog/AddStudent';
 import * as MarkAttendanceDialog from '../../application/GenericDialog/MarkAttendance';
@@ -46,15 +46,15 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
   }
 }));
 
-export const buildParticipants = (students, sessions) => {
+export const buildParticipants = (students, sessions, includeStatus = true) => {
   var participants = [];
   students.forEach(as => {
     const ss = sessions.filter(s => s.studentId === as.id);
     participants.push({
       student: as,
       sessions: ss,
-      completed: ss.filter(c => c.completed === true && !c.deleted).sort(sortUdpatedDescending),
-      inProgress: ss.filter(c => c.completed !== true && !c.deleted).sort(sortUdpatedDescending)
+      completed: includeStatus && ss.filter(c => c.completed === true && !c.deleted).sort(sortUdpatedDescending),
+      inProgress: includeStatus && ss.filter(c => c.completed !== true && !c.deleted).sort(sortUdpatedDescending)
     });
   });
 
@@ -78,7 +78,7 @@ export default function ClassGroup({
   created = undefined,
   className = undefined
 }) {
-  const classes = useStyles();  
+  const classes = useStyles();
 
   const { row: instructorProfile } = useTableRow({ Model: tables.profiles, id: userId });
   const { pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
@@ -87,9 +87,9 @@ export default function ClassGroup({
   const { sessions } = useSessionsByGroupId({ groupId: id, classId });
   const instructorName = instructorProfile?.name;
 
-  const activeParticipants = buildParticipants(activeStudents, sessions);
-  const pendingParticipants = buildParticipants(pendingStudents, sessions);
-  const deletedParticipants = buildParticipants(deletedStudents, sessions);
+  const activeParticipants = buildParticipants(activeStudents, sessions, !isEmpty(classId));
+  const pendingParticipants = buildParticipants(pendingStudents, sessions, !isEmpty(classId));
+  const deletedParticipants = buildParticipants(deletedStudents, sessions, !isEmpty(classId));
 
   return (
     <Card className={clsx(classes.root, className)}>
@@ -103,9 +103,11 @@ export default function ClassGroup({
                     <Typography noWrap variant='h6' className={classes.semibold}>
                       Group ID: {id}
                     </Typography>
-                    <Typography noWrap variant='h6' className={classes.semibold}>
-                      Class ID: {classId}
-                    </Typography>
+                    {classId && (
+                      <Typography noWrap variant='h6' className={classes.semibold}>
+                        Class ID: {classId}
+                      </Typography>
+                    )}
                     <Typography noWrap variant='h6' className={classes.semibold}>
                       User ID: {userId}
                     </Typography>
@@ -184,65 +186,69 @@ export default function ClassGroup({
                     Add New Student
                   </DialogButton>
                 </Grid>
-                <Grid item xs={12}>
-                  <DialogButton
-                    Module={MarkAttendanceDialog}
-                    mount={mount}
-                    fullWidth={true}
-                    onClose={handleRefresh}
-                    variant='styled'
-                    size='large'
-                    tooltip=''
-                    initialValues={{
-                      groupId: id,
-                      classId,
-                      date: yyyymmdd(),
-                      dateString: getDayMonthYear(),
-                      students: activeStudents.reduce((f, c) => {
-                        f[c.id] = c;
-                        return f;
-                      }, {})
-                    }}
-                  >
-                    Mark Attendance
-                  </DialogButton>
-                </Grid>
-                <Grid item xs={12}>
-                  <DialogButton
-                    Module={AttendanceHistoryDialog}
-                    mount={mount}
-                    fullWidth={true}
-                    onClose={handleRefresh}
-                    variant='styled'
-                    styledVariant='secondary'
-                    size='large'
-                    tooltip=''
-                    initialValues={{
-                      classId,
-                      groupId: id,
-                      date: yyyymmdd(),
-                      dateString: getDayMonthYear(),
-                      students: activeStudents.reduce((f, c) => {
-                        f[c.id] = c;
-                        return f;
-                      }, {})
-                    }}
-                  >
-                    View Attendance History
-                  </DialogButton>
-                </Grid>
-                <Grid item xs={12}>
-                  <StyledButton
-                    variant='secondary'
-                    fullWidth={true}
-                    onClick={changeRouteLayout('/ClassReport', {
-                      groupId: id,
-                      classId
-                    })}
-                  >
-                    View Class Report
-                  </StyledButton>
-                </Grid>
+                {!isEmpty(classId) && (
+                  <>
+                    <Grid item xs={12}>
+                      <DialogButton
+                        Module={MarkAttendanceDialog}
+                        mount={mount}
+                        fullWidth={true}
+                        onClose={handleRefresh}
+                        variant='styled'
+                        size='large'
+                        tooltip=''
+                        initialValues={{
+                          groupId: id,
+                          classId,
+                          date: yyyymmdd(),
+                          dateString: getDayMonthYear(),
+                          students: activeStudents.reduce((f, c) => {
+                            f[c.id] = c;
+                            return f;
+                          }, {})
+                        }}
+                      >
+                        Mark Attendance
+                      </DialogButton>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <DialogButton
+                        Module={AttendanceHistoryDialog}
+                        mount={mount}
+                        fullWidth={true}
+                        onClose={handleRefresh}
+                        variant='styled'
+                        styledVariant='secondary'
+                        size='large'
+                        tooltip=''
+                        initialValues={{
+                          classId,
+                          groupId: id,
+                          date: yyyymmdd(),
+                          dateString: getDayMonthYear(),
+                          students: activeStudents.reduce((f, c) => {
+                            f[c.id] = c;
+                            return f;
+                          }, {})
+                        }}
+                      >
+                        View Attendance History
+                      </DialogButton>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <StyledButton
+                        variant='secondary'
+                        fullWidth={true}
+                        onClick={changeRouteLayout('/ClassReport', {
+                          groupId: id,
+                          classId
+                        })}
+                      >
+                        View Class Report
+                      </StyledButton>
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Grid>
           </Grid>

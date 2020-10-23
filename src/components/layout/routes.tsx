@@ -23,6 +23,7 @@ import { useUserType } from '../../hooks';
 import AccessDenied from '../pages/AccessDenied';
 import ClassReport from '../pages/Class/ClassReport/ClassReport';
 import InstructorClasses from '../pages/Class/Classes/InstructorClasses';
+import Groups from '../pages/Groups';
 
 const ForgotPasswordRoute = () => {
   const email = useUserEmail();
@@ -40,6 +41,7 @@ const Routes = () => (
   <Switch>
     <ProtectedRoute userTypes={['Admin']} exact path={publicUrl('/PlayGround')} component={PlayGround} />
     <ProtectedRoute userTypes={['Admin']} exact path={publicUrl('/Instructors')} component={Instructors} />
+    <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/Groups')} component={Groups} />
     <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/StyleGuide')} component={StyleGuide} />
     <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/CreateClass')} component={CreateClass} />
     <ProtectedRoute userTypes={['Instructor', 'Admin']} exact path={publicUrl('/ClassMaterials')} component={ClassMaterials} />

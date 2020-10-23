@@ -1,7 +1,6 @@
 export default interface Group {
-  id: string; // unique identifier  
-  userId: string; // id of user who created this group
-  classId: string; // id of class that group is linked to - depending on implementation this may be removed
+  id: string; // unique identifier
+  userId: string; // id of user who created this group  
   name: string; // Name of group, such as 0001
   location: string;
   type: string;
@@ -10,4 +9,3 @@ export default interface Group {
   updated?: number;
   deleted?: boolean;
 }
-
