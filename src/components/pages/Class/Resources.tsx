@@ -18,7 +18,7 @@ export default function Resources() {
     <Page title='Resources' ActionButton={() => <YourProgress value={100} />}>
       <>
         <Typography>You can visit the following resources to complement your learning and practice your skills.</Typography>
-        <BlockListClassResource isOwner={false} value={classResources} />
+        <BlockListClassResource enableLock={false} isOwner={false} value={classResources} />
         <Box mt={4}>
           <Grid container spacing={2}>
             <Grid item>

@@ -58,6 +58,7 @@ export default function ActionCardClassResource({
   children = undefined,
   viewed = false,
   isOwner,
+  enableLock = true,
   ...rest
 }) {
   const isAdmin = useIsAdmin();
@@ -132,7 +133,7 @@ export default function ActionCardClassResource({
                 </StyledButton>
               </Grid>
             )}
-            {((isAdminMode && isAdmin) || isOwner) && (
+            {enableLock && ((isAdminMode && isAdmin) || isOwner) && (
               <Grid item>
                 <StyledButton Icon={bool(locked) ? Icons.Lock : Icons.LockOpen} variant='text' width={140} onClick={handleLock(item)}>
                   {bool(locked) ? 'Locked' : 'Un-locked'}

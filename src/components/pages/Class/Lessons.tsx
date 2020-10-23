@@ -52,7 +52,7 @@ export default function Lessons() {
         ) : (
           <>
             <Typography>View each of the following lessons prior to continuing:</Typography>
-            <BlockListClassResource handleLink={handleLink} isOwner={false} viewLabel='View Lesson' value={presentations} viewed={viewedPresentations} />
+            <BlockListClassResource enableLock={false} handleLink={handleLink} isOwner={false} viewLabel='View Lesson' value={presentations} viewed={viewedPresentations} />
           </>
         )}
 

@@ -124,6 +124,7 @@ export default function CreateClass() {
               add={true}
               edit={true}
               onChange={handleChange('classPresentations')}
+              
             />
           </Grid>
           <Grid item xs={12}>
@@ -134,6 +135,7 @@ export default function CreateClass() {
               isOwner={isOwner}
               add={true}
               onChange={handleChange('classResources')}
+              enableLock={true}
             />
           </Grid>
           <Grid item xs={12}>
