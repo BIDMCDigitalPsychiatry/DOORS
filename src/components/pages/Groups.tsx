@@ -50,7 +50,7 @@ export default function Groups() {
           <Grid container style={{ padding: !fullScreen ? 24 : 8 }} spacing={3}>
             {groups.map((g, i) => (
               <Grid item key={g?.id} xs={12}>
-                <ClassGroup {...g} mount={i === 0} />
+                <ClassGroup {...g} handleRefreshGroups={handleRefresh} mount={i === 0} />
               </Grid>
             ))}
           </Grid>

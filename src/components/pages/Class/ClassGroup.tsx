@@ -12,7 +12,7 @@ import { tables } from '../../../database/dbConfig';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import useTableRow from '../../../database/useTableRow';
-import { useSessionsByGroupId } from '../../../database/useSessions';
+import { useSessionsByClassId } from '../../../database/useSessions';
 import { ParticipantsDetailed } from './ParticipantsDetailed';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
@@ -76,20 +76,23 @@ export default function ClassGroup({
   location = 'Unknown Location',
   type = 'Unknown Type',
   created = undefined,
-  className = undefined
+  className = undefined,
+  handleRefreshGroups
 }) {
   const classes = useStyles();
 
   const { row: instructorProfile } = useTableRow({ Model: tables.profiles, id: userId });
-  const { pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
+  const { students, pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
   const changeRouteLayout = useHandleChangeRouteLayout();
 
-  const { sessions } = useSessionsByGroupId({ groupId: id, classId });
+  const { sessions } = useSessionsByClassId({ classId });
+  const filtered = sessions.filter(session => students.find(student => student.id === session.studentId)); // TODO Filter by active student id's instead
+
   const instructorName = instructorProfile?.name;
 
-  const activeParticipants = buildParticipants(activeStudents, sessions, !isEmpty(classId));
-  const pendingParticipants = buildParticipants(pendingStudents, sessions, !isEmpty(classId));
-  const deletedParticipants = buildParticipants(deletedStudents, sessions, !isEmpty(classId));
+  const activeParticipants = buildParticipants(activeStudents, filtered, !isEmpty(classId));
+  const pendingParticipants = buildParticipants(pendingStudents, filtered, !isEmpty(classId));
+  const deletedParticipants = buildParticipants(deletedStudents, filtered, !isEmpty(classId));
 
   return (
     <Card className={clsx(classes.root, className)}>
@@ -159,7 +162,7 @@ export default function ClassGroup({
                 .map((props, i) => (
                   <Box key={i} mb={1}>
                     {i !== 0 && <MarginDivider />}
-                    <ParticipantsDetailed onRefresh={handleRefresh} {...props} />
+                    <ParticipantsDetailed move={true} onRefreshGroups={handleRefreshGroups} onRefresh={handleRefresh} {...props} />
                   </Box>
                 ))}
             </Grid>
@@ -241,7 +244,8 @@ export default function ClassGroup({
                         fullWidth={true}
                         onClick={changeRouteLayout('/ClassReport', {
                           groupId: id,
-                          classId
+                          classId,
+                          sessions: filtered
                         })}
                       >
                         View Class Report

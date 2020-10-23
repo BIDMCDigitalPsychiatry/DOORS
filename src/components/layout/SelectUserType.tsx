@@ -4,7 +4,6 @@ import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
 import { useChangeRoute, useHeight, useLayout, useLogout, useUserEmail } from './hooks';
-import { onlyUnique } from '../../helpers';
 import useGroupName from '../../database/useGroupName';
 import { sendInviteRequestEmail } from './sendInviteRequestEmail';
 
@@ -89,14 +88,11 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
   );
 
   // Student buttons
-  // Note that students are linked to a student group, so we only need a button for each unique group
-  const uniqueStudentGroupIds = students.map(s => s.groupId).filter(onlyUnique);
   buttons = buttons.concat(
-    uniqueStudentGroupIds.map(groupId => {
-      const student = students.find(s => s.groupId === groupId); // Find the first student entry with a matching group id
+    students.map(student => {
       return {
         label: 'Student',
-        groupId: uniqueStudentGroupIds.length > 1 && student.groupId,
+        groupId: student.groupId,
         state: { admin: false, student, instructor: undefined }
       };
     })

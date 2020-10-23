@@ -8,7 +8,7 @@ export default function ActionCards({ cards }) {
   const [{ class: classData }] = useLayout();
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
-  const handleCreateSession = useHandleCreateSession({ studentId: undefined, studentUserId: undefined, groupId: undefined }); // Don't specify student or group id's when viewing as student
+  const handleCreateSession = useHandleCreateSession({ studentId: undefined, studentUserId: undefined }); // Don't specify student or group id's when viewing as student
 
   return (
     <Grid container spacing={3}>
