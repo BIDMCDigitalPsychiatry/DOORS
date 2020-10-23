@@ -49,12 +49,14 @@ export default function ActionCardClassResource({
   viewLabel = 'View Resource',
   actionLabel = 'View',
   onClick = undefined,
+  handleLink: HandleLink = undefined,
   className = undefined,
   disabled = undefined,
   onLock = undefined,
   onRemove = undefined,
   onEdit = undefined,
   children = undefined,
+  viewed = false,
   isOwner,
   ...rest
 }) {
@@ -75,34 +77,36 @@ export default function ActionCardClassResource({
 
   return (
     <Card className={clsx(classes.root, className)}>
-      <Box textAlign='center' pt={1} className={classes.iconContainer} onClick={handleLink}>
+      <Box textAlign='center' pt={1} className={classes.iconContainer} onClick={HandleLink ? HandleLink(item) : handleLink}>
         <Grid container>
           <Grid item xs={12}>
             <Icon className={classes.icon} />
           </Grid>
           <Grid item xs={12}>
-            <StyledButton color='inherit' variant='whiteText' onClick={handleLink}>
+            <StyledButton color='inherit' variant='whiteText' onClick={handleLink ? HandleLink(item) : handleLink}>
               {viewLabel}
+              {viewed && <Icons.CheckCircle style={{ height: 20, marginLeft: 2 }} />}
             </StyledButton>
           </Grid>
         </Grid>
       </Box>
       <div className={classes.header}>
-        <Grid container spacing={1}>
-          <Grid item xs>
+        <Grid container>
+          <Grid item xs={12}>
             {name && (
               <Typography noWrap gutterBottom variant='h5'>
                 {name}
               </Typography>
             )}
           </Grid>
+          {type && (
+            <Grid item xs={12}>
+              <Typography gutterBottom variant='subtitle1' color='textPrimary'>
+                {type}
+              </Typography>
+            </Grid>
+          )}
         </Grid>
-
-        {type && (
-          <Typography gutterBottom variant='subtitle1' color='textPrimary'>
-            {type}
-          </Typography>
-        )}
       </div>
       {children}
 

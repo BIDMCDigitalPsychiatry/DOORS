@@ -39,7 +39,7 @@ export default function CreateClass() {
     surveyQuestions: [],
     rankingModel: defaultRankingModels,
     classResources: [],
-    classPresentation: ''
+    classPresentations: []
   } as Class);
 
   const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentations } = state;

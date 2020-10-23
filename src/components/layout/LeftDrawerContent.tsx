@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const steps = [{ label: 'Pre-Survey' }, { label: 'Lesson' }, { label: 'Post-Survey' }, { label: 'Resources' }];
+export const steps = [{ label: 'Pre-Survey' }, { label: 'Lessons' }, { label: 'Post-Survey' }, { label: 'Resources' }];
 
 export default function VerticalLinearStepper() {
   const classes = useStyles();

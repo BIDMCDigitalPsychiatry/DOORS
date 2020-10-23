@@ -13,7 +13,7 @@ import TermsAndConditions from '../pages/TermsAndConditions';
 import StyleGuide from '../pages/StyleGuide';
 import PostSurvey from '../pages/Class/PostSurvey';
 import PreSurvey from '../pages/Class/PreSurvey';
-import Lesson from '../pages/Class/Lesson';
+import Lessons from '../pages/Class/Lessons';
 import Resources from '../pages/Class/Resources';
 import Congratulations from '../pages/Class/Congratulations';
 import CreateClass from '../pages/Class/CreateClass';
@@ -53,7 +53,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/Profile')} component={ProfileProvider} />
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />
     <Route exact path={publicUrl('/Classes')} component={Classes} />
-    <ProtectedRoute exact path={publicUrl('/Lesson')} component={Lesson} />
+    <ProtectedRoute exact path={publicUrl('/Lessons')} component={Lessons} />
     <ProtectedRoute exact path={publicUrl('/Pre-Survey')} component={PreSurvey} />
     <ProtectedRoute exact path={publicUrl('/Post-Survey')} component={PostSurvey} />
     <ProtectedRoute exact path={publicUrl('/Resources')} component={Resources} />

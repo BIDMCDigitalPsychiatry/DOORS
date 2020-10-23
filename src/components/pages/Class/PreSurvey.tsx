@@ -12,7 +12,7 @@ import RankingModel from './RankingModel';
 import { ageQuestionLabel } from '../../../constants';
 import { useSessionData } from '../../../database/useSessionData';
 
-const nextRoute = '/Lesson';
+const nextRoute = '/Lessons';
 
 export default function PreSurvey() {
   const { session, handleChange, handleSaveSession } = useSessionData();

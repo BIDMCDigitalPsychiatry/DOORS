@@ -36,7 +36,7 @@ export default function StudentClasses() {
   const handleResume = React.useCallback(
     session => () => {
       // Restore the last route, if applicable
-      const route = ['/Pre-Survey', '/Lesson', '/Post-Survey', '/Resources'].find(r => r === session?.currentRoute) ?? nextRoute;
+      const route = ['/Pre-Survey', '/Lessons', '/Post-Survey', '/Resources'].find(r => r === session?.currentRoute) ?? nextRoute;
       changeRouteLayout(route, { session });
     },
     [changeRouteLayout]
