@@ -40,20 +40,6 @@ export const useSessionsByStudentId = ({ studentId }) => {
   });
 };
 
-export const useSessionsByClassId = ({ classId }) => {
-  return useSessions({
-    requestParams: {
-      FilterExpression: '#classId = :classId',
-      ExpressionAttributeNames: {
-        '#classId': 'classId'
-      },
-      ExpressionAttributeValues: {
-        ':classId': classId
-      }
-    }
-  });
-};
-
 export const useHandleCreateSession = ({ studentId, studentUserId, nextRoute = '/Pre-Survey' }) => {
   const changeRouteLayout = useChangeRouteLayout();
 

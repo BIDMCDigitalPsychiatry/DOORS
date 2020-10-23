@@ -12,7 +12,7 @@ import { tables } from '../../../database/dbConfig';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
 import MarginDivider from '../../application/DialogField/MarginDivider';
 import useTableRow from '../../../database/useTableRow';
-import { useSessionsByClassId } from '../../../database/useSessions';
+import useSessions from '../../../database/useSessions';
 import { ParticipantsDetailed } from './ParticipantsDetailed';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
@@ -85,8 +85,8 @@ export default function ClassGroup({
   const { students, pendingStudents, deletedStudents, activeStudents, handleRefresh } = useGroupStudents({ groupId: id });
   const changeRouteLayout = useHandleChangeRouteLayout();
 
-  const { sessions } = useSessionsByClassId({ classId });
-  const filtered = sessions.filter(session => students.find(student => student.id === session.studentId)); // TODO Filter by active student id's instead
+  const { sessions } = useSessions();
+  const filtered = sessions.filter(session => (isEmpty(classId) || session?.classId === classId) && students.find(student => student.id === session.studentId)); // TODO Filter by active student id's instead
 
   const instructorName = instructorProfile?.name;
 
