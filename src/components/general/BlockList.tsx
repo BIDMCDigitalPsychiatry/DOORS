@@ -27,7 +27,7 @@ export function BlockList({
   DialogModule = BlockListDialog,
   onChange,
   isOwner
-}) {
+}) {  
   const value_str = JSON.stringify(value);
 
   // Replace or remove (set item to undefined when removing)

@@ -4,6 +4,7 @@ import { Box, Card, Typography, makeStyles, CardActions, Grid } from '@material-
 import StyledButton from './StyledButton';
 import { bool } from '../../helpers';
 import * as Icons from '@material-ui/icons';
+import { useIsAdmin, useIsAdminMode } from '../../hooks';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
@@ -45,8 +46,11 @@ export default function ActionCard({
   onRemove = undefined,
   onEdit = undefined,
   isOwner = false,
-  children = undefined
+  children = undefined,
+  enableLock = true
 }) {
+  const isAdmin = useIsAdmin();
+  const isAdminMode = useIsAdminMode();
   const classes = useStyles({ minHeight });
   const { name, locked } = item;
   const handleLock = React.useCallback(item => () => onLock && onLock(item), [onLock]);
@@ -108,7 +112,7 @@ export default function ActionCard({
                 </StyledButton>
               </Grid>
             )}
-            {isOwner && (
+            {enableLock && ((isAdminMode && isAdmin) || isOwner) && (
               <Grid item>
                 <StyledButton Icon={bool(locked) ? Icons.Lock : Icons.LockOpen} variant='text' width={140} onClick={handleLock(item)}>
                   {bool(locked) ? 'Locked' : 'Un-locked'}
