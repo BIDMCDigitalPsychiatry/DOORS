@@ -125,6 +125,7 @@ export default function ParticipantDetailed({
         {move && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
+              id={['change-group',student?.id].join('-')}
               onClose={onRefreshGroups}
               Module={ChangeGroupDialog}
               initialValues={{ id: student?.id }}
