@@ -43,7 +43,6 @@ export default function useData({ id, active = true, Model = tables.classes, ini
   // Save the newValues data to the back-end
   const updateData = React.useCallback(
     (newValues, OnSuccess = undefined, OnError = undefined) => {
-      console.log('Updating data...');
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
         const Data = { ...JSON.parse(data_str), id, ...newValues };

@@ -56,6 +56,29 @@ const ViewClassesButton = props => {
   );
 };
 
+const ViewGroupsButton = props => {
+  const disabled = props?.Invite !== 'Accepted';
+  const userId = useUserId(); // Admin userid
+
+  const changeRoute = useHandleChangeRouteLayout();
+
+  return (
+    <DialogButton
+      disabled={disabled}
+      variant='link'
+      linkVariant='subtitle2'
+      underline='always'
+      onClick={changeRoute('/Groups', {
+        back,
+        instructor: { userId: props?.userId, parentId: userId }
+      })}
+      {...props}
+    >
+      {disabled ? 'N/A' : 'View Groups'}
+    </DialogButton>
+  );
+};
+
 export default function Instructors({ name = 'Instructors', ...other }) {
   const [{ value: tab = 'Active' }] = useTabSelector(name);
   const selectedTab = tabs.find(t => t.id === tab);
@@ -76,6 +99,11 @@ export default function Instructors({ name = 'Instructors', ...other }) {
         { name: 'title', header: 'Title' },
         { name: 'institution', header: 'Institution' },
         { name: 'Invite', header: 'Invite Status' },
+        {
+          name: 'Groups',
+          header: 'View Groups',
+          Cell: ViewGroupsButton
+        },
         {
           name: 'Classes',
           header: 'View Classes',

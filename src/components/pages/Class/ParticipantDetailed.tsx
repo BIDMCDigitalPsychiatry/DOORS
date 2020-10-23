@@ -12,6 +12,7 @@ import { useSnackBar } from '../../application/SnackBar/useSnackBar';
 import { green, yellow } from '@material-ui/core/colors';
 import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
 import { getObjectUrl } from '../../../aws-exports';
+import * as ChangeGroupDialog from '../../application/GenericDialog/ChangeGroup';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -40,11 +41,13 @@ export default function ParticipantDetailed({
   view = true,
   viewReport = false,
   remove = true,
+  move = false,
   onRefresh = undefined,
+  onRefreshGroups = undefined,
   ...rest
 }) {
   const classes = useStyles();
-  const student = participant?.student;  
+  const student = participant?.student;
   const { profile } = useProfile({ id: student?.userId });
   const [state, setState] = React.useState();
   const { readSetRow } = useTableRow({ Model: tables.students, id: student?.id, state, setState });
@@ -116,6 +119,21 @@ export default function ParticipantDetailed({
               fullWidth
             >
               View Report
+            </DialogButton>
+          </Grid>
+        )}
+        {move && (
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <DialogButton
+              onClose={onRefreshGroups}
+              Module={ChangeGroupDialog}
+              initialValues={{ id: student?.id }}
+              variant='link'
+              underline='always'
+              linkVariant='body2'
+              fullWidth
+            >
+              Change Group
             </DialogButton>
           </Grid>
         )}

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { updateSnackBar } from '../components/application/SnackBar/store';
 import { dynamo } from './dbConfig';
-import { useUpdateDatabase } from './useUpdateDatabase';
 
 export interface ProcessDataInfo {
   Model?: any;
@@ -15,17 +14,15 @@ export interface ProcessDataInfo {
 
 export const useProcessData = () => {
   const dispatch = useDispatch();
-  const updateDatabase = useUpdateDatabase();
-  return React.useCallback((pdi: ProcessDataInfo) => dispatch(processData(pdi, updateDatabase)), [dispatch, updateDatabase]);
+  return React.useCallback((pdi: ProcessDataInfo) => dispatch(processData(pdi)), [dispatch]);
 };
 
 export const useProcessDataHandle = () => {
   const dispatch = useDispatch();
-  const updateDatabase = useUpdateDatabase();
-  return React.useCallback((pdi: ProcessDataInfo) => () => dispatch(processData(pdi, updateDatabase)), [dispatch, updateDatabase]);
+  return React.useCallback((pdi: ProcessDataInfo) => () => dispatch(processData(pdi)), [dispatch]);
 };
 
-async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
+async function executeTransaction(pdi, Data, dispatch) {
   const { Model: Table, Action = 'c', Snackbar = false, onSuccess = undefined, onError = undefined } = pdi;
 
   if (Action === 'c' || Action === 'u' || Action === 'd') {
@@ -38,7 +35,6 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
       } else {
         Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
         onSuccess && onSuccess(data, Data);
-        (Action === 'c' || Action === 'u' || Action === 'd') && updateDatabase({ table: Table, id: Data.id, payload: { ...Data, _rev: Data._rev } }); // write data to local state, make sure to update the revision as well so subsequent writes won't throw a document conflict error
       }
     });
   } else {
@@ -56,7 +52,7 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
   }
 }
 
-const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: any, getState: any) => {
+const processData = (pdi: ProcessDataInfo) => async (dispatch: any, getState: any) => {
   const { Model: Table, Data: DataProp, Action = 'c', Snackbar = true, onError = undefined } = pdi;
   const Data = {
     ...DataProp,
@@ -65,7 +61,7 @@ const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: a
     deleted: Action === 'd' ? true : DataProp.deleted
   };
   try {
-    executeTransaction(pdi, Data, updateDatabase, dispatch);
+    executeTransaction(pdi, Data, dispatch);
   } catch (error) {
     if (error.statusCode === 409) {
       //Document update conflict.  This can happen if someone updated the document at the server while another user's browser is editing an earlier revision

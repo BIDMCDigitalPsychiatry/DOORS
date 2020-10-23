@@ -18,7 +18,7 @@ export const sendInstructorInvite = ({
   onError = undefined
 }) => {
   console.log('Sending instructor invite to: ' + email);
-  const body = `You have been invited to the Doors Web Application:
+  const body = `You have been invited to the DOORS Web Application:
     <p>User Email: ${email}</p>  
     <p>Role: ${role}</p>
     <p>Role: ${title}</p>
@@ -48,7 +48,7 @@ export const sendInstructorInvite = ({
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: `${role} Invitation to Doors Web Application!`
+        Data: `${role} Invitation to DOORS Web Application!`
       }
     },
     Source: sourceEmailAddress /* required */,

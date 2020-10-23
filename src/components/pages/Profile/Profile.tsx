@@ -6,9 +6,13 @@ import Page from '../Page';
 import { useProfile } from '../../../database/useProfile';
 import { useUserId } from '../../layout/hooks';
 
-export default function Profile() {
+export const ProfileProvider = () => {
   const id = useUserId();
   const { profile, setProfile, handleRefresh, loading } = useProfile({ id });
+  return <Profile profile={profile} setProfile={setProfile} handleRefresh={handleRefresh} loading={loading} />;
+};
+
+export default function Profile({ profile, setProfile, handleRefresh, loading }) {
   return (
     <Page title='My Profile' loading={loading}>
       <Grid container spacing={2}>

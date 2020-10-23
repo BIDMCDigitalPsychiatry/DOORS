@@ -3,7 +3,7 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import Class from '../Class';
 import Page from '../../Page';
 import { useChangeRouteLayout, useHandleChangeRouteLayout, useLayout } from '../../../layout/hooks';
-import { useHandleCreateSession, useSessionsByStudentGroupId } from '../../../../database/useSessions';
+import { useHandleCreateSession, useSessionsByStudentId } from '../../../../database/useSessions';
 import { sortUdpatedDescending } from '../../../../helpers';
 import useClassesByUserId from '../useClassesByUserId';
 import { tables } from '../../../../database/dbConfig';
@@ -13,11 +13,11 @@ const nextRoute = '/Pre-Survey';
 
 export default function StudentClasses() {
   const [{ student }] = useLayout();
-  const { id: studentId, userId: studentUserId, groupId, parentId } = student;
+  const { id: studentId, userId: studentUserId, parentId } = student;
 
   const { data: instructorClasses, handleRefresh: handleRefreshClasses, loading } = useClassesByUserId({ userId: parentId });
 
-  const { sessions, handleRefresh: handleRefreshSessions, loading: loadingSessions } = useSessionsByStudentGroupId({ groupId, studentId });
+  const { sessions, handleRefresh: handleRefreshSessions, loading: loadingSessions } = useSessionsByStudentId({ studentId });
 
   const handleRefresh = React.useCallback(() => {
     handleRefreshClasses();
@@ -31,12 +31,12 @@ export default function StudentClasses() {
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
   const changeRouteLayout = useChangeRouteLayout();
 
-  const handleCreateSession = useHandleCreateSession({ studentId, studentUserId, groupId, nextRoute });
+  const handleCreateSession = useHandleCreateSession({ studentId, studentUserId, nextRoute });
 
   const handleResume = React.useCallback(
     session => () => {
       // Restore the last route, if applicable
-      const route = ['/Pre-Survey', '/Lesson', '/Post-Survey', '/Resources'].find(r => r === session?.currentRoute) ?? nextRoute;
+      const route = ['/Pre-Survey', '/Lessons', '/Post-Survey', '/Resources'].find(r => r === session?.currentRoute) ?? nextRoute;
       changeRouteLayout(route, { session });
     },
     [changeRouteLayout]
@@ -50,7 +50,7 @@ export default function StudentClasses() {
         {showArchived ? 'Hide Archived' : 'Show Archived'}
       </DialogButton>
     );
-  }, [showArchived]);  
+  }, [showArchived]);
 
   return (
     <>

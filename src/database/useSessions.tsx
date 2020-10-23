@@ -26,49 +26,21 @@ export default function useSessions({ requestParams = undefined } = {}) {
   };
 }
 
-export const useSessionsByStudentGroupId = ({ groupId, studentId }) => {
+export const useSessionsByStudentId = ({ studentId }) => {
   return useSessions({
     requestParams: {
-      FilterExpression: '#groupId = :groupId AND #studentId = :studentId',
+      FilterExpression: '#studentId = :studentId',
       ExpressionAttributeNames: {
-        '#groupId': 'groupId',
         '#studentId': 'studentId'
       },
       ExpressionAttributeValues: {
-        ':groupId': groupId,
         ':studentId': studentId
       }
     }
   });
 };
 
-export const useSessionsByGroupId = ({ groupId, classId = undefined }) => {
-  return useSessions({
-    requestParams: classId
-      ? {
-          FilterExpression: '#groupId = :groupId AND #classId = :classId',
-          ExpressionAttributeNames: {
-            '#groupId': 'groupId',
-            '#classId': 'classId'
-          },
-          ExpressionAttributeValues: {
-            ':groupId': groupId,
-            ':classId': classId
-          }
-        }
-      : {
-          FilterExpression: '#groupId = :groupId',
-          ExpressionAttributeNames: {
-            '#groupId': 'groupId'
-          },
-          ExpressionAttributeValues: {
-            ':groupId': groupId
-          }
-        }
-  });
-};
-
-export const useHandleCreateSession = ({ groupId, studentId, studentUserId, nextRoute = '/Pre-Survey' }) => {
+export const useHandleCreateSession = ({ studentId, studentUserId, nextRoute = '/Pre-Survey' }) => {
   const changeRouteLayout = useChangeRouteLayout();
 
   const { handleUpdate } = useProcessDataState({ Model: tables.sessions });
@@ -79,7 +51,6 @@ export const useHandleCreateSession = ({ groupId, studentId, studentUserId, next
         ...c, // Copy class data
         id: uuid(), // Create new session id
         classId: c.id, // Link the class id
-        groupId,
         studentId,
         studentUserId
       };
@@ -90,6 +61,6 @@ export const useHandleCreateSession = ({ groupId, studentId, studentUserId, next
         }
       }); // insert into database and change route on success
     },
-    [groupId, studentId, studentUserId, handleUpdate, changeRouteLayout, nextRoute]
+    [studentId, studentUserId, handleUpdate, changeRouteLayout, nextRoute]
   );
 };

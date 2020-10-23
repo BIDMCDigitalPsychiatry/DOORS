@@ -127,6 +127,12 @@ export default function ClassMaterials() {
               onChange={handleChange('classResources')}
             />
           </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12}>
+            <TitleButton onClick={handleUpdate(data)} />
+          </Grid>
         </Grid>
       </Box>
     </ChildPage>

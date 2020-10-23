@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { useTableFilter } from '../components/application/GenericTable/helpers';
 import { tables } from './dbConfig';
 import useTable from './useTable';
 
-export const useGroups = ({ table = undefined, tab = undefined, requestParams = undefined } = {}) => {
+export const useGroups = ({ active = true, requestParams = undefined } = {}) => {
   const { state, handleRequest } = useTable({ TableName: tables.groups });
   const { data, loading, success } = state as any;
 
@@ -13,13 +12,13 @@ export const useGroups = ({ table = undefined, tab = undefined, requestParams = 
   }, [JSON.stringify(requestParams), handleRequest]);
 
   React.useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh, table, tab]);
+    active && handleRefresh();
+  }, [active, handleRefresh]);
 
   const rows = Object.keys(data).map(k => ({ ...data[k] }));
 
   return {
-    data: useTableFilter(rows, table),
+    data: rows,
     handleRefresh,
     loading,
     success

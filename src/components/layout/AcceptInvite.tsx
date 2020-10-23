@@ -3,13 +3,15 @@ import { makeStyles, Grid, Paper, Typography, Divider, CircularProgress, Box } f
 import { createStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
-import { useHeight, useUserEmail, useUserId } from './hooks';
+import { useHeight, useLogout, useUserEmail, useUserId } from './hooks';
 import { isEmpty, timeAgo } from '../../helpers';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 import { tables } from '../../database/dbConfig';
 import useTableRow from '../../database/useTableRow';
 import useGroupName from '../../database/useGroupName';
+import * as ResearchPartyAgreementDialog from '../application/GenericDialog/ResearchPartyAgreement';
+import DialogButton from '../application/GenericDialog/DialogButton';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -96,6 +98,7 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
 
   const email = useUserEmail();
   const isError = !isEmpty(row?.userId) || expired || row?.deleted || !isEmpty(error) || email.toLowerCase() !== row?.email.toLowerCase();
+  const handleLogout = useLogout();
 
   return (
     <div
@@ -136,30 +139,32 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <Button
+                    <DialogButton
+                      Module={ResearchPartyAgreementDialog}
                       ref={buttonRef}
                       fullWidth={true}
                       disabled={loading || isError}
                       variant='contained'
                       className={classes.button}
-                      onClick={handleSubmit(true)}
+                      onSubmit={handleSubmit(true)}
                     >
                       Accept Invite
-                    </Button>
+                    </DialogButton>
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                 </Grid>
                 <Grid item>
                   <div className={classes.wrapper}>
-                    <Button
-                      ref={buttonRef}
-                      fullWidth={true}
-                      disabled={loading || isError}
-                      variant='contained'
-                      className={classes.button}
-                      onClick={handleSubmit(false)}
-                    >
+                    <Button fullWidth={true} disabled={loading || isError} variant='contained' className={classes.button} onClick={handleSubmit(false)}>
                       Decline Invite
+                    </Button>
+                    {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                  </div>
+                </Grid>
+                <Grid item style={{ marginTop: 8 }}>
+                  <div className={classes.wrapper}>
+                    <Button fullWidth={true} disabled={loading} variant='contained' onClick={handleLogout}>
+                      Logout
                     </Button>
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>

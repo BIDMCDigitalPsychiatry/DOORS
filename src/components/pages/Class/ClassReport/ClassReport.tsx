@@ -10,7 +10,6 @@ import useTableRow from '../../../../database/useTableRow';
 import useGroupStudents from '../../../../database/useGroupStudents';
 import RankingModel from '../RankingModel';
 import MarginDivider from '../../../application/DialogField/MarginDivider';
-import { useSessionsByGroupId } from '../../../../database/useSessions';
 import { defaultAgeRankingModels, defaultRankingModels } from '../../../../database/models/Class';
 import Session from '../../../../database/models/Session';
 import Decimal from 'decimal.js-light';
@@ -74,11 +73,10 @@ export const getReportData = (sessions: Session[]) => {
 
 export default function ClassReport() {
   const [state, setState] = React.useState({ loading: false });
-  const [{ groupId }] = useLayout();
+  const [{ groupId, sessions }] = useLayout();
 
   const { data }: any = useClassData();
   const { row: group } = useTableRow({ Model: tables.groups, id: groupId, state, setState });
-  const { sessions } = useSessionsByGroupId({ groupId, classId: data.id });
   const { activeStudents } = useGroupStudents({ groupId });
   const activeParticipants = buildParticipants(activeStudents, sessions);
 

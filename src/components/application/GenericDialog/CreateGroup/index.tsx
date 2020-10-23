@@ -29,8 +29,7 @@ const validate = ({ participants }) => {
 
 export default function CreateGroupDialog({ id = title, onClose = undefined }) {
   const [state, setState] = useDialogState(id);
-  const { initialValues, subtitle = 'Unknown Class' } = state;
-  const classId = initialValues['class']?.id;
+  const { initialValues } = state;
   const userId = initialValues?.userId;
 
   const [, setSnackbar] = useSnackBar();
@@ -101,7 +100,6 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
       const group: Group = {
         id: uuid(),
         userId, // id of user that created the group
-        classId,
         name,
         location,
         type,
@@ -115,7 +113,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
         OnSuccess: onSubmitSuccess(group) // Next create the student invites
       });
     },
-    [userId, classId, submitData, onSubmitSuccess]
+    [userId, submitData, onSubmitSuccess]
   );
 
   return (
@@ -129,11 +127,7 @@ export default function CreateGroupDialog({ id = title, onClose = undefined }) {
       onSubmit={handleSubmit}
       fields={[
         {
-          label: subtitle,
-          Field: Label
-        },
-        {
-          label: 'Group Information',
+          label: 'Enter Group Information:',
           Field: Label
         },
         {

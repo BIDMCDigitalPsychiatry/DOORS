@@ -22,6 +22,8 @@ export function BlockListClassResource({
   DialogModule = ClassResourceDialog,
   viewLabel = 'View Resource',
   onChange = undefined,
+  handleLink = undefined,
+  viewed = undefined,
   isOwner
 }) {
   const value_str = JSON.stringify(value);
@@ -99,6 +101,8 @@ export function BlockListClassResource({
                 titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
                 viewLabel={viewLabel}
                 isOwner={isOwner}
+                handleLink={handleLink}
+                viewed={viewed && viewed.find(id => id === item.id)}
               />
             </Grid>
           ))}

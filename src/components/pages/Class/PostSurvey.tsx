@@ -42,7 +42,7 @@ export default function PostSurvey() {
           <Box mt={4}>
             <Grid container spacing={2}>
               <Grid item>
-                <StyledButton width={148} variant='secondary' onClick={handleChangeRoute('/Lesson')}>
+                <StyledButton width={148} variant='secondary' onClick={handleChangeRoute('/Lessons')}>
                   Back
                 </StyledButton>
               </Grid>

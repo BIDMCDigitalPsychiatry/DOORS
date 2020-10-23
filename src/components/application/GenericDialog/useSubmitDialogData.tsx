@@ -19,7 +19,7 @@ export const useSubmitDialogData = ({ id, onClose = undefined }) => {
         Action,
         Data,
         onError: OnError ? OnError : () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
-        onSuccess: OnSuccess ? OnSuccess(Data) : handleClose() // If OnSuccess is provided, then that function should handle closing of the dialog, otherwise automatically close
+        onSuccess: OnSuccess ? OnSuccess : handleClose // If OnSuccess is provided, then that function should handle closing of the dialog, otherwise automatically close
       });
     },
     [setState, processData, handleClose]

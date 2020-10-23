@@ -92,7 +92,7 @@ export default function ClassRoster() {
         <Grid container style={{ padding: !fullScreen ? 24 : 8 }} spacing={3}>
           {groups.map((g, i) => (
             <Grid item key={g?.id} xs={12}>
-              <ClassGroup {...g} classId={id} mount={i === 0} />
+              <ClassGroup {...g} handleRefreshGroups={handleRefresh} classId={id} mount={i === 0} />
             </Grid>
           ))}
         </Grid>

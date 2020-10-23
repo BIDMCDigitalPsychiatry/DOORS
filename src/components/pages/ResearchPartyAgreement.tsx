@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Container, Grid, Typography } from '@material-ui/core';
 import Page from './Page';
 
-export default function TermsAndConditions() {
+export default function ResearchPartAgreement() {
   return (
     <Container maxWidth='md'>
-      <Page title='Terms and Conditions'>
+      <Page title='Research Party Agreement Terms and Conditions'>
         <Grid container spacing={2}>
           <Grid item>
             <Typography>

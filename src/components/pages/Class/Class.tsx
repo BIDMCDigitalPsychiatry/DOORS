@@ -67,7 +67,7 @@ export default function Class({
   rankingModel = [] as BlockListItem[],
   surveyQuestions = [] as BlockListItem[],
   classResources = [],
-  classPresentation = undefined,
+  classPresentations = [],
   showChildClasses = false,
   childClasses = [],
   onRefresh = undefined,

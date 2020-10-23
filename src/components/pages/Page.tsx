@@ -16,7 +16,15 @@ const useStyles = makeStyles(({ palette }: any) =>
   } as any)
 );
 
-export default function Page({ title = '', loading = undefined, ActionButton = undefined, children = <></>, backLabel = 'Back', onBack = undefined }) {
+export default function Page({
+  title = '',
+  subtitle = undefined,
+  loading = undefined,
+  ActionButton = undefined,
+  children = <></>,
+  backLabel = 'Back',
+  onBack = undefined
+}) {
   const classes = useStyles();
   return (
     <>
@@ -27,7 +35,7 @@ export default function Page({ title = '', loading = undefined, ActionButton = u
           </DialogButton>
         </Box>
       )}
-      <Header title={title} ActionButton={ActionButton} />
+      <Header title={title} subtitle={subtitle} ActionButton={ActionButton} />
       <Container disableGutters={true} className={classes.container} maxWidth={false}>
         <LoadingGate loading={loading === undefined ? false : loading}>{children}</LoadingGate>
       </Container>
