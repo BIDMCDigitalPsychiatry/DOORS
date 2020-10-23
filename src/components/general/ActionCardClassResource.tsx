@@ -83,7 +83,7 @@ export default function ActionCardClassResource({
             <Icon className={classes.icon} />
           </Grid>
           <Grid item xs={12}>
-            <StyledButton color='inherit' variant='whiteText' onClick={handleLink ? HandleLink(item) : handleLink}>
+            <StyledButton color='inherit' variant='whiteText' onClick={HandleLink ? HandleLink(item) : handleLink}>
               {viewLabel}
               {viewed && <Icons.CheckCircle style={{ height: 20, marginLeft: 2 }} />}
             </StyledButton>
