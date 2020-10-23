@@ -21,7 +21,8 @@ export function BlockListClassPresentation({
   remove = undefined,
   DialogModule = ClassPresentationDialog,
   onChange = undefined,
-  isOwner
+  isOwner,
+  enableLock = true
 }) {
   const value_str = JSON.stringify(value);
 
@@ -98,6 +99,7 @@ export function BlockListClassPresentation({
                 minHeight={112}
                 titleProps={{ noWrap: false, variant: 'h6', color: 'textPrimary' }}
                 isOwner={isOwner}
+                enableLock={enableLock}
               />
             </Grid>
           ))}

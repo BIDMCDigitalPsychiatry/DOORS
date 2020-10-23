@@ -58,6 +58,7 @@ export default function ActionCardClassResource({
   children = undefined,
   viewed = false,
   isOwner,
+  enableLock = true,
   ...rest
 }) {
   const isAdmin = useIsAdmin();
@@ -83,7 +84,7 @@ export default function ActionCardClassResource({
             <Icon className={classes.icon} />
           </Grid>
           <Grid item xs={12}>
-            <StyledButton color='inherit' variant='whiteText' onClick={handleLink ? HandleLink(item) : handleLink}>
+            <StyledButton color='inherit' variant='whiteText' onClick={HandleLink ? HandleLink(item) : handleLink}>
               {viewLabel}
               {viewed && <Icons.CheckCircle style={{ height: 20, marginLeft: 2 }} />}
             </StyledButton>
@@ -132,7 +133,7 @@ export default function ActionCardClassResource({
                 </StyledButton>
               </Grid>
             )}
-            {((isAdminMode && isAdmin) || isOwner) && (
+            {enableLock && ((isAdminMode && isAdmin) || isOwner) && (
               <Grid item>
                 <StyledButton Icon={bool(locked) ? Icons.Lock : Icons.LockOpen} variant='text' width={140} onClick={handleLock(item)}>
                   {bool(locked) ? 'Locked' : 'Un-locked'}

@@ -125,6 +125,7 @@ export default function ClassMaterials() {
               edit={true}
               remove={true}
               onChange={handleChange('classResources')}
+              enableLock={true}
             />
           </Grid>
           <Grid item xs={12}>

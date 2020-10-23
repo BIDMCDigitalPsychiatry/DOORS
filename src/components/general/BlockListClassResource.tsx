@@ -24,7 +24,8 @@ export function BlockListClassResource({
   onChange = undefined,
   handleLink = undefined,
   viewed = undefined,
-  isOwner
+  isOwner,
+  enableLock
 }) {
   const value_str = JSON.stringify(value);
 
@@ -103,6 +104,7 @@ export function BlockListClassResource({
                 isOwner={isOwner}
                 handleLink={handleLink}
                 viewed={viewed && viewed.find(id => id === item.id)}
+                enableLock={enableLock}
               />
             </Grid>
           ))}
