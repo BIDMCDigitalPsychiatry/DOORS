@@ -23,7 +23,7 @@ export default function ProfileGate({ children }) {
           >
             <LoadingGate loading={loading}>
               <Box m={4}>
-                <Profile profile={profile} handleRefresh={handleRefresh} loading={loading} setProfile={setProfile} />
+                <Profile showDescriptions={true} profile={profile} handleRefresh={handleRefresh} loading={loading} setProfile={setProfile} />
               </Box>
             </LoadingGate>
           </Page>

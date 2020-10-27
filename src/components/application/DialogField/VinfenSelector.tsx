@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormControl, FormHelperText, Grid, Typography, ButtonGroup, Button } from '@material-ui/core';
-import { isError, isTrue, isFalse } from '../../../helpers';
+import { isError } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import LightTooltip from '../../general/LightTooltip/LightTooltip';
 
-const YesNo = ({
+export default function VinfenSelector({
   label = '',
   variant = undefined,
   size = 'small' as 'small',
@@ -19,7 +19,7 @@ const YesNo = ({
   type = undefined, // Don't pass an undefined type to Checkbox.  This filters the prop out
   initialValue = undefined,
   ...other
-}) => {
+}) {
   const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value } }), [onChange]);
 
   const Label = (
@@ -43,11 +43,14 @@ const YesNo = ({
             )}
             <Grid item>
               <ButtonGroup size={size} color={color} aria-label={`${label}-button-group`} {...other}>
-                <Button variant={isTrue(value) ? 'contained' : undefined} onClick={handleChange(true)}>
-                  Yes
+                <Button variant={value === 'Clinician' ? 'contained' : undefined} onClick={handleChange('Clinician')}>
+                  Clinician
                 </Button>
-                <Button variant={isFalse(value) ? 'contained' : undefined} onClick={handleChange(false)}>
-                  No
+                <Button variant={value === 'Person Served by Vinfen' ? 'contained' : undefined} onClick={handleChange('Person Served by Vinfen')}>
+                  Person Served by Vinfen
+                </Button>
+                <Button variant={value === 'Other' ? 'contained' : undefined} onClick={handleChange('Other')}>
+                  Other
                 </Button>
               </ButtonGroup>
             </Grid>
@@ -58,6 +61,4 @@ const YesNo = ({
       {(forceErrorMargin || error) && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
   );
-};
-
-export default YesNo;
+}
