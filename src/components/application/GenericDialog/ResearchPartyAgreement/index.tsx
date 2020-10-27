@@ -31,8 +31,9 @@ export default function ResearchPartyAgreementDialog({ id = title, onSubmit }) {
       onSubmit={handleSubmit}
       validate={validate}
       submitLabel='I Agree'
-      cancelLabel={'Cancel'}
+      cancelLabel={'I Do Not Agree'}
       maxWidth='md'
+      onClose={() => alert('Unfortunately, you cannot participate at this time without agreeing to terms. Please contact team@digitalpsych.org to learn more.')}
       fields={[
         {
           Field: ResearchPartAgreement

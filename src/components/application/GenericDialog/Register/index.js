@@ -86,7 +86,7 @@ const EnterConfirmationCode = ({ value = false, onChange }) => {
   );
 };
 
-const ViewTermsAndConditions = () => (
+export const ViewTermsAndConditions = () => (
   <DialogButton Module={TermsAndConditionsDialog} fullWidth={true} size='small' margin='dense' variant='link' tooltip=''>
     View Terms and Conditions
   </DialogButton>
@@ -102,7 +102,8 @@ export default function RegisterDialog({ id = title, onClose }) {
   const handleAdd = React.useCallback(
     (values, setValues) => {
       console.log('Creating account');
-      const { email, password } = values;
+      const { email: Email = '', password } = values;
+      const email = Email.toLowerCase(); // enusre lower case
       setState(prev => ({ ...prev, loading: true, showErrors: false, errors: {} }));
       Auth.signUp({
         username: email,
@@ -129,7 +130,8 @@ export default function RegisterDialog({ id = title, onClose }) {
 
   const handleConfirm = React.useCallback(
     values => {
-      const { email, password, confirmationCode } = values;
+      const { email: Email = '', password, confirmationCode } = values;
+      const email = Email.toLowerCase(); // ensure lower case
       console.log('Confirming account');
       Auth.confirmSignUp(email, confirmationCode)
         .then(() => {

@@ -84,7 +84,8 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
   const stateStr = JSON.stringify(state);
 
   const handleLogin = React.useCallback(
-    ({ forgotPassword, enterNewPassword, confirmationCode, newPassword, email, password }) => {
+    ({ forgotPassword, enterNewPassword, confirmationCode, newPassword, email: Email = '', password }) => {
+      const email = Email.toLowerCase(); // Ensure email is always lower case
       setState(prev => ({ ...prev, open: false, loading: true, showErrors: false, errors: {} }));
       if (forgotPassword) {
         if (enterNewPassword) {
