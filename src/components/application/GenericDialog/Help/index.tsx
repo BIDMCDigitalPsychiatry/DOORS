@@ -6,6 +6,7 @@ import { sendHelpEmail } from './helpers';
 import { useUserEmail } from '../../../layout/hooks';
 import { useDialogState } from '../useDialogState';
 import { useSnackBar } from '../../SnackBar/useSnackBar';
+import { useIsStudentMode } from '../../../../hooks';
 
 export const title = 'Get In Touch';
 
@@ -37,6 +38,8 @@ export default function HelpDialog({ id = title, onClose = undefined, ...other }
     [onSuccess, onError]
   );
 
+  const isStudentMode = useIsStudentMode();  
+
   return (
     <GenericDialog
       id={id}
@@ -46,9 +49,19 @@ export default function HelpDialog({ id = title, onClose = undefined, ...other }
       onSubmit={handleSubmit}
       fields={[
         {
+          label: 'This interface is not monitored . If you are having thoughts of suicide or self-harm, please call 1-800-273-8255.',
+          Field: Label,
+          hidden: !isStudentMode
+        },
+        {
+          Field: MarginDivider,
+          hidden: !isStudentMode
+        },
+        {
           label: 'If you have any questions or comments about the program, send a message to the program administrators.',
           Field: Label
         },
+
         {
           Field: MarginDivider
         },
