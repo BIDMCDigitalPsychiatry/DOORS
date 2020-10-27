@@ -12,7 +12,7 @@ export default function ResearchPartAgreement() {
             <Typography>
               By creating an account, I agree that my progress in digital learning can be used for assessing the overall effectiveness of lessons. All data
               collected will not contain personal healthcare information and will be anonymized and de-identified for analysis. I also agree to the
-              Terms and Conditions which may be accessed below.
+              Terms and Conditions below.
             </Typography>
           </Grid>
           <Grid item>
