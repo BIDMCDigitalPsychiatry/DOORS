@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles, createStyles, Toolbar, Link, AppBar, Typography, Grid } from '@material-ui/core';
 import { theme, beta } from '../../constants';
 import { useFullScreen, useUserType } from '../../hooks';
-import { useHandleChangeRoute, useUserEmail } from './hooks';
+import { useDisplayName, useHandleChangeRoute } from './hooks';
 
 const useStyles = makeStyles(({ palette, zIndex }: any) =>
   createStyles({
@@ -32,7 +32,7 @@ export default function Footer() {
   const classes = useStyles({});
   const fullScreen = useFullScreen();
 
-  const email = useUserEmail();
+  const displayName = useDisplayName();
   const handleChangeRoute = useHandleChangeRoute();
   const userType = useUserType();
 
@@ -82,7 +82,7 @@ export default function Footer() {
                 <Grid container justify='flex-end' spacing={1}>
                   <Grid item>
                     <Typography noWrap variant='body2' align='right'>
-                      {fullScreen ? email : `Welcome, ${email}`}
+                      {fullScreen ? displayName : `Welcome, ${displayName}`}
                     </Typography>
                   </Grid>
                 </Grid>

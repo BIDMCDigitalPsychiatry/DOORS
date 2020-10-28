@@ -10,7 +10,8 @@ export default function useTableRow({
   Model = tables.instructors,
   id: Id = undefined,
   state: externalState = undefined,
-  setState: setExternalState = undefined
+  setState: setExternalState = undefined,
+  active = true
 }) {
   const [internalState, setInternalState] = React.useState();
   const state = externalState ? externalState : internalState;
@@ -41,11 +42,11 @@ export default function useTableRow({
 
   React.useEffect(() => {
     if (open !== undefined) {
-      open && handleRefresh(); // For use with dialogs, so we only request data on open
+      active && open && handleRefresh(); // For use with dialogs, so we only request data on open
     } else {
-      handleRefresh();
+      active && handleRefresh();
     }
-  }, [handleRefresh, open]);
+  }, [handleRefresh, open, active]);
 
   const setRow = React.useCallback(
     ({ id: _Id = undefined, values, prev = undefined, onSuccess = undefined, onError = undefined }) => {
