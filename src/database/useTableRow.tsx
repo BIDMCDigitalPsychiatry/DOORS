@@ -11,7 +11,8 @@ export default function useTableRow({
   id: Id = undefined,
   state: externalState = undefined,
   setState: setExternalState = undefined,
-  active = true
+  active = true,
+  onSuccess: OnSuccess = undefined
 }) {
   const [internalState, setInternalState] = React.useState();
   const state = externalState ? externalState : internalState;
@@ -33,11 +34,12 @@ export default function useTableRow({
           onSuccess: response => {
             setState(prev => ({ ...prev, loading: false, error: undefined, response }));
             onSuccess && onSuccess(response);
+            OnSuccess && OnSuccess(response);
           }
         });
       }
     },
-    [Id, Model, processData, setState]
+    [Id, Model, processData, OnSuccess, setState]
   );
 
   React.useEffect(() => {
@@ -66,11 +68,12 @@ export default function useTableRow({
           onSuccess: response => {
             setState(prev => ({ ...prev, loading: false, error: undefined, response }));
             onSuccess && onSuccess(response);
+            OnSuccess && OnSuccess(response);
           }
         });
       }
     },
-    [Id, Model, setState, processData, row_str]
+    [Id, Model, setState, processData, row_str, OnSuccess]
   );
 
   // Provide previous value via function parameter to prevent multiple re-renders in useEffect hooks
@@ -91,11 +94,12 @@ export default function useTableRow({
           onSuccess: response => {
             setState(prev => ({ ...prev, loading: false, error: undefined, response }));
             onSuccess && onSuccess(response);
+            OnSuccess && OnSuccess(response);
           }
         });
       }
     },
-    [Id, Model, setState, processData]
+    [Id, Model, setState, processData, OnSuccess]
   );
 
   // Reads the row from the database first, and then merges the new values into the existing data before saving back to the database

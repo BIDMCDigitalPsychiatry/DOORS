@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles, createStyles, Toolbar, Link, AppBar, Typography, Grid } from '@material-ui/core';
 import { theme, beta } from '../../constants';
 import { useFullScreen, useUserType } from '../../hooks';
-import { useDisplayName, useHandleChangeRoute } from './hooks';
+import { useHandleChangeRoute, useLayout } from './hooks';
 
 const useStyles = makeStyles(({ palette, zIndex }: any) =>
   createStyles({
@@ -32,9 +32,11 @@ export default function Footer() {
   const classes = useStyles({});
   const fullScreen = useFullScreen();
 
-  const displayName = useDisplayName();
   const handleChangeRoute = useHandleChangeRoute();
   const userType = useUserType();
+
+  const [{ profile }] = useLayout();
+  const displayName = profile?.name ?? '';
 
   return (
     <>

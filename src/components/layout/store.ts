@@ -3,6 +3,7 @@ import { theme } from '../../constants';
 
 export interface State {
   auth?: any;
+  profile?: any; // profile from dynamo db
   height?: number;
   width?: number;
   appBarHeight?: number;

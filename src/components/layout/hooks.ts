@@ -8,7 +8,6 @@ import { publicUrl, copyToLower, isEmpty } from '../../helpers';
 import { Auth } from 'aws-amplify';
 import { useTheme } from '@material-ui/core';
 import { homepage } from '../../../package.json';
-import { useProfile } from '../../database/useProfile';
 
 export const useLayoutKey = key => useSelector((state: AppState) => state.layout[key], shallowEqual);
 export const useAuth = () => useLayoutKey('auth') || {};
@@ -23,7 +22,7 @@ export const useUserId = ({ userId = undefined } = {}) => {
 
 export const useDisplayName = () => {
   const email = useUserEmail();
-  const { profile } = useProfile();
+  const [{ profile }] = useLayout();
   return profile?.name ?? email;
 };
 
