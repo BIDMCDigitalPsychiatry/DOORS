@@ -72,12 +72,37 @@ export default function useTableRow({
     [Id, Model, setState, processData, row_str]
   );
 
+  // Provide previous value via function parameter to prevent multiple re-renders in useEffect hooks
+  const setRowPrev = React.useCallback(
+    ({ id: _Id = undefined, values, prev = undefined, onSuccess = undefined, onError = undefined }) => {
+      // If an id is provided via the function call, use that over Id
+      const id = _Id ? _Id : Id;
+      if (!isEmpty(id)) {
+        setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
+        processData({
+          Model,
+          Action: 'u',
+          Data: { ...prev, id, ...values },
+          onError: response => {
+            setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response }));
+            onError && onError(response);
+          },
+          onSuccess: response => {
+            setState(prev => ({ ...prev, loading: false, error: undefined, response }));
+            onSuccess && onSuccess(response);
+          }
+        });
+      }
+    },
+    [Id, Model, setState, processData]
+  );
+
   // Reads the row from the database first, and then merges the new values into the existing data before saving back to the database
   const readSetRow = React.useCallback(
     ({ values, ...other }) => {
-      handleRefresh({ onSuccess: response => setRow({ values, prev: response?.Item, ...other }) });
+      handleRefresh({ onSuccess: response => setRowPrev({ values, prev: response?.Item, ...other }) });
     },
-    [setRow, handleRefresh]
+    [setRowPrev, handleRefresh]
   );
 
   const expired = isExpired(row);

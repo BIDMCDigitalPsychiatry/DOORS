@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { useLogout, useUserId } from './hooks';
+import { useLogout } from './hooks';
 import LoadingGate from './LoadingGate';
-import { useProfile } from '../../database/useProfile';
 import Profile from '../pages/Profile/Profile';
 import { Box } from '@material-ui/core';
 import { isEmpty } from '../../helpers';
 import Page from '../pages/Page';
+import useProfileEmailAutoUpdate from './useProfileEmailAutoUpdate';
 
 export default function ProfileGate({ children }) {
-  const userId = useUserId();
-  const { profile, setProfile, loading, handleRefresh } = useProfile({ id: userId });
+  const { profile, setProfile, loading, handleRefresh } = useProfileEmailAutoUpdate();
   const handleLogout = useLogout();
   return (
     <LoadingGate loading={loading}>

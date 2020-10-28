@@ -7,6 +7,6 @@ export function useProfile({ id, state: State = undefined, setState: SetState = 
   const state = State ? State : internalState;
   const setState = SetState ? SetState : setInternalState;
 
-  const { row, setRow, handleRefresh, loading } = useTableRow({ Model: tables.profiles, id, state, setState });
-  return { profile: row, setProfile: setRow, state, setState, handleRefresh, loading };
+  const { row, setRow, handleRefresh, loading, readSetRow } = useTableRow({ Model: tables.profiles, id, state, setState });
+  return { profile: row, setProfile: setRow, state, setState, handleRefresh, loading, readSetRow };
 }
