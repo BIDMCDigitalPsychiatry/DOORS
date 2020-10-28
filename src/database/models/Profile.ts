@@ -1,6 +1,6 @@
 export default interface Profile {
-  id: string; // unique identifier
-  userId: string; // id of user
+  id: string; // unique identifier (userId in cognito)  
+  email: string; // email of user, synced with cognito
   type: string; // User's profile type
   picture: string; // profile picture
   name: string; // full name of user

@@ -32,7 +32,7 @@ export default function MuliSelectCheck({
       getOptionLabel={option => option.label}
       renderOption={(option, { selected }) => (
         <>
-          <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
+          <Checkbox color='primary' icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
           {option.label}
         </>
       )}
