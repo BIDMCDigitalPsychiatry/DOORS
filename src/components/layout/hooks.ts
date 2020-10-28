@@ -29,42 +29,6 @@ export const useLogout = () => {
   }, [changeRoute, dispatch]);
 };
 
-export default function useRequest({ url, setState = undefined, onSuccess = undefined, onError = undefined, method = 'post' as any }) {
-  const [error, setError] = React.useState();
-  const { access } = useAuth();
-
-  const handleRequest = React.useCallback(
-    (values = {}, OnSuccess = undefined, OnError = undefined) => {
-      setState && setState(prev => ({ ...prev, success: false, disabled: true, submitting: true, response: undefined }));
-      async function submitData() {
-        setError(undefined); // Reset any previous errors
-        try {
-          console.log({ access, method, url });
-          //const response = await processRequest(method, url, values, access);
-          const response = { data: { success: true, email: 'test@test.com' } };
-          console.log('Successful request.');
-          console.log({ response, values });
-          setState && setState(prev => ({ ...prev, success: true, disabled: false, submitting: false, errors: {}, response }));
-          onSuccess && onSuccess(response);
-          OnSuccess && OnSuccess(response);
-        } catch (error) {
-          const { response } = error;
-          const { error_text = 'Unknown error' } = response?.data ?? {};
-          console.error({ error_text, error, values });
-          setError(error_text); // Set any new errors
-          setState && setState(prev => ({ ...prev, success: false, disabled: false, submitting: false, errors: {}, response }));
-          onError && onError(response);
-          OnError && OnError(response);
-        }
-      }
-      submitData();
-    },
-    [access, url, method, setState, setError, onSuccess, onError]
-  );
-
-  return { handleRequest, error, setError };
-}
-
 const handleValidation = ({ message }, dialogState) => {
   var errors = copyToLower(dialogState.errors); // start with server generated errors, ensure all keys start with lowercase letter
 
