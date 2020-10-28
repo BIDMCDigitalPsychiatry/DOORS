@@ -1,8 +1,9 @@
 export default interface Profile {
-  id: string; // unique identifier (userId in cognito)  
+  id: string; // unique identifier (userId in cognito)
   email: string; // email of user, synced with cognito
   type: string; // User's profile type
   picture: string; // profile picture
+  phone: string; // user's phone number
   name: string; // full name of user
   vinfenServices: string; //yes no
   clinicianAffiliation: string;

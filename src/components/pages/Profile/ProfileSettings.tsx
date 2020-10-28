@@ -11,6 +11,7 @@ import Label from '../../application/DialogField/Label';
 import YesNo from '../../application/DialogField/YesNo';
 import MultiSelectCheck from '../../application/DialogField/MultiSelectCheck';
 import VinfenSelector from '../../application/DialogField/VinfenSelector';
+import PhoneNumber from '../../application/DialogField/PhoneNumber';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {},
@@ -28,7 +29,7 @@ const validate = values => {
   return newErrors;
 };
 
-const margin = 16;
+const margin = 0;
 
 const getFields = (email, showDescriptions) => [
   {
@@ -37,7 +38,14 @@ const getFields = (email, showDescriptions) => [
     label:
       'Create a username (please do not use any personally identifiable information when creating your username. This includes your first or last name or your birthdate):'
   },
-  { id: 'name', label: 'Username', required: true },
+  { id: 'name', label: 'Username', required: true, style: { maxWidth: 275 } },
+  { Field: Divider, hidden: !showDescriptions },
+  {
+    Field: Label,
+    hidden: !showDescriptions,
+    label: 'If you would like to receive reminders on your phone, please enter your phone number:'
+  },
+  { id: 'phone', label: 'Phone Number', required: false, Field: PhoneNumber, style: { maxWidth: 175 } },
   { Field: Divider, hidden: !showDescriptions },
   { id: 'vinfenServices', label: 'Do you work at or receive services from Vinfen?', Field: YesNo, required: true },
   { Field: Divider, hidden: !showDescriptions },
@@ -68,8 +76,7 @@ const getFields = (email, showDescriptions) => [
   {
     hidden: values => !showDescriptions || values?.type !== 'Clinician',
     style: { marginLeft: margin },
-    label: 'What Hospital, Clinic, or community based mental health program are you affiliated with?',
-    //hidden: !showDescriptions,
+    label: 'What hospital, clinic, or community based mental health program are you affiliated with?',
     Field: Label
   },
   {
