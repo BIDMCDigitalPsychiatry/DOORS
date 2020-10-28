@@ -12,6 +12,7 @@ import YesNo from '../../application/DialogField/YesNo';
 import MultiSelectCheck from '../../application/DialogField/MultiSelectCheck';
 import VinfenSelector from '../../application/DialogField/VinfenSelector';
 import PhoneNumber from '../../application/DialogField/PhoneNumber';
+import LabelRight from '../../application/DialogField/LabelRight';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {},
@@ -85,6 +86,12 @@ const getFields = (email, showDescriptions) => [
     style: { marginLeft: margin },
     label: 'Clinical Affiliation',
     required: true
+  },
+  { Field: Divider, hidden: !showDescriptions },
+  {
+    Field: LabelRight,
+    hidden: !showDescriptions,
+    label: 'Please note: * indicates a required field'
   }
 ];
 
