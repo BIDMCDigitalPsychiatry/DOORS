@@ -73,7 +73,6 @@ const getFields = (email, showDescriptions) => [
       'Other'
     ].map(label => ({ value: label, label }))
   },
-
   {
     hidden: values => !showDescriptions || values?.type !== 'Clinician',
     style: { marginLeft: margin },
@@ -85,6 +84,19 @@ const getFields = (email, showDescriptions) => [
     hidden: values => values?.type !== 'Clinician',
     style: { marginLeft: margin },
     label: 'Clinical Affiliation',
+    required: true
+  },
+  {
+    hidden: values => !showDescriptions || values?.type !== 'Other',
+    style: { marginLeft: margin },
+    label: 'Please describe:',
+    Field: Label
+  },
+  {
+    id: 'otherAffiliation',
+    hidden: values => values?.type !== 'Other',
+    style: { marginLeft: margin },
+    label: 'Other Affiliation',
     required: true
   },
   { Field: Divider, hidden: !showDescriptions },

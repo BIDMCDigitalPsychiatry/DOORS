@@ -7,6 +7,7 @@ export default interface Profile {
   name: string; // full name of user
   vinfenServices: string; //yes no
   clinicianAffiliation: string;
+  otherAffiliation: string;
   created: number;
   updated: number;
   deleted: boolean; // If set to true item has been deleted, keep in database
