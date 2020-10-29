@@ -52,9 +52,11 @@ const handleValidation = ({ message }, dialogState) => {
 export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefined }) => {
   const dispatch = useDispatch();
   const stateStr = JSON.stringify(state);
+  const handleLogout = useLogout();
 
   const handleLogin = React.useCallback(
     ({ forgotPassword, enterNewPassword, confirmationCode, newPassword, email: Email = '', password }) => {
+      handleLogout(); // Ensure we are logged out of everything prior to logging in
       const email = Email.toLowerCase(); // Ensure email is always lower case
       setState(prev => ({ ...prev, open: false, loading: true, showErrors: false, errors: {} }));
       if (forgotPassword) {
@@ -110,7 +112,7 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
           });
       }
     },
-    [dispatch, onSuccess, setState, stateStr]
+    [dispatch, onSuccess, setState, handleLogout, stateStr]
   );
 
   return { handleLogin };

@@ -11,6 +11,7 @@ import { tables } from '../../database/dbConfig';
 import useTableRow from '../../database/useTableRow';
 import useGroupName from '../../database/useGroupName';
 import * as ResearchPartyAgreementDialog from '../application/GenericDialog/ResearchPartyAgreement';
+import * as RegisterDialog from '../application/GenericDialog/Register';
 import DialogButton from '../application/GenericDialog/DialogButton';
 
 const useStyles = makeStyles(({ palette }: any) =>
@@ -67,8 +68,8 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
   const classes = useStyles({ height });
   var buttonRef = React.useRef(null);
 
-  const [state, setState] = React.useState({ loading: false, error: undefined, response: undefined, errors: {} });
-  const { loading, error } = state;
+  const [state, setState] = React.useState({ enableKeys: true, loading: false, error: undefined, response: undefined, errors: {} });
+  const { enableKeys, loading, error } = state;
 
   const { row, setRow, expired } = useTableRow({
     Model: type === 's' ? tables.students : tables.instructors,
@@ -100,13 +101,24 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
   const isError = !isEmpty(row?.userId) || expired || row?.deleted || !isEmpty(error) || email.toLowerCase() !== row?.email.toLowerCase();
   const handleLogout = useLogout();
 
+  const errorMsg =
+    loading && isError && !isEmpty(row?.userId)
+      ? 'Invite has already been accepted'
+      : expired || row?.deleted
+      ? 'Invite has expired or no longer exists. Please request a new invite.'
+      : email.toLowerCase() !== row?.email.toLowerCase()
+      ? `Current user's email does not match the invite.  Please logout of the current account and login with the ${row?.email} email address or create a new account if one does not already exist.`
+      : error;
+
+  const isMismatch = errorMsg?.includes(`Current user's email does not match`);
+
   return (
     <div
       className={classes.root}
       onKeyUp={(e: any) => {
         if (e.keyCode === 13) {
           // Enter key
-          buttonRef.current && buttonRef.current.click();
+          enableKeys && buttonRef.current && buttonRef.current.click();
         }
       }}
     >
@@ -161,6 +173,24 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                 </Grid>
+                {isMismatch && (
+                  <Grid item style={{ marginTop: 8 }}>
+                    <div className={classes.wrapper}>
+                      <DialogButton
+                        Module={RegisterDialog}
+                        disabled={loading}
+                        size='medium'
+                        variant='contained'
+                        tooltip=''
+                        onClick={() => setState(prev => ({ ...prev, enableKeys: false }))}
+                        onClose={() => setState(prev => ({ ...prev, enableKeys: true }))}
+                        className={classes.button}
+                      >
+                        Create New Account
+                      </DialogButton>
+                    </div>
+                  </Grid>
+                )}
                 <Grid item style={{ marginTop: 8 }}>
                   <div className={classes.wrapper}>
                     <Button fullWidth={true} disabled={loading} variant='contained' onClick={handleLogout}>
@@ -184,15 +214,9 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                   <Typography align='center' className={classes.summary}>
                     Invited {timeAgo(row?.created)}
                   </Typography>
-                  {!loading && isError && (
+                  {errorMsg && (
                     <Typography align='center' color='error' className={classes.summary}>
-                      {!isEmpty(row?.userId)
-                        ? 'Invite has already been accepted'
-                        : expired || row?.deleted
-                        ? 'Invite has expired or no longer exists. Please request a new invite.'
-                        : email.toLowerCase() !== row?.email.toLowerCase()
-                        ? `Current user's email does not match the invite.  Please logout of the current account and login with the ${row?.email} email address or create a new account if one does not already exist.`
-                        : error}
+                      {errorMsg}
                     </Typography>
                   )}
                 </Grid>
