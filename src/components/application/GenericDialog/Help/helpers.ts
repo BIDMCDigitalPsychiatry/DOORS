@@ -7,7 +7,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: identityPoolIdUnauth
 });
 
-export const sendHelpEmail = ({ name, email, message, onSuccess = undefined, onError = undefined }) => {
+export const sendHelpEmail = ({ name, email, message, onSuccess = undefined, onError = undefined, ToAddresses = adminUsers.split(',') }) => {
   const body = `Help Request - DOORS Web Application:
     <p>Name: ${name}</p>  
     <p>User Email: ${email}</p>  
@@ -18,7 +18,7 @@ export const sendHelpEmail = ({ name, email, message, onSuccess = undefined, onE
   var params = {
     Destination: {
       /* required */ CcAddresses: [],
-      ToAddresses: adminUsers.split(',')
+      ToAddresses
     },
     Message: {
       /* required */
