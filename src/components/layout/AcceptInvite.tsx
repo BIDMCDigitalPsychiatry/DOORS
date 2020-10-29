@@ -191,7 +191,7 @@ export default function AcceptInvite({ id, type, onBack = undefined }) {
                         : expired || row?.deleted
                         ? 'Invite has expired or no longer exists. Please request a new invite.'
                         : email.toLowerCase() !== row?.email.toLowerCase()
-                        ? `Current user's email does not match the invite.  Please login or create a new account with the ${row?.email} email address.`
+                        ? `Current user's email does not match the invite.  Please logout of the current account and login with the ${row?.email} email address or create a new account if one does not already exist.`
                         : error}
                     </Typography>
                   )}
