@@ -8,7 +8,7 @@ import Text from './Text';
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
 
-export default function MuliSelectCheck({
+export default function MultiSelectCheck({
   value = [],
   onChange = undefined,
   label,

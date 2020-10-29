@@ -18,14 +18,15 @@ const YesNo = ({
   forceErrorMargin = false,
   type = undefined, // Don't pass an undefined type to Checkbox.  This filters the prop out
   initialValue = undefined,
+  disabled = false,
   ...other
 }) => {
   const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value } }), [onChange]);
 
   const Label = (
     <Grid item>
-      <Typography>{label}</Typography>
-    </Grid>
+      <Typography color={disabled ? 'textSecondary' : 'initial'}>{label}</Typography>
+    </Grid> 
   );
 
   return (
@@ -42,7 +43,7 @@ const YesNo = ({
               </Grid>
             )}
             <Grid item>
-              <ButtonGroup size={size} color={color} aria-label={`${label}-button-group`} {...other}>
+              <ButtonGroup size={size} color={color} aria-label={`${label}-button-group`} disabled={disabled} {...other}>
                 <Button variant={isTrue(value) ? 'contained' : undefined} onClick={handleChange(true)}>
                   Yes
                 </Button>

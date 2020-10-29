@@ -3,6 +3,9 @@ import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import { useSnackBar } from '../../SnackBar/useSnackBar';
 import { useProfile } from '../../../../database/useProfile';
+import YesNo from '../../DialogField/YesNo';
+import VinfenSelector from '../../DialogField/VinfenSelector';
+import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 
 export const title = 'Profile';
 
@@ -38,26 +41,53 @@ export default function ProfileDialog({ id = title, onClose = undefined, ...othe
       fields={[
         {
           id: 'name',
-          label: 'Name',
-          InputProps: {
-            readOnly: true
-          }
+          label: 'Username',
+          required: true,
+          disabled: true
+        },
+        { id: 'vinfenServices', label: 'Do you work at or receive services from Vinfen?', Field: YesNo, disabled: true },
+        { id: 'type', label: 'Are you a clinician, a person served by Vinfen or other?', Field: VinfenSelector, disabled: true },
+        {
+          id: 'affiliatedProgram',
+          label: 'Affiliated Vinfen Programs',
+          Field: MultiSelectCheck,
+          disabled: true,
+          hidden: values => values?.type !== 'Person Served by Vinfen',
+          items: [
+            'I go to a Clubhouse',
+            'I go to a Recovery Learning Center',
+            'I go to an outpatient clinic',
+            'I live in a Vinfen group home',
+            'I receive services from a Vinfen team (outreach worker, peer support, housing support, etc)',
+            'Other'
+          ].map(label => ({ value: label, label }))
         },
         {
-          id: 'city',
-          label: 'City',
-          InputProps: {
-            readOnly: true
-          },
-          xs: 8
+          id: 'affiliatedProgram',
+          label: 'Affiliated Vinfen Programs',
+          Field: MultiSelectCheck,
+          disabled: true,
+          hidden: values => values?.type !== 'Person Served by Vinfen',
+          items: [
+            'I go to a Clubhouse',
+            'I go to a Recovery Learning Center',
+            'I go to an outpatient clinic',
+            'I live in a Vinfen group home',
+            'I receive services from a Vinfen team (outreach worker, peer support, housing support, etc)',
+            'Other'
+          ].map(label => ({ value: label, label }))
         },
         {
-          id: 'state',
-          label: 'State',
-          InputProps: {
-            readOnly: true
-          },
-          xs: 4
+          id: 'clinicianAffiliation',
+          hidden: values => values?.type !== 'Clinician',
+          label: 'Clinical Affiliation',
+          disabled: true
+        },
+        {
+          id: 'otherAffiliation',
+          hidden: values => values?.type !== 'Other',
+          label: 'Other Affiliation',
+          disabled: true
         }
       ]}
       {...other}

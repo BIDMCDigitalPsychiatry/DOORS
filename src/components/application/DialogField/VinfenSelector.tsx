@@ -18,13 +18,14 @@ export default function VinfenSelector({
   forceErrorMargin = false,
   type = undefined, // Don't pass an undefined type to Checkbox.  This filters the prop out
   initialValue = undefined,
+  disabled = false,
   ...other
 }) {
   const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value } }), [onChange]);
 
   const Label = (
     <Grid item>
-      <Typography>{label}</Typography>
+      <Typography color={disabled ? 'textSecondary' : 'initial'}>{label}</Typography>
     </Grid>
   );
 
@@ -42,7 +43,7 @@ export default function VinfenSelector({
               </Grid>
             )}
             <Grid item>
-              <ButtonGroup size={size} color={color} aria-label={`${label}-button-group`} {...other}>
+              <ButtonGroup size={size} color={color} aria-label={`${label}-button-group`} disabled={disabled} {...other}>
                 <Button variant={value === 'Clinician' ? 'contained' : undefined} onClick={handleChange('Clinician')}>
                   Clinician
                 </Button>
