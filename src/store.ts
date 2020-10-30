@@ -3,6 +3,7 @@ import * as Table from './components/application/GenericTable/store';
 import * as Dialog from './components/application/GenericDialog/store';
 import * as Selector from './components/application/Selector/store';
 import * as SnackBar from './components/application/SnackBar/store';
+import Calendar from './components/application/Calendar/store';
 
 // The top-level state object
 export interface AppState {
@@ -13,6 +14,7 @@ export interface AppState {
   selector: any;
   snackBar: any;
   database: any;
+  calendar: any;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using
@@ -23,5 +25,6 @@ export const reducers = {
   dialog: Dialog.reducer,
   table: Table.reducer,
   selector: Selector.reducer,
-  snackBar: SnackBar.reducer
+  snackBar: SnackBar.reducer,
+  calendar: Calendar.reducer
 };

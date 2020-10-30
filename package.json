@@ -11,7 +11,14 @@
   "region": "us-east-1",
   "inviteExpiration": 1440,
   "dependencies": {
-    "@date-io/date-fns": "1.3.13",
+    "@date-io/date-fns": "1.3.13",        
+    "@fullcalendar/core": "^4.4.2",
+    "@fullcalendar/daygrid": "^4.4.2",
+    "@fullcalendar/interaction": "^4.4.2",
+    "@fullcalendar/list": "^4.4.2",
+    "@fullcalendar/react": "^4.4.2",
+    "@fullcalendar/timegrid": "^4.4.2",
+    "@fullcalendar/timeline": "^4.4.2",
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.56",
@@ -24,6 +31,7 @@
     "@types/react-redux": "7.1.9",
     "@types/react-router": "5.1.8",
     "@types/react-router-dom": "5.1.5",
+    "@types/yup": "^0.28.3",
     "@types/webpack": "4.41.22",
     "@types/webpack-env": "1.15.2",
     "apexcharts": "3.21.0",
@@ -55,7 +63,14 @@
     "redux-persist": "6.0.0",
     "redux-thunk": "2.3.0",
     "typescript": "3.9.5",
-    "uuid": "8.3.0"
+    "uuid": "8.3.0",
+    "formik": "^2.1.5",
+    "moment": "^2.27.0",
+    "notistack": "^0.9.17",
+    "react-feather": "2.0.8",
+    "@reduxjs/toolkit": "^1.4.0",
+    "yup": "^0.28.5",
+    "axios-mock-adapter": "^1.18.2"
   },
   "devDependencies": {
     "fs-extra": "9.0.0"
