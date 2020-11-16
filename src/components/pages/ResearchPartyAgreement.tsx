@@ -6,7 +6,7 @@ import { ViewTermsAndConditions } from '../application/GenericDialog/Register';
 export default function ResearchPartAgreement() {
   return (
     <Container maxWidth='md'>
-      <Page title='I agree to be part of a research party...'>
+      <Page title='I agree to be part of a research study...'>
         <Grid container spacing={2}>
           <Grid item>
             <Typography>

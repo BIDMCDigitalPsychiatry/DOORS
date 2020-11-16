@@ -5,7 +5,7 @@ import Check from '../../DialogField/Check';
 import { useDialogState } from '../useDialogState';
 import ResearchPartAgreement from '../../../pages/ResearchPartyAgreement';
 
-export const title = 'Research Party Agreement';
+export const title = 'Research Study Agreement';
 
 const validate = (values, dialogState) => {
   const { agree } = values;
