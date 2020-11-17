@@ -36,7 +36,7 @@ export default function Footer() {
   const userType = useUserType();
 
   const [{ profile }] = useLayout();
-  const displayName = profile?.name ?? '';
+  const displayName = profile?.name ?? profile?.email ?? '';
 
   return (
     <>

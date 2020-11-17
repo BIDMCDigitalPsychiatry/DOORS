@@ -12,6 +12,7 @@ import useFormState from '../../hooks/useFormState';
 import Class, { defaultRankingModels } from '../../../database/models/Class';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
+import { useUserType } from '../../../hooks';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -29,9 +30,12 @@ export default function CreateClass() {
   const { formState, handleCreate } = useFormState({ Model, validate, onSuccess: handleChangeRoute('/Classes') });
   const { loading, errors } = formState;
 
+  const userType = useUserType();
+
   const [state, setState] = React.useState({
     id: uuid(),
     userId,
+    userType,
     name: '',
     image: 'wifi',
     headline: '',

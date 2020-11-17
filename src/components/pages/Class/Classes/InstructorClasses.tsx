@@ -9,7 +9,7 @@ import DialogButton from '../../../application/GenericDialog/DialogButton';
 import useTableRow from '../../../../database/useTableRow';
 import { tables } from '../../../../database/dbConfig';
 import { uuid } from '../../../../helpers';
-import { useIsAdminMode } from '../../../../hooks';
+import { useIsAdminMode, useUserType } from '../../../../hooks';
 
 export default function InstructorClasses() {
   const isAdminMode = useIsAdminMode();
@@ -31,6 +31,8 @@ export default function InstructorClasses() {
 
   const { setRow } = useTableRow({ Model: tables.classes });
 
+  const userType = useUserType();
+
   const handleAdd = React.useCallback(() => {
     const classes = JSON.parse(notAddedClasses_str);
     classes.forEach((c, i) => {
@@ -39,11 +41,11 @@ export default function InstructorClasses() {
       const now = new Date().getTime();
       setRow({
         id,
-        values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, userId, created: now, updated: now },
+        values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, userId, created: now, updated: now, userType },
         onSuccess: i === classes.length - 1 && handleRefresh
       });
     });
-  }, [setRow, handleRefresh, notAddedClasses_str, userId]);
+  }, [setRow, handleRefresh, notAddedClasses_str, userId, userType]);
 
   const [showArchived, setShowArchived] = React.useState(false);
 
