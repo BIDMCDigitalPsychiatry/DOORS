@@ -4,16 +4,11 @@ import Class from '../Class';
 import Page from '../../Page';
 import { useHandleChangeRouteLayout, useUserId } from '../../../layout/hooks';
 import CreateNewClassButton from './CreateNewClassButton';
-import useClassesByUserId from '../useClassesByUserId';
 import DialogButton from '../../../application/GenericDialog/DialogButton';
+import useAdminClasses from '../useAdminClasses';
 
 export default function AdminClasses() {
-  const userId = useUserId();
-
-  const { data, handleRefresh, loading } = useClassesByUserId({ userId, parentUserId: userId });
-
-  const myClasses = data.filter(d => d.userId === userId);
-  const childClasses = data.filter(d => d.parentUserId === userId);
+  const { data, handleRefresh, loading } = useAdminClasses();
 
   const changeRouteLayout = useHandleChangeRouteLayout();
 
@@ -38,14 +33,14 @@ export default function AdminClasses() {
   return (
     <Page title='Administrator Classes' loading={loading} ActionButton={Buttons}>
       <Grid container spacing={3}>
-        {myClasses.length === 0 && (
+        {data.length === 0 && (
           <Grid item>
             <Box mt={2}>
               <Typography color='error'>No classes found, click the Create New Class button to add a class.</Typography>
             </Box>
           </Grid>
         )}
-        {showArchived && myClasses.filter(c => c.deleted).length === 0 && (
+        {showArchived && data.filter(c => c.deleted).length === 0 && (
           <>
             <Box m={3}>
               <Typography>There are no archived classes at this time.</Typography>
@@ -53,7 +48,7 @@ export default function AdminClasses() {
           </>
         )}
         {[
-          myClasses
+          data
             .filter(c => (showArchived && c.deleted) || (!showArchived && !c.deleted))
             .map((c, i) => (
               <Grid key={[c.id, c.title, i].join('-')} item lg={3} sm={6} xs={12}>
@@ -65,8 +60,6 @@ export default function AdminClasses() {
                     instructor: undefined, // Reset instructor to ensure the class roster isn't visible for admin classes
                     class: c
                   })}
-                  childClasses={childClasses.filter(cc => cc.parentClassId === c.id)}
-                  showChildClasses={true} // show even when there are no child classes for min height purposes
                   canArchive={true}
                   onRefresh={handleRefresh}
                 />
