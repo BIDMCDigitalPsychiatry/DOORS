@@ -2,7 +2,7 @@ import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import useS3Bucket from '../../../database/useS3Bucket';
-import { uuid } from '../../../helpers';
+import { getFileName, uuid } from '../../../helpers';
 import DialogButton from '../GenericDialog/DialogButton';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,7 +45,7 @@ const FileUploadButton = ({
         if ((file as any).size > 20 * 1024 * 1024) {
           alert('File exceeds 20 MB upload limit.');
         } else {
-          const id = `${file?.name ?? 'unknown'}_${uuid()}`;
+          const id = `${getFileName(file)}_${uuid()}`;
           handleUpload({
             id,
             content: file,

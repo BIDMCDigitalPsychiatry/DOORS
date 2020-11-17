@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextField } from '@material-ui/core';
-import { isEmpty, isError } from '../../../helpers';
+import { getFileName, isEmpty, isError } from '../../../helpers';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import { blue } from '@material-ui/core/colors';
@@ -51,7 +51,7 @@ export const FileActions = ({ onSuccess = undefined, onError = undefined }) => {
         if ((file as any).size > 20 * 1024 * 1024) {
           alert('File exceeds 20 MB upload limit.');
         } else {
-          const id = `${file?.name ?? 'unknown'}_${uuid()}`;
+          const id = `${getFileName(file)}_${uuid()}`;
           handleUpload({
             id,
             content: file,

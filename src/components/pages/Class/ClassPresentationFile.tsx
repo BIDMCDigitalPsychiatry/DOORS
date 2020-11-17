@@ -8,7 +8,7 @@ import { blue } from '@material-ui/core/colors';
 import * as Icons from '@material-ui/icons';
 import { Menu, MenuItem, Typography } from '@material-ui/core';
 import useS3Bucket from '../../../database/useS3Bucket';
-import { uuid } from '../../../helpers';
+import { getFileName, uuid } from '../../../helpers';
 import { useSnackBar } from '../../application/SnackBar/useSnackBar';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,7 +54,7 @@ export const FileActions = () => {
           alert('File exceeds 20 MB upload limit.');
         } else {
           handleUpload({
-            id: `${file?.name ?? 'unknown'}_${uuid()}`,
+            id: `${getFileName(file)}_${uuid()}`,
             content: file,
             level: 'public', // public or private
             contentType: `${file?.type ?? 'text/plain'}`,

@@ -345,3 +345,7 @@ export function parseEmails(emails) {
 export const getClassTitle = ({ headline, name }) => [headline, name].filter(x => !isEmpty(x)).join(' - ');
 
 export const getStudentName = ({ student, profile }) => profile?.name ?? student?.email ?? 'Unknown Name';
+
+export const getFileName = file => {
+  return (file?.name ?? 'unknown').split(' ').join('_'); // Get filename and remove any spaces
+};
