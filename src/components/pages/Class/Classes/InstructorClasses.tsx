@@ -10,14 +10,15 @@ import useTableRow from '../../../../database/useTableRow';
 import { tables } from '../../../../database/dbConfig';
 import { uuid } from '../../../../helpers';
 import { useIsAdminMode, useUserType } from '../../../../hooks';
+import useAdminClasses from '../useAdminClasses';
 
 export default function InstructorClasses() {
   const isAdminMode = useIsAdminMode();
   const [{ back, instructor }] = useLayout();
-  const { userId, parentId } = instructor;
+  const { userId } = instructor;
 
   const { data: instructorClasses, handleRefresh: refreshInstructor, loading } = useClassesByUserId({ userId });
-  const { data: adminClasses, handleRefresh: refreshAdmin, loading: loadingParent } = useClassesByUserId({ userId: parentId });
+  const { data: adminClasses, handleRefresh: refreshAdmin, loading: loadingParent } = useAdminClasses();
 
   const notAddedClasses = adminClasses.filter(ac => !ac.deleted && !instructorClasses.find(ic => ic.parentClassId === ac.id || ic.id === ac.id));
   const notAddedClasses_str = JSON.stringify(notAddedClasses);

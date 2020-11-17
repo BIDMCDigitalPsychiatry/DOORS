@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import Class from '../Class';
 import Page from '../../Page';
-import { useHandleChangeRouteLayout, useUserId } from '../../../layout/hooks';
+import { useHandleChangeRouteLayout } from '../../../layout/hooks';
 import CreateNewClassButton from './CreateNewClassButton';
 import DialogButton from '../../../application/GenericDialog/DialogButton';
 import useAdminClasses from '../useAdminClasses';
