@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Grid, makeStyles } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import DialogButton from '../GenericDialog/DialogButton';
+import * as EventDialog from '../GenericDialog/Event';
 
 interface HeaderProps {
   className?: string;
@@ -28,7 +29,7 @@ const Header: FC<HeaderProps> = ({ className, onAddClick, ...rest }) => {
     <Grid className={clsx(classes.root, className)} container justify='space-between' spacing={3} {...rest}>
       <Grid item>
         <>
-          <DialogButton onClick={onAddClick} fullWidth variant='styled' Icon={Icons.Add}>
+          <DialogButton Module={EventDialog} fullWidth variant='styled' Icon={Icons.Add}>
             New Event
           </DialogButton>
         </>
