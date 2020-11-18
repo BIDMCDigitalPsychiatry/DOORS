@@ -18,7 +18,8 @@ export type TableName =
   | 'doors-students'
   | 'doors-attendance'
   | 'doors-groups'
-  | 'doors-profiles';
+  | 'doors-profiles'
+  | 'doors-events';
 
 export const tables = {
   users: 'doors-users' as TableName,
@@ -28,5 +29,6 @@ export const tables = {
   groups: 'doors-groups' as TableName,
   profiles: 'doors-profiles' as TableName,
   classes: 'doors-classes' as TableName,
-  sessions: 'doors-sessions' as TableName
+  sessions: 'doors-sessions' as TableName,
+  events: 'doors-events' as TableName
 };
