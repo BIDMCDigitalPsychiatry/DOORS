@@ -20,7 +20,7 @@ const shared = {
       dark: '#005077' // Color used in bottom toolbar
     },
     secondary: {
-      light: '#FAFAFA', // SOft Gray
+      light: '#FAFAFA', // Soft Gray
       main: '#AAB4BA', // Cold Gray
       dark: '#384954' // Deep Cold Gray
     }

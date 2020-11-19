@@ -1,7 +1,6 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
-import { useSnackBar } from '../../SnackBar/useSnackBar';
 import useProcessData from '../../../../database/useProcessData';
 import { tables } from '../../../../database/dbConfig';
 import Switch from '../../DialogField/Switch';
@@ -13,17 +12,15 @@ const Model = tables.events;
 
 export default function EditEventDialog({ id = title, onClose }) {
   const [{ eventId, open }, setState] = useDialogState(id);
-  const [, setSnackbar] = useSnackBar();
 
   const { row: initialValues } = useTableRow({ id: eventId, Model: tables.events, active: open });
 
   const handleClose = React.useCallback(
     (props = undefined) => {
-      props && setSnackbar(props);
       setState(prev => ({ ...prev, open: false, loading: false }));
       onClose && onClose();
     },
-    [onClose, setState, setSnackbar]
+    [onClose, setState]
   );
 
   const processData = useProcessData();

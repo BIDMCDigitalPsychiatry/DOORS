@@ -2,35 +2,34 @@ import React from 'react';
 import moment from 'moment';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
-import { useSnackBar } from '../../SnackBar/useSnackBar';
 import useProcessData from '../../../../database/useProcessData';
 import { tables } from '../../../../database/dbConfig';
 import { uuid } from '../../../../helpers';
 import { useUserId } from '../../../layout/hooks';
 import Switch from '../../DialogField/Switch';
 import DateTimePicker from '../../DialogField/DateTimePicker';
+import { useTheme } from '@material-ui/core';
 
 export const title = 'Add Event';
 const Model = tables.events;
 
 export default function EventDialog({ id = title, onClose }) {
   const [, setState] = useDialogState(id);
-  const [, setSnackbar] = useSnackBar();
-
   const handleClose = React.useCallback(
-    (props = undefined) => {
-      props && setSnackbar(props);
+    (props = undefined) => {      
       setState(prev => ({ ...prev, open: false, loading: false }));
       onClose && onClose();
     },
-    [onClose, setState, setSnackbar]
+    [onClose, setState]
   );
 
   const processData = useProcessData();
+  const { palette } = useTheme();
+  const color = palette.primary.light;
 
   const submitData = React.useCallback(
     ({ values, OnSuccess }) => {
-      const Data = values;
+      const Data = { ...values, color };
       setState(prev => ({ ...prev, loading: true }));
       processData({
         Model,
@@ -40,7 +39,7 @@ export default function EventDialog({ id = title, onClose }) {
         onSuccess: () => OnSuccess(Data)
       });
     },
-    [setState, processData]
+    [setState, processData, color]
   );
 
   const onError = React.useCallback(() => {
