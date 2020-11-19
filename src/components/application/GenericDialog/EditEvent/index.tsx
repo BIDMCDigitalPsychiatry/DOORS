@@ -51,6 +51,21 @@ export default function EditEventDialog({ id = title, onClose }) {
     handleClose({ open: true, variant: 'success', message: 'Success' });
   }, [handleClose]);
 
+  const handleDelete = React.useCallback(
+    values => {
+      const Data = { ...values, deleted: true };
+      setState(prev => ({ ...prev, loading: true }));
+      processData({
+        Model,
+        Action: 'u',
+        Data,
+        onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+        onSuccess: () => onSuccess()
+      });
+    },
+    [setState, processData, onSuccess]
+  );
+
   const handleSubmit = React.useCallback(values => submitData({ values, OnSuccess: onSuccess, OnError: onError }), [submitData, onSuccess, onError]);
 
   return (
@@ -60,7 +75,7 @@ export default function EditEventDialog({ id = title, onClose }) {
       onSubmit={handleSubmit}
       initialValues={initialValues}
       onClose={onClose}
-      type='Edit'
+      onDelete={handleDelete}
       submitLabel='Save'
       fields={[
         {

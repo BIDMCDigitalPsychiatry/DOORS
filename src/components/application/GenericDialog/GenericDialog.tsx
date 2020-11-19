@@ -240,7 +240,7 @@ const GenericDialog = ({
               {confirmDelete && (
                 <Grid container spacing={2} justify='center' alignItems='center'>
                   <Grid item>
-                    <Button onClick={handleConfirmDelete} color='secondary'>
+                    <Button onClick={handleConfirmDelete} color='default'>
                       Cancel
                     </Button>
                   </Grid>

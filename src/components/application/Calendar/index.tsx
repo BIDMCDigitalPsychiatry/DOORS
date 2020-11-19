@@ -197,6 +197,7 @@ const CalendarView: FC = () => {
   const handleEventSelect = (arg: any): void => {
     setEditDialogState({
       open: true,
+      type: 'Edit',
       eventId: arg.event.id
     });
   };
@@ -257,7 +258,7 @@ const CalendarView: FC = () => {
           eventLimit
           eventResizableFromStart
           eventResize={handleEventResize}
-          events={events}
+          events={events.filter(e => !e.deleted)}
           header={false}
           height={800}
           ref={calendarRef}
