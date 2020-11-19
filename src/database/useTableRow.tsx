@@ -23,13 +23,14 @@ export default function useTableRow({
   const row_str = JSON.stringify(row) ?? '{}'; // Default to empty object string if undefined
 
   const handleRefresh = React.useCallback(
-    ({ onSuccess } = {}) => {
-      if (!isEmpty(Id)) {
+    ({ id: _Id = undefined, onSuccess } = {}) => {
+      const id = _Id ? _Id : Id;
+      if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
         processData({
           Model,
           Action: 'r',
-          Data: { id: Id },
+          Data: { id },
           onError: response => setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response })),
           onSuccess: response => {
             setState(prev => ({ ...prev, loading: false, error: undefined, response }));
@@ -83,6 +84,7 @@ export default function useTableRow({
       const id = _Id ? _Id : Id;
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
+        console.log({ id, Data: { ...prev, id, ...values }, prev, values });
         processData({
           Model,
           Action: 'u',
@@ -104,8 +106,8 @@ export default function useTableRow({
 
   // Reads the row from the database first, and then merges the new values into the existing data before saving back to the database
   const readSetRow = React.useCallback(
-    ({ values, ...other }) => {
-      handleRefresh({ onSuccess: response => setRowPrev({ values, prev: response?.Item, ...other }) });
+    ({ id = undefined, values, ...other }) => {
+      handleRefresh({ id, onSuccess: response => setRowPrev({ id: id, values, prev: response?.Item, ...other }) });
     },
     [setRowPrev, handleRefresh]
   );

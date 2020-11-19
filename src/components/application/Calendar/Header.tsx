@@ -29,7 +29,7 @@ const Header: FC<HeaderProps> = ({ className, onAddClick, ...rest }) => {
     <Grid className={clsx(classes.root, className)} container justify='space-between' spacing={3} {...rest}>
       <Grid item>
         <>
-          <DialogButton Module={EventDialog} fullWidth variant='styled' Icon={Icons.Add}>
+          <DialogButton Module={EventDialog} mount={false} fullWidth variant='styled' Icon={Icons.Add}>
             New Event
           </DialogButton>
         </>

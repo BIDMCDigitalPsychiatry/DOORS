@@ -4,7 +4,7 @@ import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
 import Instructors from '../pages/Instructors';
 import { ProfileProvider } from '../pages/Profile/Profile';
-import Calendar from '../pages/Calendar';
+import Calendar from '../pages/Calendar/Calendar';
 import Classes from '../pages/Class/Classes/Classes';
 import ClassDashboard from '../pages/Class/ClassDashboard/ClassDashboard';
 import ClassMaterials from '../pages/Class/ClassMaterials';

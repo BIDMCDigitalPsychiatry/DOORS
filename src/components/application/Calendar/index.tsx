@@ -11,23 +11,18 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import timelinePlugin from '@fullcalendar/timeline';
-import { Container, Dialog, Paper, useTheme, useMediaQuery, makeStyles } from '@material-ui/core';
-import type { Event, View } from '../../../types/calendar';
-import { getEvents, updateEvent, selectEvent, selectRange, openModal, closeModal } from './store';
+import { Container, Paper, useTheme, useMediaQuery, makeStyles } from '@material-ui/core';
+import type { View } from '../../../types/calendar';
 import Header from './Header';
 import Toolbar from './Toolbar';
-import AddEditEventForm from './AddEditEventForm';
-import { useDispatch, useSelector } from 'react-redux';
-
-const selectedEventSelector = (state): Event | null => {
-  const { events, selectedEventId } = state.calendar ?? {};
-
-  if (selectedEventId) {
-    return events.find(_event => _event.id === selectedEventId);
-  } else {
-    return null;
-  }
-};
+import { useEventsByUserId } from '../../pages/Calendar/useEvents';
+import { useUserId } from '../../layout/hooks';
+import * as EditEventDialog from '../GenericDialog/EditEvent';
+import { renderDialogModule } from '../GenericDialog/DialogButton';
+import { useDialogState } from '../GenericDialog/useDialogState';
+import * as EventDialog from '../GenericDialog/Event';
+import useTableRow from '../../../database/useTableRow';
+import { tables } from '../../../database/dbConfig';
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -124,13 +119,13 @@ const CalendarView: FC = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const theme = useTheme();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-  const dispatch = useDispatch();
-  const { events, isModalOpen, selectedRange } = useSelector((state: any) => state.calendar ?? {});
-  const selectedEvent = useSelector(selectedEventSelector);
+  const userId = useUserId();
+  const { data: events, handleRefresh } = useEventsByUserId({ userId });
   const [date, setDate] = useState<Date>(moment().toDate());
   const [view, setView] = useState<View>(mobileDevice ? 'listWeek' : 'dayGridMonth');
 
-  console.log({ isModalOpen });
+  const [, setDialogState] = useDialogState('Add Event');
+  const [, setEditDialogState] = useDialogState('Edit Event');
 
   const handleDateToday = (): void => {
     const calendarEl = calendarRef.current;
@@ -176,10 +171,6 @@ const CalendarView: FC = () => {
     }
   };
 
-  const handleAddClick = (): void => {
-    dispatch(openModal());
-  };
-
   const handleRangeSelect = (arg: any): void => {
     const calendarEl = calendarRef.current;
 
@@ -189,48 +180,52 @@ const CalendarView: FC = () => {
       calendarApi.unselect();
     }
 
-    dispatch(selectRange(arg.start, arg.end));
+    setDialogState({
+      open: true,
+      initialValues: {
+        allDay: false,
+        color: '',
+        description: '',
+        end: new Date(arg.end),
+        start: new Date(arg.start),
+        title: '',
+        submit: null
+      }
+    });
   };
 
   const handleEventSelect = (arg: any): void => {
-    dispatch(selectEvent(arg.event.id));
+    setEditDialogState({
+      open: true,
+      eventId: arg.event.id
+    });
   };
 
+  const { readSetRow } = useTableRow({ Model: tables.events });
+
   const handleEventResize = async ({ event }: any): Promise<void> => {
-    try {
-      await dispatch(
-        updateEvent(event.id, {
-          allDay: event.allDay,
-          start: event.start,
-          end: event.end
-        })
-      );
-    } catch (err) {
-      console.error(err);
-    }
+    readSetRow({
+      id: event.id,
+      values: {
+        allDay: event.allDay,
+        start: event.start.toISOString(),
+        end: event.end.toISOString()
+      },
+      onSuccess: handleRefresh
+    });
   };
 
   const handleEventDrop = async ({ event }: any): Promise<void> => {
-    try {
-      await dispatch(
-        updateEvent(event.id, {
-          allDay: event.allDay,
-          start: event.start,
-          end: event.end
-        })
-      );
-    } catch (err) {
-      console.error(err);
-    }
+    readSetRow({
+      id: event.id,
+      values: {
+        allDay: event.allDay,
+        start: event.start.toISOString(),
+        end: event.end.toISOString()
+      },
+      onSuccess: handleRefresh
+    });
   };
-
-  const handleModalClose = (): void => {
-    dispatch(closeModal());
-  };
-
-  useEffect(() => {
-    dispatch(getEvents());
-  }, [dispatch]);
 
   useEffect(() => {
     const calendarEl = calendarRef.current;
@@ -246,7 +241,9 @@ const CalendarView: FC = () => {
 
   return (
     <Container maxWidth={false}>
-      <Header onAddClick={handleAddClick} />
+      {renderDialogModule({ ...EditEventDialog, onClose: handleRefresh })}
+      {renderDialogModule({ ...EventDialog, onClose: handleRefresh })}
+      <Header />
       <Toolbar date={date} onDateNext={handleDateNext} onDatePrev={handleDatePrev} onDateToday={handleDateToday} onViewChange={handleViewChange} view={view} />
       <Paper className={classes.calendar}>
         <FullCalendar
@@ -271,19 +268,6 @@ const CalendarView: FC = () => {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin, timelinePlugin]}
         />
       </Paper>
-      <Dialog maxWidth='sm' fullWidth onClose={handleModalClose} open={isModalOpen}>
-        {/* Dialog renders its body even if not open */}
-        {isModalOpen && (
-          <AddEditEventForm
-            event={selectedEvent}
-            range={selectedRange}
-            onAddComplete={handleModalClose}
-            onCancel={handleModalClose}
-            onDeleteComplete={handleModalClose}
-            onEditComplete={handleModalClose}
-          />
-        )}
-      </Dialog>
     </Container>
   );
 };
