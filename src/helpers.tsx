@@ -266,6 +266,15 @@ export function sortUdpatedDescending({ updated: a }, { updated: b }) {
   return sortDescending(a, b);
 }
 
+// Sorts strings by their natural look, i.e abc10 comes after abc1
+export function sortDescendingNatural(a, b) {
+  return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+}
+
+export function sortHeadlineDescending({ headline: a }, { headline: b }) {
+  return sortDescendingNatural(a, b);
+}
+
 export const getAndroidIdFromUrl = (url: string) => {
   var searchStr = '?id=';
   var index = (url as string)?.indexOf(searchStr);

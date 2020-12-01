@@ -84,7 +84,7 @@ export default function useTableRow({
       const id = _Id ? _Id : Id;
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));
-        console.log({ id, Data: { ...prev, id, ...values }, prev, values });
+        // console.log({ id, Data: { ...prev, id, ...values }, prev, values });
         processData({
           Model,
           Action: 'u',

@@ -11,6 +11,7 @@ import { tables } from '../../../../database/dbConfig';
 import { uuid } from '../../../../helpers';
 import { useIsAdminMode, useUserType } from '../../../../hooks';
 import useAdminClasses from '../useAdminClasses';
+import * as ClassImportDialog from '../../../application/GenericDialog/ClassImport';
 
 export default function InstructorClasses() {
   const isAdminMode = useIsAdminMode();
@@ -88,8 +89,25 @@ export default function InstructorClasses() {
                   </Typography>
                 </Grid>
                 <Grid item>
+                  <Typography variant='body2'>|</Typography>
+                </Grid>
+                <Grid item>
                   <DialogButton onClick={handleAdd} variant='link' underline='always'>
-                    Click here to auto import.
+                    Import All
+                  </DialogButton>
+                </Grid>
+                <Grid item>
+                  <Typography variant='body2'>|</Typography>
+                </Grid>
+                <Grid item>
+                  <DialogButton
+                    Module={ClassImportDialog}
+                    initialValues={{ classes: notAddedClasses }}
+                    onClose={handleRefresh}                    
+                    variant='link'
+                    underline='always'
+                  >
+                    Import Individual
                   </DialogButton>
                 </Grid>
               </Grid>
