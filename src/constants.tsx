@@ -39,7 +39,7 @@ const shared = {
     tabletoolbarheight: basetheme.spacing(5.5) * 2, // The height of the top bar on the table, also the height of the secondary tabselector
     tableRowHeight: basetheme.spacing(6), // Height of table rows
     footerheight: 24, //The height of the bottom toolbar
-    progressSize: 180, // size of the circular progress indicator shown when dialogs are submitting
+    progressSize: 100, // size of the circular progress indicator shown when dialogs are submitting
     tabheight: 116 // Height of the nav pills tab section
   },
   overrides: {

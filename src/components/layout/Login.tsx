@@ -7,6 +7,7 @@ import { isEmpty } from '../../helpers';
 import { useLogin, useHeight } from './hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as RegisterDialog from '../application/GenericDialog/Register';
+import * as RequestInviteDialog from '../application/GenericDialog/RequestInvite';
 import { getUrlParamater } from '../../hooks';
 import ForgotPassword from './ForgotPassword';
 
@@ -180,6 +181,25 @@ export default function Login() {
                       className={classes.button}
                     >
                       Create New Account
+                    </DialogButton>
+                  </div>
+                </Grid>
+                <Grid item>
+                  <div className={classes.wrapper}>
+                    <DialogButton
+                      Module={RequestInviteDialog}
+                      disabled={loading}
+                      initialValues={{ email }}
+                      size='medium'
+                      variant='contained'
+                      tooltip=''
+                      onClick={() => setState(prev => ({ ...prev, enableKeys: false }))}
+                      onClose={() => setState(prev => ({ ...prev, enableKeys: true }))}                      
+                      className={classes.button}
+                    >
+                      <Grid item xs={12}>
+                        Request an Invite
+                      </Grid>
                     </DialogButton>
                   </div>
                 </Grid>

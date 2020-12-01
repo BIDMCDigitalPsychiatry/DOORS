@@ -131,6 +131,7 @@ const GenericDialog = ({
   ContentProps,
   validate,
   classes: Classes,
+  hasChanged: HasChanged,
   children,
   ...other
 }: ComponentProps & any) => {
@@ -185,6 +186,7 @@ const GenericDialog = ({
 
   const inProgress = loading || submitting;
   const disabled = inProgress || errors['loading'];
+  const changed = HasChanged !== undefined ? HasChanged : hasChanged; // Use param if specified, otherwise use default value.hasChanged
 
   return (
     <Dialog
@@ -269,7 +271,7 @@ const GenericDialog = ({
             </Button>
           )}
           {submitLabel !== null && (
-            <Button autoFocus disabled={disabled || !hasChanged} color='primary' onClick={handleSubmit}>
+            <Button autoFocus disabled={disabled || !changed} color='primary' onClick={handleSubmit}>
               {evalFunc(submitLabel, values) || type}
             </Button>
           )}
