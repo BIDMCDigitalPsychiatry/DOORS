@@ -1,6 +1,7 @@
 import * as React from 'react';
 import useTable from '../../../database/useTable';
 import { tables } from '../../../database/dbConfig';
+import { sortHeadlineDescending } from '../../../helpers';
 
 const Model = tables.classes;
 
@@ -20,7 +21,7 @@ export default function useClasses({ requestParams = undefined } = {}) {
   const rows = Object.keys(data).map(k => ({ ...data[k] }));
 
   return {
-    data: rows,
+    data: rows?.sort(sortHeadlineDescending),
     handleRefresh,
     loading,
     success
