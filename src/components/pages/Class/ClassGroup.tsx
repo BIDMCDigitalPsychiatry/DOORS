@@ -14,12 +14,18 @@ import MarginDivider from '../../application/DialogField/MarginDivider';
 import useTableRow from '../../../database/useTableRow';
 import useSessions from '../../../database/useSessions';
 import { ParticipantsDetailed } from './ParticipantsDetailed';
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   root: {},
   summary: {
     padding: spacing(1),
     background: palette.primary.light,
+    color: palette.common.white
+  },
+  summaryDeleted: {
+    padding: spacing(1),
+    background: red[400],
     color: palette.common.white
   },
   actions: {
@@ -32,6 +38,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
     display: 'flex',
     flexDirection: 'column'
   },
+
   bold: {
     fontWeight: 'bold'
   },
@@ -67,11 +74,13 @@ export const buildParticipants = (students, sessions, includeStatus = true) => {
   });
 };
 
+const Model = tables.groups;
 export default function ClassGroup({
   mount = false,
   id = undefined,
   userId = undefined,
   classId = undefined,
+  deleted,
   name = 'Group Name',
   location = 'Unknown Location',
   type = 'Unknown Type',
@@ -93,11 +102,21 @@ export default function ClassGroup({
   const activeParticipants = buildParticipants(activeStudents, filtered, !isEmpty(classId));
   const pendingParticipants = buildParticipants(pendingStudents, filtered, !isEmpty(classId));
   const deletedParticipants = buildParticipants(deletedStudents, filtered, !isEmpty(classId));
+  const { readSetRow } = useTableRow({ id, Model });
+
+  const handleArchive = React.useCallback(() => {
+    readSetRow({ values: { deleted: true }, onSuccess: handleRefreshGroups });
+  }, [readSetRow, handleRefreshGroups]);
+
+  const handleRestore = React.useCallback(() => {
+    readSetRow({ values: { deleted: false }, onSuccess: handleRefreshGroups });
+    handleRefreshGroups && handleRefreshGroups();
+  }, [readSetRow, handleRefreshGroups]);
 
   return (
     <Card className={clsx(classes.root, className)}>
       <Grid container>
-        <Grid item xs={12} sm={12} md={4} lg={3} xl={2} className={classes.summary}>
+        <Grid item xs={12} sm={12} md={4} lg={3} xl={2} className={deleted ? classes.summaryDeleted : classes.summary}>
           <Grid container spacing={0}>
             <Grid item xs={12}>
               <Tooltip
@@ -168,52 +187,56 @@ export default function ClassGroup({
             </Grid>
             <Grid item xs={12} sm={12} md={7} lg={4} xl={3} className={classes.actions}>
               <Grid container spacing={1}>
-                <Grid item xs={12}>
-                  <DialogButton
-                    id={id}
-                    Module={AddStudentDialog}
-                    fullWidth={true}
-                    onClose={handleRefresh}
-                    variant='styled'
-                    size='large'
-                    tooltip=''
-                    initialValues={{
-                      group: {
-                        id,
-                        name,
-                        type,
-                        location
-                      }
-                    }}
-                  >
-                    Add New Student
-                  </DialogButton>
-                </Grid>
+                {!deleted && (
+                  <Grid item xs={12}>
+                    <DialogButton
+                      id={id}
+                      Module={AddStudentDialog}
+                      fullWidth={true}
+                      onClose={handleRefresh}
+                      variant='styled'
+                      size='large'
+                      tooltip=''
+                      initialValues={{
+                        group: {
+                          id,
+                          name,
+                          type,
+                          location
+                        }
+                      }}
+                    >
+                      Add New Student
+                    </DialogButton>
+                  </Grid>
+                )}
                 {!isEmpty(classId) && (
                   <>
-                    <Grid item xs={12}>
-                      <DialogButton
-                        Module={MarkAttendanceDialog}
-                        mount={mount}
-                        fullWidth={true}
-                        onClose={handleRefresh}
-                        variant='styled'
-                        size='large'
-                        tooltip=''
-                        initialValues={{
-                          groupId: id,
-                          classId,
-                          date: yyyymmdd(),
-                          dateString: getDayMonthYear(),
-                          students: activeStudents.reduce((f, c) => {
-                            f[c.id] = c;
-                            return f;
-                          }, {})
-                        }}
-                      >
-                        Mark Attendance
-                      </DialogButton>
-                    </Grid>
+                    {!deleted && (
+                      <Grid item xs={12}>
+                        <DialogButton
+                          Module={MarkAttendanceDialog}
+                          mount={mount}
+                          fullWidth={true}
+                          onClose={handleRefresh}
+                          variant='styled'
+                          size='large'
+                          tooltip=''
+                          initialValues={{
+                            groupId: id,
+                            classId,
+                            date: yyyymmdd(),
+                            dateString: getDayMonthYear(),
+                            students: activeStudents.reduce((f, c) => {
+                              f[c.id] = c;
+                              return f;
+                            }, {})
+                          }}
+                        >
+                          Mark Attendance
+                        </DialogButton>
+                      </Grid>
+                    )}
                     <Grid item xs={12}>
                       <DialogButton
                         Module={AttendanceHistoryDialog}
@@ -253,6 +276,18 @@ export default function ClassGroup({
                     </Grid>
                   </>
                 )}
+                <Grid item xs={12}>
+                  <DialogButton
+                    fullWidth={true}
+                    onClick={deleted === true ? handleRestore : handleArchive}
+                    onClose={handleArchive}
+                    variant='styled'
+                    size='large'
+                    tooltip=''
+                  >
+                    {deleted === true ? 'Restore' : 'Archive'} Group
+                  </DialogButton>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>

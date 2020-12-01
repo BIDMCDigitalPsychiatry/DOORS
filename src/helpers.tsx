@@ -271,6 +271,10 @@ export function sortDescendingNatural(a, b) {
   return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
 }
 
+export function sortNameDescending({ name: a }, { name: b }) {
+  return sortDescendingNatural(a, b);
+}
+
 export function sortHeadlineDescending({ headline: a }, { headline: b }) {
   return sortDescendingNatural(a, b);
 }

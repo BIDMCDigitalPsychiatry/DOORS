@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { sortNameDescending } from '../helpers';
 import { tables } from './dbConfig';
 import useTable from './useTable';
 
@@ -18,7 +19,7 @@ export const useGroups = ({ active = true, requestParams = undefined } = {}) => 
   const rows = Object.keys(data).map(k => ({ ...data[k] }));
 
   return {
-    data: rows,
+    data: rows?.sort(sortNameDescending),
     handleRefresh,
     loading,
     success

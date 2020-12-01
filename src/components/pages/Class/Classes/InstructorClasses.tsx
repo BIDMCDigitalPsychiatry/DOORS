@@ -103,11 +103,11 @@ export default function InstructorClasses() {
                   <DialogButton
                     Module={ClassImportDialog}
                     initialValues={{ classes: notAddedClasses }}
-                    onClose={handleRefresh}                    
+                    onClose={handleRefresh}
                     variant='link'
                     underline='always'
                   >
-                    Import Individual
+                    Manual Import
                   </DialogButton>
                 </Grid>
               </Grid>
