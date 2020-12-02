@@ -10,7 +10,7 @@ import useTableRow from '../../../../database/useTableRow';
 export const title = 'Edit Event';
 const Model = tables.events;
 
-export default function EditEventDialog({ id = title, onClose }) {
+export default function EditEventDialog({ id = title, disabled = false, onClose }) {
   const [{ eventId, open }, setState] = useDialogState(id);
 
   const { row: initialValues } = useTableRow({ id: eventId, Model: tables.events, active: open });
@@ -68,12 +68,13 @@ export default function EditEventDialog({ id = title, onClose }) {
   return (
     <GenericDialog
       id={id}
-      title={id}
+      title={disabled ? 'View Event' : id}
       onSubmit={handleSubmit}
       initialValues={initialValues}
       onClose={onClose}
-      onDelete={handleDelete}
-      submitLabel='Save'
+      onDelete={!disabled ? handleDelete : undefined}
+      submitLabel={disabled ? null : 'Save'}
+      cancelLabel={disabled ? 'Close' : 'Cancel'}
       fields={[
         {
           id: 'id',
@@ -82,26 +83,31 @@ export default function EditEventDialog({ id = title, onClose }) {
         {
           id: 'title',
           label: 'Title',
-          required: true
+          required: true,
+          disabled
         },
         {
           id: 'description',
-          label: 'Description'
+          label: 'Description',
+          disabled
         },
         {
           id: 'allDay',
           label: 'All day',
-          Field: Switch
+          Field: Switch,
+          disabled
         },
         {
           id: 'start',
           label: 'Start',
-          Field: DateTimePicker
+          Field: DateTimePicker,
+          disabled
         },
         {
           id: 'end',
           label: 'End',
-          Field: DateTimePicker
+          Field: DateTimePicker,
+          disabled
         }
       ]}
     />

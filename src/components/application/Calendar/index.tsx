@@ -3,7 +3,6 @@ import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import '@fullcalendar/list/main.css';
 import React, { useState, useRef, useEffect } from 'react';
-import type { FC } from 'react';
 import moment from 'moment';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -15,14 +14,10 @@ import { Container, Paper, useTheme, useMediaQuery, makeStyles } from '@material
 import type { View } from '../../../types/calendar';
 import Header from './Header';
 import Toolbar from './Toolbar';
-import { useEventsByUserId } from '../../pages/Calendar/useEvents';
-import { useUserId } from '../../layout/hooks';
 import * as EditEventDialog from '../GenericDialog/EditEvent';
 import { renderDialogModule } from '../GenericDialog/DialogButton';
 import { useDialogState } from '../GenericDialog/useDialogState';
 import * as EventDialog from '../GenericDialog/Event';
-import useTableRow from '../../../database/useTableRow';
-import { tables } from '../../../database/dbConfig';
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -114,13 +109,12 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }));
 
-const CalendarView: FC = () => {
+const CalendarView = ({ events, readSetRow, handleRefresh, create = false, edit = false }) => {
   const classes = useStyles();
   const calendarRef = useRef<FullCalendar | null>(null);
   const theme = useTheme();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-  const userId = useUserId();
-  const { data: events, handleRefresh } = useEventsByUserId({ userId });
+
   const [date, setDate] = useState<Date>(moment().toDate());
   const [view, setView] = useState<View>(mobileDevice ? 'listWeek' : 'dayGridMonth');
 
@@ -202,8 +196,6 @@ const CalendarView: FC = () => {
     });
   };
 
-  const { readSetRow } = useTableRow({ Model: tables.events });
-
   const handleEventResize = async ({ event }: any): Promise<void> => {
     readSetRow({
       id: event.id,
@@ -242,9 +234,9 @@ const CalendarView: FC = () => {
 
   return (
     <Container maxWidth={false}>
-      {renderDialogModule({ ...EditEventDialog, onClose: handleRefresh })}
-      {renderDialogModule({ ...EventDialog, onClose: handleRefresh })}
-      <Header />
+      {renderDialogModule({ ...EditEventDialog, disabled: !edit, onClose: handleRefresh })}
+      {create && renderDialogModule({ ...EventDialog, onClose: handleRefresh })}
+      {create && <Header />}
       <Toolbar date={date} onDateNext={handleDateNext} onDatePrev={handleDatePrev} onDateToday={handleDateToday} onViewChange={handleViewChange} view={view} />
       <Paper className={classes.calendar}>
         <FullCalendar
