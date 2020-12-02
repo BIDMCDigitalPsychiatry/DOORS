@@ -4,15 +4,15 @@ import useTableRow from '../../../database/useTableRow';
 import CalendarView from '../../application/Calendar';
 import { useUserId } from '../../layout/hooks';
 import Page from '../Page';
-import { useEventsByUserId } from './useEvents';
+import useEvents from './useEvents';
 
 export default function AdminCalendar() {
   const userId = useUserId();
-  const { data: events, handleRefresh } = useEventsByUserId({ userId });
+  const { data: events, handleRefresh } = useEvents();
   const { readSetRow } = useTableRow({ Model: tables.events });
   return (
     <Page title='Admin Calendar'>
-      <CalendarView create={false} edit={true} events={events} readSetRow={readSetRow} handleRefresh={handleRefresh} />
+      <CalendarView create={false} edit={true} events={events.filter(e => !e.deleted)} readSetRow={readSetRow} handleRefresh={handleRefresh} />
     </Page>
   );
 }

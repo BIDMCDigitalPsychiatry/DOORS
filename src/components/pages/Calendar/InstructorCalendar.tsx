@@ -12,7 +12,7 @@ export default function InstructorCalendar() {
   const { readSetRow } = useTableRow({ Model: tables.events });
   return (
     <Page title='Instructor Calendar'>
-      <CalendarView create={true} edit={true} events={events} readSetRow={readSetRow} handleRefresh={handleRefresh} />
+      <CalendarView create={true} edit={true} events={events.filter(e => !e.deleted)} readSetRow={readSetRow} handleRefresh={handleRefresh} />
     </Page>
   );
 }
