@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Cal from '../../application/Calendar';
-import Page from '../Page';
+import { useIsAdminMode, useIsStudentMode } from '../../../hooks';
+import AdminCalendar from './AdminCalendar';
+import StudentCalendar from './StudentCalendar';
+import InstructorCalendar from './InstructorCalendar';
 
 export default function Calendar() {
-  return (
-    <Page title='My Calendar'>
-      <Cal />
-    </Page>
-  );
+  const isAdminMode = useIsAdminMode();
+  const isStudentMode = useIsStudentMode();
+  return isStudentMode ? <StudentCalendar /> : isAdminMode ? <AdminCalendar /> : <InstructorCalendar />;
 }
