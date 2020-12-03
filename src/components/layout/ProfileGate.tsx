@@ -9,6 +9,7 @@ import useProfileEmailAutoUpdate from './useProfileEmailAutoUpdate';
 import { makeStyles, createStyles } from '@material-ui/core';
 import { useHeight } from './hooks';
 import { useContentPadding, useFullScreen } from '../../hooks';
+import { useProfile } from '../../database/useProfile';
 
 const useStyles = makeStyles(({ breakpoints, palette, transitions, layout }: any) =>
   createStyles({
@@ -42,7 +43,8 @@ const useStyles = makeStyles(({ breakpoints, palette, transitions, layout }: any
 );
 
 export default function ProfileGate({ children }) {
-  const { profile, setProfile, loading, handleRefresh } = useProfileEmailAutoUpdate();
+  const { profile, setProfile, loading, handleRefresh } = useProfile();
+  useProfileEmailAutoUpdate();
   const handleLogout = useLogout();
 
   const height = useHeight();
