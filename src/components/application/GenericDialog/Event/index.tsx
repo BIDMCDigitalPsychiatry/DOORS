@@ -9,14 +9,31 @@ import { useUserId } from '../../../layout/hooks';
 import Switch from '../../DialogField/Switch';
 import DateTimePicker from '../../DialogField/DateTimePicker';
 import { useTheme } from '@material-ui/core';
+import { useGroups } from '../../../../database/useGroups';
+import Select from '../../DialogField/Select';
 
 export const title = 'Add Event';
 const Model = tables.events;
 
 export default function EventDialog({ id = title, onClose }) {
+  const userId = useUserId(); // Only instructors can currently create events, so grab the user id
+
+  const { data: groups } = useGroups({
+    requestParams: {
+      // If instructor mode, then filter groups by instructor's userId
+      FilterExpression: '#userId = :userId',
+      ExpressionAttributeNames: {
+        '#userId': 'userId'
+      },
+      ExpressionAttributeValues: {
+        ':userId': userId
+      }
+    }
+  });
+
   const [, setState] = useDialogState(id);
   const handleClose = React.useCallback(
-    (props = undefined) => {      
+    (props = undefined) => {
       setState(prev => ({ ...prev, open: false, loading: false }));
       onClose && onClose();
     },
@@ -52,8 +69,6 @@ export default function EventDialog({ id = title, onClose }) {
 
   const handleSubmit = React.useCallback(values => submitData({ values, OnSuccess: onSuccess, OnError: onError }), [submitData, onSuccess, onError]);
 
-  const userId = useUserId();
-
   return (
     <GenericDialog
       initialValues={{
@@ -78,6 +93,16 @@ export default function EventDialog({ id = title, onClose }) {
         {
           id: 'description',
           label: 'Description'
+        },
+        {
+          id: 'groupId',
+          label: 'Group',
+          Field: Select,
+          items: groups.map(g => ({ label: g.name, value: g.id })),
+          disableClearable: true,
+          required: true,
+          fullWidth: true,
+          xs: 4
         },
         {
           id: 'allDay',

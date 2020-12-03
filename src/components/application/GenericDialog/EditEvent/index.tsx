@@ -6,12 +6,34 @@ import { tables } from '../../../../database/dbConfig';
 import Switch from '../../DialogField/Switch';
 import DateTimePicker from '../../DialogField/DateTimePicker';
 import useTableRow from '../../../../database/useTableRow';
+import { useGroups } from '../../../../database/useGroups';
+import { useUserId } from '../../../layout/hooks';
+import { useIsInstructorMode } from '../../../../hooks';
+import Select from '../../DialogField/Select';
 
 export const title = 'Edit Event';
 const Model = tables.events;
 
 export default function EditEventDialog({ id = title, disabled = false, onClose }) {
   const [{ eventId, open }, setState] = useDialogState(id);
+
+  const userId = useUserId(); // Only instructors can currently create events, so grab the user id
+  const isInstructorMode = useIsInstructorMode();
+
+  //Edit event can either be instructor or admin, so select groups accordningly
+
+  const { data: groups } = useGroups({
+    requestParams: isInstructorMode && {
+      // If instructor mode, then filter groups by instructor's userId
+      FilterExpression: '#userId = :userId',
+      ExpressionAttributeNames: {
+        '#userId': 'userId'
+      },
+      ExpressionAttributeValues: {
+        ':userId': userId
+      }
+    }
+  });
 
   const { row: initialValues } = useTableRow({ id: eventId, Model: tables.events, active: open });
 
@@ -90,6 +112,17 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
           id: 'description',
           label: 'Description',
           disabled
+        },
+        {
+          id: 'groupId',
+          label: 'Group',
+          Field: Select,
+          items: groups.map(g => ({ label: g.name, value: g.id })),
+          disableClearable: true,
+          required: true,
+          fullWidth: true,
+          disabled: true,
+          xs: 4
         },
         {
           id: 'allDay',
