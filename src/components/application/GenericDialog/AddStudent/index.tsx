@@ -8,7 +8,7 @@ import useProcessData from '../../../../database/useProcessData';
 import { tables } from '../../../../database/dbConfig';
 import Student from '../../../../database/models/Student';
 import { isEmpty, parseEmails, uuid, validateEmail } from '../../../../helpers';
-import { useUserId } from '../../../layout/hooks';
+import { useLayout, useUserId } from '../../../layout/hooks';
 import { sendStudentInvite } from '../CreateGroup/helpers';
 
 export const title = 'Add New Student';
@@ -45,7 +45,16 @@ export default function AddStudentDialog({ id = title, onClose }) {
   );
 
   const processData = useProcessData();
-  const parentId = useUserId();
+
+  // Students should be invited by the active isntructor (don't use userId because admin's can add users for an instructor via layout.instructor)
+  const [{ instructor }] = useLayout();
+  var parentId = instructor.userId;
+
+  // If for some reason instructor isn't set, then use the current user Id (which is the instructor's userId when lgge in as an instructor)
+  const userId = useUserId();
+  if (!parentId) {
+    parentId = userId;
+  }
 
   const onSuccess = React.useCallback(() => {
     handleClose({ open: true, variant: 'success', message: 'Successfully sent invite' });
