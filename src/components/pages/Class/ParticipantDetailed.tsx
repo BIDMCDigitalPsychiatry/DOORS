@@ -48,7 +48,8 @@ export default function ParticipantDetailed({
 }) {
   const classes = useStyles();
   const student = participant?.student;
-  const { profile } = useProfile({ id: student?.userId });
+  const active = !isEmpty(student?.userId);
+  const { profile } = useProfile({ id: student?.userId, active }); // only pull profile if student has a userId
   const [state, setState] = React.useState();
   const { readSetRow } = useTableRow({ Model: tables.students, id: student?.id, state, setState });
   const [, setSnackbar] = useSnackBar();
@@ -125,7 +126,7 @@ export default function ParticipantDetailed({
         {move && (
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <DialogButton
-              id={['change-group',student?.id].join('-')}
+              id={['change-group', student?.id].join('-')}
               onClose={onRefreshGroups}
               Module={ChangeGroupDialog}
               initialValues={{ id: student?.id }}
