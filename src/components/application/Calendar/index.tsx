@@ -18,6 +18,7 @@ import * as EditEventDialog from '../GenericDialog/EditEvent';
 import { renderDialogModule } from '../GenericDialog/DialogButton';
 import { useDialogState } from '../GenericDialog/useDialogState';
 import * as EventDialog from '../GenericDialog/Event';
+import * as MarkEventAttendanceDialog from '../GenericDialog/MarkEventAttendance';
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -234,8 +235,9 @@ const CalendarView = ({ events, readSetRow, handleRefresh, create = false, edit 
 
   return (
     <Container maxWidth={false}>
-      {renderDialogModule({ ...EditEventDialog, disabled: !edit, onClose: handleRefresh })}
       {create && renderDialogModule({ ...EventDialog, onClose: handleRefresh })}
+      {renderDialogModule({ ...EditEventDialog, disabled: !edit, onClose: handleRefresh })}
+      {renderDialogModule({ ...MarkEventAttendanceDialog, onClose: handleRefresh })}
       {create && <Header />}
       <Toolbar date={date} onDateNext={handleDateNext} onDatePrev={handleDatePrev} onDateToday={handleDateToday} onViewChange={handleViewChange} view={view} />
       <Paper className={classes.calendar}>

@@ -10,9 +10,35 @@ import { useGroups } from '../../../../database/useGroups';
 import { useUserId } from '../../../layout/hooks';
 import { useIsInstructorMode } from '../../../../hooks';
 import Select from '../../DialogField/Select';
+import DialogButton from '../DialogButton';
+import * as MarkEventAttendanceDialog from '../MarkEventAttendance';
+import Label from '../../DialogField/Label';
+import { Divider } from '@material-ui/core';
 
 export const title = 'Edit Event';
 const Model = tables.events;
+
+const MarkAttendanceButton = ({ values }) => {
+  const { id, groupId } = values;
+
+  return (
+    <DialogButton
+      disabled={!groupId}
+      Module={MarkEventAttendanceDialog}
+      mount={false}
+      fullWidth={true}
+      variant='styled'
+      size='large'
+      tooltip=''
+      initialValues={{
+        eventId: id,
+        groupId
+      }}
+    >
+      View or Mark Attendance
+    </DialogButton>
+  );
+};
 
 export default function EditEventDialog({ id = title, disabled = false, onClose }) {
   const [{ eventId, open }, setState] = useDialogState(id);
@@ -103,6 +129,13 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
           hidden: true
         },
         {
+          Field: Label,
+          label: 'Event Information'
+        },
+        {
+          Field: Divider
+        },
+        {
           id: 'title',
           label: 'Title',
           required: true,
@@ -112,17 +145,6 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
           id: 'description',
           label: 'Description',
           disabled
-        },
-        {
-          id: 'groupId',
-          label: 'Group',
-          Field: Select,
-          items: groups.map(g => ({ label: g.name, value: g.id })),
-          disableClearable: true,
-          required: true,
-          fullWidth: true,
-          disabled: true,
-          xs: 4
         },
         {
           id: 'allDay',
@@ -141,6 +163,40 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
           label: 'End',
           Field: DateTimePicker,
           disabled
+        },
+        {
+          id: 'groupId',
+          label: value => groups.find(g => g.id === value)?.name,
+          Field: Label,
+          items: groups.map(g => ({ label: g.name, value: g.id })),
+          disableClearable: true,
+          required: true,
+          fullWidth: true,
+          disabled: true,
+          xs: 4
+        },
+        {
+          Field: Label,
+          label: 'Attendance Information',
+          style: { marginTop: 8 }
+        },
+        {
+          Field: Divider
+        },
+        {
+          id: 'groupId',
+          label: 'Group',
+          Field: Select,
+          items: groups.map(g => ({ label: g.name, value: g.id })),
+          disableClearable: true,
+          required: true,
+          fullWidth: true,
+          disabled: true,
+          xs: 4
+        },
+        {
+          id: 'groupId',
+          Field: MarkAttendanceButton
         }
       ]}
     />

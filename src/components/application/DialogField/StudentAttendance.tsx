@@ -1,19 +1,10 @@
 import * as React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import Check from './Check';
 import { bool } from '../../../helpers';
 import ParticipantDetailed from '../../pages/Class/ParticipantDetailed';
 
-export default function StudentAttendance({
-  value = {},
-  margin = 'dense',
-  variant = 'outlined',
-  forceErrorMargin = false,
-  error = undefined,
-  initialValue = undefined,
-  onChange = undefined,
-  ...other
-}) {
+export default function StudentAttendance({ value = {}, onChange = undefined }) {
   const value_str = JSON.stringify(value);
   const handleCheck = React.useCallback(
     student => event => {
@@ -25,15 +16,19 @@ export default function StudentAttendance({
   );
 
   const students = Object.keys(value).map(k => value[k]);
-  return (
+  return students.length === 0 ? (
+    <>
+      <Typography color='secondary'>There are no active students in group.</Typography>
+    </>
+  ) : (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Grid container justify='space-between' spacing={1}>
           <Grid item xs>
-            Student
+            <Typography>Student</Typography>
           </Grid>
           <Grid item style={{ width: 64 }}>
-            Present
+            <Typography>Present</Typography>
           </Grid>
         </Grid>
       </Grid>

@@ -130,6 +130,7 @@ const GenericDialog = ({
   Content,
   ContentProps,
   validate,
+  loading: Loading,
   classes: Classes,
   hasChanged: HasChanged,
   children,
@@ -184,7 +185,7 @@ const GenericDialog = ({
     ...ContentProps
   };
 
-  const inProgress = loading || submitting;
+  const inProgress = loading || Loading || submitting;
   const disabled = inProgress || errors['loading'];
   const changed = HasChanged !== undefined ? HasChanged : hasChanged; // Use param if specified, otherwise use default value.hasChanged
 

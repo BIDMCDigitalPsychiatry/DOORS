@@ -3,7 +3,7 @@ import { tables } from './dbConfig';
 import useTable from './useTable';
 import { isExpired } from './useInstructor';
 
-export default function useGroupStudents({ groupId }) {
+export default function useGroupStudents({ groupId, active = true }) {
   const { state, handleRequest } = useTable({ TableName: tables.students });
 
   const handleRefresh = React.useCallback(() => {
@@ -20,8 +20,8 @@ export default function useGroupStudents({ groupId }) {
   }, [groupId, handleRequest]);
 
   React.useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+    active && handleRefresh();
+  }, [active, handleRefresh]);
 
   const students = Object.keys(state?.data).map(k => ({ ...state?.data[k] }));
   const activeStudents = students.filter(s => s.accepted && s.deleted !== true);
