@@ -63,6 +63,7 @@ export interface ClassData {
   userType?: string; // user type of creator (admin/instructor)
   parentClassId?: string; // id of parent class if created from existing class
   parentUserId?: string; // id of parent user, for query simplicity
+  preRecs?: any[]; // Pre-requisites, which disable the class (for students) unless these are met
   headline?: string;
   name?: string;
   image?: string;

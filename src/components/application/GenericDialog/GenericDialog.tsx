@@ -170,8 +170,8 @@ const GenericDialog = ({
   }, [setState, onSubmit, values_s, setValues, errorCount]);
 
   const handleDelete = React.useCallback(() => {
-    onDelete && onDelete(JSON.parse(values_s));
-  }, [onDelete, values_s]);
+    onDelete && onDelete(JSON.parse(values_s), setState);
+  }, [onDelete, values_s, setState]);
 
   const handleClose = React.useCallback(() => {
     setState(prev => ({ ...prev, open: false, showErrors: false }));

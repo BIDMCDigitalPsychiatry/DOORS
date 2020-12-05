@@ -153,6 +153,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     noGrid = true,
     mount = true,
     onSubmit = undefined,
+    onDelete = undefined,
     onClick = undefined,
     onClose = undefined,
     onChange = undefined,
@@ -216,7 +217,7 @@ const DialogButton = React.forwardRef(function DialogButton(
 
   return wrapGrid(
     <>
-      {mount && Module && renderDialogModule({ ...Module, id, anchorEl, onClose: handleClose, onChange, onReset, values, setValues, onSubmit })}
+      {mount && Module && renderDialogModule({ ...Module, id, anchorEl, onClose: handleClose, onChange, onReset, values, setValues, onSubmit, onDelete })}
       <Tooltip
         placement={placement}
         title={

@@ -12,7 +12,8 @@ import useFormState from '../../hooks/useFormState';
 import Class, { defaultRankingModels } from '../../../database/models/Class';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
-import { useUserType } from '../../../hooks';
+import { useIsInstructorMode, useUserType } from '../../../hooks';
+import { PreRecs } from '../../general/PreRecs';
 
 const validate = ({ name }) => {
   const newErrors = {};
@@ -39,6 +40,7 @@ export default function CreateClass() {
     name: '',
     image: 'wifi',
     headline: '',
+    preRecs: {},
     keySkills: [],
     surveyQuestions: [],
     rankingModel: defaultRankingModels,
@@ -46,7 +48,9 @@ export default function CreateClass() {
     classPresentations: []
   } as Class);
 
-  const { name, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentations } = state;
+  const { name, preRecs, headline, image, keySkills, rankingModel, surveyQuestions, classResources, classPresentations } = state;
+
+  const isInstructorMode = useIsInstructorMode();
 
   const handleChange = React.useCallback(
     key => ({ target }) => {
@@ -89,6 +93,11 @@ export default function CreateClass() {
           <Grid item xs={12}>
             <ImageSelector error={errors['image']} disabled={loading} value={image} onChange={handleChange('image')} label='Associated Image' />
           </Grid>
+          {isInstructorMode && (
+            <Grid item xs={12}>
+              <PreRecs disabled={loading} value={preRecs} onChange={handleChange('preRecs')} />
+            </Grid>
+          )}
           <Grid item xs={12}>
             <Typography variant='caption' color='textPrimary'>
               Edit Class Materials
@@ -128,7 +137,6 @@ export default function CreateClass() {
               add={true}
               edit={true}
               onChange={handleChange('classPresentations')}
-              
             />
           </Grid>
           <Grid item xs={12}>

@@ -13,6 +13,8 @@ import { useClassData } from '../../../database/useClassData';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import { BlockListClassPresentation } from '../../general/BlockListClassPresentation';
 import { useIsOwner } from '../../../database/useIsOwnertsx';
+import { PreRecs } from '../../general/PreRecs';
+import { useIsInstructorMode } from '../../../hooks';
 
 const Model = tables.classes;
 const validate = ({ name }) => {
@@ -29,7 +31,8 @@ export default function ClassMaterials() {
   // Set active to false, so we use the local copy instead of querying the database.
   // This is useful because the query will fail if the instructor has not saved an edited copy yet.
   const { data, handleChange }: any = useClassData({ active: false });
-  const { name, headline, image, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentations = [] } = data;
+  const { name, headline, image, preRecs = {}, keySkills = [], rankingModel = [], classResources = [], surveyQuestions = [], classPresentations = [] } = data;
+  const isInstructorMode = useIsInstructorMode();
 
   const handleChangeRouteLayout = useHandleChangeRouteLayout();
 
@@ -76,6 +79,11 @@ export default function ClassMaterials() {
           <Grid item xs={12}>
             <ImageSelector error={errors['image']} disabled={loading} value={image} onChange={handleChange('image')} label='Associated Image' />
           </Grid>
+          {isInstructorMode && (
+            <Grid item xs={12}>
+              <PreRecs disabled={loading} value={preRecs} onChange={handleChange('preRecs')} />
+            </Grid>
+          )}
 
           <Grid item xs={12}>
             <BlockList title='Key Skills' isOwner={isOwner} value={keySkills} add={true} edit={true} remove={true} onChange={handleChange('keySkills')} />
