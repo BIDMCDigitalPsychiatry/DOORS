@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Box, Divider } from '@material-ui/core';
+import { Grid, Box, Divider, Typography } from '@material-ui/core';
 import ChildPage from '../ChildPage';
 import { useHandleChangeRouteLayout, useLayout } from '../../layout/hooks';
 import { tables } from '../../../database/dbConfig';
@@ -21,9 +21,18 @@ const validate = ({ name }) => {
   return newErrors;
 };
 
-const TitleButton = ({ subtitle = undefined, initialValues = undefined, onClose, disabled }) => (
-  <Grid container style={{ width: 270 }} spacing={1} justify='center'>
-    <Grid item xs={12}>
+const TitleButton = ({ subtitle = undefined, initialValues = undefined, showArchived, setShowArchived, onClose, disabled }) => (
+  <Grid container spacing={3} justify='center'>
+    <Grid item>
+      <Grid container spacing={1} justify='center'>
+        <Grid item xs={12}>
+          <DialogButton size='large' onClick={() => setShowArchived(!showArchived)} fullWidth variant='styled'>
+            {showArchived ? 'Hide Archived' : 'Show Archived'}
+          </DialogButton>
+        </Grid>
+      </Grid>
+    </Grid>
+    <Grid item>
       <DialogButton
         Module={CreateGroupDialog}
         onClose={onClose}
@@ -67,6 +76,8 @@ export default function ClassRoster() {
     }
   });
 
+  const [showArchived, setShowArchived] = React.useState(false);
+
   return (
     <ChildPage
       loading={loading || loadingGroups}
@@ -77,6 +88,8 @@ export default function ClassRoster() {
       TitleButton={props =>
         isInstructorMode && ( // Only show the create group button for instructors
           <TitleButton
+            showArchived={showArchived}
+            setShowArchived={setShowArchived}
             subtitle={getClassTitle({ headline, name })}
             initialValues={{ userId, class: data }}
             disabled={loading}
@@ -90,12 +103,21 @@ export default function ClassRoster() {
       <Box mt={2}>
         <Divider />
         <Grid container style={{ padding: !fullScreen ? 24 : 8 }} spacing={3}>
-          {groups.map((g, i) => (
-            <Grid item key={g?.id} xs={12}>
-              <ClassGroup {...g} handleRefreshGroups={handleRefresh} classId={id} mount={i === 0} />
-            </Grid>
-          ))}
+          {groups
+            .filter(c => showArchived || !c.deleted)
+            .map((g, i) => (
+              <Grid item key={g?.id} xs={12}>
+                <ClassGroup {...g} handleRefreshGroups={handleRefresh} classId={id} mount={i === 0} />
+              </Grid>
+            ))}
         </Grid>
+        {showArchived && groups.filter(c => c.deleted).length === 0 && (
+          <>
+            <Box m={3}>
+              <Typography color='error'>There are no archived groups at this time.</Typography>
+            </Box>
+          </>
+        )}
       </Box>
     </ChildPage>
   );
