@@ -47,6 +47,7 @@ const maxKeySkills = 3;
 export default function Class({
   id,
   Model = tables.classes,
+  preRecsMet = true, // default to try by default, if a student this may be false
   inProgress = false,
   isAvailable = false,
   buttonLabel = 'View',
@@ -148,6 +149,11 @@ export default function Class({
             <Grid item>
               <StyledButton disabled={true}>Archived</StyledButton>
             </Grid>
+          ) : !preRecsMet ? (
+            <Box m={1}>
+              <Typography color='error'>Pre-requisite not met</Typography>
+              <Typography>Complete required classes to enable</Typography>
+            </Box>
           ) : (
             <>
               <Grid item>

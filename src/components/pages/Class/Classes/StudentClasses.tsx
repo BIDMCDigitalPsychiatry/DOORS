@@ -8,12 +8,33 @@ import { sortUdpatedDescending } from '../../../../helpers';
 import useClassesByUserId from '../useClassesByUserId';
 import { tables } from '../../../../database/dbConfig';
 import DialogButton from '../../../application/GenericDialog/DialogButton';
+import useStudentsByUserId from '../../../../database/useStudentsByUserId';
 
 const nextRoute = '/Pre-Survey';
+
+const preRecsMet = (preRecs = {}, groupIds = [], completedClasses = []) => {
+  var pass = true;
+
+  Object.keys(preRecs).forEach(id => {
+    const pr = preRecs[id];
+    const { classId, groupId } = pr;
+    var g = groupIds.find(gId => gId === groupId);
+    var c = completedClasses.find(cc => cc.id === classId);
+    if ((groupId === 'All Groups' || g) && !c) {
+      // If pre req specifies all groups or a user belongs to the specified group and a comleted class can not be found, then the pre-rec does not pass
+      pass = false;
+    }
+  });
+  return pass;
+};
 
 export default function StudentClasses() {
   const [{ student }] = useLayout();
   const { id: studentId, userId: studentUserId, parentId } = student;
+
+  // To get associated groups, grab all student entries then obtain the groupId's
+  const { students = [], loading: loadingStudents } = useStudentsByUserId({ userId: studentUserId, loadOnMount: true });
+  const groupIds = students.map(s => s.groupId); // Gets all active, non deleted group id's related to the student
 
   const { data: instructorClasses, handleRefresh: handleRefreshClasses, loading } = useClassesByUserId({ userId: parentId });
 
@@ -44,6 +65,8 @@ export default function StudentClasses() {
 
   const [showArchived, setShowArchived] = React.useState(false);
 
+  console.log({ groupIds, completed });
+
   const ShowButton = React.useCallback(() => {
     return (
       <DialogButton size='large' onClick={() => setShowArchived(!showArchived)} fullWidth variant='styled'>
@@ -54,7 +77,7 @@ export default function StudentClasses() {
 
   return (
     <>
-      <Page title='Student Classes' ActionButton={ShowButton} loading={loading || loadingSessions}>
+      <Page title='Student Classes' ActionButton={ShowButton} loading={loading || loadingSessions || loadingStudents}>
         <Grid container spacing={3}>
           {!showArchived && (
             <>
@@ -63,7 +86,14 @@ export default function StudentClasses() {
                   .filter(c => !c.deleted && !completed.find(s => s.classId === c.id) && !inProgress.find(s => s.classId === c.id)) // Don't show available class in progress or completed
                   .map(c => (
                     <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
-                      <Class isAvailable={true} showUpdated={true} {...c} buttonLabel='Start' onClick={handleCreateSession(c)} />
+                      <Class
+                        preRecsMet={preRecsMet(c.preRecs, groupIds, completed)}
+                        isAvailable={true}
+                        showUpdated={true}
+                        {...c}
+                        buttonLabel='Start'
+                        onClick={handleCreateSession(c)}
+                      />
                     </Grid>
                   ))
               ]}
