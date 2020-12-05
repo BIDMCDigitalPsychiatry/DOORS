@@ -124,7 +124,8 @@ export default function ApplicationBar() {
   const [, setLayout] = useLayout();
   const resetUserType = React.useCallback(() => {
     setLayout(defaultUserState);
-  }, [setLayout]);
+    handleLogoClick(); // reset to default
+  }, [setLayout, handleLogoClick]);
 
   const canChangeUserType = useCanChangeUserType();
 
