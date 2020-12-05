@@ -14,7 +14,7 @@ export default function ProfileDialog({ id = title, onClose = undefined, ...othe
   const { initialValues } = state;
   const [, setSnackbar] = useSnackBar();
 
-  const { profile, setProfile } = useProfile({ id: initialValues?.id, state, setState });
+  const { profile, setProfile } = useProfile({ id: initialValues?.id, state, setState, shouldSetLayout: false });
 
   const handleClose = React.useCallback(
     (props = undefined) => {

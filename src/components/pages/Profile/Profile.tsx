@@ -8,7 +8,7 @@ import { useUserId } from '../../layout/hooks';
 
 export const ProfileProvider = () => {
   const id = useUserId();
-  const { profile, setProfile, handleRefresh, loading } = useProfile({ id });
+  const { profile, setProfile, handleRefresh, loading } = useProfile({ id, shouldSetLayout: true });
   return <Profile profile={profile} setProfile={setProfile} handleRefresh={handleRefresh} loading={loading} />;
 };
 

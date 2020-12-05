@@ -7,7 +7,7 @@ export default function useProfileEmailAutoUpdate() {
   const id = useUserId();
   const email = useUserEmail();
   const [{ profile }] = useLayout();
-  const { readSetRow } = useProfile({ id });
+  const { readSetRow } = useProfile({ id, shouldSetLayout: true });
 
   const profileId = profile?.id;
   const profileEmail = profile?.email;

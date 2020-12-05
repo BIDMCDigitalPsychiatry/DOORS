@@ -28,7 +28,7 @@ const useStyles = makeStyles(({ palette, zIndex }: any) =>
   } as any)
 );
 
-export default function Footer() {
+export default function Footer() { 
   const classes = useStyles({});
   const fullScreen = useFullScreen();
 
