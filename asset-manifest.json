@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/doors/static/css/main.34de6062.chunk.css",
-    "main.js": "/doors/static/js/main.7d49c440.chunk.js",
-    "main.js.map": "/doors/static/js/main.7d49c440.chunk.js.map",
+    "main.js": "/doors/static/js/main.9c0bbc2a.chunk.js",
+    "main.js.map": "/doors/static/js/main.9c0bbc2a.chunk.js.map",
     "runtime-main.js": "/doors/static/js/runtime-main.3b50f636.js",
     "runtime-main.js.map": "/doors/static/js/runtime-main.3b50f636.js.map",
     "static/css/2.c917d85d.chunk.css": "/doors/static/css/2.c917d85d.chunk.css",
-    "static/js/2.8f339822.chunk.js": "/doors/static/js/2.8f339822.chunk.js",
-    "static/js/2.8f339822.chunk.js.map": "/doors/static/js/2.8f339822.chunk.js.map",
+    "static/js/2.7ca0e509.chunk.js": "/doors/static/js/2.7ca0e509.chunk.js",
+    "static/js/2.7ca0e509.chunk.js.map": "/doors/static/js/2.7ca0e509.chunk.js.map",
     "static/js/3.354267e3.chunk.js": "/doors/static/js/3.354267e3.chunk.js",
     "static/js/3.354267e3.chunk.js.map": "/doors/static/js/3.354267e3.chunk.js.map",
     "static/js/4.f77edef1.chunk.js": "/doors/static/js/4.f77edef1.chunk.js",
     "static/js/4.f77edef1.chunk.js.map": "/doors/static/js/4.f77edef1.chunk.js.map",
     "index.html": "/doors/index.html",
-    "precache-manifest.258402eb8558c4072db55aa7114a9e56.js": "/doors/precache-manifest.258402eb8558c4072db55aa7114a9e56.js",
+    "precache-manifest.1580ea5c8175a89b0e9ad7d281404bfe.js": "/doors/precache-manifest.1580ea5c8175a89b0e9ad7d281404bfe.js",
     "service-worker.js": "/doors/service-worker.js",
     "static/css/2.c917d85d.chunk.css.map": "/doors/static/css/2.c917d85d.chunk.css.map",
     "static/css/main.34de6062.chunk.css.map": "/doors/static/css/main.34de6062.chunk.css.map",
-    "static/js/2.8f339822.chunk.js.LICENSE.txt": "/doors/static/js/2.8f339822.chunk.js.LICENSE.txt",
+    "static/js/2.7ca0e509.chunk.js.LICENSE.txt": "/doors/static/js/2.7ca0e509.chunk.js.LICENSE.txt",
     "static/media/Montserrat-Regular.woff2": "/doors/static/media/Montserrat-Regular.6e5293f1.woff2",
     "static/media/archivo-v7-latin-regular.woff2": "/doors/static/media/archivo-v7-latin-regular.1311922f.woff2",
     "static/media/group.png": "/doors/static/media/group.3f0d16c3.png",
@@ -26,8 +26,8 @@
   "entrypoints": [
     "static/js/runtime-main.3b50f636.js",
     "static/css/2.c917d85d.chunk.css",
-    "static/js/2.8f339822.chunk.js",
+    "static/js/2.7ca0e509.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.7d49c440.chunk.js"
+    "static/js/main.9c0bbc2a.chunk.js"
   ]
 }
