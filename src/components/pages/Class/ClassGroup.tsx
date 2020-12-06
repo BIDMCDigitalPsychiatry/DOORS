@@ -7,6 +7,7 @@ import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as AddStudentDialog from '../../application/GenericDialog/AddStudent';
 import * as MarkAttendanceDialog from '../../application/GenericDialog/MarkAttendance';
 import * as AttendanceHistoryDialog from '../../application/GenericDialog/AttendanceHistory';
+import * as EventAttendanceHistoryDialog from '../../application/GenericDialog/EventAttendanceHistory';
 import useGroupStudents from '../../../database/useGroupStudents';
 import { tables } from '../../../database/dbConfig';
 import { useHandleChangeRouteLayout } from '../../layout/hooks';
@@ -112,7 +113,7 @@ export default function ClassGroup({
     readSetRow({ values: { deleted: false }, onSuccess: handleRefreshGroups });
     handleRefreshGroups && handleRefreshGroups();
   }, [readSetRow, handleRefreshGroups]);
-
+  
   return (
     <Card className={clsx(classes.root, className)}>
       <Grid container>
@@ -276,6 +277,28 @@ export default function ClassGroup({
                     </Grid>
                   </>
                 )}
+                <Grid item xs={12}>
+                  <DialogButton
+                    Module={EventAttendanceHistoryDialog}
+                    mount={mount}
+                    fullWidth={true}
+                    onClose={handleRefresh}
+                    variant='styled'
+                    styledVariant='secondary'
+                    size='large'
+                    tooltip=''
+                    initialValues={{
+                      groupId: id,
+                      groupName: name,
+                      students: activeStudents.reduce((f, c) => {
+                        f[c.id] = c;
+                        return f;
+                      }, {})
+                    }}
+                  >
+                    Event Attendance History
+                  </DialogButton>
+                </Grid>
                 <Grid item xs={12}>
                   <DialogButton
                     fullWidth={true}

@@ -15,7 +15,7 @@ export default function MarkEventAttendanceDialog({ id: Id = title, onClose }) {
   const { eventId, groupId } = initialValues;
 
   // Pull the student information
-  const { activeStudents } = useGroupStudents({ groupId, active: open });
+  const { state, activeStudents } = useGroupStudents({ groupId, active: open });
   initialValues.students = activeStudents.reduce((f, c) => {
     f[c.id] = c;
     return f;
@@ -64,7 +64,7 @@ export default function MarkEventAttendanceDialog({ id: Id = title, onClose }) {
   return (
     <GenericDialog
       id={Id}
-      loading={loading}
+      loading={loading || state?.loading}
       title={title}
       submitLabel='Save'
       onSubmit={handleSubmit}

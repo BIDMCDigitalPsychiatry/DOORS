@@ -41,6 +41,10 @@ export default function EditAttendanceDialog({ id: dialogId = title, onClose }) 
           hidden: true
         },
         {
+          id: 'eventId',
+          hidden: true
+        },
+        {
           id: 'classId',
           hidden: true
         },

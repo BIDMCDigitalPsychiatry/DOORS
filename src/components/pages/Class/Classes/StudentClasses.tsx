@@ -65,8 +65,6 @@ export default function StudentClasses() {
 
   const [showArchived, setShowArchived] = React.useState(false);
 
-  console.log({ groupIds, completed });
-
   const ShowButton = React.useCallback(() => {
     return (
       <DialogButton size='large' onClick={() => setShowArchived(!showArchived)} fullWidth variant='styled'>

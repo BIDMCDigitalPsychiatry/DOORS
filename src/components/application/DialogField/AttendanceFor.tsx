@@ -11,5 +11,6 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 export default function AttendanceFor({ value, disabled }) {
-  return <Typography className={useStyles({ disabled }).root}>Attendance for {value}</Typography>;
+  const classes = useStyles({ disabled });
+  return <>{value && <Typography className={classes.root}>Attendance for {value}</Typography>}</>;
 }

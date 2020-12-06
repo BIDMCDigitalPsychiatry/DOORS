@@ -122,7 +122,7 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
       onClose={onClose}
       onDelete={!disabled ? handleDelete : undefined}
       submitLabel={disabled ? null : 'Save'}
-      cancelLabel={disabled ? 'Close' : 'Cancel'}
+      cancelLabel='Close'
       fields={[
         {
           id: 'id',
