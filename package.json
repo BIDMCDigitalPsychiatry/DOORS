@@ -1,9 +1,9 @@
 {
   "name": "doors",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": true,
   "homepageOld": "https://bidmcdigitalpsychiatry.github.io/DOORS",
-  "homepage": "https://skills-app.digitalpsych.org",
+  "homepage": "https://doors.digitalpsych.org",
   "adminUsers": "chris@greenlinkservices.com,ecamach1@bidmc.harvard.edu,erodri11@bidmc.harvard.edu",
   "sourceEmailAddress": "DOORS@psych.digital",
   "identityPoolIdUnauth": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
