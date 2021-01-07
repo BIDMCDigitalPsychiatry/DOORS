@@ -21,7 +21,7 @@ export const sendInstructorInvite = ({
   const body = `You have been invited to the DOORS Web Application:
     <p>User Email: ${email}</p>  
     <p>Role: ${role}</p>
-    <p>Role: ${title}</p>
+    <p>Title: ${title}</p>
     <p>Institution: ${institution}</p>
     
     <h2><a href='${hostAddress(publicUrl(`/?i=${id}&t=i`))}'>Click here to accept the invite<a/></h2>
