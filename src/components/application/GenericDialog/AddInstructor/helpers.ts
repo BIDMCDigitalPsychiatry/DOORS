@@ -11,8 +11,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 export const sendInstructorInvite = ({
   id,
   email,
-  institution = 'Unknown',
-  title = 'Unknown',
+  institution = 'Unknown',  
   role = 'Instructor',
   onSuccess = undefined,
   onError = undefined
@@ -20,8 +19,7 @@ export const sendInstructorInvite = ({
   console.log('Sending instructor invite to: ' + email);
   const body = `You have been invited to the DOORS Web Application:
     <p>User Email: ${email}</p>  
-    <p>Role: ${role}</p>
-    <p>Title: ${title}</p>
+    <p>Role: ${role}</p>    
     <p>Institution: ${institution}</p>
     
     <h2><a href='${hostAddress(publicUrl(`/?i=${id}&t=i`))}'>Click here to accept the invite<a/></h2>

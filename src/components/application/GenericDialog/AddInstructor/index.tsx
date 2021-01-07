@@ -26,7 +26,7 @@ export default function AddInstructorDialog({ id = title, onClose }) {
     [onClose, setState, setSnackbar]
   );
 
-const processData = useProcessData();
+  const processData = useProcessData();
   const parentId = useUserId();
 
   const submitData = React.useCallback(
@@ -63,7 +63,7 @@ const processData = useProcessData();
 
   const onSubmitSuccess = React.useCallback(
     values => ({ id }) => {
-      sendInstructorInvite({ id, email: values.email, title: values.title, institution: values.institution, onSuccess, onError });
+      sendInstructorInvite({ id, email: values.email, institution: values.institution, onSuccess, onError });
     },
     [onError, onSuccess]
   );
