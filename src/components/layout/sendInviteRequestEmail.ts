@@ -8,7 +8,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 
 export const sendInviteRequestEmail = ({ email, onSuccess = undefined, onError = undefined }) => {
-  const body = `The following user has request an invite:
+  const body = `The following user has requested an invite:
     <p>User Email: ${email}</p>
     `;
 
