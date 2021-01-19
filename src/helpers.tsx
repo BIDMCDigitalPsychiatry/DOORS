@@ -228,7 +228,7 @@ export function minutesFrom(time) {
 
 export function minutesToTimeAgo(minutes) {
   var d = Math.floor(minutes / 1440);
-  var h = Math.floor(minutes / 60);
+  var h = Math.floor((minutes - d * 1440) / 60);
   var m = Math.floor(minutes % 60);
   var ret = '';
   if (d > 0) {
