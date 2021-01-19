@@ -117,6 +117,10 @@ export default function RegisterDialog({ id = title, onClose }) {
           console.log('Succesfully signed up user!');
           setState(prev => ({ ...prev, open: true, loading: false, errors: {} }));
           setValues(prev => ({ ...prev, confirm: true }));
+          setTimeout(
+            () => alert('Account created successfully.  Please check your email for a confirmation code.  You may need to check your spam and junk folders if you cannot locate the confirmation email.'),
+            500
+          );
         })
         .catch(err => {
           console.error('Error with Register');
