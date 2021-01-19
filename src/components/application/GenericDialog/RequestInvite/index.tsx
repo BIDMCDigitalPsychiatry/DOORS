@@ -4,6 +4,7 @@ import Label from '../../DialogField/Label';
 import MarginDivider from '../../DialogField/MarginDivider';
 import { useDialogState } from '../useDialogState';
 import { sendInviteRequestEmail } from '../../../layout/sendInviteRequestEmail';
+import Select from '../../DialogField/Select';
 
 export const title = 'Request an Invite';
 
@@ -15,11 +16,12 @@ export default function RequestInviteDialog({ id = title, onClose }) {
 
   const handleSubmit = React.useCallback(
     values => {
-      const { email } = values;
+      const { email, type } = values;
       setState(prev => ({ ...prev, loading: true }));
       email &&
         sendInviteRequestEmail({
           email,
+          type,
           onSuccess: () => {
             setState(prev => ({ ...prev, loading: false, open: false }));
             setTimeout(
@@ -53,6 +55,16 @@ export default function RequestInviteDialog({ id = title, onClose }) {
           label: 'Email',
           required: true,
           email: true
+        },
+        {
+          id: 'type',
+          label: 'I am registering as a',
+          Field: Select,
+          required: true,
+          items: [
+            { label: 'Student', value: 'Student' },
+            { label: 'Instructor', value: 'Instructor' }
+          ]
         }
       ]}
     />

@@ -100,12 +100,17 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
 
   const email = useUserEmail();
 
-  const handleRequest = React.useCallback(() => {
-    sendInviteRequestEmail({
-      email,
-      onSuccess: () => alert('The program administrators have been notified of your invite request.  Once approved you will receive an invite link via email.')
-    });
-  }, [email]);
+  const handleRequest = React.useCallback(
+    type => () => {
+      sendInviteRequestEmail({
+        email,
+        type,
+        onSuccess: () =>
+          alert('The program administrators have been notified of your invite request.  Once approved you will receive an invite link via email.')
+      });
+    },
+    [email]
+  );
 
   return (
     <div
@@ -158,15 +163,26 @@ export default function SelectUserType({ instructors = [], students = [], isAdmi
                   </Grid>
                 ))}
                 {isError && (
-                  <Grid item>
-                    <div className={classes.wrapper}>
-                      <Button fullWidth={true} variant='contained' className={classes.button} onClick={handleRequest}>
-                        <Grid item xs={12}>
-                          Request an Invite
-                        </Grid>
-                      </Button>
-                    </div>
-                  </Grid>
+                  <>
+                    <Grid item>
+                      <div className={classes.wrapper}>
+                        <Button fullWidth={true} variant='contained' className={classes.button} onClick={handleRequest('Student')}>
+                          <Grid item xs={12}>
+                            Request Student Invite
+                          </Grid>
+                        </Button>
+                      </div>
+                    </Grid>
+                    <Grid item>
+                      <div className={classes.wrapper}>
+                        <Button fullWidth={true} variant='contained' className={classes.button} onClick={handleRequest('Instructor')}>
+                          <Grid item xs={12}>
+                            Request Instructor Invite
+                          </Grid>
+                        </Button>
+                      </div>
+                    </Grid>
+                  </>
                 )}
                 <Grid item>
                   <div className={classes.wrapper}>

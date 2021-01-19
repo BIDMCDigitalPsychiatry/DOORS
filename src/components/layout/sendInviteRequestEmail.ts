@@ -7,9 +7,10 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: identityPoolIdUnauth
 });
 
-export const sendInviteRequestEmail = ({ email, onSuccess = undefined, onError = undefined }) => {
+export const sendInviteRequestEmail = ({ email, type, onSuccess = undefined, onError = undefined }) => {
   const body = `The following user has requested an invite:
     <p>User Email: ${email}</p>
+    <p>Invite Type: ${type}</p>
     `;
 
   // Create sendEmail params
