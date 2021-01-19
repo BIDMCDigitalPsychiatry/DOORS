@@ -12,17 +12,34 @@ import { uuid } from '../../../../helpers';
 import { useIsAdminMode, useUserType } from '../../../../hooks';
 import useAdminClasses from '../useAdminClasses';
 import * as ClassImportDialog from '../../../application/GenericDialog/ClassImport';
+import * as ClassImportReplaceDialog from '../../../application/GenericDialog/ClassImportReplace';
 
 export default function InstructorClasses() {
   const isAdminMode = useIsAdminMode();
   const [{ back, instructor }] = useLayout();
   const { userId } = instructor;
+  const [showArchived, setShowArchived] = React.useState(false);
 
   const { data: instructorClasses, handleRefresh: refreshInstructor, loading } = useClassesByUserId({ userId });
   const { data: adminClasses, handleRefresh: refreshAdmin, loading: loadingParent } = useAdminClasses();
 
   const notAddedClasses = adminClasses.filter(ac => !ac.deleted && !instructorClasses.find(ic => ic.parentClassId === ac.id || ic.id === ac.id));
   const notAddedClasses_str = JSON.stringify(notAddedClasses);
+
+  // Determines which classes have newer versions available and sets up the data structures for the import dialog
+  var importUpdateClasses = [];
+  var archiveClasses = [];
+
+  instructorClasses
+    .filter(c => (showArchived && c.deleted) || (!showArchived && !c.deleted))
+    .forEach(c => {
+      const parentAdminClass = adminClasses.find(ac => (!ac.deleted && ac.id === c.parentClassId) || c.id === ac.id);
+      const isNew = parentAdminClass && parentAdminClass.updated && parentAdminClass.updated > c.updated;
+      if (isNew) {
+        importUpdateClasses.push({ ...parentAdminClass, imported: true }); // Select import by default
+        archiveClasses.push({ ...c, imported: true }); // Select import by default
+      }
+    });
 
   const handleRefresh = React.useCallback(() => {
     refreshInstructor();
@@ -48,8 +65,6 @@ export default function InstructorClasses() {
       });
     });
   }, [setRow, handleRefresh, notAddedClasses_str, userId, userType]);
-
-  const [showArchived, setShowArchived] = React.useState(false);
 
   const Buttons = React.useCallback(() => {
     return (
@@ -111,9 +126,35 @@ export default function InstructorClasses() {
                   </DialogButton>
                 </Grid>
               </Grid>
+              {importUpdateClasses.length > 0 && (
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Typography variant='body2' color='error'>
+                      {importUpdateClasses.length === 1
+                        ? `There is ${importUpdateClasses.length} admin class which has been updated with newer revisions.`
+                        : `There are ${importUpdateClasses.length} admin classes which have been updated with newer revisions.`}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='body2'>|</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DialogButton
+                      Module={ClassImportReplaceDialog}
+                      initialValues={{ classes: importUpdateClasses, archiveClasses }}
+                      onClose={handleRefresh}
+                      variant='link'
+                      underline='always'
+                    >
+                      Import New Updates
+                    </DialogButton>
+                  </Grid>
+                </Grid>
+              )}
             </Box>
           </Grid>
         )}
+
         {showArchived && instructorClasses.filter(c => c.deleted).length === 0 && (
           <>
             <Box m={3}>
@@ -123,20 +164,38 @@ export default function InstructorClasses() {
         )}
         {instructorClasses
           .filter(c => (showArchived && c.deleted) || (!showArchived && !c.deleted))
-          .map(c => (
-            <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
-              <Class
-                {...c}
-                buttonLabel='View'
-                showUpdated={true}
-                onClick={changeRouteLayout('/ClassDashboard', {
-                  class: c
-                })}
-                canArchive={true}
-                onRefresh={handleRefresh}
-              />
-            </Grid>
-          ))}
+          .map(c => {
+            const parentAdminClass = adminClasses.find(ac => (!ac.deleted && ac.id === c.parentClassId) || c.id === ac.id);
+            const isNew = parentAdminClass && parentAdminClass.updated && parentAdminClass.updated > c.updated;
+            return (
+              <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
+                <Class
+                  {...c}
+                  ActionButton={
+                    isNew && (
+                      <DialogButton
+                        Module={ClassImportReplaceDialog}
+                        initialValues={{ classes: [{ ...parentAdminClass, imported: 1 }], archiveClasses: [{ ...c, imported: 1 }] }}
+                        onClose={handleRefresh}
+                        variant='link'
+                        underline='always'
+                        size='small'
+                      >
+                        Import New Updates
+                      </DialogButton>
+                    )
+                  }
+                  buttonLabel='View'
+                  showUpdated={true}
+                  onClick={changeRouteLayout('/ClassDashboard', {
+                    class: c
+                  })}
+                  canArchive={true}
+                  onRefresh={handleRefresh}
+                />
+              </Grid>
+            );
+          })}
       </Grid>
     </Page>
   );

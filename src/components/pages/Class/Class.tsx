@@ -70,6 +70,7 @@ export default function Class({
   classResources = [],
   classPresentations = [],
   showChildClasses = false,
+  ActionButton = undefined as any,
   childClasses = [],
   onRefresh = undefined,
   ...rest
@@ -105,6 +106,8 @@ export default function Class({
             <Grid item>
               <ClassStatusChip isArchived={true} label={getClassStatusLabel('Archived', 1)} />
             </Grid>
+          ) : ActionButton ? (
+            <Grid item>{ActionButton}</Grid>
           ) : completed ? (
             <Grid item>
               <ClassStatusChip label={getClassStatusLabel('Completed', 1)} />
