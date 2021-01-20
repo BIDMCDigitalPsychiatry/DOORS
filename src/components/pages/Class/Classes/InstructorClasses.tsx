@@ -23,8 +23,20 @@ export default function InstructorClasses() {
   const { data: instructorClasses, handleRefresh: refreshInstructor, loading } = useClassesByUserId({ userId });
   const { data: adminClasses, handleRefresh: refreshAdmin, loading: loadingParent } = useAdminClasses();
 
-  const notAddedClasses = adminClasses.filter(ac => !ac.deleted && !instructorClasses.find(ic => ic.parentClassId === ac.id || ic.id === ac.id));
+  const notAddedClasses = adminClasses.filter(
+    ac => !ac.deleted && !instructorClasses.filter(ic => ic.deleted !== true).find(ic => ic.parentClassId === ac.id || ic.id === ac.id)
+  );
   const notAddedClasses_str = JSON.stringify(notAddedClasses);
+
+  /*console.log({
+    notAddedClasses,
+    instructor,
+    instructorClasses,
+    adminClasses,
+    showArchived,
+    ic: instructorClasses.filter(c => (showArchived && c.deleted) || (!showArchived && !c.deleted))
+  });
+  */
 
   // Determines which classes have newer versions available and sets up the data structures for the import dialog
   var importUpdateClasses = [];
@@ -159,7 +171,6 @@ export default function InstructorClasses() {
             </Box>
           </Grid>
         )}
-
         {showArchived && instructorClasses.filter(c => c.deleted).length === 0 && (
           <>
             <Box m={3}>
