@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Toolbar, Link, AppBar, Typography, Grid } fro
 import { theme, beta } from '../../constants';
 import { useFullScreen, useUserType } from '../../hooks';
 import { useHandleChangeRoute, useLayout } from './hooks';
+import packageJson from '../../../package.json';
 
 const useStyles = makeStyles(({ palette, zIndex }: any) =>
   createStyles({
@@ -28,7 +29,7 @@ const useStyles = makeStyles(({ palette, zIndex }: any) =>
   } as any)
 );
 
-export default function Footer() { 
+export default function Footer() {
   const classes = useStyles({});
   const fullScreen = useFullScreen();
 
@@ -76,7 +77,7 @@ export default function Footer() {
               <Grid item xs={4}>
                 {!fullScreen && (
                   <Typography variant='body2' color='inherit' noWrap>
-                    {userType} Portal - Under Construction
+                    {userType} Portal - Under Construction v{packageJson.version}
                   </Typography>
                 )}
               </Grid>

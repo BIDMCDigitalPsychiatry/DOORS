@@ -54,7 +54,7 @@ export default function ClassImportDialog({ id = title, onClose }) {
           done();
           setRow({
             id,
-            values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, userId, created: now, updated: now, userType },
+            values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, parentClass: c, userId, created: now, updated: now, userType },
             onSuccess: () => {
               if (i === classes.length - 1) {
                 done();

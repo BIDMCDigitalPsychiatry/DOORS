@@ -34,7 +34,10 @@ export default function InstructorClasses() {
     .filter(c => (showArchived && c.deleted) || (!showArchived && !c.deleted))
     .forEach(c => {
       const parentAdminClass = adminClasses.find(ac => (!ac.deleted && ac.id === c.parentClassId) || c.id === ac.id);
-      const isNew = parentAdminClass && parentAdminClass.updated && parentAdminClass.updated > c.updated;
+      const isNew =
+        parentAdminClass &&
+        parentAdminClass.updated &&
+        (parentAdminClass.updated > c.updated || (c.parentClass && c.parentClass.updated && c.parentClass.updated < parentAdminClass.updated));
       if (isNew) {
         importUpdateClasses.push({ ...parentAdminClass, imported: true }); // Select import by default
         archiveClasses.push({ ...c, imported: true }); // Select import by default
@@ -60,7 +63,7 @@ export default function InstructorClasses() {
       const now = new Date().getTime();
       setRow({
         id,
-        values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, userId, created: now, updated: now, userType },
+        values: { ...other, id, parentUserId: c.userId, parentClassId: c.id, parentClass: c, userId, created: now, updated: now, userType },
         onSuccess: i === classes.length - 1 && handleRefresh
       });
     });
@@ -92,40 +95,42 @@ export default function InstructorClasses() {
       onBack={back?.route && changeRouteLayout(back.route)}
     >
       <Grid container spacing={3}>
-        {!showArchived && notAddedClasses.length > 0 && (
+        {!showArchived && (notAddedClasses.length > 0 || importUpdateClasses.length > 0) && (
           <Grid item xs={12}>
             <Box pt={1} pb={1}>
-              <Grid container spacing={1}>
-                <Grid item>
-                  <Typography variant='body2' color='error'>
-                    {notAddedClasses.length === 1
-                      ? `There is ${notAddedClasses.length} admin class which is not included in your available classes.`
-                      : `There are ${notAddedClasses.length} admin classes which are not included in your available classes.`}
-                  </Typography>
+              {notAddedClasses.length > 0 && (
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Typography variant='body2' color='error'>
+                      {notAddedClasses.length === 1
+                        ? `There is ${notAddedClasses.length} admin class which is not included in your available classes.`
+                        : `There are ${notAddedClasses.length} admin classes which are not included in your available classes.`}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='body2'>|</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DialogButton onClick={handleAdd} variant='link' underline='always'>
+                      Import All
+                    </DialogButton>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='body2'>|</Typography>
+                  </Grid>
+                  <Grid item>
+                    <DialogButton
+                      Module={ClassImportDialog}
+                      initialValues={{ classes: notAddedClasses }}
+                      onClose={handleRefresh}
+                      variant='link'
+                      underline='always'
+                    >
+                      Manual Import
+                    </DialogButton>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography variant='body2'>|</Typography>
-                </Grid>
-                <Grid item>
-                  <DialogButton onClick={handleAdd} variant='link' underline='always'>
-                    Import All
-                  </DialogButton>
-                </Grid>
-                <Grid item>
-                  <Typography variant='body2'>|</Typography>
-                </Grid>
-                <Grid item>
-                  <DialogButton
-                    Module={ClassImportDialog}
-                    initialValues={{ classes: notAddedClasses }}
-                    onClose={handleRefresh}
-                    variant='link'
-                    underline='always'
-                  >
-                    Manual Import
-                  </DialogButton>
-                </Grid>
-              </Grid>
+              )}
               {importUpdateClasses.length > 0 && (
                 <Grid container spacing={1}>
                   <Grid item>
@@ -166,7 +171,11 @@ export default function InstructorClasses() {
           .filter(c => (showArchived && c.deleted) || (!showArchived && !c.deleted))
           .map(c => {
             const parentAdminClass = adminClasses.find(ac => (!ac.deleted && ac.id === c.parentClassId) || c.id === ac.id);
-            const isNew = parentAdminClass && parentAdminClass.updated && parentAdminClass.updated > c.updated;
+            const isNew =
+              parentAdminClass &&
+              parentAdminClass.updated &&
+              (parentAdminClass.updated > c.updated || (c.parentClass && c.parentClass.updated && c.parentClass.updated < parentAdminClass.updated));
+
             return (
               <Grid key={[c.id, c.title].join('-')} item lg={3} sm={6} xs={12}>
                 <Class
