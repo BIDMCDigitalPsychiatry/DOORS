@@ -42,6 +42,9 @@ const handleValidation = ({ message }, dialogState) => {
     if (message.includes('password') || message.includes('Password')) {
       errors['password'] = message;
     } else {
+      if (message.includes('not confirmed')) {
+        message = message + ' Click the Confirm Account button below to enter the verification code.';
+      }
       errors['email'] = message;
     }
   }

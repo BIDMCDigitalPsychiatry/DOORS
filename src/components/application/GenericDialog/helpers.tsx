@@ -76,6 +76,7 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
     tooltip,
     replace,
     placeholder,
+    variant,
     color
   } = f; // Only pass necessary props to field
   const props = {
@@ -104,6 +105,7 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
     replace,
     placeholder,
     disableClearable,
+    variant,
     color,
     ...(getProps && getProps(values)) // Allows the field to hook into the internal state values if needed
   };

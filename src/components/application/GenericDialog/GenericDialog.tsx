@@ -209,7 +209,7 @@ const GenericDialog = ({
             <Grid container justify='space-between' alignItems='center'>
               <Grid item zeroMinWidth xs>
                 <Typography noWrap variant='h6' className={classes.capitalize}>
-                  {title ? title : [type, id].join(' ')}
+                  {title ? evalFunc(title, values) : [type, id].join(' ')}
                 </Typography>
               </Grid>
               <Grid item>

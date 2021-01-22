@@ -187,6 +187,24 @@ export default function Login() {
                 <Grid item>
                   <div className={classes.wrapper}>
                     <DialogButton
+                      Module={RegisterDialog}
+                      mount={false}
+                      disabled={loading}
+                      initialValues={{ confirm: true, confirmOnly: true, email, password }}
+                      size='medium'
+                      variant='contained'
+                      tooltip=''
+                      onClick={() => setState(prev => ({ ...prev, enableKeys: false }))}
+                      onClose={() => setState(prev => ({ ...prev, enableKeys: true }))}
+                      className={classes.button}
+                    >
+                      Confirm Account
+                    </DialogButton>
+                  </div>
+                </Grid>
+                <Grid item>
+                  <div className={classes.wrapper}>
+                    <DialogButton
                       Module={RequestInviteDialog}
                       disabled={loading}
                       initialValues={{ email }}
@@ -194,7 +212,7 @@ export default function Login() {
                       variant='contained'
                       tooltip=''
                       onClick={() => setState(prev => ({ ...prev, enableKeys: false }))}
-                      onClose={() => setState(prev => ({ ...prev, enableKeys: true }))}                      
+                      onClose={() => setState(prev => ({ ...prev, enableKeys: true }))}
                       className={classes.button}
                     >
                       <Grid item xs={12}>

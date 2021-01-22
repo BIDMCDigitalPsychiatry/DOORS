@@ -8,6 +8,7 @@ import { useLogin } from '../../../layout/hooks';
 import Check from '../../DialogField/Check';
 import * as TermsAndConditionsDialog from '../../GenericDialog/TermsAndConditions';
 import { Grid, Typography } from '@material-ui/core';
+import Label from '../../DialogField/Label';
 
 const passwordValidator = require('password-validator');
 export const title = 'Create New Account';
@@ -44,7 +45,7 @@ const formatPasswordValidateError = errors => {
 };
 
 const handleValidation = (values, dialogState) => {
-  const { agree, password, confirmationCodeError, confirmPassword, message } = values;
+  const { agree, password, confirmationCodeError, resendCodeError, confirmPassword, message } = values;
   var errors = copyToLower(dialogState.errors); // start with server generated errors, ensure all keys start with lowercase letter
 
   if (password !== confirmPassword) {
@@ -70,6 +71,10 @@ const handleValidation = (values, dialogState) => {
     errors['confirmationCode'] = confirmationCodeError;
   }
 
+  if (!isValEmpty(resendCodeError)) {
+    errors['email'] = resendCodeError;
+  }
+
   if (bool(agree) !== true) {
     errors['agree'] = 'You must agree to the terms and conditions to proceed.';
   }
@@ -86,11 +91,22 @@ const EnterConfirmationCode = ({ value = false, onChange }) => {
   );
 };
 
+const ResendConfirmationCode = ({ value = false, onChange }) => {
+  const handleClick = () => onChange({ target: { value: !value } });
+  return (
+    <DialogButton variant='link' tooltip='' onClick={handleClick}>
+      {value ? 'Back' : 'Resend Verification Code'}
+    </DialogButton>
+  );
+};
+
 export const ViewTermsAndConditions = () => (
   <DialogButton Module={TermsAndConditionsDialog} fullWidth={true} size='small' margin='dense' variant='link' tooltip=''>
     View Terms and Conditions
   </DialogButton>
 );
+
+const hidden = ({ confirm, resend }) => confirm || resend;
 
 export default function RegisterDialog({ id = title, onClose }) {
   const [dialogState, setState] = useDialogState(id);
@@ -117,10 +133,13 @@ export default function RegisterDialog({ id = title, onClose }) {
           console.log('Succesfully signed up user!');
           setState(prev => ({ ...prev, open: true, loading: false, errors: {} }));
           setValues(prev => ({ ...prev, confirm: true }));
-          setTimeout(
-            () => alert('Account created successfully.  Please check your email for a confirmation code.  You may need to check your spam and junk folders if you cannot locate the confirmation email.'),
+          /*setTimeout(
+            () =>
+              alert(
+                'Account created successfully.  Please check your email for a confirmation code.  You may need to check your spam and junk folders if you cannot locate the confirmation email.'
+              ),
             500
-          );
+          );*/
         })
         .catch(err => {
           console.error('Error with Register');
@@ -153,20 +172,51 @@ export default function RegisterDialog({ id = title, onClose }) {
     [dialogStateStr, setState, handleLogin]
   );
 
-  const handleSubmit = React.useCallback(({ confirm, ...other }, setValues) => (confirm ? handleConfirm(other, setValues) : handleAdd(other, setValues)), [
-    handleConfirm,
-    handleAdd
-  ]);
+  const handleResend = React.useCallback(
+    (values, setValues) => {
+      const { email: Email = '' } = values;
+      const email = Email.toLowerCase(); // ensure lower case
+      console.log('Requesting resend of verification code');
+      Auth.resendSignUp(email)
+        .then(() => {
+          setState(prev => ({ ...prev, confirm: true, resend: false }));
+          setValues(prev => ({ ...prev, confirm: true, resend: false }));
+        })
+        .catch(err => {
+          console.error('Error requesting new verification code');
+          console.error(err);
+          const newErrors = handleValidation({ ...values, resendCodeError: err.message }, JSON.parse(dialogStateStr));
+          setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+        });
+    },
+    [dialogStateStr, setState]
+  );
+
+  const handleSubmit = React.useCallback(
+    ({ confirm, resend, ...other }, setValues) => {
+      return resend ? handleResend(other, setValues) : confirm ? handleConfirm(other, setValues) : handleAdd(other, setValues);
+    },
+    [handleResend, handleConfirm, handleAdd]
+  );
 
   return (
     <GenericDialog
       id={id}
-      title={id}
-      submitLabel={values => (values.confirm ? 'Confirm' : id)}
+      title={values => (values.confirmOnly ? 'Confirm Account' : id)}
+      submitLabel={values => (values.resend ? 'Resend Verification Code' : values.confirm ? 'Confirm' : id)}
       onSubmit={handleSubmit}
       onClose={onClose}
       validate={handleValidation}
       fields={[
+        {
+          id: 'confirmationCodeLabel',
+          Field: Label,
+          variant: 'caption',
+          label:
+            'An verification code has been sent to your email address.  If you did not receive a confirmation code please check your junk and spam folders.  You may request a new verification code by clicking the Resend Verification Code link below.',
+          hidden: ({ confirm, resend }) => !confirm || resend,
+          style: { marginBottom: 8 }
+        },
         {
           id: 'email',
           label: 'Email',
@@ -180,7 +230,7 @@ export default function RegisterDialog({ id = title, onClose }) {
           inputProps: {
             type: 'password'
           },
-          hidden: ({ confirm }) => confirm
+          hidden
         },
         {
           id: 'confirmPassword',
@@ -189,29 +239,37 @@ export default function RegisterDialog({ id = title, onClose }) {
           inputProps: {
             type: 'password'
           },
-          hidden: ({ confirm }) => confirm
+          hidden
         },
         {
           id: 'confirmationCode',
           label: 'Enter Verification Code Sent to above Email',
           required: confirm ? true : false,
-          hidden: ({ confirm }) => !confirm
+          hidden: ({ confirm, resend }) => !confirm || resend
         },
         {
           id: 'agree',
           Field: Check,
           color: 'primary',
           label: 'I agree to the terms and conditions',
-          hidden: ({ confirm }) => confirm
+          hidden
         },
         {
           Field: ViewTermsAndConditions,
-          hidden: ({ confirm }) => confirm
+          hidden
         },
+
         {
           id: 'confirm',
           label: 'Enter Verification Code',
           Field: EnterConfirmationCode,
+          initialValue: false,
+          hidden: ({ resend, confirmOnly }) => resend || confirmOnly
+        },
+        {
+          id: 'resend',
+          label: 'Resend Verification Code',
+          Field: ResendConfirmationCode,
           initialValue: false
         }
       ]}
