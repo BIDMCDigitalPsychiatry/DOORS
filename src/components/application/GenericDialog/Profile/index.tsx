@@ -45,6 +45,11 @@ export default function ProfileDialog({ id = title, onClose = undefined, ...othe
           required: true,
           disabled: true
         },
+        {
+          id: 'email',
+          label: 'Email',
+          disabled: true
+        },
         { id: 'vinfenServices', label: 'Do you work at or receive services from Vinfen?', Field: YesNo, disabled: true },
         { id: 'type', label: 'Are you a clinician, a person served by Vinfen or other?', Field: VinfenSelector, disabled: true },
         {
