@@ -19,6 +19,8 @@ import { renderDialogModule } from '../GenericDialog/DialogButton';
 import { useDialogState } from '../GenericDialog/useDialogState';
 import * as EventDialog from '../GenericDialog/Event';
 import * as MarkEventAttendanceDialog from '../GenericDialog/MarkEventAttendance';
+import { uuid } from '../../../helpers';
+import { useUserId } from '../../layout/hooks';
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
@@ -166,6 +168,8 @@ const CalendarView = ({ events, readSetRow, handleRefresh, create = false, edit 
     }
   };
 
+  const userId = useUserId();
+
   const handleRangeSelect = (arg: any): void => {
     const calendarEl = calendarRef.current;
 
@@ -178,11 +182,15 @@ const CalendarView = ({ events, readSetRow, handleRefresh, create = false, edit 
     setDialogState({
       open: true,
       initialValues: {
+        id: uuid(),
+        userId,
         allDay: false,
         color: '',
         description: '',
-        end: new Date(arg.end),
+        end: moment(arg.start).add(1, 'hours').toDate(), //new Date(arg.end),
         start: new Date(arg.start),
+        frequency: 'Once',
+        frequencyEnd: moment(arg.start).add(1, 'months').toDate(),
         title: '',
         submit: null
       }

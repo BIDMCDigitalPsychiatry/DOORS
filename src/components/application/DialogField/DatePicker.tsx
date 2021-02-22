@@ -7,6 +7,7 @@ const DatePicker = ({ onChange, value, error, forceErrorMargin = false, ...other
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
+        fullWidth={true}
         margin='dense'
         inputVariant='outlined'
         format='MM/dd/yyyy'
