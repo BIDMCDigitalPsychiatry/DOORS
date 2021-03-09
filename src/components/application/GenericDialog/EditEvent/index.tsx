@@ -147,7 +147,7 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
           label: 'Description',
           disabled,
           multiline: true,
-          rows: 6
+          rows: 4
         },
         {
           id: 'link',

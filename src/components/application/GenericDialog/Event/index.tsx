@@ -148,7 +148,7 @@ export default function EventDialog({ id = title, onClose }) {
           id: 'description',
           label: 'Description',
           multiline: true,
-          rows: 6
+          rows: 4
         },        
         {
           id: 'link',
