@@ -34,7 +34,7 @@
     "@types/yup": "^0.28.3",
     "@types/webpack": "4.41.22",
     "@types/webpack-env": "1.15.2",
-    "apexcharts": "3.21.0",
+    "apexcharts": "3.25.0",
     "aws-amplify": "3.1.1",
     "aws-sdk": "2.748.0",
     "axios": "0.21.1",
