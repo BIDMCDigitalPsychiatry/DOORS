@@ -4,6 +4,7 @@ export interface Event {
   allDay: boolean;
   color?: string;
   description: string;
+  link?: string;
   end: Date;
   start: Date;
   title: string;

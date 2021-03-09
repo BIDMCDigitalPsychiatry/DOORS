@@ -12,6 +12,7 @@ import { useTheme } from '@material-ui/core';
 import { useGroups } from '../../../../database/useGroups';
 import Select from '../../DialogField/Select';
 import DatePicker from '../../DialogField/DatePicker';
+import TextLink from '../../DialogField/TextLink';
 
 export const title = 'Add Event';
 const Model = tables.events;
@@ -73,13 +74,11 @@ export default function EventDialog({ id = title, onClose }) {
           // Create an event for each week within the timespan
           nextStart = moment(start).add(1, 'weeks');
           nextEnd = moment(end).add(1, 'weeks');
-        } 
-        else if (frequency === 'BiWeekly') {
+        } else if (frequency === 'BiWeekly') {
           // Create an event for each week within the timespan
           nextStart = moment(start).add(2, 'weeks');
           nextEnd = moment(end).add(2, 'weeks');
-        } 
-        else if (frequency === 'Monthly') {
+        } else if (frequency === 'Monthly') {
           // Create an event for each day within the timespan
           nextStart = moment(start).add(1, 'months');
           nextEnd = moment(end).add(1, 'months');
@@ -134,7 +133,7 @@ export default function EventDialog({ id = title, onClose }) {
       title={id}
       onSubmit={handleSubmit}
       submitLabel='Add'
-      onClose={onClose}      
+      onClose={onClose}
       fields={[
         {
           id: 'id',
@@ -147,7 +146,14 @@ export default function EventDialog({ id = title, onClose }) {
         },
         {
           id: 'description',
-          label: 'Description'
+          label: 'Description',
+          multiline: true,
+          rows: 6
+        },        
+        {
+          id: 'link',
+          label: 'Link',
+          Field: TextLink,
         },
         {
           id: 'groupId',
@@ -172,7 +178,7 @@ export default function EventDialog({ id = title, onClose }) {
         {
           id: 'end',
           label: 'End',
-          Field: DateTimePicker          
+          Field: DateTimePicker
         },
         {
           id: 'frequency',
@@ -181,12 +187,12 @@ export default function EventDialog({ id = title, onClose }) {
           items: frequencyItems,
           disableClearable: true,
           required: true,
-          fullWidth: true          
+          fullWidth: true
         },
         {
           id: 'frequencyEnd',
           label: 'Until',
-          Field: DatePicker,          
+          Field: DatePicker,
           hidden: ({ frequency }) => isEmpty(frequency) || frequency === 'Once',
           fullWidth: true,
           validate: values => {
@@ -215,8 +221,7 @@ export default function EventDialog({ id = title, onClose }) {
                     error = 'Timespan must be 6 months or less';
                   }
                 }
-              } 
-              else if (frequency === 'BiWeekly') {
+              } else if (frequency === 'BiWeekly') {
                 const biWeeklyMinEnd = moment(e).add(2, 'weeks').subtract(1, 'days').toDate();
                 const biWeeklyMax = moment(e).add(6, 'months').toDate();
                 if (biWeeklyMinEnd > fe.toDate()) {
@@ -227,8 +232,7 @@ export default function EventDialog({ id = title, onClose }) {
                     error = 'Timespan must be 6 months or less';
                   }
                 }
-              } 
-              else if (frequency === 'Monthly') {
+              } else if (frequency === 'Monthly') {
                 const monthlyMinEnd = moment(e).add(1, 'months').subtract(1, 'days').toDate();
                 const monthlyMax = moment(e).add(12, 'months').toDate();
                 if (monthlyMinEnd > fe.toDate()) {

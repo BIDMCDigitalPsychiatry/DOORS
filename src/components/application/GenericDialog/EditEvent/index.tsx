@@ -14,6 +14,7 @@ import DialogButton from '../DialogButton';
 import * as MarkEventAttendanceDialog from '../MarkEventAttendance';
 import Label from '../../DialogField/Label';
 import { Divider } from '@material-ui/core';
+import TextLink from '../../DialogField/TextLink';
 
 export const title = 'Edit Event';
 const Model = tables.events;
@@ -144,6 +145,14 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
         {
           id: 'description',
           label: 'Description',
+          disabled,
+          multiline: true,
+          rows: 6
+        },
+        {
+          id: 'link',
+          label: 'Link',
+          Field: TextLink,
           disabled
         },
         {
