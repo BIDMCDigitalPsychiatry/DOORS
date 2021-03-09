@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { makeStyles, Grid, Paper, Typography, Divider, TextField, CircularProgress } from '@material-ui/core';
+import { makeStyles, Grid, Paper, Typography, Divider, TextField, CircularProgress, InputAdornment, IconButton } from '@material-ui/core';
 import { createStyles, Link } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import BrandLogoImage from '../../images/logo.svg';
@@ -10,6 +10,7 @@ import * as RegisterDialog from '../application/GenericDialog/Register';
 import * as RequestInviteDialog from '../application/GenericDialog/RequestInvite';
 import { getUrlParamater } from '../../hooks';
 import ForgotPassword from './ForgotPassword';
+import * as Icons from '@material-ui/icons';
 
 const useStyles = makeStyles(({ palette, mixins }: any) =>
   createStyles({
@@ -66,7 +67,8 @@ export default function Login() {
   const [values, setValues] = React.useState({
     email: '',
     password: '',
-    forgotPassword: false
+    forgotPassword: false,
+    showPassword: false
   });
 
   const { email, password } = values;
@@ -93,6 +95,14 @@ export default function Login() {
   const handleBack = React.useCallback(() => {
     setState(prev => ({ ...prev, forgotPassword: false }));
   }, []);
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
 
   // Per https://stackoverflow.com/questions/50604671/programmatically-disabling-chrome-auto-fill
   // The only way to prevent auto fill is autocomplete=newpassword
@@ -133,6 +143,7 @@ export default function Login() {
                     onChange={handleChange('email')}
                     margin='dense'
                     variant='outlined'
+                    className={classes.wrapper}
                     error={isEmpty(errors['email']) ? false : true}
                     helperText={errors['email']}
                     autoFocus={true}
@@ -147,16 +158,30 @@ export default function Login() {
                     id='password'
                     label='Password'
                     disabled={loading}
-                    type='password'
+                    type={values.showPassword ? 'text' : 'password'}
                     value={values.password}
                     onChange={handleChange('password')}
                     margin='dense'
-                    variant='outlined'
+                    variant='outlined'                    
                     error={isEmpty(errors['password']) ? false : true}
                     helperText={errors['password']}
-                    fullWidth
+                    className={classes.wrapper}
                     InputLabelProps={{
                       shrink: true
+                    }}
+                    InputProps={{                      
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            aria-label='toggle password visibility'
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge='end'
+                          >
+                            {values.showPassword ? <Icons.Visibility /> : <Icons.VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
                     }}
                   />
                 </Grid>

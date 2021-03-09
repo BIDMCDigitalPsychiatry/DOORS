@@ -9,6 +9,7 @@ import Check from '../../DialogField/Check';
 import * as TermsAndConditionsDialog from '../../GenericDialog/TermsAndConditions';
 import { Grid, Typography } from '@material-ui/core';
 import Label from '../../DialogField/Label';
+import TextPassword from '../../DialogField/TextPassword';
 
 const passwordValidator = require('password-validator');
 export const title = 'Create New Account';
@@ -227,19 +228,15 @@ export default function RegisterDialog({ id = title, onClose }) {
           id: 'password',
           label: 'Password',
           required: true,
-          inputProps: {
-            type: 'password'
-          },
-          hidden
+          hidden,
+          Field: TextPassword
         },
         {
           id: 'confirmPassword',
           label: 'Confirm Password',
           required: true,
-          inputProps: {
-            type: 'password'
-          },
-          hidden
+          hidden,
+          Field: TextPassword
         },
         {
           id: 'confirmationCode',
