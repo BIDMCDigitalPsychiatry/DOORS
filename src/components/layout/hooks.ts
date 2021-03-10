@@ -45,7 +45,11 @@ const handleValidation = ({ message }, dialogState) => {
       if (message.includes('not confirmed')) {
         message = message + ' Click the Confirm Account button below to enter the verification code.';
       }
-      errors['email'] = message;
+      if (message.includes('Confirmation code') || message.includes('verification code')) {
+        errors['confirmationCode'] = message;
+      } else {
+        errors['email'] = message;
+      }
     }
   }
 
@@ -82,6 +86,9 @@ export const useLogin = ({ state = {}, setState = undefined, onSuccess = undefin
                 });
             })
             .catch(err => {
+              alert(
+                'There was an error resetting the password.  Please confirm that you entered the correct email and confirmation code.  Also ensure that your password and confirm password fields are correct.'
+              );
               console.error('Error resetting password');
               console.error(err);
               const newErrors = handleValidation({ message: err.message }, JSON.parse(stateStr));

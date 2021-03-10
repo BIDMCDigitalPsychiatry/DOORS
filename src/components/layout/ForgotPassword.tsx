@@ -6,6 +6,7 @@ import BrandLogoImage from '../../images/logo.svg';
 import { isEmpty } from '../../helpers';
 import { useLogin, useHeight } from './hooks';
 import { getUrlParamater } from '../../hooks';
+import TextPassword from '../application/DialogField/TextPassword';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -46,6 +47,9 @@ const useStyles = makeStyles(({ palette }: any) =>
       left: '50%',
       marginTop: -8,
       marginLeft: -12
+    },
+    field: {
+      width: 228
     }
   })
 );
@@ -147,6 +151,7 @@ export default function ForgotPassword({ email: Email = '', onBack, onSuccess = 
                   <>
                     <Grid item>
                       <TextField
+                        className={classes.field}
                         id='confirmationCode'
                         label='Confirmation Code'
                         disabled={loading}
@@ -163,7 +168,8 @@ export default function ForgotPassword({ email: Email = '', onBack, onSuccess = 
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
+                      <TextPassword
+                        className={classes.field}
                         autoComplete={noAutoComplete ? 'new-password' : undefined}
                         id='newPassword'
                         type='password'
@@ -173,7 +179,7 @@ export default function ForgotPassword({ email: Email = '', onBack, onSuccess = 
                         onChange={handleChange('newPassword')}
                         margin='dense'
                         variant='outlined'
-                        error={isEmpty(errors['newPassword']) ? false : true}
+                        error={errors['newPassword']}
                         helperText={errors['newPassword']}
                         InputLabelProps={{
                           shrink: true
@@ -181,7 +187,8 @@ export default function ForgotPassword({ email: Email = '', onBack, onSuccess = 
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
+                      <TextPassword
+                        className={classes.field}
                         autoComplete={noAutoComplete ? 'new-password' : undefined}
                         id='confirmNewPassword'
                         type='password'
@@ -191,13 +198,23 @@ export default function ForgotPassword({ email: Email = '', onBack, onSuccess = 
                         onChange={handleChange('confirmNewPassword')}
                         margin='dense'
                         variant='outlined'
-                        error={isEmpty(errors['confirmNewPassword']) ? false : true}
+                        error={errors['confirmNewPassword']}
                         helperText={errors['confirmNewPassword']}
                         InputLabelProps={{
                           shrink: true
                         }}
                       />
                     </Grid>
+                    {errors['password'] && (
+                      <Grid item>
+                        <Typography color='error'>{errors['password']}</Typography>
+                      </Grid>
+                    )}
+                    {errors['message'] && (
+                      <Grid item>
+                        <Typography color='error'>{errors['message']}</Typography>
+                      </Grid>
+                    )}
                   </>
                 )}
                 <Grid item>
