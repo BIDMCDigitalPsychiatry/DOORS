@@ -8,7 +8,7 @@ import DateTimePicker from '../../DialogField/DateTimePicker';
 import useTableRow from '../../../../database/useTableRow';
 import { useGroups } from '../../../../database/useGroups';
 import { useUserId } from '../../../layout/hooks';
-import { useIsInstructorMode } from '../../../../hooks';
+import { useIsAdminMode, useIsInstructorMode } from '../../../../hooks';
 import Select from '../../DialogField/Select';
 import DialogButton from '../DialogButton';
 import * as MarkEventAttendanceDialog from '../MarkEventAttendance';
@@ -46,6 +46,8 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
 
   const userId = useUserId(); // Only instructors can currently create events, so grab the user id
   const isInstructorMode = useIsInstructorMode();
+  const isAdmin = useIsAdminMode();
+  const canViewAttendance = isAdmin || isInstructorMode;
 
   //Edit event can either be instructor or admin, so select groups accordningly
 
@@ -187,10 +189,12 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
         {
           Field: Label,
           label: 'Attendance Information',
-          style: { marginTop: 8 }
+          style: { marginTop: 8 },
+          hidden: !canViewAttendance
         },
         {
-          Field: Divider
+          Field: Divider,
+          hidden: !canViewAttendance
         },
         {
           id: 'groupId',
@@ -201,11 +205,13 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
           required: true,
           fullWidth: true,
           disabled: true,
-          xs: 4
+          xs: 4,
+          hidden: !canViewAttendance
         },
         {
           id: 'groupId',
-          Field: MarkAttendanceButton
+          Field: MarkAttendanceButton,
+          hidden: !canViewAttendance
         }
       ]}
     />
