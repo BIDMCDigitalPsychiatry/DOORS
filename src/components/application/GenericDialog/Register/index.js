@@ -17,7 +17,8 @@ export const title = 'Create New Account';
 // create a password schema
 const schema = new passwordValidator();
 
-schema.is().min(8).has().uppercase().has().lowercase().has().digits().has().symbols();
+//schema.is().min(8).has().uppercase().has().lowercase().has().digits().has().symbols();
+schema.is().min(8);
 
 const formatPasswordValidateError = errors => {
   const displayErrors = [];
@@ -25,13 +26,13 @@ const formatPasswordValidateError = errors => {
     if (errors[i] === 'min') {
       displayErrors.push('Password length should be a at least 8 characters');
     } else if (errors[i] === 'lowercase') {
-      displayErrors.push('Password should contain lowercase letters');
+      //displayErrors.push('Password should contain lowercase letters');
     } else if (errors[i] === 'uppercase') {
-      displayErrors.push('Password should contain uppercase letters');
+      //displayErrors.push('Password should contain uppercase letters');
     } else if (errors[i] === 'digits') {
-      displayErrors.push('Password should contain digits');
+      //displayErrors.push('Password should contain digits');
     } else if (errors[i] === 'symbols') {
-      displayErrors.push('Password should contain symbols');
+      //displayErrors.push('Password should contain symbols');
     }
   }
   return (
