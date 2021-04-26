@@ -10,6 +10,7 @@ import * as TermsAndConditionsDialog from '../../GenericDialog/TermsAndCondition
 import { Grid, Typography } from '@material-ui/core';
 import Label from '../../DialogField/Label';
 import TextPassword from '../../DialogField/TextPassword';
+import { isUserAutoVerifiedOnSignUp } from '../../../../../package.json';
 
 const passwordValidator = require('password-validator');
 export const title = 'Create New Account';
@@ -134,7 +135,13 @@ export default function RegisterDialog({ id = title, onClose }) {
         .then(result => {
           console.log('Succesfully signed up user!');
           setState(prev => ({ ...prev, open: true, loading: false, errors: {} }));
-          setValues(prev => ({ ...prev, confirm: true }));
+          if (!isUserAutoVerifiedOnSignUp) {
+            setValues(prev => ({ ...prev, confirm: true }));
+          } else {
+            console.log('Account is auto confirmed!');
+            setState(prev => ({ ...prev, open: false, loading: false, confirm: false }));
+            handleLogin({ email, password });
+          }
           /*setTimeout(
             () =>
               alert(
