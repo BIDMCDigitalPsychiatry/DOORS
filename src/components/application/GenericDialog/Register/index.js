@@ -157,7 +157,7 @@ export default function RegisterDialog({ id = title, onClose }) {
           setState(prev => ({ ...prev, showErrors: true, loading: false, errors: newErrors }));
         });
     },
-    [dialogStateStr, setState]
+    [handleLogin, dialogStateStr, setState]
   );
 
   const handleConfirm = React.useCallback(
