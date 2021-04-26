@@ -8,7 +8,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     container: {
       marginTop: 8,
-      marginBottom: 8
+      marginBottom: 40
     },
     header: {
       color: palette.primary.dark
