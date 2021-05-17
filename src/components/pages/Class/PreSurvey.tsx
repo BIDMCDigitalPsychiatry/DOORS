@@ -31,6 +31,11 @@ export default function PreSurvey() {
   return (
     <Page title='Pre-Survey' ActionButton={() => <YourProgress value={20} />}>
       <Grid container spacing={fs ? 2 : 4}>
+        {fs && (
+          <Grid item xs={12} md={3}>
+            <RankingModel rankingModel={rankingModel} />
+          </Grid>
+        )}
         <Grid item xs={12} md={9}>
           <Typography>Before you start your lesson, please complete the following survey.</Typography>
 
@@ -66,9 +71,11 @@ export default function PreSurvey() {
             )}
           </Box>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <RankingModel rankingModel={rankingModel} />
-        </Grid>
+        {!fs && (
+          <Grid item xs={12} md={3}>
+            <RankingModel rankingModel={rankingModel} />
+          </Grid>
+        )}
       </Grid>
     </Page>
   );

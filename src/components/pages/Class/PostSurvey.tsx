@@ -25,6 +25,11 @@ export default function PostSurvey() {
   return (
     <Page title='Post-Survey' ActionButton={() => <YourProgress value={90} />}>
       <Grid container spacing={fs ? 2 : 4}>
+        {fs && (
+          <Grid item xs={12} md={3}>
+            <RankingModel rankingModel={rankingModel} />
+          </Grid>
+        )}
         <Grid item xs={12} md={9}>
           <Typography>Complete the following survey again and see how you've improved.</Typography>
 
@@ -60,9 +65,11 @@ export default function PostSurvey() {
             </Grid>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <RankingModel rankingModel={rankingModel} />
-        </Grid>
+        {!fs && (
+          <Grid item xs={12} md={3}>
+            <RankingModel rankingModel={rankingModel} />
+          </Grid>
+        )}
       </Grid>
     </Page>
   );
