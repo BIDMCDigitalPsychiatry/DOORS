@@ -13,6 +13,7 @@ import { green, yellow } from '@material-ui/core/colors';
 import ClassStatusChip, { getClassStatusLabel } from './ClassStatusChip';
 import { getObjectUrl } from '../../../aws-exports';
 import * as ChangeGroupDialog from '../../application/GenericDialog/ChangeGroup';
+import { useHandleChangeRouteLayout } from '../../layout/hooks';
 
 const useStyles = makeStyles(({ palette }) => ({
   root: {
@@ -41,6 +42,7 @@ export default function ParticipantDetailed({
   view = true,
   viewReport = false,
   remove = true,
+  impersonate = false,
   move = false,
   onRefresh = undefined,
   onRefreshGroups = undefined,
@@ -66,6 +68,8 @@ export default function ParticipantDetailed({
     },
     [readSetRow, setSnackbar, onRefresh]
   );
+
+  const handleChangeRoute = useHandleChangeRouteLayout();
 
   return (
     <div className={clsx(classes.root, className)} {...rest}>
@@ -136,6 +140,21 @@ export default function ParticipantDetailed({
               fullWidth
             >
               Change Group
+            </DialogButton>
+          </Grid>
+        )}
+        {impersonate && (
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <DialogButton
+              id={['impersonate', student?.id].join('-')}
+              onClose={onRefreshGroups}
+              onClick={handleChangeRoute('/ImpersonateStudentClasses', { impersonateStudent: student })}              
+              variant='link'
+              underline='always'
+              linkVariant='body2'
+              fullWidth
+            >
+              Impersonate Student
             </DialogButton>
           </Grid>
         )}

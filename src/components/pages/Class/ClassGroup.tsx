@@ -113,7 +113,7 @@ export default function ClassGroup({
     readSetRow({ values: { deleted: false }, onSuccess: handleRefreshGroups });
     handleRefreshGroups && handleRefreshGroups();
   }, [readSetRow, handleRefreshGroups]);
-  
+
   return (
     <Card className={clsx(classes.root, className)}>
       <Grid container>
@@ -182,7 +182,7 @@ export default function ClassGroup({
                 .map((props, i) => (
                   <Box key={i} mb={1}>
                     {i !== 0 && <MarginDivider />}
-                    <ParticipantsDetailed move={true} onRefreshGroups={handleRefreshGroups} onRefresh={handleRefresh} {...props} />
+                    <ParticipantsDetailed move={true} onRefreshGroups={handleRefreshGroups} onRefresh={handleRefresh} impersonate={true} {...props} />
                   </Box>
                 ))}
             </Grid>

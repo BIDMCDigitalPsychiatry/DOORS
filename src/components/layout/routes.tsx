@@ -24,6 +24,7 @@ import AccessDenied from '../pages/AccessDenied';
 import ClassReport from '../pages/Class/ClassReport/ClassReport';
 import InstructorClasses from '../pages/Class/Classes/InstructorClasses';
 import Groups from '../pages/Groups';
+import StudentClasses from '../pages/Class/Classes/StudentClasses';
 
 const ForgotPasswordRoute = () => {
   const email = useUserEmail();
@@ -53,6 +54,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/Profile')} component={ProfileProvider} />
     <Route exact path={publicUrl('/Calendar')} component={Calendar} />
     <Route exact path={publicUrl('/Classes')} component={Classes} />
+    <Route exact path={publicUrl('/ImpersonateStudentClasses')} component={StudentClasses} />
     <ProtectedRoute exact path={publicUrl('/Lessons')} component={Lessons} />
     <ProtectedRoute exact path={publicUrl('/Pre-Survey')} component={PreSurvey} />
     <ProtectedRoute exact path={publicUrl('/Post-Survey')} component={PostSurvey} />

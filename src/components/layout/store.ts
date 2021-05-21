@@ -20,7 +20,8 @@ export interface State {
 export const defaultUserState = {
   admin: undefined,
   instructor: undefined,
-  student: undefined
+  student: undefined,
+  impersonateStudent: undefined
 };
 
 const defaultState = {

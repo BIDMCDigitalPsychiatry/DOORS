@@ -29,8 +29,9 @@ const preRecsMet = (preRecs = {}, groupIds = [], completedClasses = []) => {
 };
 
 export default function StudentClasses() {
-  const [{ student }] = useLayout();
-  const { id: studentId, userId: studentUserId, parentId } = student;
+  const [{ student, impersonateStudent = undefined }] = useLayout();
+  const Student = impersonateStudent ?? student;
+  const { id: studentId, userId: studentUserId, parentId } = Student;
 
   // To get associated groups, grab all student entries then obtain the groupId's
   const { students = [], loading: loadingStudents } = useStudentsByUserId({ userId: studentUserId, loadOnMount: true });
@@ -73,9 +74,11 @@ export default function StudentClasses() {
     );
   }, [showArchived]);
 
+  const title = impersonateStudent ? 'Student Classes (Impersonating)' : 'Student Classes';
+
   return (
     <>
-      <Page title='Student Classes' ActionButton={ShowButton} loading={loading || loadingSessions || loadingStudents}>
+      <Page title={title} ActionButton={ShowButton} loading={loading || loadingSessions || loadingStudents}>
         <Grid container spacing={3}>
           {!showArchived && (
             <>
