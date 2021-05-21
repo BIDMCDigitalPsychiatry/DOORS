@@ -8,6 +8,7 @@ import { isEmpty } from '../../../helpers';
 import { useSessionData } from '../../../database/useSessionData';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import Lesson from './Lesson';
+import { useIsInstructorImpersonationMode, useIsInstructorMode } from '../../../hooks';
 
 const nextRoute = '/Post-Survey';
 
@@ -18,10 +19,14 @@ export default function Lessons() {
   const presentations = classPresentations.filter(c => c.deleted !== true); // Ensure we are only showing presentations that are not deleted
 
   var allViewed = true;
+  var isInstrcutorImpersonation = useIsInstructorImpersonationMode();
 
-  presentations.forEach(p => {
-    if (!viewedPresentations.find(id => id === p.id)) allViewed = false;
-  });
+  if (!isInstrcutorImpersonation) {
+    // Only require viewing for students
+    presentations.forEach(p => {
+      if (!viewedPresentations.find(id => id === p.id)) allViewed = false;
+    });
+  }
 
   const [contentId, setContentId] = React.useState();
 
@@ -52,7 +57,14 @@ export default function Lessons() {
         ) : (
           <>
             <Typography>View each of the following lessons prior to continuing:</Typography>
-            <BlockListClassResource enableLock={false} handleLink={handleLink} isOwner={false} viewLabel='View Lesson' value={presentations} viewed={viewedPresentations} />
+            <BlockListClassResource
+              enableLock={false}
+              handleLink={handleLink}
+              isOwner={false}
+              viewLabel='View Lesson'
+              value={presentations}
+              viewed={viewedPresentations}
+            />
           </>
         )}
 

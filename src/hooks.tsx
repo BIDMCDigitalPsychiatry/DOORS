@@ -45,6 +45,11 @@ export const useIsStudentMode = () => {
   return student !== undefined;
 };
 
+export const useIsInstructorImpersonationMode = () => {
+  const [{ instructor, impersonateStudent }] = useLayout();
+  return instructor !== undefined && impersonateStudent !== undefined;
+};
+
 export const useUserType = () => {
   const isAdmin = useIsAdminMode();
   const isInstructor = useIsInstructorMode();
