@@ -8,7 +8,7 @@ import { isEmpty } from '../../../helpers';
 import { useSessionData } from '../../../database/useSessionData';
 import { BlockListClassResource } from '../../general/BlockListClassResource';
 import Lesson from './Lesson';
-import { useIsInstructorImpersonationMode, useIsInstructorMode } from '../../../hooks';
+import { useIsInstructorImpersonationMode } from '../../../hooks';
 
 const nextRoute = '/Post-Survey';
 
