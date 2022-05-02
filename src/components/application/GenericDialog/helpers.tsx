@@ -229,7 +229,11 @@ export const handleValidation = ({ values, fields, errors: Errors }) => {
   var errors = { ...Errors }; // Make a copy
   fields.forEach(f => {
     if (f.email && !checkEmpty(getValue(f, values)) && !validateEmail(getValue(f, values))) {
-      setMappedValue({ field: f, value: 'Invalid email format.', prev: errors });
+      if (getValue(f, values)?.endsWith('.gov')) {
+        //bypass fix for *@dmh.lacounty.gov email
+      } else {
+        setMappedValue({ field: f, value: 'Invalid email format.', prev: errors });
+      }
     } else if (f.required && checkEmpty(getValue(f, values))) {
       setMappedValue({ field: f, value: 'Required', prev: errors });
     } else if (f.http && !checkEmpty(getValue(f, values)) && !validateHttpUrl(getValue(f, values))) {
