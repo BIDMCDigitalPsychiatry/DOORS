@@ -77,8 +77,8 @@
     "fs-extra": "9.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && node copy404",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build && node copy404",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
