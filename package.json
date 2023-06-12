@@ -1,10 +1,10 @@
 {
   "name": "doors",
-  "version": "1.1.25",
+  "version": "1.1.26",
   "private": true,
   "homepageOld": "https://bidmcdigitalpsychiatry.github.io/DOORS",
   "homepage": "https://doors.digitalpsych.org",
-  "adminUsers": "sperret@bu.edu,nalon@bidmc.Harvard.edu,ecamach1@bidmc.harvard.edu,erodri11@bidmc.harvard.edu",
+  "adminUsers": "bdwyer@bidmc.harvard.edu,sperret@bu.edu,nalon@bidmc.Harvard.edu,ecamach1@bidmc.harvard.edu,erodri11@bidmc.harvard.edu",
   "sourceEmailAddress": "DOORS@psych.digital",
   "identityPoolIdUnauth": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
   "identityPoolId": "us-east-1:e3a43f57-52bb-4180-9332-95340a48a342",
